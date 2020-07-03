@@ -1,0 +1,597 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>Open Hospital</title>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{~/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/bootstrap-datepicker.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{~/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/patient.css}"/>
+
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+    <div style="font-size: 20px;">Medical Jacket</div>
+    <span sec:authorize="isAuthenticated()">
+            Welcome: <span sec:authentication="name"></span> |
+            Roles: <span sec:authentication="principal.authorities"></span> |
+            <a th:href="@{/logout}">Sign Out</a>
+        </span>
+</nav>
+<div class="container text-center" style="margin-top: 3%;">
+    <div class="form-group">
+        <h3>Add Patient</h3>
+    </div>
+    <form action="#" th:action="@{/patient/add}" th:object="${patient}" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col">
+                <div class="form-group required">
+                    <label for="name" class="custom-label col-form-label">Name</label>
+                    <input type="text" th:field="*{firstName}" class="form-control" id="name" required="true">
+                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="surname" class="custom-label col-form-label">Surname</label>
+                    <input type="text" th:field="*{secondName}" class="form-control" id="surname" required="true">
+                    <span th:if="${#fields.hasErrors('secondName')}" th:errors="*{secondName}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="aadhaarNumber" class="custom-label col-form-label">Aadhaar Number</label>
+                    <input type="text" th:field="*{taxCode}" class="form-control" id="aadhaarNumber" required="true">
+                    <span th:if="${#fields.hasErrors('taxCode')}" th:errors="*{taxCode}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="birthDate" class="custom-label col-form-label">Birth date</label>
+                    <input type="text" th:field="*{birthDate}" class="form-control" id="birthDate" placeholder="Date of birth" onchange="showAge(this.value)" style="margin-bottom: 2px;" required="true">
+                    <span th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="text-danger"></span>
+                    <span id="age"></span>
+                </div>
+                <div class="form-group required" style="margin-top: 2rem; margin-bottom: 2rem;">
+                    <label class="radioLabel" style="float: left">Sex</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="male" name="male" class="custom-control-input" value="M" th:field="*{sex}" required="true">
+                        <label class="custom-control-label" for="male">Male</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="female" name="female" class="custom-control-input" value="F" th:field="*{sex}" required="true">
+                        <label class="custom-control-label" for="female">Female</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address" class="custom-label col-form-label">Address</label>
+                    <input type="text" th:field="*{address}" class="form-control" id="address">
+                    <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="area" class="custom-label col-form-label">Area</label>
+                    <input type="text" th:field="*{area}" class="form-control" id="area">
+                    <span th:if="${#fields.hasErrors('area')}" th:errors="*{area}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="city" class="custom-label col-form-label">City</label>
+                    <input type="text" th:field="*{city}" class="form-control" id="city" required="true">
+                    <span th:if="${#fields.hasErrors('secondName')}" th:errors="*{city}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="email" class="custom-label col-form-label">Email</label>
+                    <input type="text" th:field="*{email}" class="form-control" id="email">
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="telephone" class="custom-label col-form-label">Telephone</label>
+                    <input type="text" th:field="*{telephone}" class="form-control" id="telephone">
+                    <span th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="margin-top: 2rem; margin-bottom: 2rem;">
+                    <label style="float: left">Smoker</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="smokery" name="smokery" class="custom-control-input" value="Y" th:field="*{smoker}" onclick="showSmokerDetails(true)">
+                        <label class="custom-control-label" for="smokery">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="smokern" name="smokern" class="custom-control-input" value="N" th:field="*{smoker}" onclick="showSmokerDetails(false)">
+                        <label class="custom-control-label" for="smokern">No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col" style="padding-right: 0px;">
+                            <label for="smokingYears" class="custom-label col-form-label">How many years</label>
+                            <input type="text" th:field="*{smokingYears}" class="form-control" id="smokingYears" style="width: 70px; display: inline-block;">
+                        </div>
+                        <div class="col">
+                            <label for="smokingADay" class="custom-label col-form-label">How much per day</label>
+                            <input type="text" th:field="*{smokingADay}" class="form-control" id="smokingADay" style="width: 50px; display: inline-block;">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 2rem; margin-bottom: 2rem;">
+                    <label style="float: left">Alcohol intake</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="alcoholy" name="alcoholy" class="custom-control-input" value="Y" th:field="*{alcohol}" onclick="showAlcoholDetails(true)">
+                        <label class="custom-control-label" for="alcoholy">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="alcoholn" name="alcoholn" class="custom-control-input" value="N" th:field="*{alcohol}" onclick="showAlcoholDetails(false)">
+                        <label class="custom-control-label" for="alcoholn">No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col" style="padding-right: 0px;">
+                            <label for="alcoholYears" class="custom-label col-form-label">How many years</label>
+                            <input type="text" th:field="*{alcoholYears}" class="form-control" id="alcoholYears" style="width: 70px; display: inline-block;">
+                        </div>
+                        <div class="col">
+                            <label for="alcoholWeek" class="custom-label col-form-label" style="margin-right: 2px;">How much per week</label>
+                            <input type="text" th:field="*{alcoholWeek}" class="form-control" id="alcoholWeek" style="width: 70px; display: inline-block;">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 50px;">
+                    <a type="button" class="btn btn-primary" th:href="@{/home}" style="width: 100%;">Cancel</a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="bloodType" class="custom-label col-form-label">Blood Type</label>
+                    <select class="form-control" th:field="*{bloodType}" id="bloodType">
+                        <option th:value="'0-'" th:text="'0-'"></option>
+                        <option th:value="'0+'" th:text="'0+'"></option>
+                        <option th:value="'A-'" th:text="'A-'"></option>
+                        <option th:value="'A+'" th:text="'A+'"></option>
+                        <option th:value="'B-'" th:text="'B-'"></option>
+                        <option th:value="'B+'" th:text="'B+'"></option>
+                        <option th:value="'AB-'" th:text="'AB-'"></option>
+                        <option th:value="'AB+'" th:text="'AB+'"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="maritalStatus" class="custom-label col-form-label">Marital Status</label>
+                    <select class="form-control" th:field="*{maritalStatus}" id="maritalStatus">
+                        <option th:value="'unmarried'" th:text="'unmarried'"></option>
+                        <option th:value="'married'" th:text="'married'"></option>
+                        <option th:value="'divorced'" th:text="'divorced'"></option>
+                        <option th:value="'widowed'" th:text="'widowed'"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="profession" class="custom-label col-form-label">Profession</label>
+                    <select class="form-control"th:field="*{profession}" id="profession">
+                        <option th:value="'Agarbatti making'" th:text="'Agarbatti making'"></option>
+                        <option th:value="'Agriculture'" th:text="'Agriculture'"></option>
+                        <option th:value="'Agriculture machinery handling'" th:text="'Agriculture machinery handling'"></option>
+                        <option th:value="'Anganwadi Workers'" th:text="'Anganwadi Workers'"></option>
+                        <option th:value="'Animal Husbandry'" th:text="'Animal Husbandry'"></option>
+                        <option th:value="'Arrack and Liquor production and vending'" th:text="'Arrack and Liquor production and vending'"></option>
+                        <option th:value="'Asha Workers'" th:text="'Asha Workers'"></option>
+                        <option th:value="'Audio and visual workers'" th:text="'Audio and visual workers'"></option>
+                        <option th:value="'Automobile work'" th:text="'Automobile work'"></option>
+                        <option th:value="'Bakery work'" th:text="'Bakery work'"></option>
+                        <option th:value="'Band playing'" th:text="'Band playing'"></option>
+                        <option th:value="'Bangle manufacturing'" th:text="'Bangle manufacturing'"></option>
+                        <option th:value="'Beads making/ piercing'" th:text="'Beads making/ piercing'"></option>
+                        <option th:value="'Beautician'" th:text="'Beautician'"></option>
+                        <option th:value="'Beedi manufacture'" th:text="'Beedi manufacture'"></option>
+                        <option th:value="'Bicycle repair'" th:text="'Bicycle repair'"></option>
+                        <option th:value="'Bindi work'" th:text="'Bindi work'"></option>
+                        <option th:value="'Blacksmithy'" th:text="'Blacksmithy'"></option>
+                        <option th:value="'Boat/Ferry occupation'" th:text="'Boat/Ferry occupation'"></option>
+                        <option th:value="'Book binding'" th:text="'Book binding'"></option>
+                        <option th:value="'Brick Kiln work'" th:text="'Brick Kiln work'"></option>
+                        <option th:value="'Brush making'" th:text="'Brush making'"></option>
+                        <option th:value="'Breweries Distilleries'" th:text="'Breweries Distilleries'"></option>
+                        <option th:value="'Building and Road maintenance'" th:text="'Building and Road maintenance'"></option>
+                        <option th:value="'Bulb manufacture'" th:text="'Bulb manufacture'"></option>
+                        <option th:value="'Bullock/Camel-cart operation'" th:text="'Salesman'"></option>
+                        <option th:value="'Butchery'" th:text="'Butchery'"></option>
+                        <option th:value="'Cable TV operation'" th:text="'Cable TV operation'"></option>
+                        <option th:value="'Cane/Reed work'" th:text="'Cane/Reed work'"></option>
+                        <option th:value="'Carpentary'" th:text="'Carpentary'"></option>
+                        <option th:value="'Carpet weaving'" th:text="'Carpet weaving'"></option>
+                        <option th:value="'Cashew processing'" th:text="'Cashew processing'"></option>
+                        <option th:value="'Catering'" th:text="'Catering'"></option>
+                        <option th:value="'Chikan work'" th:text="'Chikan work'"></option>
+                        <option th:value="'Cine Service'" th:text="'Cine Service'"></option>
+                        <option th:value="'Cloth printing'" th:text="'Cloth printing'"></option>
+                        <option th:value="'Clubs and canteen service'" th:text="'Clubs and canteen service'"></option>
+                        <option th:value="'Coaching service'" th:text="'Coaching service'"></option>
+                        <option th:value="'Coir processing/manufacture'" th:text="'Coir processing/manufacture'"></option>
+                        <option th:value="'Confectionery'" th:text="'Confectionery'"></option>
+                        <option th:value="'Construction work'" th:text="'Construction work'"></option>
+                        <option th:value="'Function utensil supplier'" th:text="'Function utensil supplier'"></option>
+                        <option th:value="'Courier service'" th:text="'Courier service'"></option>
+                        <option th:value="'Dairying and allied activities'" th:text="'Dairying and allied activities'"></option>
+                        <option th:value="'Data entry operation'" th:text="'Data entry operation'"></option>
+                        <option th:value="'Distribution of petroleum products'" th:text="'Distribution of petroleum products'"></option>
+                        <option th:value="'Domestic work'" th:text="'Domestic work'"></option>
+                        <option th:value="'Dyeing'" th:text="'Dyeing'"></option>
+                        <option th:value="'Electronic electrical goods repairs'" th:text="'Electronic electrical goods repairs'"></option>
+                        <option th:value="'Electroplating'" th:text="'Electroplating'"></option>
+                        <option th:value="'Embroidery work'" th:text="'Embroidery work'"></option>
+                        <option th:value="'Envelop making'" th:text="'Envelop making'"></option>
+                        <option th:value="'Fire work cracker production'" th:text="'Fire work cracker production'"></option>
+                        <option th:value="'Fishery production'" th:text="'Fishery production'"></option>
+                        <option th:value="'Fish processing'" th:text="'Fish processing'"></option>
+                        <option th:value="'Flora work and garland making'" th:text="'Flora work and garland making'"></option>
+                        <option th:value="'Flour mills operations'" th:text="'Flour mills operations'"></option>
+                        <option th:value="'Footwear production'" th:text="'Footwear production'"></option>
+                        <option th:value="'Foresty operation'" th:text="'Foresty operation'"></option>
+                        <option th:value="'Foundry'" th:text="'Foundry'"></option>
+                        <option th:value="'Gardening and parks maintenance'" th:text="'Gardening and parks maintenance'"></option>
+                        <option th:value="'Garment manufacture'" th:text="'Garment manufacture'"></option>
+                        <option th:value="'Gem cutting'" th:text="'Gem cutting'"></option>
+                        <option th:value="'Ginning'" th:text="'Ginning'"></option>
+                        <option th:value="'Glassware manufacturing'" th:text="'Glassware manufacturing'"></option>
+                        <option th:value="'Goldsmithy'" th:text="'Goldsmithy'"></option>
+                        <option th:value="'Hair dressing'" th:text="'Hair dressing'"></option>
+                        <option th:value="'Handloom weaving'" th:text="'Handloom weaving'"></option>
+                        <option th:value="'Hawking and vending'" th:text="'Hawking and vending'"></option>
+                        <option th:value="'Headload work'" th:text="'Headload work'"></option>
+                        <option th:value="'Health service'" th:text="'Health service'"></option>
+                        <option th:value="'Honey gathering'" th:text="'Honey gathering'"></option>
+                        <option th:value="'Horticulture and Floriculture'" th:text="'Horticulture and Floriculture'"></option>
+                        <option th:value="'Hotel and Restaurant service'" th:text="'Hotel and Restaurant service'"></option>
+                        <option th:value="'Lock making'" th:text="'Lock making'"></option>
+                        <option th:value="'Manual operation on unspecified jobs'" th:text="'Manual operation on unspecified jobs'"></option>
+                        <option th:value="'Masala making'" th:text="'Masala making'"></option>
+                        <option th:value="'Matches manufacture'" th:text="'Matches manufacture'"></option>
+                        <option th:value="'Mid-Day Meal Worker'" th:text="'Mid-Day Meal Worker'"></option>
+                        <option th:value="'Minor forest produce gathering'" th:text="'Minor forest produce gathering'"></option>
+                        <option th:value="'Minor mineral and mines work'" th:text="'Minor mineral and mines work'"></option>
+                        <option th:value="'Newspaper vending'" th:text="'Newspaper vending'"></option>
+                        <option th:value="'NGO service'" th:text="'NGO service'"></option>
+                        <option th:value="'Oil extraction'" th:text="'Oil extraction'"></option>
+                        <option th:value="'Packing and Packaging'" th:text="'Packing and Packaging'"></option>
+                        <option th:value="'Panwalla service'" th:text="'Panwalla service'"></option>
+                        <option th:value="'Pappad making'" th:text="'Pappad making'"></option>
+                        <option th:value="'Petrol bunk/pump and allied service'" th:text="'Petrol bunk/pump and allied service'"></option>
+                        <option th:value="'Pickle making'" th:text="'Pickle making'"></option>
+                        <option th:value="'Plantation'" th:text="'Plantation'"></option>
+                        <option th:value="'Plastic manufacture'" th:text="'Plastic manufacture'"></option>
+                        <option th:value="'Pottery'" th:text="'Pottery'"></option>
+                        <option th:value="'Powerloom weaving'" th:text="'Powerloom weaving'"></option>
+                        <option th:value="'Printing press work'" th:text="'Printing press work'"></option>
+                        <option th:value="'Quary work'" th:text="'Quary work'"></option>
+                        <option th:value="'Rag picking'" th:text="'Rag picking'"></option>
+                        <option th:value="'Rice milling'" th:text="'Rice milling'"></option>
+                        <option th:value="'Rickshaw pulling'" th:text="'Rickshaw pulling'"></option>
+                        <option th:value="'Salt pan work'" th:text="'Salt pan work'"></option>
+                        <option th:value="'Sand mining'" th:text="'Sand mining'"></option>
+                        <option th:value="'Sawmill work'" th:text="'Sawmill work'"></option>
+                        <option th:value="'Scavenging'" th:text="'Scavenging'"></option>
+                        <option th:value="'Security service'" th:text="'Security service'"></option>
+                        <option th:value="'Sericulture (Silk rearing)'" th:text="'Sericulture (Silk rearing)'"></option>
+                        <option th:value="'Service station work'" th:text="'Service station work'"></option>
+                        <option th:value="'Shepherding'" th:text="'Shepherding'"></option>
+                        <option th:value="'Shoe shining work'" th:text="'Shoe shining work'"></option>
+                        <option th:value="'Shop and establishment service'" th:text="'Shop and establishment service'"></option>
+                        <option th:value="'Small scale industries'" th:text="'Small scale industries'"></option>
+                        <option th:value="'Soap manufacture'" th:text="'Soap manufacture'"></option>
+                        <option th:value="'Sports good manufacture'" th:text="'Sports good manufacture'"></option>
+                        <option th:value="'Steel vessels and utensils manufacture'" th:text="'Steel vessels and utensils manufacture'"></option>
+                        <option th:value="'Stone crushing'" th:text="'Stone crushing'"></option>
+                        <option th:value="'Tanning (including hides and skin production) leather goods manufacture'" th:text="'Tanning (including hides and skin production) leather goods manufacture'"></option>
+                        <option th:value="'Telephone booth service'" th:text="'Telephone booth service'"></option>
+                        <option th:value="'Temple leaves collection'" th:text="'Temple leaves collection'"></option>
+                        <option th:value="'Tendu leaves collection'" th:text="'Tendu leaves collection'"></option>
+                        <option th:value="'Timber Industry (Furniture manufacturing etc)'" th:text="'Timber Industry (Furniture manufacturing etc)'"></option>
+                        <option th:value="'Tobacco processing'" th:text="'Tobacco processing'"></option>
+                        <option th:value="'Toddy tapping'" th:text="'Toddy tapping'"></option>
+                        <option th:value="'Toy making'" th:text="'Toy making'"></option>
+                        <option th:value="'Transport service (driving conducting, cleaning etc.)'" th:text="'Transport service (driving conducting, cleaning etc.)'"></option>
+                        <option th:value="'Laundry Work'" th:text="'Laundry Work'"></option>
+                        <option th:value="'Wayside Mechanics and workshop service'" th:text="'Wayside Mechanics and workshop service'"></option>
+                        <option th:value="'Welding'" th:text="'Welding'"></option>
+                        <option th:value="'Any other similar Occupation'" th:text="'Any other similar Occupation'"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="father_name" class="custom-label col-form-label">Fathername</label>
+                    <input type="text" th:field="*{father_name}" class="form-control" id="father_name">
+                    <div class="custom-control custom-radio custom-control-inline" style="margin-top: 1rem;">
+                        <input type="radio" id="fd" name="fd" class="custom-control-input" value="D" th:field="*{father}">
+                        <label class="custom-control-label" for="fd">Dead</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="fa" name="fa" class="custom-control-input" value="A" th:field="*{father}">
+                        <label class="custom-control-label" for="fa">Alive</label>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.5rem;">
+                    <label for="mother_name" class="custom-label col-form-label">Mothername</label>
+                    <input type="text" th:field="*{mother_name}" class="form-control" id="mother_name">
+                    <div class="custom-control custom-radio custom-control-inline" style="margin-top: 1rem;">
+                        <input type="radio" id="md" name="md" class="custom-control-input" value="D" th:field="*{mother}">
+                        <label class="custom-control-label" for="md">Dead</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="ma" name="ma" class="custom-control-input" value="A" th:field="*{mother}">
+                        <label class="custom-control-label" for="ma">Alive</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nextKin" class="custom-label col-form-label">Next Kin</label>
+                    <input type="text" th:field="*{nextKin}" class="form-control" id="nextKin">
+                    <span th:if="${#fields.hasErrors('nextKin')}" th:errors="*{nextKin}" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="margin-top: 2rem; margin-bottom: 2rem;">
+                    <label style="float: left">Parents Together</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="parentTogethery" name="parentTogethery" class="custom-control-input" value="Y" th:field="*{parentTogether}">
+                        <label class="custom-control-label" for="parentTogethery">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="parentTogethern" name="parentTogethern" class="custom-control-input" value="N" th:field="*{parentTogether}">
+                        <label class="custom-control-label" for="parentTogethern">No</label>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 2rem; margin-bottom: 2rem;">
+                    <label style="float: left">Has Health Cards</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="hy" name="hy" class="custom-control-input" value="Y" th:field="*{healthCards}">
+                        <label class="custom-control-label" for="hy">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="hn" name="hn" class="custom-control-input" value="N" th:field="*{healthCards}">
+                        <label class="custom-control-label" for="hn">No</label>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 2rem; margin-bottom: 2rem;">
+                    <label style="float: left">Has Insurance</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="hasInsurancey" name="hasInsurancey" class="custom-control-input" value="Y" th:field="*{hasInsurance}">
+                        <label class="custom-control-label" for="hasInsurancey">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="hasInsurancen" name="hasInsurancen" class="custom-control-input" value="N" th:field="*{hasInsurance}">
+                        <label class="custom-control-label" for="hasInsurancen">No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="previousMedicalConditions" class="custom-label col-form-label">Previous Medical Conditions</label>
+                    <input type="text" th:field="*{previousMedicalConditions}" class="form-control" id="previousMedicalConditions">
+                    <span th:if="${#fields.hasErrors('previousMedicalConditions')}" th:errors="*{previousMedicalConditions}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="natureOfMedicalCondition" class="custom-label col-form-label">Nature of Medical condition</label>
+                    <input type="text" th:field="*{natureOfMedicalCondition}" class="form-control" id="natureOfMedicalCondition">
+                    <span th:if="${#fields.hasErrors('natureOfMedicalCondition')}" th:errors="*{natureOfMedicalCondition}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="hereditaryDiseasesInFamily" class="custom-label col-form-label">Hereditary Diseases in family</label>
+                    <input type="text" th:field="*{hereditaryDiseasesInFamily}" class="form-control" id="hereditaryDiseasesInFamily">
+                    <span th:if="${#fields.hasErrors('hereditaryDiseasesInFamily')}" th:errors="*{hereditaryDiseasesInFamily}" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <div style="display: flex;"><label for="photo" class="custom-label col-form-label">Patient Photo</label></div>
+                    <div style="height: 200px; margin-bottom: 3%; background-color: #ffffff;">
+                        <img id="userPic" src="#" alt="your image" style="display: none; width: 100%; height: 100%;"/>
+                    </div>
+                    <input th:field="*{photo}" type="file" id="photo"/>
+                </div>
+                <div class="form-group">
+                    <label for="allergies" class="custom-label col-form-label">Allergies</label>
+                    <input type="text" th:field="*{allergies}" class="form-control" id="allergies">
+                    <span th:if="${#fields.hasErrors('allergies')}" th:errors="*{allergies}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="existingMedication" class="custom-label col-form-label">Existing Medication</label>
+                    <input th:field="*{existingMedication}" type="file" id="existingMedication"/>
+                </div>
+                <div class="form-group" style="margin-top: 2rem; margin-bottom: 2rem;">
+                    <label style="float: left">Previous Operations</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="previousOperationsy" name="previousOperationsy" class="custom-control-input" value="Y" th:field="*{previousOperations}" onclick="showPreviousOperations(true)">
+                        <label class="custom-control-label" for="previousOperationsy">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="previousOperationsn" name="previousOperationsn" class="custom-control-input" value="N" th:field="*{previousOperations}" onclick="showPreviousOperations(false)">
+                        <label class="custom-control-label" for="previousOperationsn">No</label>
+                    </div>
+                </div>
+                <div class="form-group previousOperation previousOperation1">
+                    <label for="previousOperationNature1" class="custom-label col-form-label">Nature of operation</label>
+                    <input type="text" th:field="*{previousOperationNature1}" class="form-control previousOperationInput" id="previousOperationNature1">
+                    <span th:if="${#fields.hasErrors('previousOperationNature1')}" th:errors="*{previousOperationNature1}" class="text-danger"></span>
+                </div>
+                <div class="form-group previousOperation previousOperation1">
+                    <label for="previousOperationYear1" class="custom-label col-form-label">Year and month of operation</label>
+                    <input type="text" th:field="*{previousOperationYear1}" class="form-control previousOperationInput" id="previousOperationYear1">
+                    <span th:if="${#fields.hasErrors('previousOperationYear1')}" th:errors="*{previousOperationYear1}" class="text-danger"></span>
+                </div>
+                <div class="form-group previousOperation previousOperation2">
+                    <label for="previousOperationNature2" class="custom-label col-form-label">Nature of operation</label>
+                    <input type="text" th:field="*{previousOperationNature2}" class="form-control previousOperationInput" id="previousOperationNature2">
+                    <span th:if="${#fields.hasErrors('previousOperationNature2')}" th:errors="*{previousOperationNature2}" class="text-danger"></span>
+                </div>
+                <div class="form-group previousOperation previousOperation2">
+                    <label for="previousOperationYear2" class="custom-label col-form-label">Year and month of operation</label>
+                    <input type="text" th:field="*{previousOperationYear2}" class="form-control previousOperationInput" id="previousOperationYear2">
+                    <span th:if="${#fields.hasErrors('previousOperationYear2')}" th:errors="*{previousOperationYear1}" class="text-danger"></span>
+                </div>
+                <div class="form-group previousOperation previousOperation3">
+                    <label for="previousOperationNature3" class="custom-label col-form-label">Nature of operation</label>
+                    <input type="text" th:field="*{previousOperationNature3}" class="form-control previousOperationInput" id="previousOperationNature3">
+                    <span th:if="${#fields.hasErrors('previousOperationNature3')}" th:errors="*{previousOperationNature3}" class="text-danger"></span>
+                </div>
+                <div class="form-group previousOperation previousOperation3">
+                    <label for="previousOperationYear3" class="custom-label col-form-label">Year and month of operation</label>
+                    <input type="text" th:field="*{previousOperationYear3}" class="form-control previousOperationInput" id="previousOperationYear3">
+                    <span th:if="${#fields.hasErrors('previousOperationYear3')}" th:errors="*{previousOperationYear3}" class="text-danger"></span>
+                </div>
+                <div class="form-group previousOperation previousOperationButton">
+                    <button type="button" class="btn btn-secondary" onclick="addPreviousOperation()">Add</button>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="width: 91%; position: absolute; bottom: 17px; right: 15px;">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $(function () {
+        $("#birthDate").datepicker({ format: 'dd/mm/yyyy', });
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#userPic').css('display', 'block');
+                $('#userPic').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#photo").change(function(){
+        readURL(this);
+    });
+
+
+</script>
+<script>
+    function showAge(birthday) {
+        var age = getAge(birthday);
+        document.getElementById("age").textContent=age;
+    }
+
+    $(document).ready(function() {
+        $(".previousOperation").hide()
+    });
+
+    function addPreviousOperation() {
+        if ($(".previousOperation2").is(":hidden")) {
+            $(".previousOperation2").show();
+            return;
+        }
+        if ($(".previousOperation3").is(":hidden")) {
+            $(".previousOperation3").show();
+            $(".previousOperationButton").hide();
+            return;
+        }
+
+    }
+
+    function showPreviousOperations(show) {
+        if (show) {
+            $(".previousOperation1").show();
+            $(".previousOperationButton").show();
+        } else {
+            $(".previousOperation").hide()
+            $('.previousOperationInput').val('');
+        }
+    }
+
+    function showSmokerDetails(show) {
+        if (show) {
+            document.getElementById("smokingADay").disabled = false;
+            document.getElementById("smokingYears").disabled = false;
+        } else {
+            document.getElementById("smokingADay").disabled = true;
+            document.getElementById("smokingYears").disabled = true;
+            document.getElementById("smokingADay").value = '';
+            document.getElementById("smokingYears").value = '';
+        }
+    }
+
+    function showAlcoholDetails(show) {
+        if (show) {
+            document.getElementById("alcoholWeek").disabled = false;
+            document.getElementById("alcoholYears").disabled = false;
+        } else {
+            document.getElementById("alcoholWeek").disabled = true;
+            document.getElementById("alcoholWeek").value = '';
+            document.getElementById("alcoholYears").disabled = true;
+            document.getElementById("alcoholYears").value = '';
+        }
+    }
+
+    function getAge(dateString) {
+        var now = new Date();
+        var today = new Date(now.getYear(),now.getMonth(),now.getDate());
+
+        var yearNow = now.getYear();
+        var monthNow = now.getMonth();
+        var dateNow = now.getDate();
+
+        var dob = new Date(dateString.substring(6,10),
+            dateString.substring(3,5)-1,
+            dateString.substring(0,2)
+
+        );
+
+        var yearDob = dob.getYear();
+        var monthDob = dob.getMonth();
+        var dateDob = dob.getDate();
+        var age = {};
+        var ageString = "";
+        var yearString = "";
+        var monthString = "";
+        var dayString = "";
+
+
+        yearAge = yearNow - yearDob;
+
+        if (monthNow >= monthDob)
+            var monthAge = monthNow - monthDob;
+        else {
+            yearAge--;
+            var monthAge = 12 + monthNow -monthDob;
+        }
+
+        if (dateNow >= dateDob)
+            var dateAge = dateNow - dateDob;
+        else {
+            monthAge--;
+            var dateAge = 31 + dateNow - dateDob;
+
+            if (monthAge < 0) {
+                monthAge = 11;
+                yearAge--;
+            }
+        }
+
+        age = {
+            years: yearAge,
+            months: monthAge,
+            days: dateAge
+        };
+
+        if ( age.years > 1 ) yearString = " years";
+        else yearString = " year";
+        if ( age.months> 1 ) monthString = " months";
+        else monthString = " month";
+        if ( age.days > 1 ) dayString = " days";
+        else dayString = " day";
+
+
+        if ( (age.years > 0) && (age.months > 0) && (age.days > 0) )
+            ageString = age.years + yearString + ", " + age.months + monthString + ", and " + age.days + dayString;
+        else if ( (age.years == 0) && (age.months == 0) && (age.days > 0) )
+            ageString = age.days + dayString;
+        else if ( (age.years > 0) && (age.months == 0) && (age.days == 0) )
+            ageString = age.years + yearString;
+        else if ( (age.years > 0) && (age.months > 0) && (age.days == 0) )
+            ageString = age.years + yearString + " and " + age.months + monthString;
+        else if ( (age.years == 0) && (age.months > 0) && (age.days > 0) )
+            ageString = age.months + monthString + " and " + age.days + dayString;
+        else if ( (age.years > 0) && (age.months == 0) && (age.days > 0) )
+            ageString = age.years + yearString + " and " + age.days + dayString;
+        else if ( (age.years == 0) && (age.months > 0) && (age.days == 0) )
+            ageString = age.months + monthString;
+        else ageString = "Could not calculate age!";
+
+        return ageString;
+    }
+</script>
+</body>
+</html>

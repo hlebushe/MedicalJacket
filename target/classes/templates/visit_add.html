@@ -1,0 +1,499 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>Open Hospital</title>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{~/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/bootstrap-datepicker.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{~/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/patient.css}"/>
+    <style>
+        p {
+            margin-bottom: 2px;
+        }
+
+        h4 {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+    <div style="font-size: 20px;">Medical Jacket</div>
+    <span sec:authorize="isAuthenticated()">
+            Welcome: <span sec:authentication="name"></span> |
+            Roles: <span sec:authentication="principal.authorities"></span> |
+            <a th:href="@{/logout}">Sign Out</a>
+        </span>
+</nav>
+<div class="container text-center" style="margin-top: 3%;">
+    <div class="row">
+        <div class="col" style="text-align: left; border-right: 1px solid #ccc;">
+            <div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <div style="height: 200px; margin-bottom: 3%; background-color: #ffffff;">
+                                <img id="userPic" th:src="@{/patient/userPic/{id}(id=${patient.code})}" alt="your image" style="width: 100%; height: 100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <p th:text="*{patient.firstName + ' ' + patient.secondName}"></p>
+                            <p id="age"></p>
+                            <p th:text="*{'Sex:' + patient.sex}"></p>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+                <div>
+                    <h5>General information</h5>
+                    <input id="code" th:field="*{patient.code}" type="hidden"/>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group border-group">
+                                <label th:text="*{'Aadhaar number:' + patient.taxCode}"></label>
+                            </div>
+                            <div class="form-group border-group">
+                                <p th:text="*{'Address: ' + patient.address}"></p>
+                                <p th:text="*{patient.city}"></p>
+                                <p th:text="*{patient.area}"></p>
+                                <p th:text="*{'Telephone: ' + patient.telephone}"></p>
+                                <p th:text="*{'Email: ' + patient.email}"></p>
+                            </div>
+                            <div class="form-group border-group">
+                                <label th:text="*{'Next Kin: ' + patient.nextKin}"></label>
+                            </div>
+                            <div class="form-group border-group">
+                                <div th:switch="${patient.parentTogether}">
+                                    <p th:case="'Y'">Parents together</p>
+                                    <p th:case="'N'">Parents not together</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group border-group">
+                                <p th:text="*{'Blood Type: ' + patient.bloodType}"></p>
+                                <p th:text="*{'Marital Status: ' + patient.maritalStatus}"></p>
+                                <p th:text="*{'Profession: ' + patient.profession}"></p>
+                            </div>
+                            <div class="form-group border-group">
+                                <label th:text="*{'Father name: ' + patient.father_name}"></label>
+                                <div th:switch="${patient.father}">
+                                    <p th:case="'A'">Alive</p>
+                                    <p th:case="'D'">Dead</p>
+                                </div>
+                            </div>
+                            <div class="form-group border-group">
+                                <label th:text="*{'Mother name: ' + patient.mother_name}"></label>
+                                <div th:switch="${patient.mother}">
+                                    <p th:case="'A'">Alive</p>
+                                    <p th:case="'D'">Dead</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h5>Existing medical condition and medication</h5>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group border-group">
+                                <label th:text="*{'Smoker: ' + patient.smoker}"></label>
+                                <div th:switch="${patient.smoker}">
+                                    <p th:case="'Y'" th:text="*{'Smoking years: ' + patient.smokingYears + ', cigarettes per day: ' + patient.smokingADay}"></p>
+                                    <p th:case="'N'"></p>
+                                </div>
+                            </div>
+                            <div class="form-group border-group">
+                                <label th:text="*{'Alcohol: ' + patient.alcohol}"></label>
+                                <div th:switch="${patient.alcohol}">
+                                    <p th:case="'Y'" th:text="*{'Alcohol years: ' + patient.alcoholYears + ', alcohol a week: ' + patient.alcoholWeek}"></p>
+                                    <p th:case="'N'"></p>
+                                </div>
+                            </div>
+                            <div class="form-group border-group">
+                                <label th:text="*{'Previous Medical Conditions: ' + patient.previousMedicalConditions}"></label>
+                            </div>
+                            <div class="form-group border-group">
+                                <label th:text="*{'Nature of Medical condition: ' + patient.natureOfMedicalCondition}"></label>
+                            </div>
+                            <div class="form-group border-group">
+                                <label th:text="*{'Allergies: ' + patient.allergies}"></label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group border-group">
+                                <div th:switch="${patient.healthCards}">
+                                    <p th:case="'Y'">Has Health Cards</p>
+                                    <p th:case="'N'">No Health Cards</p>
+                                </div>
+                                <div th:switch="${patient.hasInsurance}">
+                                    <p th:case="'Y'">Has Insurance</p>
+                                    <p th:case="'N'">No Insurance</p>
+                                </div>
+                            </div>
+                            <div class="form-group border-group">
+                                <label th:text="*{'Previous operations: ' + patient.previousOperations}"></label>
+                                <div th:switch="${patient.previousOperations}">
+                                    <div th:case="'Y'">
+                                        <p th:if= "${patient.previousOperationNature1 != ''}" th:text="*{patient.previousOperationNature1 + '(' + patient.previousOperationYear1 + ')'}"></p>
+                                        <p th:if= "${patient.previousOperationNature2 != ''}" th:text="*{patient.previousOperationNature2 + '(' + patient.previousOperationYear2 + ')'}"></p>
+                                        <p th:if= "${patient.previousOperationNature3 != ''}" th:text="*{patient.previousOperationNature3 + '(' + patient.previousOperationYear3 + ')'}"></p>
+                                    </div>
+                                    <div th:case="'N'"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <form id="addVisit" th:action="@{/patient/visit/add/{id}(id=${patient.code})}" th:object="${visit}" method="post">
+                <div class="form-group">
+                    <h5>Add Visit</h5>
+                </div>
+                <div class="form-group">
+                    <div class="form-group required" style="margin-top: 2rem; margin-bottom: 2rem;">
+                        <label style="float: left">Nature of visit:</label>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="male" name="male" class="custom-control-input" value="H" th:field="*{type}" required="true">
+                            <label class="custom-control-label" for="male">Home visit</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="female" name="female" class="custom-control-input" value="C" th:field="*{type}" required="true">
+                            <label class="custom-control-label" for="female">Visit to Clinic</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col border-group" style="margin-left: 15px;">
+                        <div class="form-group">
+                            <label style="float: left">Main Complaint:</label>
+                        </div>
+                            <div class="form-group mainComplaint1">
+                                <label for="mainComplaintSymptom1" class="custom-label col-form-label" style="margin-right: 10px;">Symptom by patient</label>
+                                <input list="symptoms" class="form-control" th:field="*{mainComplaintSymptom1}" id="mainComplaintSymptom1">
+                                <datalist id="symptoms">
+                                    <option th:each="symtom : ${symptoms}"
+                                            th:value="${symtom.toString()}"
+                                            th:utext="${symtom.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group mainComplaint mainComplaint2">
+                                <label for="mainComplaintSymptom2" class="custom-label col-form-label" style="margin-right: 10px;">Symptom by patient</label>
+                                <input list="symptoms" class="form-control" th:field="*{mainComplaintSymptom2}" id="mainComplaintSymptom2">
+                                <datalist id="symptoms">
+                                    <option th:each="symtom : ${symptoms}"
+                                            th:value="${symtom.toString()}"
+                                            th:utext="${symtom.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group mainComplaint mainComplaint3">
+                                <label for="mainComplaintSymptom3" class="custom-label col-form-label" style="margin-right: 10px;">Symptom by patient</label>
+                                <input list="symptoms" class="form-control" th:field="*{mainComplaintSymptom3}" id="mainComplaintSymptom3">
+                                <datalist id="symptoms">
+                                    <option th:each="symtom : ${symptoms}"
+                                            th:value="${symtom.toString()}"
+                                            th:utext="${symtom.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group mainComplaint mainComplaint4">
+                                <label for="mainComplaintSymptom4" class="custom-label col-form-label" style="margin-right: 10px;">Symptom by patient</label>
+                                <input list="symptoms" class="form-control" th:field="*{mainComplaintSymptom4}" id="mainComplaintSymptom4">
+                                <datalist id="symptoms">
+                                    <option th:each="symtom : ${symptoms}"
+                                            th:value="${symtom.toString()}"
+                                            th:utext="${symtom.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group mainComplaint mainComplaint5">
+                                <label for="mainComplaintSymptom5" class="custom-label col-form-label" style="margin-right: 10px;">Symptom by patient</label>
+                                <input list="symptoms" class="form-control" th:field="*{mainComplaintSymptom5}" id="mainComplaintSymptom5">
+                                <datalist id="symptoms">
+                                    <option th:each="symtom : ${symptoms}"
+                                            th:value="${symtom.toString()}"
+                                            th:utext="${symtom.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group mainComplaintButton">
+                                <button type="button" class="btn btn-secondary" onclick="addMainSymptom()">Add</button>
+                            </div>
+                            <div class="form-group">
+                               <label for="mainComplaintDiagnosis" class="custom-label col-form-label" style="margin-right: 10px;">Diagnosis:</label>
+                                <input list="diseases" class="form-control" th:field="*{mainComplaintDiagnosis}" id="mainComplaintDiagnosis">
+                                <datalist id="diseases">
+                                    <option th:each="disease : ${diseases}"
+                                            th:value="${disease.toString()}"
+                                            th:utext="${disease.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                        </div>
+                    <div class="col">
+                        <div class="col border-group">
+                            <div class="form-group">
+                                <label style="float: left">Secondary Complaint:</label>
+                            </div>
+                            <div class="form-group secondaryComplaint1">
+                                <label for="secondaryComplaintSymptom1" class="custom-label col-form-label" style="margin-right: 10px;">Symptom by patient</label>
+                                <input list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom1}" id="secondaryComplaintSymptom1">
+                                <datalist id="symptoms">
+                                    <option th:each="symtom : ${symptoms}"
+                                            th:value="${symtom.toString()}"
+                                            th:utext="${symtom.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group secondaryComplaint secondaryComplaint2">
+                                <label for="secondaryComplaintSymptom2" class="custom-label col-form-label" style="margin-right: 10px;">Symptom by patient</label>
+                                <input list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom2}" id="secondaryComplaintSymptom2">
+                                <datalist id="symptoms">
+                                    <option th:each="symtom : ${symptoms}"
+                                            th:value="${symtom.toString()}"
+                                            th:utext="${symtom.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group secondaryComplaint secondaryComplaint3">
+                                <label for="secondaryComplaintSymptom3" class="custom-label col-form-label" style="margin-right: 10px;">Symptom by patient</label>
+                                <input list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom3}" id="secondaryComplaintSymptom3">
+                                <datalist id="symptoms">
+                                    <option th:each="symtom : ${symptoms}"
+                                            th:value="${symtom.toString()}"
+                                            th:utext="${symtom.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group secondaryComplaint secondaryComplaint4">
+                                <label for="secondaryComplaintSymptom4" class="custom-label col-form-label" style="margin-right: 10px;">Symptom by patient</label>
+                                <input list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom4}" id="secondaryComplaintSymptom4">
+                                <datalist id="symptoms">
+                                    <option th:each="symtom : ${symptoms}"
+                                            th:value="${symtom.toString()}"
+                                            th:utext="${symtom.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group secondaryComplaint secondaryComplaint5">
+                                <label for="secondaryComplaintSymptom5" class="custom-label col-form-label" style="margin-right: 10px;">Symptom by patient</label>
+                                <input list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom5}" id="secondaryComplaintSymptom5">
+                                <datalist id="symptoms">
+                                    <option th:each="symtom : ${symptoms}"
+                                            th:value="${symtom.toString()}"
+                                            th:utext="${symtom.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group secondaryComplaintButton">
+                                <button type="button" class="btn btn-secondary" onclick="addSecondarySymptom()">Add</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="secondaryComplaintDiagnosis" class="custom-label col-form-label" style="margin-right: 10px;">Diagnosis:</label>
+                                <input list="diseases" class="form-control" th:field="*{secondaryComplaintDiagnosis}" id="secondaryComplaintDiagnosis">
+                                <datalist id="diseases">
+                                    <option th:each="disease : ${diseases}"
+                                            th:value="${disease.toString()}"
+                                            th:utext="${disease.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+                <div class="form-group">
+                    <h5>Examinations</h5>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group border-group">
+                            <label th:style="*{'color:' + examinations.respiratoryRateColor}" th:text="*{'Respiratory Rate(brth/min): ' + examinations.respiratoryRate}"></label>
+                        </div>
+                        <div class="form-group border-group">
+                            <label th:style="*{'color:' + examinations.o2SaturationColor}" th:text="*{'O2 Saturation(%): ' + examinations.o2Saturation}"></label>
+                        </div>
+                        <div class="form-group border-group">
+                            <label th:style="*{'color:' + examinations.o2FlowRateColor}" th:text="*{'O2 Flow Rate(L/min): ' + examinations.o2FlowRate}"></label>
+                        </div>
+                        <div class="form-group border-group">
+                            <label th:style="*{'color:' + examinations.bloodPressureMaxColor}" th:text="*{'Blood Pressure sys(mmHg): ' + examinations.bloodPressureMax}"></label>
+                        </div>
+                        <div class="form-group border-group">
+                            <label th:style="*{'color:' + examinations.bloodPressureMinColor}" th:text="*{'Blood Pressure dia(mmHg): ' + examinations.bloodPressureMin}"></label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group border-group">
+                            <label th:style="*{'color:' + examinations.bodyMassIndexColor}" th:text="*{'Body Mass Index: ' + examinations.bodyMassIndex}"></label>
+                        </div>
+                        <div class="form-group border-group">
+                            <label th:style="*{'color:' + examinations.heartRateColor}" th:text="*{'Heart Rate(beats/min): ' + examinations.heartRate}"></label>
+                        </div>
+                        <div class="form-group border-group">
+                            <label th:style="*{'color:' + examinations.temperatureColor}" th:text="*{'Temperature(°C): ' + examinations.temperature}"></label>
+                        </div>
+                        <div class="form-group border-group">
+                            <label th:style="*{'color:' + examinations.bloodGlucoseLevelColor}" th:text="*{'Blood Glucose Levels: ' + examinations.bloodGlucoseLevel}"></label>
+                        </div>
+                        <div class="form-group border-group">
+                            <label th:text="*{'Total score: ' + examinations.score}"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a type="button" class="btn btn-primary" th:href="@{/home}" style="width: 40%; float: left;margin-left: 4%;">Cancel</a>
+                    <button type="submit" form="addVisit" class="btn btn-primary" style="width: 40%; float: right; margin-right: 4%;">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+        var birthday = [[${patient.birthDate}]];
+    /*]]>*/
+
+    function showAge(birthday) {
+        var age = getAge(birthday);
+        document.getElementById("age").textContent='Age: ' + age;
+    }
+
+    function addMainSymptom() {
+        if ($(".mainComplaint2").is(":hidden")) {
+            $(".mainComplaint2").show();
+            return;
+        }
+        if ($(".mainComplaint3").is(":hidden")) {
+            $(".mainComplaint3").show();
+            return;
+        }
+        if ($(".mainComplaint4").is(":hidden")) {
+            $(".mainComplaint4").show();
+            return;
+        }
+        if ($(".mainComplaint5").is(":hidden")) {
+            $(".mainComplaint5").show();
+            $(".mainComplaintButton").hide();
+            return;
+        }
+    }
+
+    function addSecondarySymptom() {
+        if ($(".secondaryComplaint2").is(":hidden")) {
+            $(".secondaryComplaint2").show();
+            return;
+        }
+        if ($(".secondaryComplaint3").is(":hidden")) {
+            $(".secondaryComplaint3").show();
+            return;
+        }
+        if ($(".secondaryComplaint4").is(":hidden")) {
+            $(".secondaryComplaint4").show();
+            return;
+        }
+        if ($(".secondaryComplaint5").is(":hidden")) {
+            $(".secondaryComplaint5").show();
+            $(".secondaryComplaintButton").hide();
+            return;
+        }
+    }
+
+    $(document).ready(function() {
+        showAge(birthday);
+
+        $(".mainComplaint").hide();
+        $(".secondaryComplaint").hide()
+    });
+
+
+    function getAge(dateString) {
+        var now = new Date();
+        var today = new Date(now.getYear(),now.getMonth(),now.getDate());
+
+        var yearNow = now.getYear();
+        var monthNow = now.getMonth();
+        var dateNow = now.getDate();
+
+        var dob = new Date(dateString.substring(0,4),
+            dateString.substring(8,10)-1,
+            dateString.substring(5,7)
+
+        );
+
+        var yearDob = dob.getYear();
+        var monthDob = dob.getMonth();
+        var dateDob = dob.getDate();
+        var age = {};
+        var ageString = "";
+        var yearString = "";
+        var monthString = "";
+        var dayString = "";
+
+
+        yearAge = yearNow - yearDob;
+
+        if (monthNow >= monthDob)
+            var monthAge = monthNow - monthDob;
+        else {
+            yearAge--;
+            var monthAge = 12 + monthNow -monthDob;
+        }
+
+        if (dateNow >= dateDob)
+            var dateAge = dateNow - dateDob;
+        else {
+            monthAge--;
+            var dateAge = 31 + dateNow - dateDob;
+
+            if (monthAge < 0) {
+                monthAge = 11;
+                yearAge--;
+            }
+        }
+
+        age = {
+            years: yearAge,
+            months: monthAge,
+            days: dateAge
+        };
+
+        if ( age.years > 1 ) yearString = " years";
+        else yearString = " year";
+        if ( age.months> 1 ) monthString = " months";
+        else monthString = " month";
+        if ( age.days > 1 ) dayString = " days";
+        else dayString = " day";
+
+
+        if ( (age.years > 0) && (age.months > 0) && (age.days > 0) )
+            ageString = age.years + yearString + ", " + age.months + monthString + ", and " + age.days + dayString;
+        else if ( (age.years == 0) && (age.months == 0) && (age.days > 0) )
+            ageString = age.days + dayString;
+        else if ( (age.years > 0) && (age.months == 0) && (age.days == 0) )
+            ageString = age.years + yearString;
+        else if ( (age.years > 0) && (age.months > 0) && (age.days == 0) )
+            ageString = age.years + yearString + " and " + age.months + monthString;
+        else if ( (age.years == 0) && (age.months > 0) && (age.days > 0) )
+            ageString = age.months + monthString + " and " + age.days + dayString;
+        else if ( (age.years > 0) && (age.months == 0) && (age.days > 0) )
+            ageString = age.years + yearString + " and " + age.days + dayString;
+        else if ( (age.years == 0) && (age.months > 0) && (age.days == 0) )
+            ageString = age.months + monthString;
+        else ageString = "Could not calculate age!";
+
+        return ageString;
+    }
+</script>
+</body>
+</html>

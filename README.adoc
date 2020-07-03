@@ -1,0 +1,129 @@
+= Open Hospital Web API
+
+== Install JAVA
+* Install JDK. Use `Windows x64 Installer` https://www.oracle.com/java/technologies/javase-jdk11-downloads.html.
+* Make sure the `java` is available in the system `PATH`. Start command terminal and type `java -version` in order to check whether it is available or not.
+
+== Install MySQL
+* Install MySQL Server v5.7. Use https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-community-5.7.30.0.msi.
+* Please set MySQL service name to `MySQL` during installation. 
+* Make sure MySQL is up & running on `3306` port. Use `mysql -u root -p` in order to check whether you can login or not.
+
+== Unpack Distribution
+* You shall have `web-win64-0.0.7-core-2.0.1.zip` (the version might be different) than listed here.
+* Unzip the file into `C:\Programs\OHWeb` folder
+
+== Setup MySql Schema
+* Go to `C:\Programs\OHWeb\mysql` folder and start `cmd` terminal from here
+* Connect to mysql `mysql -u root -p`
+* Setup schema by executing `source create_all_en.sql`
+* Type `exit` and close command terminal
+
+== Setup OH Web Service
+* Go to `C:\Programs\OHWeb`
+* If MySQL windows service is not `MySQL`, edit `depend` property in `WinSW.NET4.xml` and set the MySQL service id.  
+* Install service by executing `WinSW.NET4.exe install`
+* Start `OHWeb` Windows Service using windows tools 
+* Open http://localhost:8080/status/health in the browser. It might take a few seconds at the first time.
+* If the service is working fine, you should be able to see the following in the browser:
+
+[source]
+----
+{
+  "status": "UP"
+}
+----
+
+* If the above does not work, please check the log files in `C:\Programs\OHWeb`.
+
+== OH Web API Usage
+Please open http://localhost:8080/docs endpoint and go through API Endpoints how to use.
+
+== OH Web API Payload Examples
+
+=== 1. Create Patient Presentation. Patient referenced by patient code
+API METHOD:
+[source]
+----
+PUT http://localhost:8080/v1/api/patpres/0
+----
+Payload example:
+[source]
+----
+{
+    "consultationEnd": "2020-05-22",
+    "diagnosis": "string",
+    "doctorsAilmentDescription": "string",
+    "followUp": "string",
+    "patient": {
+        "code": 5
+    },
+    "patientAdvice": "string",
+    "patientAilmentDescription": "string",
+    "prescribed": "string",
+    "presentationDate": "2020-05-22",
+    "previousConsult": "2020-05-22",
+    "prognosis": "string",
+    "referredFrom": "string",
+    "referredTo": "string",
+    "specificSymptoms": "string",
+    "summary": "string",
+    "vitals": {
+        "bloodSugar": 10,
+        "bp": {
+            "diastole": 100,
+            "systole": 200
+        },
+        "bsUnit": "string",
+        "height": 0,
+        "tempUnit": "string",
+        "temperature": 0,
+        "weight": 0
+    }
+}
+----
+
+=== 2. Create Patient Presentation. Patient referenced by fields (first name, second name, birth date, sex)
+API METHOD:
+[source]
+----
+PUT http://localhost:8080/v1/api/patpres/0
+----
+Oayload example:
+[source]
+----
+{
+    "consultationEnd": "2020-05-22",
+    "diagnosis": "string",
+    "doctorsAilmentDescription": "string",
+    "followUp": "string",
+    "patient": {
+        "firstName": "Onyal",
+        "secondName": "Jenety",
+        "birthDate": "1990-05-13",
+        "sex": "F"
+    },
+    "patientAdvice": "string",
+    "patientAilmentDescription": "string",
+    "prescribed": "string",
+    "presentationDate": "2020-05-22",
+    "previousConsult": "2020-05-22",
+    "prognosis": "string",
+    "referredFrom": "string",
+    "referredTo": "string",
+    "specificSymptoms": "string",
+    "summary": "string",
+    "vitals": {
+        "bloodSugar": 10,
+        "bp": {
+            "diastole": 100,
+            "systole": 200
+        },
+        "bsUnit": "string",
+        "height": 0,
+        "tempUnit": "string",
+        "temperature": 0,
+        "weight": 0
+    }
+}
+----

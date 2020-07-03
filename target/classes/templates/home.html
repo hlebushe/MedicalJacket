@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>Open Hospital</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <script src="webjars/jquery/3.5.0/jquery.min.js"></script>
+    <script src="webjars/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div style="font-size: 20px;">Medical Jacket</div>
+        <span sec:authorize="isAuthenticated()">
+            Welcome: <span sec:authentication="name"></span> |
+            Roles: <span sec:authentication="principal.authorities"></span> |
+            <a th:href="@{/logout}">Sign Out</a>
+        </span>
+    </nav>
+    <div class="container text-center">
+        <div class="form-group">
+            <h3>Patients</h3>
+            <a class="btn btn-primary add-button" th:href="@{/patient/add}" role="button" style="width: 20%;">
+                Add Patient
+            </a>
+        </div>
+        <div class="form-group">
+            <div th:switch="${patients}">
+                <h2 th:case="null">No patients</h2>
+                <div th:case="*">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="patient : ${patients}">
+                            <td th:text="${patient.name}"></td>
+                            <td th:text="${patient.age}"></td>
+                            <td th:text="${patient.address}"></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary table-menu" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="glyphicon glyphicon-option-horizontal"></span>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <a class="dropdown-item" th:href="@{/patient/edit/{id}(id=${patient.code})}">Edit
+                                        </a>
+                                        <a class="dropdown-item" th:href="@{/patient/visit/add/{id}(id=${patient.code})}">Add visit
+                                        </a>
+                                        <a class="dropdown-item" th:href="@{/patient/delete/{id}(id=${patient.code})}">Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

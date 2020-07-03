@@ -1,0 +1,22 @@
+.admin-message-text {
+    font-style: normal;
+    font-size: 22px;
+    color: #004080;
+}
+
+h3 {
+    float: left;
+    margin-top: 2%;
+}
+
+.add-button {
+    float: right;
+    margin-bottom: 2%;
+    margin-top: 2%;
+}
+
+.table-menu {
+    color: #000000;
+    background-color: #ffffff;
+    border: none;
+}
