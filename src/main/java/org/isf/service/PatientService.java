@@ -77,6 +77,12 @@ public class PatientService {
         patientFromDB.setPreviousOperationNature3(patient.getPreviousOperationNature3());
         patientFromDB.setPreviousOperationYear3(patient.getPreviousOperationYear3());
         patientFromDB.setHereditaryDiseasesInFamily(patient.getHereditaryDiseasesInFamily());
+        patientFromDB.setHealthCardNumber(patient.getHealthCardNumber());
+        patientFromDB.setHealthCardType(patient.getHealthCardType());
+        patientFromDB.setInsuranceCompany(patient.getInsuranceCompany());
+        patientFromDB.setInsuranceNumber(patient.getInsuranceNumber());
+        patientFromDB.setNextKinRelationship(patient.getNextKinRelationship());
+        patientFromDB.setNextKinTelephone(patient.getNextKinTelephone());
         repository.save(patientFromDB);
         return true;
     }

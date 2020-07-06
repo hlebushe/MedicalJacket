@@ -3,6 +3,7 @@ package org.isf.controller.web;
 import org.isf.dao.Examinations;
 import org.isf.models.ExaminationsModel;
 import org.isf.dao.Patient;
+import org.isf.models.PreviousVisitModel;
 import org.isf.service.CSVService;
 import org.isf.service.ExaminationService;
 import org.isf.service.PatientService;
@@ -30,6 +31,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RequestMapping(value = "/patient")
 
@@ -52,7 +54,7 @@ public class PatientController {
     protected VisitService visitService;
 
     @GetMapping(value = "/add")
-    public ModelAndView getAddUser(Model model) {
+    public ModelAndView getAddPatient(Model model) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("patient", new Patient());
         mv.setViewName("patient_add");
@@ -60,9 +62,11 @@ public class PatientController {
     }
 
     @PostMapping("/add")
-    public ModelAndView addUser(@RequestParam("photo") MultipartFile photo, @RequestParam("existingMedication") MultipartFile existingMedication, @Valid Patient patient, BindingResult result, Model model) throws IOException, SQLException {
+    public ModelAndView addPatient(@RequestParam("photo") MultipartFile photo, @RequestParam("existingMedication") MultipartFile existingMedication, @Valid Patient patient, BindingResult result, Model model) throws IOException, SQLException {
         patient.setBlobPhoto(getBlobData(photo));
         patient.setExistingMedication(getBlobData(existingMedication));
+
+        patient.setAge();
 
         patientService.savePatient(patient);
 
@@ -100,6 +104,10 @@ public class PatientController {
             patient.setExistingMedication(patientFromDB.getExistingMedication());
         }
 
+        if (patient.getBirthDate() == null) {
+            patient.setBirthDate(patientFromDB.getBirthDate());
+        }
+
         patientService.updatePatient(patient);
 
         return new ModelAndView(new RedirectView(mContext.getContextPath() +"/home"));
@@ -119,12 +127,21 @@ public class PatientController {
 
     @GetMapping("/visit/add/{id}")
     public ModelAndView getAddVisit(@PathVariable("id") int code, Model model) throws IOException, ParseException {
-
         try {
             Patient patient = patientService.findPatientByCode(code).get(0);
             ModelAndView mv = new ModelAndView();
             mv.addObject("patient", patient);
             mv.addObject("visit", new Visit());
+
+            List<Visit> visits = visitService.findAllByPatient(patient);
+            List<PreviousVisitModel> previousVisits = new ArrayList<>();
+
+            for (Visit visit : visits) {
+                PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
+                previousVisits.add(previousVisit);
+            }
+
+            mv.addObject("visits", previousVisits);
             java.util.List<String> symptomsList = csvService.getSymptomsList();
             mv.addObject("symptoms", symptomsList);
             java.util.List<String> diseasesList = csvService.getDiseasesList();
@@ -152,6 +169,31 @@ public class PatientController {
         visit.setDate(date);
 
         visitService.saveVisit(visit);
+
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/home"));
+    }
+
+    @GetMapping("/examinations/add/{id}")
+    public ModelAndView getAddExaminations(@PathVariable("id") int code, Model model) throws IOException, ParseException {
+
+        try {
+            Patient patient = patientService.findPatientByCode(code).get(0);
+            ModelAndView mv = new ModelAndView();
+            mv.addObject("patient", patient);
+            Examinations examinations = new Examinations();
+            mv.addObject("examinations", examinations);
+            mv.setViewName("examinations_add");
+            return mv;
+        } catch (Exception e) {
+            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/home"));
+        }
+    }
+
+    @PostMapping("/examinations/add/{id}")
+    public ModelAndView postAddVExaminations(@PathVariable("id") int code, @Valid Examinations examinations, BindingResult result, Model model) throws IOException, SQLException {
+        Patient patient = patientService.findPatientByCode(code).get(0);
+        examinations.setPatient(patient);
+        examinationService.saveExaminaions(examinations);
 
         return new ModelAndView(new RedirectView(mContext.getContextPath() +"/home"));
     }

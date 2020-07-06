@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <title>Open Hospital</title>
-    <link rel="stylesheet" type="text/css" th:href="@{~/css/bootstrap-glyphicons.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{~/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{~/css/bootstrap-datepicker.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
     <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
-    <script th:src="@{~/js/bootstrap-datepicker.min.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{~/css/patient.css}"/>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
         p {
             margin-bottom: 2px;
@@ -28,126 +31,219 @@
             <a th:href="@{/logout}">Sign Out</a>
         </span>
 </nav>
+
 <div class="container text-center" style="margin-top: 3%;">
-    <div class="row">
+    <ul class="nav nav-tabs" style="margin-right: -15px; margin-left: -15px;">
+        <li class="nav-item active">
+            <a class="nav-link active" href="#1" data-toggle="tab">Medication</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#2" data-toggle="tab">Previous visits</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#3" data-toggle="tab">Examinations</a>
+        </li>
+    </ul>
+    <div class="row" style="margin-top: 0">
         <div class="col" style="text-align: left; border-right: 1px solid #ccc;">
-            <div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <div style="height: 200px; margin-bottom: 3%; background-color: #ffffff;">
-                                <img id="userPic" th:src="@{/patient/userPic/{id}(id=${patient.code})}" alt="your image" style="width: 100%; height: 100%;"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <p th:text="*{patient.firstName + ' ' + patient.secondName}"></p>
-                            <p id="age"></p>
-                            <p th:text="*{'Sex:' + patient.sex}"></p>
-                        </div>
-                        <div class="col"></div>
-                    </div>
-                </div>
-                <div>
-                    <h5>General information</h5>
-                    <input id="code" th:field="*{patient.code}" type="hidden"/>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group border-group">
-                                <label th:text="*{'Aadhaar number:' + patient.taxCode}"></label>
-                            </div>
-                            <div class="form-group border-group">
-                                <p th:text="*{'Address: ' + patient.address}"></p>
-                                <p th:text="*{patient.city}"></p>
-                                <p th:text="*{patient.area}"></p>
-                                <p th:text="*{'Telephone: ' + patient.telephone}"></p>
-                                <p th:text="*{'Email: ' + patient.email}"></p>
-                            </div>
-                            <div class="form-group border-group">
-                                <label th:text="*{'Next Kin: ' + patient.nextKin}"></label>
-                            </div>
-                            <div class="form-group border-group">
-                                <div th:switch="${patient.parentTogether}">
-                                    <p th:case="'Y'">Parents together</p>
-                                    <p th:case="'N'">Parents not together</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group border-group">
-                                <p th:text="*{'Blood Type: ' + patient.bloodType}"></p>
-                                <p th:text="*{'Marital Status: ' + patient.maritalStatus}"></p>
-                                <p th:text="*{'Profession: ' + patient.profession}"></p>
-                            </div>
-                            <div class="form-group border-group">
-                                <label th:text="*{'Father name: ' + patient.father_name}"></label>
-                                <div th:switch="${patient.father}">
-                                    <p th:case="'A'">Alive</p>
-                                    <p th:case="'D'">Dead</p>
-                                </div>
-                            </div>
-                            <div class="form-group border-group">
-                                <label th:text="*{'Mother name: ' + patient.mother_name}"></label>
-                                <div th:switch="${patient.mother}">
-                                    <p th:case="'A'">Alive</p>
-                                    <p th:case="'D'">Dead</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h5>Existing medical condition and medication</h5>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group border-group">
-                                <label th:text="*{'Smoker: ' + patient.smoker}"></label>
-                                <div th:switch="${patient.smoker}">
-                                    <p th:case="'Y'" th:text="*{'Smoking years: ' + patient.smokingYears + ', cigarettes per day: ' + patient.smokingADay}"></p>
-                                    <p th:case="'N'"></p>
-                                </div>
-                            </div>
-                            <div class="form-group border-group">
-                                <label th:text="*{'Alcohol: ' + patient.alcohol}"></label>
-                                <div th:switch="${patient.alcohol}">
-                                    <p th:case="'Y'" th:text="*{'Alcohol years: ' + patient.alcoholYears + ', alcohol a week: ' + patient.alcoholWeek}"></p>
-                                    <p th:case="'N'"></p>
-                                </div>
-                            </div>
-                            <div class="form-group border-group">
-                                <label th:text="*{'Previous Medical Conditions: ' + patient.previousMedicalConditions}"></label>
-                            </div>
-                            <div class="form-group border-group">
-                                <label th:text="*{'Nature of Medical condition: ' + patient.natureOfMedicalCondition}"></label>
-                            </div>
-                            <div class="form-group border-group">
-                                <label th:text="*{'Allergies: ' + patient.allergies}"></label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group border-group">
-                                <div th:switch="${patient.healthCards}">
-                                    <p th:case="'Y'">Has Health Cards</p>
-                                    <p th:case="'N'">No Health Cards</p>
-                                </div>
-                                <div th:switch="${patient.hasInsurance}">
-                                    <p th:case="'Y'">Has Insurance</p>
-                                    <p th:case="'N'">No Insurance</p>
-                                </div>
-                            </div>
-                            <div class="form-group border-group">
-                                <label th:text="*{'Previous operations: ' + patient.previousOperations}"></label>
-                                <div th:switch="${patient.previousOperations}">
-                                    <div th:case="'Y'">
-                                        <p th:if= "${patient.previousOperationNature1 != ''}" th:text="*{patient.previousOperationNature1 + '(' + patient.previousOperationYear1 + ')'}"></p>
-                                        <p th:if= "${patient.previousOperationNature2 != ''}" th:text="*{patient.previousOperationNature2 + '(' + patient.previousOperationYear2 + ')'}"></p>
-                                        <p th:if= "${patient.previousOperationNature3 != ''}" th:text="*{patient.previousOperationNature3 + '(' + patient.previousOperationYear3 + ')'}"></p>
+            <div id="exTab2">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="1">
+                        <div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div style="height: 200px; margin-bottom: 3%; background-color: #ffffff;">
+                                            <img id="userPic" th:src="@{/patient/userPic/{id}(id=${patient.code})}" alt="your image" style="width: 100%; height: 100%;"/>
+                                        </div>
                                     </div>
-                                    <div th:case="'N'"></div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <p th:text="*{patient.firstName + ' ' + patient.secondName}"></p>
+                                        <p id="age"></p>
+                                        <p th:text="*{'Sex:' + patient.sex}"></p>
+                                    </div>
+                                    <div class="col"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5>General information</h5>
+                                <input id="code" th:field="*{patient.code}" type="hidden"/>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group border-group">
+                                            <label th:text="*{'Aadhaar number:' + patient.taxCode}"></label>
+                                        </div>
+                                        <div class="form-group border-group">
+                                            <p th:text="*{'Address: ' + patient.address}"></p>
+                                            <p th:text="*{patient.city}"></p>
+                                            <p th:text="*{patient.area}"></p>
+                                            <p th:text="*{'Telephone: ' + patient.telephone}"></p>
+                                            <p th:text="*{'Email: ' + patient.email}"></p>
+                                        </div>
+                                        <div class="form-group border-group">
+                                            <label th:text="*{'Next Kin: ' + patient.nextKin}"></label>
+                                        </div>
+                                        <div class="form-group border-group">
+                                            <div th:switch="${patient.parentTogether}">
+                                                <p th:case="'Y'">Parents together</p>
+                                                <p th:case="'N'">Parents not together</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group border-group">
+                                            <p th:text="*{'Blood Type: ' + patient.bloodType}"></p>
+                                            <p th:text="*{'Marital Status: ' + patient.maritalStatus}"></p>
+                                            <p th:text="*{'Profession: ' + patient.profession}"></p>
+                                        </div>
+                                        <div class="form-group border-group">
+                                            <label th:text="*{'Father name: ' + patient.father_name}"></label>
+                                            <div th:switch="${patient.father}">
+                                                <p th:case="'A'">Alive</p>
+                                                <p th:case="'D'">Dead</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group border-group">
+                                            <label th:text="*{'Mother name: ' + patient.mother_name}"></label>
+                                            <div th:switch="${patient.mother}">
+                                                <p th:case="'A'">Alive</p>
+                                                <p th:case="'D'">Dead</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5>Existing medical condition and medication</h5>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group border-group">
+                                            <label th:text="*{'Smoker: ' + patient.smoker}"></label>
+                                            <div th:switch="${patient.smoker}">
+                                                <p th:case="'Y'" th:text="*{'Smoking years: ' + patient.smokingYears + ', cigarettes per day: ' + patient.smokingADay}"></p>
+                                                <p th:case="'N'"></p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group border-group">
+                                            <label th:text="*{'Alcohol: ' + patient.alcohol}"></label>
+                                            <div th:switch="${patient.alcohol}">
+                                                <p th:case="'Y'" th:text="*{'Alcohol years: ' + patient.alcoholYears + ', alcohol a week: ' + patient.alcoholWeek}"></p>
+                                                <p th:case="'N'"></p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group border-group">
+                                            <label th:text="*{'Previous Medical Conditions: ' + patient.previousMedicalConditions}"></label>
+                                        </div>
+                                        <div class="form-group border-group">
+                                            <label th:text="*{'Nature of Medical condition: ' + patient.natureOfMedicalCondition}"></label>
+                                        </div>
+                                        <div class="form-group border-group">
+                                            <label th:text="*{'Allergies: ' + patient.allergies}"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group border-group">
+                                            <div th:switch="${patient.healthCards}">
+                                                <p th:case="'Y'">Has Health Cards</p>
+                                                <p th:case="'N'">No Health Cards</p>
+                                            </div>
+                                            <div th:switch="${patient.hasInsurance}">
+                                                <p th:case="'Y'">Has Insurance</p>
+                                                <p th:case="'N'">No Insurance</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group border-group">
+                                            <label th:text="*{'Previous operations: ' + patient.previousOperations}"></label>
+                                            <div th:switch="${patient.previousOperations}">
+                                                <div th:case="'Y'">
+                                                    <p th:if= "${patient.previousOperationNature1 != ''}" th:text="*{patient.previousOperationNature1 + '(' + patient.previousOperationYear1 + ')'}"></p>
+                                                    <p th:if= "${patient.previousOperationNature2 != ''}" th:text="*{patient.previousOperationNature2 + '(' + patient.previousOperationYear2 + ')'}"></p>
+                                                    <p th:if= "${patient.previousOperationNature3 != ''}" th:text="*{patient.previousOperationNature3 + '(' + patient.previousOperationYear3 + ')'}"></p>
+                                                </div>
+                                                <div th:case="'N'"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="tab-pane" id="2">
+                        <div>
+                            <h5>Previous visits</h5>
+                        </div>
+                        <div class="form-group">
+                            <div th:switch="${visits}">
+                                <h2 th:case="null">No previous visits</h2>
+                                <div th:case="*">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Main Complaint Symptoms</th>
+                                            <th scope="col">Main Complaint Diagnosis</th>
+                                            <th scope="col">Second Complaint Symptoms</th>
+                                            <th scope="col">Second Complaint Diagnosis</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="visit : ${visits}">
+                                            <td th:text="${visit.visitDate}"></td>
+                                            <td th:text="${visit.type}"></td>
+                                            <td th:text="${visit.mainComplaintSymptoms}"></td>
+                                            <td th:text="${visit.mainComplaintDiagnosis}"></td>
+                                            <td th:text="${visit.secondComplaintSymptoms}"></td>
+                                            <td th:text="${visit.secondComplaintDiagnosis}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="3">
+                        <div class="form-group">
+                            <h5>Examinations</h5>
+                        </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group border-group">
+                                        <label th:style="*{'color:' + examinations.respiratoryRateColor}" th:text="*{'Respiratory Rate(brth/min): ' + examinations.respiratoryRate}"></label>
+                                    </div>
+                                    <div class="form-group border-group">
+                                        <label th:style="*{'color:' + examinations.o2SaturationColor}" th:text="*{'O2 Saturation(%): ' + examinations.o2Saturation}"></label>
+                                    </div>
+                                    <div class="form-group border-group">
+                                        <label th:style="*{'color:' + examinations.o2FlowRateColor}" th:text="*{'O2 Flow Rate(L/min): ' + examinations.o2FlowRate}"></label>
+                                    </div>
+                                    <div class="form-group border-group">
+                                        <label th:style="*{'color:' + examinations.bloodPressureMaxColor}" th:text="*{'Blood Pressure sys(mmHg): ' + examinations.bloodPressureMax}"></label>
+                                    </div>
+                                    <div class="form-group border-group">
+                                        <label th:style="*{'color:' + examinations.bloodPressureMinColor}" th:text="*{'Blood Pressure dia(mmHg): ' + examinations.bloodPressureMin}"></label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group border-group">
+                                        <label th:style="*{'color:' + examinations.bodyMassIndexColor}" th:text="*{'Body Mass Index: ' + examinations.bodyMassIndex}"></label>
+                                    </div>
+                                    <div class="form-group border-group">
+                                        <label th:style="*{'color:' + examinations.heartRateColor}" th:text="*{'Heart Rate(beats/min): ' + examinations.heartRate}"></label>
+                                    </div>
+                                    <div class="form-group border-group">
+                                        <label th:style="*{'color:' + examinations.temperatureColor}" th:text="*{'Temperature(°C): ' + examinations.temperature}"></label>
+                                    </div>
+                                    <div class="form-group border-group">
+                                        <label th:style="*{'color:' + examinations.bloodGlucoseLevelColor}" th:text="*{'Blood Glucose Levels: ' + examinations.bloodGlucoseLevel}"></label>
+                                    </div>
+                                    <div class="form-group border-group">
+                                        <label th:text="*{'Total score: ' + examinations.score}"></label>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -229,8 +325,28 @@
                                 <button type="button" class="btn btn-secondary" onclick="addMainSymptom()">Add</button>
                             </div>
                             <div class="form-group">
-                               <label for="mainComplaintDiagnosis" class="custom-label col-form-label" style="margin-right: 10px;">Diagnosis:</label>
-                                <input list="diseases" class="form-control" th:field="*{mainComplaintDiagnosis}" id="mainComplaintDiagnosis">
+                               <label for="mainComplaintDiagnosis1" class="custom-label col-form-label" style="margin-right: 10px;">Diagnosis 1:</label>
+                                <input list="diseases" class="form-control" th:field="*{mainComplaintDiagnosis1}" id="mainComplaintDiagnosis1">
+                                <datalist id="diseases">
+                                    <option th:each="disease : ${diseases}"
+                                            th:value="${disease.toString()}"
+                                            th:utext="${disease.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group">
+                                <label for="mainComplaintDiagnosis2" class="custom-label col-form-label" style="margin-right: 10px;">Diagnosis 2:</label>
+                                <input list="diseases" class="form-control" th:field="*{mainComplaintDiagnosis2}" id="mainComplaintDiagnosis2">
+                                <datalist id="diseases">
+                                    <option th:each="disease : ${diseases}"
+                                            th:value="${disease.toString()}"
+                                            th:utext="${disease.toString()}">
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="form-group">
+                                <label for="mainComplaintDiagnosis3" class="custom-label col-form-label" style="margin-right: 10px;">Diagnosis 3:</label>
+                                <input list="diseases" class="form-control" th:field="*{mainComplaintDiagnosis3}" id="mainComplaintDiagnosis3">
                                 <datalist id="diseases">
                                     <option th:each="disease : ${diseases}"
                                             th:value="${disease.toString()}"
@@ -311,46 +427,7 @@
                     </div>
                 </div>
             </form>
-                <div class="form-group">
-                    <h5>Examinations</h5>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group border-group">
-                            <label th:style="*{'color:' + examinations.respiratoryRateColor}" th:text="*{'Respiratory Rate(brth/min): ' + examinations.respiratoryRate}"></label>
-                        </div>
-                        <div class="form-group border-group">
-                            <label th:style="*{'color:' + examinations.o2SaturationColor}" th:text="*{'O2 Saturation(%): ' + examinations.o2Saturation}"></label>
-                        </div>
-                        <div class="form-group border-group">
-                            <label th:style="*{'color:' + examinations.o2FlowRateColor}" th:text="*{'O2 Flow Rate(L/min): ' + examinations.o2FlowRate}"></label>
-                        </div>
-                        <div class="form-group border-group">
-                            <label th:style="*{'color:' + examinations.bloodPressureMaxColor}" th:text="*{'Blood Pressure sys(mmHg): ' + examinations.bloodPressureMax}"></label>
-                        </div>
-                        <div class="form-group border-group">
-                            <label th:style="*{'color:' + examinations.bloodPressureMinColor}" th:text="*{'Blood Pressure dia(mmHg): ' + examinations.bloodPressureMin}"></label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group border-group">
-                            <label th:style="*{'color:' + examinations.bodyMassIndexColor}" th:text="*{'Body Mass Index: ' + examinations.bodyMassIndex}"></label>
-                        </div>
-                        <div class="form-group border-group">
-                            <label th:style="*{'color:' + examinations.heartRateColor}" th:text="*{'Heart Rate(beats/min): ' + examinations.heartRate}"></label>
-                        </div>
-                        <div class="form-group border-group">
-                            <label th:style="*{'color:' + examinations.temperatureColor}" th:text="*{'Temperature(°C): ' + examinations.temperature}"></label>
-                        </div>
-                        <div class="form-group border-group">
-                            <label th:style="*{'color:' + examinations.bloodGlucoseLevelColor}" th:text="*{'Blood Glucose Levels: ' + examinations.bloodGlucoseLevel}"></label>
-                        </div>
-                        <div class="form-group border-group">
-                            <label th:text="*{'Total score: ' + examinations.score}"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: 20px;">
                     <a type="button" class="btn btn-primary" th:href="@{/home}" style="width: 40%; float: left;margin-left: 4%;">Cancel</a>
                     <button type="submit" form="addVisit" class="btn btn-primary" style="width: 40%; float: right; margin-right: 4%;">Save</button>
                 </div>

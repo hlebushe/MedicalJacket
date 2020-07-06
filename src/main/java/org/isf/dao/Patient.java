@@ -177,6 +177,25 @@ public class Patient  {
     @Column(name="PAT_HEREDITARY_DIS_FAMILY")
     private String hereditaryDiseasesInFamily;
 
+    @Column(name="PAT_NEXT_KIN_RELATIONSHIP")
+    private String nextKinRelationship;
+
+    @Column(name="PAT_NEXT_TELEPHONE")
+    private String nextKinTelephone;
+
+    @Column(name="PAT_INSURANCE_COMPANY")
+    private String insuranceCompany;
+
+    @Column(name="PAT_INSURANCE_NUMBER")
+    private String insuranceNumber;
+
+    @Column(name="PAT_HEALTH_CARD_TYPE")
+    private String healthCardType;
+
+    @Column(name="PAT_HEALTH_CARD_NUMBER")
+    private String healthCardNumber;
+
+
     @NotNull
     @JsonIgnore
     @Column(name="PAT_DELETED")
@@ -205,6 +224,9 @@ public class Patient  {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
     List<Examinations> examinations;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
+    List<Visit> visits;
 
 
     public Patient() {
@@ -341,6 +363,15 @@ public class Patient  {
             Period period = Period.between(givenDate, LocalDate.now());
             int age = period.getYears();
             this.age = age;
+    }
+
+    public void setAge() {
+        Instant instant = this.birthDate.toInstant();
+        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+        LocalDate givenDate = zone.toLocalDate();
+        Period period = Period.between(givenDate, LocalDate.now());
+        int age = period.getYears();
+        this.age = age;
     }
 
 

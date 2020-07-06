@@ -19,8 +19,6 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
-import org.isf.dao.Examinations;
-import org.isf.dao.Patient;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -34,8 +32,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
         @AttributeOverride(name="active", column=@Column(name="VST_ACTIVE")),
         @AttributeOverride(name="lastModifiedDate", column=@Column(name="VST_LAST_MODIFIED_DATE"))
 })
-public class Visit
-{
+public class Visit {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="VST_ID")
@@ -48,7 +45,7 @@ public class Visit
 
     @NotNull
     @Column(name="VST_DATE")
-    private GregorianCalendar date;
+    private Date date;
 
     @Column(name="VST_NOTE")
     private String note;
@@ -74,8 +71,14 @@ public class Visit
     @Column(name="VST_MAIN_COMPLAINT_SYMPTOM5")
     private String mainComplaintSymptom5;
 
-    @Column(name="VST_MAIN_COMPLAINT_DIAGNOSIS")
-    private String mainComplaintDiagnosis;
+    @Column(name="VST_MAIN_COMPLAINT_DIAGNOSIS1")
+    private String mainComplaintDiagnosis1;
+
+    @Column(name="VST_MAIN_COMPLAINT_DIAGNOSIS2")
+    private String mainComplaintDiagnosis2;
+
+    @Column(name="VST_MAIN_COMPLAINT_DIAGNOSIS3")
+    private String mainComplaintDiagnosis3;
 
     @Column(name="VST_SECONDARY_COMPLAINT_SYMPTOM1")
     private String secondaryComplaintSymptom1;
@@ -109,7 +112,7 @@ public class Visit
         super();
     }
 
-    public Visit(int visitID, GregorianCalendar date, Patient patient, String note, boolean sms) {
+    public Visit(int visitID, Date date, Patient patient, String note, boolean sms) {
         super();
         this.visitID = visitID;
         this.date = date;
@@ -118,29 +121,29 @@ public class Visit
         this.sms = sms;
     }
 
-    public GregorianCalendar getDate() {
-        return date;
-    }
+//    public GregorianCalendar getDate() {
+//        return date;
+//    }
+//
+//    public void setDate(GregorianCalendar date) {
+//        this.date = date;
+//    }
+//
+//    public void setDate(Date date) {
+//        GregorianCalendar gregorian = new GregorianCalendar();
+//        gregorian.setTime(date);
+//        setDate(gregorian);
+//    }
 
-    public void setDate(GregorianCalendar date) {
-        this.date = date;
-    }
-
-    public void setDate(Date date) {
-        GregorianCalendar gregorian = new GregorianCalendar();
-        gregorian.setTime(date);
-        setDate(gregorian);
-    }
-
-    public String toString() {
-
-        return formatDateTime(this.date);
-    }
-
-    public String toStringSMS() {
-
-        return formatDateTimeSMS(this.date);
-    }
+//    public String toString() {
+//
+//        return formatDateTime(this.date);
+//    }
+//
+//    public String toStringSMS() {
+//
+//        return formatDateTimeSMS(this.date);
+//    }
 
     public String formatDateTime(GregorianCalendar time) {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy - HH:mm:ss"); //$NON-NLS-1$

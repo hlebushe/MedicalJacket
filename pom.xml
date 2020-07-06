@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.isf</groupId>
-    <artifactId>OH-web</artifactId>
+    <artifactId>mj</artifactId>
     <version>2.0</version>
-    <name>OpenHospital-web</name>
+    <name>MedicalJacket</name>
     <packaging>war</packaging>
 
     <properties>

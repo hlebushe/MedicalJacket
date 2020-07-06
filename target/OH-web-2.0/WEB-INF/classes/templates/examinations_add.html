@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>Open Hospital</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+    <div style="font-size: 20px;">Medical Jacket</div>
+    <span sec:authorize="isAuthenticated()">
+            Welcome: <span sec:authentication="name"></span> |
+            Roles: <span sec:authentication="principal.authorities"></span> |
+            <a th:href="@{/logout}">Sign Out</a>
+        </span>
+</nav>
+<div class="container text-center" style="margin-top: 3%;">
+    <div class="form-group">
+        <h3>Add Examinations</h3>
+    </div>
+    <form action="#" th:action="@{/examinations/add/{id}(id=${patient.code})}}" th:object="${examinations}" method="post" enctype="multipart/form-data">
+        <div class="form-container" style="width: 100%;">
+            <div style="width: 40%; margin-left: 30%;">
+                <div class="form-group required">
+                    <label for="respiratoryRate" class="custom-label col-form-label">Respiratory Rate(brth/min):</label>
+                    <input type="text" th:field="*{respiratoryRate}" class="form-control" id="respiratoryRate" required="true">
+                    <span th:if="${#fields.hasErrors('respiratoryRate')}" th:errors="*{respiratoryRate}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="o2Saturation" class="custom-label col-form-label">O2 Saturation(%):</label>
+                    <input type="text" th:field="*{o2Saturation}" class="form-control" id="o2Saturation" required="true">
+                    <span th:if="${#fields.hasErrors('o2Saturation')}" th:errors="*{o2Saturation}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="o2FlowRate" class="custom-label col-form-label">O2 Flow Rate(L/min):</label>
+                    <input type="text" th:field="*{o2FlowRate}" class="form-control" id="o2FlowRate" required="true">
+                    <span th:if="${#fields.hasErrors('o2FlowRate')}" th:errors="*{o2FlowRate}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="bloodPressureMax" class="custom-label col-form-label">Blood Pressure sys(mmHg):</label>
+                    <input type="text" th:field="*{bloodPressureMax}" class="form-control" id="bloodPressureMax" required="true">
+                    <span th:if="${#fields.hasErrors('bloodPressureMax')}" th:errors="*{bloodPressureMax}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="bloodPressureMin" class="custom-label col-form-label">Blood Pressure dia(mmHg):</label>
+                    <input type="text" th:field="*{bloodPressureMin}" class="form-control" id="bloodPressureMin" required="true">
+                    <span th:if="${#fields.hasErrors('bloodPressureMin')}" th:errors="*{bloodPressureMin}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="heartRate" class="custom-label col-form-label">Heart Rate(beats/min):</label>
+                    <input type="text" th:field="*{heartRate}" class="form-control" id="heartRate" required="true">
+                    <span th:if="${#fields.hasErrors('heartRate')}" th:errors="*{heartRate}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="temperature" class="custom-label col-form-label">Temperature(°C):</label>
+                    <input type="text" th:field="*{temperature}" class="form-control" id="temperature" required="true">
+                    <span th:if="${#fields.hasErrors('temperature')}" th:errors="*{temperature}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="bloodGlucoseLevel" class="custom-label col-form-label">Blood Glucose Levels:</label>
+                    <input type="text" th:field="*{bloodGlucoseLevel}" class="form-control" id="bloodGlucoseLevel" required="true">
+                    <span th:if="${#fields.hasErrors('bloodGlucoseLevel')}" th:errors="*{bloodGlucoseLevel}" class="text-danger"></span>
+                </div>
+                <div class="form-group required">
+                    <label for="weight" class="custom-label col-form-label">Weight:</label>
+                    <input type="text" th:field="*{weight}" class="form-control" id="weight" required="true">
+                    <span th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}" class="text-danger"></span>
+                </div>
+                <div class="form-group required" style="padding-bottom: 20px;">
+                    <label for="height" class="custom-label col-form-label">Height: </label>
+                    <input type="text" th:field="*{height}" class="form-control" id="height" required="true">
+                    <span th:if="${#fields.hasErrors('height')}" th:errors="*{height}" class="text-danger"></span>
+                </div>
+            </div>
+
+                <div class="form-group" style="margin-top: 50px;">
+                    <a type="button" class="btn btn-primary" th:href="@{/home}" style="width: 30%; float: left">Cancel</a>
+                    <button type="submit" class="btn btn-primary" style="width: 30%; margin-left: 40%; float: left">Save</button>
+                </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -306,4 +306,8 @@ public class ExaminationService {
         return prop;
     }
 
+    public Examinations saveExaminaions(Examinations examinations) {
+        return examinationRepository.save(examinations);
+    }
+
 }

@@ -48,7 +48,6 @@ public class Examinations {
     @Column(name = "EXAMINATION_HEIGHT")
     private Double height;
 
-
     @NotNull
     @ManyToOne
     @JoinColumn(name = "EXAMINATION_PAT_ID")
