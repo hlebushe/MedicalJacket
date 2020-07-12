@@ -7,7 +7,6 @@ import org.isf.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,12 +39,8 @@ public class DefaultController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findByUserName(auth.getName());
 
-		List<Patient> patients = new ArrayList<Patient>();
-		patients = patientService.findAll();
-
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("userName", "Welcome " + user.getUserName());
-		mv.addObject("patients", patients);
+		mv.addObject("userName", "Welcome " + user.getUserName() +"!");
 		mv.setViewName("home");
 		return mv;
 	}

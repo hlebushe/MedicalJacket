@@ -11,14 +11,16 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light">
-        <div style="font-size: 20px;">Medical Jacket</div>
-        <span sec:authorize="isAuthenticated()">
-            Welcome: <span sec:authentication="name"></span> |
-            Roles: <span sec:authentication="principal.authorities"></span> |
-            <a th:href="@{/logout}">Sign Out</a>
-        </span>
-    </nav>
+
+    <th:block th:include="fragments/header" :: header></th:block>
+<!--    <nav class="navbar navbar-light bg-light">-->
+<!--        <div style="font-size: 20px;">Medical Jacket</div>-->
+<!--        <span sec:authorize="isAuthenticated()">-->
+<!--            Welcome: <span sec:authentication="name"></span> |-->
+<!--            Roles: <span sec:authentication="principal.authorities"></span> |-->
+<!--            <a th:href="@{/logout}">Sign Out</a>-->
+<!--        </span>-->
+<!--    </nav>-->
     <div class="container text-center">
         <div class="form-group">
             <h3>Patients</h3>
@@ -52,7 +54,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                         <a class="dropdown-item" th:href="@{/patient/edit/{id}(id=${patient.code})}">Edit
                                         </a>
-                                        <a class="dropdown-item" th:href="@{/patient/visit/add/{id}(id=${patient.code})}">Add visit
+                                        <a class="dropdown-item" th:href="@{/patient/visit/add/{id}(id=${patient.code})}">Visits
                                         </a>
 <!--                                        TODO only for admins-->
                                         <a class="dropdown-item" th:href="@{/patient/examinations/add/{id}(id=${patient.code})}">Add examinations

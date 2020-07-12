@@ -1,15 +1,19 @@
 package org.isf.controller.web;
 
 import org.isf.dao.Examinations;
+import org.isf.dao.User;
 import org.isf.models.ExaminationsModel;
 import org.isf.dao.Patient;
 import org.isf.models.PreviousVisitModel;
+import org.isf.repository.UserRepository;
 import org.isf.service.CSVService;
 import org.isf.service.ExaminationService;
 import org.isf.service.PatientService;
 import org.isf.service.VisitService;
 import org.isf.dao.Visit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.validation.Valid;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -53,6 +56,24 @@ public class PatientController {
     @Autowired
     protected VisitService visitService;
 
+    @Autowired
+    protected UserRepository userRepository;
+
+    @GetMapping(value = "/list")
+    public ModelAndView getPatients(Model model) {
+        Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUserName(auth.getName());
+
+        List<Patient> patients = new ArrayList<Patient>();
+        patients = patientService.findAll();
+
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("userName", "Welcome " + user.getUserName());
+        mv.addObject("patients", patients);
+        mv.setViewName("patient_list");
+        return mv;
+    }
+
     @GetMapping(value = "/add")
     public ModelAndView getAddPatient(Model model) {
         ModelAndView mv = new ModelAndView();
@@ -70,13 +91,13 @@ public class PatientController {
 
         patientService.savePatient(patient);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/home"));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
     }
 
     @GetMapping("/delete/{id}")
     public ModelAndView deleteUser(@PathVariable("id") int code, Model model) {
         patientService.deleteByCode(code);
-        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/home"));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
     }
 
     @GetMapping("/edit/{id}")
@@ -110,7 +131,7 @@ public class PatientController {
 
         patientService.updatePatient(patient);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/home"));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
     }
 
     @GetMapping("/userPic/{id}")
@@ -153,7 +174,7 @@ public class PatientController {
             mv.setViewName("visit_add");
             return mv;
         } catch (Exception e) {
-            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/home"));
+            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
         }
     }
 
@@ -170,7 +191,7 @@ public class PatientController {
 
         visitService.saveVisit(visit);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/home"));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
     }
 
     @GetMapping("/examinations/add/{id}")
@@ -185,7 +206,7 @@ public class PatientController {
             mv.setViewName("examinations_add");
             return mv;
         } catch (Exception e) {
-            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/home"));
+            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
         }
     }
 

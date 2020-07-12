@@ -7,7 +7,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
     <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
-    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+<!--    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>-->
+    <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
 
 </head>
@@ -21,7 +22,7 @@
         </span>
 </nav>
 <div class="container text-center" style="margin-top: 3%;">
-    <div class="form-group">
+    <div class="form-group" style="padding-bottom: 30px;">
         <h3>Edit Patient</h3>
     </div>
     <form action="#" th:action="@{/patient/edit}" th:object="${patient}" method="post" enctype="multipart/form-data">
@@ -43,13 +44,11 @@
                     <input type="text" th:field="*{taxCode}" class="form-control" id="aadhaarNumber" required="true">
                     <span th:if="${#fields.hasErrors('taxCode')}" th:errors="*{taxCode}" class="text-danger"></span>
                 </div>
-                <div class="form-group required">
-                    <label for="birthDate" class="custom-label col-form-label">Birth date</label>
-                    <input type="text" th:field="*{birthDate}" class="form-control" id="birthDate" placeholder="Date of birth" onchange="showAge(this.value)" style="margin-bottom: 2px;" required="true">
-                    <span th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="text-danger"></span>
+                <div class="form-group required" style="margin-top: 2rem;">
+                    <input type="hidden" th:field="*{birthDate}" onchange="showAge(this.value)" required="true" name="birthDate" id="birthDate" />
                     <span id="age"></span>
                 </div>
-                <div class="form-group required" style="margin-top: 2rem; margin-bottom: 2rem;">
+                <div class="form-group required" style="margin-top: 3rem; margin-bottom: 2rem;">
                     <label class="radioLabel" style="float: left">Sex</label>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="male" name="male" class="custom-control-input" value="M" th:field="*{sex}" required="true">
@@ -131,6 +130,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="previousMedicalConditions" class="custom-label col-form-label">Previous Medical Conditions</label>
+                    <input type="text" th:field="*{previousMedicalConditions}" class="form-control" id="previousMedicalConditions">
+                    <span th:if="${#fields.hasErrors('previousMedicalConditions')}" th:errors="*{previousMedicalConditions}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="natureOfMedicalCondition" class="custom-label col-form-label">Nature of Medical condition</label>
+                    <input type="text" th:field="*{natureOfMedicalCondition}" class="form-control" id="natureOfMedicalCondition">
+                    <span th:if="${#fields.hasErrors('natureOfMedicalCondition')}" th:errors="*{natureOfMedicalCondition}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="hereditaryDiseasesInFamily" class="custom-label col-form-label">Hereditary Diseases in family</label>
+                    <input type="text" th:field="*{hereditaryDiseasesInFamily}" class="form-control" id="hereditaryDiseasesInFamily">
+                    <span th:if="${#fields.hasErrors('hereditaryDiseasesInFamily')}" th:errors="*{hereditaryDiseasesInFamily}" class="text-danger"></span>
+                </div>
                 <div class="form-group" style="margin-top: 50px;">
                     <a type="button" class="btn btn-primary" th:href="@{/home}" style="width: 100%;">Cancel</a>
                 </div>
@@ -160,7 +174,9 @@
                 </div>
                 <div class="form-group">
                     <label for="profession" class="custom-label col-form-label">Profession</label>
-                    <select class="form-control"th:field="*{profession}" id="profession">
+                    <input list="professions" class="form-control" th:field="*{profession}" id="profession">
+                    <datalist id="professions">
+                        <option th:value="''" th:text="''"></option>
                         <option th:value="'Agarbatti making'" th:text="'Agarbatti making'"></option>
                         <option th:value="'Agriculture'" th:text="'Agriculture'"></option>
                         <option th:value="'Agriculture machinery handling'" th:text="'Agriculture machinery handling'"></option>
@@ -287,7 +303,7 @@
                         <option th:value="'Wayside Mechanics and workshop service'" th:text="'Wayside Mechanics and workshop service'"></option>
                         <option th:value="'Welding'" th:text="'Welding'"></option>
                         <option th:value="'Any other similar Occupation'" th:text="'Any other similar Occupation'"></option>
-                    </select>
+                    </datalist>
                 </div>
                 <div class="form-group">
                     <label for="father_name" class="custom-label col-form-label">Fathername</label>
@@ -313,11 +329,6 @@
                         <label class="custom-control-label" for="ma">Alive</label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="nextKin" class="custom-label col-form-label">Next Kin</label>
-                    <input type="text" th:field="*{nextKin}" class="form-control" id="nextKin">
-                    <span th:if="${#fields.hasErrors('nextKin')}" th:errors="*{nextKin}" class="text-danger"></span>
-                </div>
                 <div class="form-group" style="margin-top: 2rem; margin-bottom: 2rem;">
                     <label style="float: left">Parents Together</label>
                     <div class="custom-control custom-radio custom-control-inline">
@@ -329,42 +340,70 @@
                         <label class="custom-control-label" for="parentTogethern">No</label>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="nextKin" class="custom-label col-form-label">Next of Kin</label>
+                    <input type="text" th:field="*{nextKin}" class="form-control" id="nextKin">
+                    <span th:if="${#fields.hasErrors('nextKin')}" th:errors="*{nextKin}" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="nextKinRelationship" class="custom-label col-form-label">Next of Kin Relationship</label>
+                    <select class="form-control" th:field="*{nextKinRelationship}" id="nextKinRelationship">
+                        <option th:value="'unmarried'" th:text="'unmarried'"></option>
+                        <option th:value="'married'" th:text="'married'"></option>
+                        <option th:value="'divorced'" th:text="'divorced'"></option>
+                        <option th:value="'widowed'" th:text="'widowed'"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nextKinTelephone" class="custom-label col-form-label">Next of Kin Telephone</label>
+                    <input type="text" th:field="*{nextKinTelephone}" class="form-control" id="nextKinTelephone">
+                    <span th:if="${#fields.hasErrors('nextKinTelephone')}" th:errors="*{nextKinTelephone}" class="text-danger"></span>
+                </div>
                 <div class="form-group" style="margin-top: 2rem; margin-bottom: 2rem;">
                     <label style="float: left">Has Health Cards</label>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="hy" name="hy" class="custom-control-input" value="Y" th:field="*{healthCards}">
+                        <input type="radio" id="hy" name="hy" class="custom-control-input" value="Y" th:field="*{healthCards}" onclick="showHealthCardDetails(true)">
                         <label class="custom-control-label" for="hy">Yes</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="hn" name="hn" class="custom-control-input" value="N" th:field="*{healthCards}">
+                        <input type="radio" id="hn" name="hn" class="custom-control-input" value="N" th:field="*{healthCards}" onclick="showHealthCardDetails(false)">
                         <label class="custom-control-label" for="hn">No</label>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="healthCardType" class="custom-label col-form-label" style="margin-right: 10px;">Health Card type</label>
+                    <input list="healthCards" class="form-control" th:field="*{healthCardType}" id="healthCardType">
+                    <datalist id="healthCards">
+                        <option th:value="'Arogyasir'" th:text="'Arogyasir'"></option>
+                        <option th:value="'ESI Card'" th:text="'ESI Card'"></option>
+                        <option th:value="''" th:text="''"></option>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="healthCardNumber" class="custom-label col-form-label">Health Card number</label>
+                    <input type="text" th:field="*{healthCardNumber}" class="form-control" id="healthCardNumber">
+                    <span th:if="${#fields.hasErrors('healthCardNumber')}" th:errors="*{healthCardNumber}" class="text-danger"></span>
                 </div>
                 <div class="form-group" style="margin-top: 2rem; margin-bottom: 2rem;">
                     <label style="float: left">Has Insurance</label>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="hasInsurancey" name="hasInsurancey" class="custom-control-input" value="Y" th:field="*{hasInsurance}">
+                        <input type="radio" id="hasInsurancey" name="hasInsurancey" class="custom-control-input" value="Y" th:field="*{hasInsurance}" onclick="showInsuranceDetails(true)">
                         <label class="custom-control-label" for="hasInsurancey">Yes</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="hasInsurancen" name="hasInsurancen" class="custom-control-input" value="N" th:field="*{hasInsurance}">
+                        <input type="radio" id="hasInsurancen" name="hasInsurancen" class="custom-control-input" value="N" th:field="*{hasInsurance}" onclick="showInsuranceDetails(false)">
                         <label class="custom-control-label" for="hasInsurancen">No</label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="previousMedicalConditions" class="custom-label col-form-label">Previous Medical Conditions</label>
-                    <input type="text" th:field="*{previousMedicalConditions}" class="form-control" id="previousMedicalConditions">
-                    <span th:if="${#fields.hasErrors('previousMedicalConditions')}" th:errors="*{previousMedicalConditions}" class="text-danger"></span>
+                    <label for="insuranceCompany" class="custom-label col-form-label">Insurance Company</label>
+                    <input type="text" th:field="*{insuranceCompany}" class="form-control" id="insuranceCompany">
+                    <span th:if="${#fields.hasErrors('insuranceCompany')}" th:errors="*{insuranceCompany}" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="natureOfMedicalCondition" class="custom-label col-form-label">Nature of Medical condition</label>
-                    <input type="text" th:field="*{natureOfMedicalCondition}" class="form-control" id="natureOfMedicalCondition">
-                    <span th:if="${#fields.hasErrors('natureOfMedicalCondition')}" th:errors="*{natureOfMedicalCondition}" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label for="hereditaryDiseasesInFamily" class="custom-label col-form-label">Hereditary Diseases in family</label>
-                    <input type="text" th:field="*{hereditaryDiseasesInFamily}" class="form-control" id="hereditaryDiseasesInFamily">
-                    <span th:if="${#fields.hasErrors('hereditaryDiseasesInFamily')}" th:errors="*{hereditaryDiseasesInFamily}" class="text-danger"></span>
+                    <label for="insuranceNumber" class="custom-label col-form-label">Insurance Number</label>
+                    <input type="text" th:field="*{insuranceNumber}" class="form-control" id="insuranceNumber">
+                    <span th:if="${#fields.hasErrors('insuranceNumber')}" th:errors="*{insuranceNumber}" class="text-danger"></span>
                 </div>
             </div>
             <div class="col">
@@ -396,32 +435,32 @@
                     </div>
                 </div>
                 <div class="form-group previousOperation previousOperation1">
-                    <label for="previousOperationNature1" class="custom-label col-form-label">Nature of operation</label>
+                    <label for="previousOperationNature1" class="custom-label col-form-label">Nature of first operation</label>
                     <input type="text" th:field="*{previousOperationNature1}" class="form-control previousOperationInput" id="previousOperationNature1">
                     <span th:if="${#fields.hasErrors('previousOperationNature1')}" th:errors="*{previousOperationNature1}" class="text-danger"></span>
                 </div>
                 <div class="form-group previousOperation previousOperation1">
-                    <label for="previousOperationYear1" class="custom-label col-form-label">Year of operation</label>
+                    <label for="previousOperationYear1" class="custom-label col-form-label">Year and month of first operation</label>
                     <input type="text" th:field="*{previousOperationYear1}" class="form-control previousOperationInput" id="previousOperationYear1">
                     <span th:if="${#fields.hasErrors('previousOperationYear1')}" th:errors="*{previousOperationYear1}" class="text-danger"></span>
                 </div>
                 <div class="form-group previousOperation previousOperation2">
-                    <label for="previousOperationNature2" class="custom-label col-form-label">Nature of operation</label>
+                    <label for="previousOperationNature2" class="custom-label col-form-label">Nature of second operation</label>
                     <input type="text" th:field="*{previousOperationNature2}" class="form-control previousOperationInput" id="previousOperationNature2">
                     <span th:if="${#fields.hasErrors('previousOperationNature2')}" th:errors="*{previousOperationNature2}" class="text-danger"></span>
                 </div>
                 <div class="form-group previousOperation previousOperation2">
-                    <label for="previousOperationYear2" class="custom-label col-form-label">Year of operation</label>
+                    <label for="previousOperationYear2" class="custom-label col-form-label">Year and month of second operation</label>
                     <input type="text" th:field="*{previousOperationYear2}" class="form-control previousOperationInput" id="previousOperationYear2">
                     <span th:if="${#fields.hasErrors('previousOperationYear2')}" th:errors="*{previousOperationYear1}" class="text-danger"></span>
                 </div>
                 <div class="form-group previousOperation previousOperation3">
-                    <label for="previousOperationNature3" class="custom-label col-form-label">Nature of operation</label>
+                    <label for="previousOperationNature3" class="custom-label col-form-label">Nature of third operation</label>
                     <input type="text" th:field="*{previousOperationNature3}" class="form-control previousOperationInput" id="previousOperationNature3">
                     <span th:if="${#fields.hasErrors('previousOperationNature3')}" th:errors="*{previousOperationNature3}" class="text-danger"></span>
                 </div>
                 <div class="form-group previousOperation previousOperation3">
-                    <label for="previousOperationYear3" class="custom-label col-form-label">Year of operation</label>
+                    <label for="previousOperationYear3" class="custom-label col-form-label">Year and month of third operation</label>
                     <input type="text" th:field="*{previousOperationYear3}" class="form-control previousOperationInput" id="previousOperationYear3">
                     <span th:if="${#fields.hasErrors('previousOperationYear3')}" th:errors="*{previousOperationYear3}" class="text-danger"></span>
                 </div>
@@ -435,9 +474,31 @@
         </div>
     </form>
 </div>
-<script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+
+    var birthDate = [[${patient.birthDate}]].substring(0,10);
+    /*]]>*/
+
     $(function () {
-        $("#birthDate").datepicker({ format: 'dd/mm/yyyy', });
+        $("#birthDate").dateDropdowns({
+            submitFormat: "dd/mm/yyyy",
+            // submitFieldName: 'birthDate',
+            defaultDate: birthDate
+        });
+
+        $(".day").addClass("form-control");
+        $(".month").addClass("form-control");
+        $(".year").addClass("form-control");
+
+        $(".day").css("width", "25%");
+        $(".month").css("width", "40%");
+        $(".year").css("width", "35%");
+
+        $(".day").css("float", "left");
+        $(".month").css("float", "left");
+        $(".year").css("float", "left");
     });
 
     function readURL(input) {
@@ -510,6 +571,32 @@
         }
     }
 
+    function showHealthCardDetails(show) {
+        if (show) {
+            document.getElementById("healthCardType").disabled = false;
+            document.getElementById("healthCardNumber").disabled = false;
+        } else {
+            document.getElementById("healthCardType").disabled = true;
+            document.getElementById("healthCardNumber").disabled = true;
+            document.getElementById("healthCardType").value = '';
+            document.getElementById("healthCardNumber").value = '';
+        }
+    }
+
+    function showInsuranceDetails(show) {
+        if (show) {
+            document.getElementById("insuranceCompany").disabled = false;
+            document.getElementById("insuranceNumber").disabled = false;
+        } else {
+            document.getElementById("insuranceCompany").disabled = true;
+            document.getElementById("insuranceNumber").disabled = true;
+            document.getElementById("insuranceCompany").value = '';
+            document.getElementById("insuranceNumber").value = '';
+        }
+    }
+
+
+
     function showSmokerDetails(show) {
         if (show) {
             document.getElementById("smokingADay").disabled = false;
@@ -525,9 +612,12 @@
     function showAlcoholDetails(show) {
         if (show) {
             document.getElementById("alcoholWeek").disabled = false;
+            document.getElementById("alcoholYears").disabled = false;
         } else {
             document.getElementById("alcoholWeek").disabled = true;
             document.getElementById("alcoholWeek").value = '';
+            document.getElementById("alcoholYears").disabled = true;
+            document.getElementById("alcoholYears").value = '';
         }
     }
 
