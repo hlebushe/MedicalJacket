@@ -89,24 +89,24 @@ public class Patient  {
     private String mother_name; // mother's name
 
     @Column(name="PAT_MOTH")
-    private char mother = ' '; // D=dead, A=alive
+    private Character mother; // D=dead, A=alive
 
     @NotNull
     @Column(name="PAT_FATH_NAME")
     private String father_name; // father's name
 
     @Column(name="PAT_FATH")
-    private char father = ' '; // D=dead, A=alive
+    private Character father; // D=dead, A=alive
 
     @NotNull
     @Column(name="PAT_BTYPE")
     private String bloodType; // (0-/+, A-/+ , B-/+, AB-/+)
 
     @Column(name="PAT_ESTA")
-    private char hasInsurance = ' '; // Y=Yes, N=no
+    private Character hasInsurance; // Y=Yes, N=no
 
     @Column(name="PAT_PTOGE")
-    private char parentTogether = ' '; // parents together: Y or N
+    private Character parentTogether;
 
     @Column(name="PAT_TAXCODE")
     private String taxCode;
@@ -243,12 +243,8 @@ public class Patient  {
         this.nextKin = "";
         this.telephone = "";
         this.mother_name = "";
-        this.mother = ' ';
         this.father_name = "";
-        this.father = ' ';
         this.bloodType = "";
-        this.hasInsurance = ' ';
-        this.parentTogether = ' ';
         this.taxCode = "";
         this.height = 0;
         this.weight = 0;

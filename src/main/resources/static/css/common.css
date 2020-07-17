@@ -15,15 +15,15 @@ h3 {
     margin-top: 3%;
 }
 
-.form-group.required .col-form-label:after {
+.form-group.required .input-group-prepend .input-group-text:after {
     content:"*";
     color:red;
 }
 
-.form-group.required .radioLabel:after {
-    content:"*";
-    color:red;
-}
+/*.form-group.required .radioLabel:after {*/
+/*    content:"*";*/
+/*    color:red;*/
+/*}*/
 
 .border-group {
     border: 1px solid #ccc;
@@ -94,4 +94,85 @@ h3 {
 
 a {
     text-decoration: none!important;
+}
+
+.nav-item {
+     width: 25%;
+     color: #ffffff;
+     background-color: #625e96;
+     border-bottom-left-radius: 20px;
+     border-top-right-radius: 20px;
+     border-bottom-right-radius: 5px;
+     border-top-left-radius: 5px;
+ }
+
+.nav-item.active {
+    width: 25%;
+    color: #ffffff;
+    background-color: #625e96;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom: 7px solid #e7a296;
+}
+
+.nav-item33 {
+    width: 33%;
+}
+
+
+.nav-item33.active {
+    width: 33%;
+}
+
+.nav-link.active {
+    color: #ffffff!important;
+    background-color: #625e96!important;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.nav-item a {
+    color: #ffffff;
+}
+
+.action-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.action-label {
+    color: #000000;
+}
+
+.input-group-prepend1 {
+    width: 30%;
+}
+
+.input-group-prepend2 {
+    width: 50%;
+}
+
+.input-group-prepend3 {
+    width: 40%;
+}
+
+.input-group-text {
+    width: 100%;
+    border: 1px dotted #aeacab;
+    color: #06215c;
+    background-color: white;
+}
+
+#btn-sub {
+    background-image: url(../images/save.png);
+    float: left;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: #ffffff;
+    margin-top: 3px;
+}
+
+input[class="form-control"] {
+    border: 1px dotted #aeacab;
 }

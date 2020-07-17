@@ -11,66 +11,13 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/plugins/sortable.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/css/fileinput.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
     <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
     <style>
-        .nav-item {
-            width: 25%;
-            color: #ffffff;
-            background-color: #625e96;
-            border-bottom-left-radius: 20px;
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 5px;
-            border-top-left-radius: 5px;
-        }
-
-        .nav-item.active {
-            width: 25%;
-            color: #ffffff;
-            background-color: #625e96;
-            border-bottom-left-radius: 20px;
-            border-top-right-radius: 20px;
-            border-bottom: 7px solid #e7a296;
-        }
-
-        .nav-link.active {
-            color: #ffffff!important;
-            background-color: #625e96!important;
-            border-bottom-left-radius: 20px;
-            border-top-right-radius: 20px;
-        }
-
-        .nav-item a {
-            color: #ffffff;
-        }
-
-        .action-icon {
-            width: 50px;
-            height: 50px;
-        }
-
-        .action-label {
-            color: #000000;
-        }
-
-        .input-group-prepend1 {
-            width: 30%;
-        }
-
-        .input-group-prepend2 {
-            width: 50%;
-        }
-
-        .input-group-prepend3 {
-            width: 40%;
-        }
-
-        .input-group-text {
-            width: 100%;
-            border: 1px dotted #aeacab;
-            color: #06215c;
-            background-color: white;
-        }
-
         .day {
             padding: 8px;
         }
@@ -79,15 +26,45 @@
             padding: 8px;
         }
 
-        input[class="form-control"] {
-            border: 1px dotted #aeacab;
-        }
-
         .previousOperationInput {
             height: 62px;
         }
 
+        .kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
+            margin: 0;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+            text-align: center;
+        }
+        .kv-avatar {
+            display: inline-block;
+        }
+        .kv-avatar .file-input {
+            display: table-cell;
+            width: 213px;
+        }
+        .kv-reqd {
+            color: red;
+            font-family: monospace;
+            font-weight: normal;
+        }
 
+        .file-footer-caption {
+            margin-bottom: 0px !important;
+        }
+
+        .file-drop-zone .file-preview-thumbnails{
+            display: inline-block;
+        }
+
+        .krajee-default .file-actions{
+            padding-top: 30px; /* Move delete/vew buttons down to accomodate progress messages */
+        }
+
+        .kv-fileinput-error ul {
+            margin: 0 0 0 1rem;
+        }
     </style>
 </head>
 <body>
@@ -109,10 +86,9 @@
 <form id="form_patient" th:action="@{/patient/add}" th:object="${patient}" method="post" enctype="multipart/form-data">
 <div class="container text-center" style="margin-top: 3%;">
     <div class="form-group" style="display: flex;">
-        <a href="" onclick="document.getElementById('form_patient').submit();" style="float: left">
-            <img class="action-icon" alt="" th:src="@{/images/save.png}">
-            <p class="action-label">Save</p>
-        </a>
+        <button type="submit" id="btn-sub">
+            <p class="action-label" style="margin-top: 45.5px;">Save</p>
+        </button>
         <a th:href="@{/patient/list}" style="margin-left: 2%;">
             <img class="action-icon" alt="" th:src="@{/images/discard.png}">
             <p class="action-label">Discard</p>
@@ -137,10 +113,6 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <div style="display: flex;"><label for="photo" class="custom-label col-form-label">Patient Photo</label></div>
-                        <div style="height: 200px; margin-bottom: 3%; background-color: #ffffff;">
-                            <img id="userPic" src="#" alt="your image" style="display: none; width: 100%; height: 100%;"/>
-                        </div>
                         <input th:field="*{photo}" type="file" id="photo"/>
                     </div>
                 </div>
@@ -375,6 +347,7 @@
                             <span class="input-group-text">Email</span>
                         </div>
                         <input type="text" th:field="*{email}" class="form-control" id="email">
+                        <span id="email_validator" style="color: red;width: 100%;font-size: 12px;">Invalid email address</span>
                     </div>
                 </div>
                 <div class="col">
@@ -389,6 +362,7 @@
                             <span class="input-group-text">Blood Type</span>
                         </div>
                         <select class="form-control" th:field="*{bloodType}" id="bloodType">
+                            <option th:value="'unknown'" th:text="'unknown'"></option>
                             <option th:value="'0-'" th:text="'0-'"></option>
                             <option th:value="'0+'" th:text="'0+'"></option>
                             <option th:value="'A-'" th:text="'A-'"></option>
@@ -410,12 +384,6 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Previous Medical Conditions</span>
                         </div>
                         <input type="text" th:field="*{previousMedicalConditions}" class="form-control" id="previousMedicalConditions" style="height: 62px;">
-                    </div>
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text">Existing Medication</span>
-                        </div>
-                        <input th:field="*{existingMedication}" type="file" id="existingMedication"/>
                     </div>
                 </div>
                 <div class="col">
@@ -481,6 +449,14 @@
                     </div>
                 </div>
                 <div class="col">
+                </div>
+            </div>
+            <div class="form-group input-group" style="width: 66%;">
+                <div class="input-group-prepend input-group-prepend2" style="width: 24%;">
+                    <span class="input-group-text">Existing Medication</span>
+                </div>
+                <div class="form-control">
+                    <input th:field="*{existingMedication}" type="file" id="existingMedication"/>
                 </div>
             </div>
         </div>
@@ -555,10 +531,18 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Next of Kin Relationship</span>
                         </div>
                         <select class="form-control" th:field="*{nextKinRelationship}" id="nextKinRelationship" style="height: 62px;">
-                            <option th:value="'unmarried'" th:text="'unmarried'"></option>
-                            <option th:value="'married'" th:text="'married'"></option>
-                            <option th:value="'divorced'" th:text="'divorced'"></option>
-                            <option th:value="'widowed'" th:text="'widowed'"></option>
+                            <option th:value="'Father'" th:text="'Father'"></option>
+                            <option th:value="'Mother'" th:text="'Mother'"></option>
+                            <option th:value="'Brother'" th:text="'Brother'"></option>
+                            <option th:value="'Sisiter'" th:text="'Sisiter'"></option>
+                            <option th:value="'Father-in-law'" th:text="'Father-in-law'"></option>
+                            <option th:value="'Mother-in-law'" th:text="'Mother-in-law'"></option>
+                            <option th:value="'Brother-in-law'" th:text="'Brother-in-law'"></option>
+                            <option th:value="'Sisiter-in-law'" th:text="'Sisiter-in-law'"></option>
+                            <option th:value="'Wife'" th:text="'Wife'"></option>
+                            <option th:value="'Guardian'" th:text="'Guardian'"></option>
+                            <option th:value="'Friend'" th:text="'Friend'"></option>
+                            <option th:value="'Other'" th:text="'Other'"></option>
                         </select>
                     </div>
                     <div class="form-group input-group">
@@ -714,25 +698,20 @@
         $(".month").css("float", "left");
         $(".year").css("float", "left");
 
+        $("#email_validator").hide();
     });
 
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
+    $('#email').on('input', function() {
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
-            reader.onload = function (e) {
-                $('#userPic').css('display', 'block');
-                $('#userPic').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
+        if (reg.test($(this).val()) == false)
+        {
+            $("#email_validator").show();
+        } else {
+            $("#email_validator").hide();
         }
-    }
 
-    $("#photo").change(function(){
-        readURL(this);
     });
-
 
 </script>
 <script>
@@ -895,6 +874,105 @@
 
         return ageString;
     }
+</script>
+<script>
+    jQuery(function ($) {
+
+        var fileInputSettingsProfilepic =
+            {
+                // -------------------- look and feel
+                initialPreviewAsData: true, // this setting shows the preview image
+                showClose: false,
+                showCaption: false,
+                msgErrorClass: 'alert alert-block alert-danger text-left',
+                dropZoneTitle: "Click <i class='fas fa-folder-open h5'></i> to upload photo...",
+                layoutTemplates: { main2: '<div class="d-flex align-items-center flex-column"><div>{preview}</div><div>{browse}{upload}</div></div>' },
+
+                // Both settings are required to remove files from preview on error. retryErrorUploads was added in v5.0.0 as part of the resumable uploads.
+                removeFromPreviewOnError: true,
+                retryErrorUploads: false,
+
+                // "true" works only for JPEG images and only for client-side orientation.
+                // Also, if "true", autoorient is broken on the phone. Use server side rotation during upload instead.
+                // If autoOrientImage is not set to false, "Error loading the piexif.js library." appears.
+                autoOrientImage: false,
+
+                // Plugin logs to help developers see issues in their setup. Show in Chrome console. Set to false for PROD.
+                showConsoleLogs:true,
+
+
+
+                // ---------------------- upload button styling and function
+                showUpload: true,
+                uploadLabel: 'Upload',
+                uploadClass: "btn btn-warning btn-sm mx-2 mt-2",
+                uploadIcon: '<i class="fas fa-upload"></i>',
+                uploadUrl: '/endpoint/endpoint-pro-upload-profilepic-file/',
+                uploadAsync: true,
+                msgUploadEmpty: "Please select some files to upload.",
+                msgUploadBegin: "",
+
+                // ----------------------- browse button styling and function
+                showBrowse: true,
+                browseOnZoneClick: false,
+                browseLabel: 'Browse...',
+                browseClass: "btn  btn-secondary btn-sm mx-2 mt-2",
+                browseIcon: '<i class="fas fa-folder-open"></i>',
+
+                // ---------------------- remove button styling and function
+                showRemove: false,
+
+                // --------------------- validations
+                allowedFileExtensions: ['jpg', 'png', 'jpeg'],
+                allowedPreviewTypes: ['image'],
+                maxFileSize: 10000,
+                minFileSize: 100,
+                msgSizeTooSmall: 'File "{name}" ({size} KB) is too small. To maintain quality, we ask that image sizes are no less than {minSize} KB in size.',
+                //maxFileCount: 1,
+                msgFilesTooMany: 'Please choose only 1 profile picture. You can add more photos later in "Get real - photos" section.',
+                //validateInitialCount: false,
+                maxFileSize: 10000,
+                minFileSize: 100,
+                msgSizeTooSmall: 'File "{name}" ({size} KB) is too small. To maintain quality, we ask that image sizes are no less than {minSize} KB in size.',
+
+                // ---------------------- initial preview
+                overwriteInitial: true, // if true, any initialPreview content will be overwritten with new upload
+                msgValidationErrorIcon: '<i class="fas fa-exclamation-circle"></i> ',
+                msgZoomModalHeading: "Image zoom view",
+                showClose: false, // Top right button, which clears new files and validation errors. It does not get disabled during upload, resulting in unpredictable behavior, if user clicks it.
+
+                // ---------------------- file action settings in preview area
+                fileActionSettings: {
+                    removeIcon: '<i class="fas fa-trash-alt"></i>',
+                    zoomIcon: '<i class="fas fa-search-plus"></i>',
+                    zoomTitle: 'Image zoom',
+
+                    showDownload: false,
+                    showUpload: false,
+                    showZoom: true,
+                },
+
+                previewZoomButtonClasses: {
+                    prev: 'btn btn-navigate',
+                    next: 'btn btn-navigate',
+                    toggleheader: 'd-none',
+                    fullscreen: 'd-none',
+                    borderless: 'd-none',
+                    close: 'btn btn-kv btn-default btn-outline-secondary'
+                },
+
+                previewZoomButtonIcons: {
+                    close: '<i class="fas fa-times"></i>',
+                    prev: '<i class="fas fa-angle-left"></i>',
+                    next: '<i class="fas fa-angle-right"></i>',
+                },
+            }; // fileInputSettingsProfilepic object
+
+        $("#photo")
+        // Assign fileInputSettings to the drpozone.
+            .fileinput(fileInputSettingsProfilepic)
+
+    }); // end jQuery $ function
 </script>
 </body>
 </html>

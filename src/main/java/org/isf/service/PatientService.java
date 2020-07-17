@@ -25,12 +25,12 @@ public class PatientService {
         repository.deleteByCode(code);
     }
 
-    public List<Patient> findPatientByCode(int code) {
-        return repository.findAllWhereId(code);
+    public Patient findPatientByCode(int code) {
+        return repository.findByCode(code);
     }
 
     public boolean updatePatient(Patient patient) {
-        Patient patientFromDB = repository.findAllWhereId(patient.getCode()).get(0);
+        Patient patientFromDB = repository.findByCode(patient.getCode());
 
         if (patientFromDB == null) {
             return false;

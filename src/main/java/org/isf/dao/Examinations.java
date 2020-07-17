@@ -6,6 +6,7 @@ import org.isf.dao.Visit;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -47,6 +48,13 @@ public class Examinations {
 
     @Column(name = "EXAMINATION_HEIGHT")
     private Double height;
+
+    @NotNull
+    @Column(name = "EXAMINATIONS_DATE")
+    private Date date;
+
+    @Column(name = "EXAMINATIONS_SMELL")
+    private String smell;
 
     @NotNull
     @ManyToOne

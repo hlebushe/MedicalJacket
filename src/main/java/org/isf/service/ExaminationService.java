@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 @Service
@@ -32,9 +33,14 @@ public class ExaminationService {
 
     private String level0 = "#000000";
 
-    public Examinations getExaminationByPatient(Patient patient) {
-        return examinationRepository.getByPatient(patient);
+//    public Examinations getExaminationByPatient(Patient patient) {
+//        return examinationRepository.getAllByPatient(patient).get(0);
+//    }
+
+    public Examinations getLastExaminationByPatient(Patient patient) {
+        return examinationRepository.getByPatientAndOrderByDate(patient).get(0);
     }
+
 
     public ExaminationsModel setExaminationColors(ExaminationsModel examination, Patient patient) throws IOException, ParseException {
 
@@ -281,6 +287,20 @@ public class ExaminationService {
                 score = score + 1;
             } else {
                 examination.setBloodGlucoseLevelColor(level0);
+            }
+
+            if (examination.getSmell() == null) {
+                examination.setSmellColor(level0);
+            } else if (examination.getSmell() == "normal") {
+                examination.setSmellColor(level0);
+            } else if (examination.getSmell() == "week") {
+                examination.setSmellColor(level1);
+                score = score + 1;
+            } else if (examination.getSmell() == "no sense") {
+                examination.setSmellColor(level2);
+                score = score + 2;
+            } else {
+                examination.setSmellColor(level0);
             }
 
             examination.setBodyMassIndexColor(level0);

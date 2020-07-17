@@ -8,68 +8,73 @@
     <script src="webjars/jquery/3.5.0/jquery.min.js"></script>
     <script src="webjars/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .form-control {
+            border-style: none;
+        }
 
+        .link-label {
+            width: 70%;
+            margin-left: 15%;
+            padding: 8px;
+            background-color: #827da0;
+            color: #ffffff;
+            border-radius: 15px;
+            margin-top: 2%;
+        }
+    </style>
 </head>
 <body>
-
-    <th:block th:include="fragments/header" :: header></th:block>
-<!--    <nav class="navbar navbar-light bg-light">-->
-<!--        <div style="font-size: 20px;">Medical Jacket</div>-->
-<!--        <span sec:authorize="isAuthenticated()">-->
-<!--            Welcome: <span sec:authentication="name"></span> |-->
-<!--            Roles: <span sec:authentication="principal.authorities"></span> |-->
-<!--            <a th:href="@{/logout}">Sign Out</a>-->
-<!--        </span>-->
-<!--    </nav>-->
-    <div class="container text-center">
-        <div class="form-group">
-            <h3>Patients</h3>
-            <a class="btn btn-primary add-button" th:href="@{/patient/add}" role="button" style="width: 20%;">
-                Add Patient
-            </a>
+<nav class="navbar navbar-light header-custom">
+    <div class="header-left">
+        <span style="float: left;font-size: 24px;font-weight: bold;">Home page</span>
+        <a style="float: left;clear: both;color: #ffffff;" th:href="@{/logout}">Sign Out</a>
+    </div>
+    <div class="header-right">
+        <div class="header-logo">
+            <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
         </div>
-        <div class="form-group">
-            <div th:switch="${patients}">
-                <h2 th:case="null">No patients</h2>
-                <div th:case="*">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Age</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Edit</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="patient : ${patients}">
-                            <td th:text="${patient.name}"></td>
-                            <td th:text="${patient.age}"></td>
-                            <td th:text="${patient.address}"></td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary table-menu" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="glyphicon glyphicon-option-horizontal"></span>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        <a class="dropdown-item" th:href="@{/patient/edit/{id}(id=${patient.code})}">Edit
-                                        </a>
-                                        <a class="dropdown-item" th:href="@{/patient/visit/add/{id}(id=${patient.code})}">Visits
-                                        </a>
-<!--                                        TODO only for admins-->
-                                        <a class="dropdown-item" th:href="@{/patient/examinations/add/{id}(id=${patient.code})}">Add examinations
-                                        </a>
-                                        <a class="dropdown-item" th:href="@{/patient/delete/{id}(id=${patient.code})}">Delete
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div class="header-headings">
+            <h1 style="font-weight: bold">MEDJACKET</h1>
+            <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
+        </div>
+    </div>
+</nav>
+<div class="container text-center">
+    <div class="form-control" style="margin-top: 2%;">
+        <h4 th:text="${userName}" style="float: left";></h4>
+    </div>
+    <div class="form-control" style="display: inline;">
+        <div class="row">
+            <div class="col">
+                <a th:href="@{/patient/list}">
+                    <img th:src="@{/images/patient.png}" alt="">
+                    <p class="link-label">Patient</p>
+                </a>
+            </div>
+            <div class="col">
+                <a href="#">
+                    <img alt="" th:src="@{/images/laboratory.png}">
+                    <p class="link-label">Laboratory</p>
+                </a>
+            </div>
+            <div class="col">
+                <a href="#">
+                    <img alt="" th:src="@{/images/pharmacy.png}">
+                    <p class="link-label">Pharmacy</p>
+                </a>
+            </div>
+            <div class="col">
+                <a href="#">
+                    <img alt="" th:src="@{/images/nursing_station.png}">
+                    <p class="link-label">Nursing station</p>
+                </a>
             </div>
         </div>
     </div>
+    <div class="form-control" style="font-size: 22px;">
+        <p>Please click the Module Icon you would like to log in and use</p>
+    </div>
+</div>
 </body>
 </html>

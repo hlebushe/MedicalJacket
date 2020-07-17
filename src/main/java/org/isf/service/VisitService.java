@@ -12,13 +12,13 @@ import java.util.List;
 public class VisitService {
 
     @Autowired
-    VisitRepository visitsIoOperationRepository;
+    VisitRepository visitRepository;
 
     public Visit saveVisit(Visit visit) {
-        return visitsIoOperationRepository.save(visit);
+        return visitRepository.save(visit);
     }
 
     public List<Visit> findAllByPatient(Patient patient) {
-        return visitsIoOperationRepository.findAllWherePatientByOrderPatientAndDateAsc(patient.getCode());
+        return visitRepository.findAllWherePatientByOrderPatientAndDateAsc(patient.getCode());
     };
 }

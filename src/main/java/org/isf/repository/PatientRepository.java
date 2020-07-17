@@ -27,5 +27,7 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(value = "SELECT * FROM PATIENT WHERE PAT_ID = :id", nativeQuery= true)
     List<Patient> findAllWhereId(@Param("id") Integer id);
 
+    Patient findByCode(Integer code);
+
 
 }

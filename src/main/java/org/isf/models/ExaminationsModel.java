@@ -45,6 +45,12 @@ public class ExaminationsModel {
 
     private String bodyMassIndexColor;
 
+    private String smell;
+
+    private String smellColor;
+
+    private String date;
+
     private Integer score;
 
     final double METER = 0.01;
@@ -59,6 +65,8 @@ public class ExaminationsModel {
         this.heartRate = examination.getHeartRate();
         this.temperature = examination.getTemperature();
         this.bloodGlucoseLevel = examination.getBloodGlucoseLevel();
+        this.smell = examination.getSmell();
+        this.date = examination.getDate().toString().substring(0, examination.getDate().toString().length() - 10);
         Double heightInMeters = examination.getHeight()*METER;
         this.bodyMassIndex = round(examination.getWeight()/(heightInMeters*heightInMeters), 2);
     }
@@ -215,12 +223,36 @@ public class ExaminationsModel {
         this.bloodGlucoseLevelColor = bloodGlucoseLevelColor;
     }
 
+    public String getSmell() {
+        return smell;
+    }
+
+    public void setSmell(String smell) {
+        this.smell = smell;
+    }
+
+    public String getSmellColor() {
+        return smellColor;
+    }
+
+    public void setSmellColor(String smellColor) {
+        this.smellColor = smellColor;
+    }
+
     public String getBodyMassIndexColor() {
         return bodyMassIndexColor;
     }
 
     public void setBodyMassIndexColor(String bodyMassIndexColor) {
         this.bodyMassIndexColor = bodyMassIndexColor;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public static Double round(Double value, int places) {

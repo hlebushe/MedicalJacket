@@ -13,18 +13,17 @@ h3 {
 
 .row {
     margin-top: 3%;
-    background-color: #f2f2f2;
 }
 
-.form-group.required .col-form-label:after {
+.form-group.required .input-group-prepend .input-group-text:after {
     content:"*";
     color:red;
 }
 
-.form-group.required .radioLabel:after {
-    content:"*";
-    color:red;
-}
+/*.form-group.required .radioLabel:after {*/
+/*    content:"*";*/
+/*    color:red;*/
+/*}*/
 
 .border-group {
     border: 1px solid #ccc;
@@ -58,4 +57,41 @@ h3 {
     color: #000000;
     background-color: #ffffff;
     border: none;
+}
+
+.header-custom {
+    background-color: #38367a;
+    color: #ffffff;
+    padding: 0!important;
+}
+
+.header-left {
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+.header-logo {
+    float: left;
+    margin-right: 15px;
+}
+
+.header-headings {
+    float: right;
+    padding-right: 10px;
+}
+
+.button-default {
+    background-color: #827da0;
+}
+
+.button-action {
+    color: #000000!important;
+    border: none!important;
+    width: 20%;
+    background-color: #e8a296!important;
+    font-size: 22px!important;
+}
+
+a {
+    text-decoration: none!important;
 }
