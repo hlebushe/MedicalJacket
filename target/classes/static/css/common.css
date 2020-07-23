@@ -124,6 +124,15 @@ a {
     width: 33%;
 }
 
+.nav-item50 {
+    width: 50%;
+}
+
+
+.nav-item50.active {
+    width: 50%;
+}
+
 .nav-link.active {
     color: #ffffff!important;
     background-color: #625e96!important;

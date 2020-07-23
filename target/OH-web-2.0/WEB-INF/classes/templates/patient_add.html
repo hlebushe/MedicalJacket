@@ -16,68 +16,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/css/fileinput.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css"/>
     <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
     <style>
-        .nav-item {
-            width: 25%;
-            color: #ffffff;
-            background-color: #625e96;
-            border-bottom-left-radius: 20px;
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 5px;
-            border-top-left-radius: 5px;
-        }
-
-        .nav-item.active {
-            width: 25%;
-            color: #ffffff;
-            background-color: #625e96;
-            border-bottom-left-radius: 20px;
-            border-top-right-radius: 20px;
-            border-bottom: 7px solid #e7a296;
-        }
-
-        .nav-link.active {
-            color: #ffffff!important;
-            background-color: #625e96!important;
-            border-bottom-left-radius: 20px;
-            border-top-right-radius: 20px;
-        }
-
-        .nav-item a {
-            color: #ffffff;
-        }
-
-        .action-icon {
-            width: 50px;
-            height: 50px;
-        }
-
-        .action-label {
-            color: #000000;
-        }
-
-        .input-group-prepend1 {
-            width: 30%;
-        }
-
-        .input-group-prepend2 {
-            width: 50%;
-        }
-
-        .input-group-prepend3 {
-            width: 40%;
-        }
-
-        .input-group-text {
-            width: 100%;
-            border: 1px dotted #aeacab;
-            color: #06215c;
-            background-color: white;
-        }
-
         .day {
             padding: 8px;
         }
@@ -86,22 +26,8 @@
             padding: 8px;
         }
 
-        input[class="form-control"] {
-            border: 1px dotted #aeacab;
-        }
-
         .previousOperationInput {
             height: 62px;
-        }
-
-        #btn-sub {
-            background-image: url(../images/save.png);
-            float: left;
-            background-size: contain;
-            background-repeat: no-repeat;
-            border: none;
-            background-color: #ffffff;
-            margin-top: 3px;
         }
 
         .kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
@@ -421,6 +347,7 @@
                             <span class="input-group-text">Email</span>
                         </div>
                         <input type="text" th:field="*{email}" class="form-control" id="email">
+                        <span id="email_validator" style="color: red;width: 100%;font-size: 12px;">Invalid email address</span>
                     </div>
                 </div>
                 <div class="col">
@@ -771,23 +698,19 @@
         $(".month").css("float", "left");
         $(".year").css("float", "left");
 
+        $("#email_validator").hide();
     });
 
-    $(document).ready(function() {
-        $('#form_patient').bootstrapValidator({
-            fields: {
-                email: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The email address is required and cannot be empty'
-                        },
-                        emailAddress: {
-                            message: 'The email address is not a valid'
-                        }
-                    }
-                }
-            }
-        });
+    $('#email').on('input', function() {
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+        if (reg.test($(this).val()) == false)
+        {
+            $("#email_validator").show();
+        } else {
+            $("#email_validator").hide();
+        }
+
     });
 
 </script>

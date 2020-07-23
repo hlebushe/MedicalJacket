@@ -19,6 +19,8 @@ public class PreviousVisitModel {
     private String mainComplaintDiagnosis;
     private String secondComplaintSymptoms;
     private String secondComplaintDiagnosis;
+    private String treatment;
+    private String management;
 
 
     public PreviousVisitModel(Visit visit) {
@@ -57,5 +59,8 @@ public class PreviousVisitModel {
         this.secondComplaintSymptoms = secCompSympt;
 
         this.secondComplaintDiagnosis = visit.getSecondaryComplaintDiagnosis();
+
+        this.treatment = visit.getMedicinePrescribed();
+        this.management = visit.getGeneralInstructions();
     }
 }

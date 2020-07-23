@@ -12,6 +12,7 @@
 <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
     <style>
         p {
             margin-bottom: 2px;
@@ -58,7 +59,7 @@
 
     <div class="container text-center" style="margin-top: 3%;">
         <div class="form-group" style="display: flex;">
-            <button type="submit" id="btn-sub">
+            <button type="submit" id="btn-sub" form="addVisit">
                 <p class="action-label" style="margin-top: 45.5px;">Save</p>
             </button>
             <a th:href="@{/patient/list}" style="margin-left: 2%;">
@@ -78,10 +79,10 @@
             </li>
         </ul>
         <div>
-            <div style="margin-bottom: 3%; background-color: #ffffff; width: 20%; float: left;">
-                <img id="userPic" th:src="@{/patient/userPic/{id}(id=${patient.code})}" alt="your image" style="width: 100%; height: 100%;"/>
+            <div style="margin-bottom: 3%; background-color: #ffffff; width: 20%; float: left; height: 147px;">
+                <img id="userPic" th:src="@{/patient/userPic/{id}(id=${patient.code})}" alt="your image" style="max-width: 100%; max-height: 100%;"/>
             </div>
-            <table class="table" style="margin-top: 15px; width: 79%;">
+            <table class="table" style="margin-top: 15px; width: 79%; margin-left: 1%;">
                 <tbody>
                 <tr>
                     <td class="patient_td" th:text="*{patient.firstName + ' ' + patient.secondName}"></td>
@@ -320,13 +321,43 @@
                                 </div>
                         </div>
                         <div class="col">
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend input-group-prepend2">
+                                    <span class="input-group-text" style="white-space: unset; text-align: left;">Medicine Prescribed</span>
+                                </div>
+                                <input style="height: 62px;" class="form-control" th:field="*{medicinePrescribed}" id="medicinePrescribed">
+                            </div>
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend input-group-prepend2">
+                                    <span class="input-group-text" style="white-space: unset; text-align: left;">General Instructions</span>
+                                </div>
+                                <input style="height: 62px;" class="form-control" th:field="*{generalInstructions}" id="generalInstructions">
+                            </div>
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend input-group-prepend2">
+                                    <span class="input-group-text" style="white-space: unset; text-align: left;">Examinations Prescribed</span>
+                                </div>
+                                <input style="height: 62px;" class="form-control" th:field="*{examinationsPrescribed}" id="examinationsPrescribed">
+                            </div>
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend input-group-prepend2">
+                                    <span class="input-group-text" style="white-space: unset; text-align: left;">Advisory</span>
+                                </div>
+                                <input style="height: 62px;" class="form-control" th:field="*{advisory}" id="advisory">
+                            </div>
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend input-group-prepend1" style="float: left; width: 100%;">
+                                    <span class="input-group-text">Next Visit Date</span>
+                                </div>
+                                <input class="form-control" type="hidden" th:field="*{nextVisitDate}" name="nextVisitDate" id="nextVisitDate" />
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="tab-pane" id="2">
                 <div class="form-group">
-                    <div th:switch="${visits}">
+                    <div th:switch="*{visits}">
                         <h2 th:case="null">No previous visits</h2>
                         <div th:case="*">
                             <table class="table">
@@ -334,20 +365,20 @@
                                 <tr>
                                     <th scope="col">Date</th>
                                     <th scope="col">Type</th>
-                                    <th scope="col">Main Complaint Symptoms</th>
-                                    <th scope="col">Main Complaint Diagnosis</th>
-                                    <th scope="col">Second Complaint Symptoms</th>
-                                    <th scope="col">Second Complaint Diagnosis</th>
+                                    <th scope="col">Symptoms</th>
+                                    <th scope="col">Diagnosis</th>
+                                    <th scope="col">Treatment</th>
+                                    <th scope="col">Management</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="visit : ${visits}">
-                                    <td th:text="${visit.visitDate}"></td>
-                                    <td th:text="${visit.type}"></td>
-                                    <td th:text="${visit.mainComplaintSymptoms}"></td>
-                                    <td th:text="${visit.mainComplaintDiagnosis}"></td>
-                                    <td th:text="${visit.secondComplaintSymptoms}"></td>
-                                    <td th:text="${visit.secondComplaintDiagnosis}"></td>
+                                <tr th:each="visit : *{visits}">
+                                    <td th:text="*{visit.visitDate}"></td>
+                                    <td th:text="*{visit.type}"></td>
+                                    <td th:text="*{visit.mainComplaintSymptoms}"></td>
+                                    <td th:text="*{visit.mainComplaintDiagnosis}"></td>
+                                    <td th:text="*{visit.treatment}"></td>
+                                    <td th:text="*{visit.management}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -402,6 +433,27 @@
         </div>
     </div>
 <script>
+
+    $(function () {
+        $("#nextVisitDate").dateDropdowns({
+            submitFormat: "dd/mm/yyyy",
+            minAge: -2,
+            maxAge: 0
+        });
+
+        $(".day").addClass("form-control");
+        $(".month").addClass("form-control");
+        $(".year").addClass("form-control");
+
+        $(".day").css("width", "30%");
+        $(".month").css("width", "40%");
+        $(".year").css("width", "30%");
+
+        $(".day").css("float", "left");
+        $(".month").css("float", "left");
+        $(".year").css("float", "left");
+
+    });
 
     function addMainSymptom() {
         if ($(".mainComplaint2").is(":hidden")) {

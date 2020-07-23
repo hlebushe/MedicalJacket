@@ -41,6 +41,9 @@ public class ExaminationService {
         return examinationRepository.getByPatientAndOrderByDate(patient).get(0);
     }
 
+    public List<Examinations> getExaminations(Patient patient) {
+        return examinationRepository.getByPatientAndOrderByDate(patient);
+    }
 
     public ExaminationsModel setExaminationColors(ExaminationsModel examination, Patient patient) throws IOException, ParseException {
 

@@ -98,11 +98,28 @@ public class Visit {
     @Column(name="VST_SECONDARY_COMPLAINT_DIAGNOSIS")
     private String secondaryComplaintDiagnosis;
 
+    @Column(name="VST_MEDICINE_PRESCRIBED")
+    private String medicinePrescribed;
+
+    @Column(name="VST_EXAMINATIONS_PRESCRIBED")
+    private String examinationsPrescribed;
+
+    @Column(name="VST_ADVISORY")
+    private String advisory;
+
+    @Column(name="VST_COMMENTS")
+    private String comments;
+
+    @Column(name="VST_NEXT_VISIT_DATE")
+    private Date nextVisitDate;
+
+    @Column(name="VST_GENERAL_INSTRUCTIONS")
+    private String generalInstructions;
+
     @NotNull
     @ManyToOne
     @JoinColumn(name="VST_PAT_EXAM")
     Examinations examination;
-
 
     @Transient
     private volatile int hashCode = 0;

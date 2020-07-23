@@ -194,6 +194,29 @@ public class PatientController {
         return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
     }
 
+    @GetMapping("/examinations/{id}")
+    public ModelAndView getExaminations(@PathVariable("id") int code, Model model) throws IOException, ParseException {
+
+        try {
+            Patient patient = patientService.findPatientByCode(code);
+            ModelAndView mv = new ModelAndView();
+            mv.addObject("patient", patient);
+            List<Examinations> examinations = examinationService.getExaminations(patient);
+            List<ExaminationsModel> examinationsModels = new ArrayList<>();
+
+            for (Examinations exam : examinations) {
+                ExaminationsModel examinationsModel = new ExaminationsModel(exam);
+                examinationsModel = examinationService.setExaminationColors(examinationsModel, patient);
+                examinationsModels.add(examinationsModel);
+            }
+            mv.addObject("examinations", examinationsModels);
+            mv.setViewName("examinations_list");
+            return mv;
+        } catch (Exception e) {
+            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
+        }
+    }
+
     @GetMapping("/examinations/add/{id}")
     public ModelAndView getAddExaminations(@PathVariable("id") int code, Model model) throws IOException, ParseException {
 
@@ -220,7 +243,7 @@ public class PatientController {
 
         examinationService.saveExaminaions(examinations);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/examinations/" + code));
     }
 
 
