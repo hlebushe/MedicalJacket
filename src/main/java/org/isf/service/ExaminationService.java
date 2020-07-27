@@ -45,15 +45,8 @@ public class ExaminationService {
         return examinationRepository.getByPatientAndOrderByDate(patient);
     }
 
-    public ExaminationsModel setExaminationColors(ExaminationsModel examination, Patient patient) throws IOException, ParseException {
+    public ExaminationsModel setExaminationColors(ExaminationsModel examination, int age) throws IOException, ParseException {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM");
-        Date date = formatter.parse(patient.getBirthDate().toString());
-        Instant instant = date.toInstant();
-        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
-        LocalDate givenDate = zone.toLocalDate();
-        Period period = Period.between(givenDate, LocalDate.now());
-        int age = period.getYears();
         Properties prop = null;
 
         int score = 0;

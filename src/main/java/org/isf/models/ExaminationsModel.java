@@ -1,11 +1,21 @@
 package org.isf.models;
 
 import org.isf.dao.Examinations;
+import org.isf.dao.Patient;
+import org.isf.dao.PatientMeasurements;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class ExaminationsModel {
+
+    private String patientName;
+
+    private String patientAge;
+
+    private Character patientSex;
+
+    private String patientAddress;
 
     private Integer id;
 
@@ -69,6 +79,21 @@ public class ExaminationsModel {
         this.date = examination.getDate().toString().substring(0, examination.getDate().toString().length() - 10);
         Double heightInMeters = examination.getHeight()*METER;
         this.bodyMassIndex = round(examination.getWeight()/(heightInMeters*heightInMeters), 2);
+    }
+
+    public ExaminationsModel(PatientMeasurements patientMeasurements) {
+        this.id = patientMeasurements.getId();
+        this.o2Saturation = patientMeasurements.getOxygen();
+        this.bloodPressureMin = patientMeasurements.getBloodPressureDia();
+        this.bloodPressureMax = patientMeasurements.getBloodPressureSys();
+        this.heartRate = patientMeasurements.getHeartRate();
+        this.patientName = patientMeasurements.getPatient().getName();
+        this.patientAge = String.valueOf(patientMeasurements.getPatient().getAge());
+        this.patientAddress = patientMeasurements.getPatient().getAddress();
+        this.patientSex = patientMeasurements.getPatient().getSex();
+    }
+
+    public ExaminationsModel() {
     }
 
     public Integer getId() {
@@ -261,5 +286,37 @@ public class ExaminationsModel {
         BigDecimal bd = BigDecimal.valueOf(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
+
+    public String getPatientAge() {
+        return patientAge;
+    }
+
+    public void setPatientAge(String patientAge) {
+        this.patientAge = patientAge;
+    }
+
+    public Character getPatientSex() {
+        return patientSex;
+    }
+
+    public void setPatientSex(Character patientSex) {
+        this.patientSex = patientSex;
+    }
+
+    public String getPatientAddress() {
+        return patientAddress;
+    }
+
+    public void setPatientAddress(String patientAddress) {
+        this.patientAddress = patientAddress;
     }
 }

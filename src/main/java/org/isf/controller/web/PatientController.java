@@ -169,7 +169,7 @@ public class PatientController {
             mv.addObject("diseases", diseasesList);
             Examinations examination = examinationService.getLastExaminationByPatient(patient);
             ExaminationsModel examinationsModel = new ExaminationsModel(examination);
-            examinationsModel = examinationService.setExaminationColors(examinationsModel, patient);
+            examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
             mv.addObject("examinations", examinationsModel);
             mv.setViewName("visit_add");
             return mv;
@@ -206,7 +206,7 @@ public class PatientController {
 
             for (Examinations exam : examinations) {
                 ExaminationsModel examinationsModel = new ExaminationsModel(exam);
-                examinationsModel = examinationService.setExaminationColors(examinationsModel, patient);
+                examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
                 examinationsModels.add(examinationsModel);
             }
             mv.addObject("examinations", examinationsModels);

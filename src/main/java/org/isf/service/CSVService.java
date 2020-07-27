@@ -41,12 +41,4 @@ public class CSVService {
         return records;
     }
 
-//    private String getRecordFromLine(String line) {
-//        String value = "";
-//        try (Scanner rowScanner = new Scanner(line)) {
-//            value = rowScanner.next();
-//        }
-//        return value;
-//    }
-
 }

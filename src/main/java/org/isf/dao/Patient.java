@@ -226,6 +226,9 @@ public class Patient  {
     List<Examinations> examinations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
+    List<PatientMeasurements> patientMeasurements;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
     List<Visit> visits;
 
 
