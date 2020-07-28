@@ -299,6 +299,37 @@ public class ExaminationService {
                 examination.setSmellColor(level0);
             }
 
+            if (examination.getTaste() == null) {
+                examination.setTasteColor(level0);
+            } else if (examination.getTaste() == "normal") {
+                examination.setTasteColor(level0);
+            } else if (examination.getTaste() == "week") {
+                examination.setTasteColor(level1);
+                score = score + 1;
+            } else if (examination.getTaste() == "no sense") {
+                examination.setTasteColor(level2);
+                score = score + 2;
+            } else {
+                examination.setTasteColor(level0);
+            }
+
+            if (examination.getConsciousness() == null) {
+                examination.setConsciousnessColor(level0);
+            } else if (examination.getConsciousness() == "alert") {
+                examination.setConsciousnessColor(level0);
+            } else if (examination.getConsciousness() == "voice") {
+                examination.setConsciousnessColor(level1);
+                score = score + 1;
+            } else if (examination.getConsciousness() == "pain") {
+                examination.setConsciousnessColor(level2);
+                score = score + 2;
+            } else if (examination.getConsciousness() == "unresp") {
+                examination.setConsciousnessColor(level3);
+                score = score + 2;
+            } else {
+                examination.setConsciousnessColor(level0);
+            }
+
             examination.setBodyMassIndexColor(level0);
 
             examination.setScore(score);

@@ -59,6 +59,14 @@ public class ExaminationsModel {
 
     private String smellColor;
 
+    private String taste;
+
+    private String tasteColor;
+
+    private String consciousness;
+
+    private String consciousnessColor;
+
     private String date;
 
     private Integer score;
@@ -76,6 +84,8 @@ public class ExaminationsModel {
         this.temperature = examination.getTemperature();
         this.bloodGlucoseLevel = examination.getBloodGlucoseLevel();
         this.smell = examination.getSmell();
+        this.taste = examination.getTaste();
+        this.consciousness = examination.getConsciousness();
         this.date = examination.getDate().toString().substring(0, examination.getDate().toString().length() - 10);
         Double heightInMeters = examination.getHeight()*METER;
         this.bodyMassIndex = round(examination.getWeight()/(heightInMeters*heightInMeters), 2);
@@ -318,5 +328,37 @@ public class ExaminationsModel {
 
     public void setPatientAddress(String patientAddress) {
         this.patientAddress = patientAddress;
+    }
+
+    public String getTaste() {
+        return taste;
+    }
+
+    public void setTaste(String taste) {
+        this.taste = taste;
+    }
+
+    public String getTasteColor() {
+        return tasteColor;
+    }
+
+    public void setTasteColor(String tasteColor) {
+        this.tasteColor = tasteColor;
+    }
+
+    public String getConsciousness() {
+        return consciousness;
+    }
+
+    public void setConsciousness(String consciousness) {
+        this.consciousness = consciousness;
+    }
+
+    public String getConsciousnessColor() {
+        return consciousnessColor;
+    }
+
+    public void setConsciousnessColor(String consciousnessColor) {
+        this.consciousnessColor = consciousnessColor;
     }
 }

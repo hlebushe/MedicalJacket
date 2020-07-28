@@ -56,6 +56,12 @@ public class Examinations {
     @Column(name = "EXAMINATIONS_SMELL")
     private String smell;
 
+    @Column(name = "EXAMINATIONS_TASTE")
+    private String taste;
+
+    @Column(name = "EXAMINATIONS_CONSCIOUSNESS")
+    private String consciousness;
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "EXAMINATION_PAT_ID")

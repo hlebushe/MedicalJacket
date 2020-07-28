@@ -407,6 +407,9 @@
                         <div class="form-group border-group">
                             <label th:style="*{'color:' + examinations.smellColor}" th:text="*{'Smell: ' + examinations.smell}"></label>
                         </div>
+                        <div class="form-group border-group">
+                            <label th:text="*{'Examinations date: ' + examinations.date}"></label>
+                        </div>
                     </div>
                     <div class="col">
                         <div class="form-group border-group">
@@ -422,7 +425,10 @@
                             <label th:style="*{'color:' + examinations.bloodGlucoseLevelColor}" th:text="*{'Blood Glucose Levels: ' + examinations.bloodGlucoseLevel}"></label>
                         </div>
                         <div class="form-group border-group">
-                            <label th:text="*{'Examinations date: ' + examinations.date}"></label>
+                            <label th:style="*{'color:' + examinations.tasteColor}" th:text="*{'Taste: ' + examinations.taste}"></label>
+                        </div>
+                        <div class="form-group border-group">
+                            <label th:style="*{'color:' + examinations.consciousnessColor}" th:text="*{'Consciousness: ' + examinations.consciousness}"></label>
                         </div>
                         <div class="form-group border-group">
                             <label th:text="*{'Total score: ' + examinations.score}"></label>
