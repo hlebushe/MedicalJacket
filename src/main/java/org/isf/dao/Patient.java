@@ -195,6 +195,9 @@ public class Patient  {
     @Column(name="PAT_HEALTH_CARD_NUMBER")
     private String healthCardNumber;
 
+    @Transient
+    private String pddScore;
+
 
     @NotNull
     @JsonIgnore

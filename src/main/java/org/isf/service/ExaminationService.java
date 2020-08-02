@@ -353,7 +353,7 @@ public class ExaminationService {
         return prop;
     }
 
-    public Examinations saveExaminaions(Examinations examinations) {
+    public Examinations saveExaminations(Examinations examinations) {
         return examinationRepository.save(examinations);
     }
 

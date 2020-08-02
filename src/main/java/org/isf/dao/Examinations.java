@@ -3,6 +3,7 @@ package org.isf.dao;
 import lombok.Data;
 import org.isf.dao.Patient;
 import org.isf.dao.Visit;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name="EXAMINATIONS")
+@EntityListeners(AuditingEntityListener.class)
 public class Examinations {
 
     @Id

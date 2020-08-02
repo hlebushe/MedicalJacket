@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>Open Hospital</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+
+</head>
+<body>
+<nav class="navbar navbar-light header-custom">
+    <div class="header-left">
+        <span style="float: left;font-size: 24px;font-weight: bold;">PDD Adding Form</span><span style="font-size: 24px;margin-left: 10px;" th:text="*{patient.firstName + ' ' + patient.secondName}"></span>
+        <a style="float: left;clear: both;color: #ffffff;" th:href="@{/patient/list}"><img th:src="@{/images/back_arrow.png}"> Back</a>
+    </div>
+    <div class="header-right">
+        <div class="header-logo">
+            <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
+        </div>
+        <div class="header-headings">
+            <h1 style="font-weight: bold">MEDJACKET</h1>
+            <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
+        </div>
+    </div>
+</nav>
+<div class="container text-center" style="margin-top: 3%;">
+        <form action="#" th:action="@{/patient/pdd/add/{id}(id=${patient.code})}" th:object="${examinations}" method="post">
+        <div class="form-group" style="display: flex;">
+            <button type="submit" id="btn-sub">
+                <p class="action-label" style="margin-top: 45.5px;">Save</p>
+            </button>
+            <a th:href="@{/patient/list}" style="margin-left: 2%;">
+                <img class="action-icon" alt="" th:src="@{/images/discard.png}">
+                <p class="action-label">Discard</p>
+            </a>
+        </div>
+        <div style="width: 100%;">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text">Respiratory Rate(brth/min):</span>
+                        </div>
+                        <input type="text" th:field="*{respiratoryRate}" class="form-control" id="respiratoryRate" required="true">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text">O2 Saturation(%):</span>
+                        </div>
+                        <input type="text" th:field="*{o2Saturation}" class="form-control" id="o2Saturation" required="true">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text">O2 Flow Rate(L/min):</span>
+                        </div>
+                        <input type="text" th:field="*{o2FlowRate}" class="form-control" id="o2FlowRate" required="true">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text">Weight:</span>
+                        </div>
+                        <input type="text" th:field="*{weight}" class="form-control" id="weight" required="true">
+                    </div>
+                    <div class="form-group input-group  required" style="padding-bottom: 20px;">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text">Height:</span>
+                        </div>
+                        <input type="text" th:field="*{height}" class="form-control" id="height" required="true">
+                    </div>
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" style="white-space: unset; text-align: left;">Smell</span>
+                        </div>
+                        <select class="form-control" th:field="*{smell}"  style="height: 62px;">
+                            <option th:value="'normal'" th:text="'normal'"></option>
+                            <option th:value="'week'" th:text="'week'"></option>
+                            <option th:value="'no sense'" th:text="'no sense'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" style="white-space: unset; text-align: left;">Taste</span>
+                        </div>
+                        <select class="form-control" th:field="*{taste}"  style="height: 62px;">
+                            <option th:value="'normal'" th:text="'normal'"></option>
+                            <option th:value="'week'" th:text="'week'"></option>
+                            <option th:value="'no sense'" th:text="'no sense'"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text">Blood Pressure sys(mmHg):</span>
+                        </div>
+                        <input type="text" th:field="*{bloodPressureMax}" class="form-control" id="bloodPressureMax" required="true">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text">Blood Pressure dia(mmHg):</span>
+                        </div>
+                        <input type="text" th:field="*{bloodPressureMin}" class="form-control" id="bloodPressureMin" required="true">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text">Heart Rate(beats/min):</span>
+                        </div>
+                        <input type="text" th:field="*{heartRate}" class="form-control" id="heartRate" required="true">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text">Temperature(°C):</span>
+                        </div>
+                        <input type="text" th:field="*{temperature}" class="form-control" id="temperature" required="true">
+                    </div>
+                    <div class="form-group input-group required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text">Blood Glucose Levels:</span>
+                        </div>
+                        <input type="text" th:field="*{bloodGlucoseLevel}" class="form-control" id="bloodGlucoseLevel" required="true">
+                    </div>
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" style="white-space: unset; text-align: left;">Consciousness</span>
+                        </div>
+                        <select class="form-control" th:field="*{consciousness}" style="height: 62px;">
+                            <option th:value="'alert'" th:text="'alert'"></option>
+                            <option th:value="'voice'" th:text="'voice'"></option>
+                            <option th:value="'pain'" th:text="'pain'"></option>
+                            <option th:value="'unresp'" th:text="'unresp'"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

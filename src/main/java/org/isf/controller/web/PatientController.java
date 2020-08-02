@@ -60,12 +60,31 @@ public class PatientController {
     protected UserRepository userRepository;
 
     @GetMapping(value = "/list")
-    public ModelAndView getPatients(Model model) {
+    public ModelAndView getPatients(Model model) throws IOException, ParseException {
         Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserName(auth.getName());
 
         List<Patient> patients = new ArrayList<Patient>();
         patients = patientService.findAll();
+
+        for (Patient p : patients) {
+            try {
+                Examinations examinations = examinationService.getLastExaminationByPatient(p);
+                ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
+                examinationsModel = examinationService.setExaminationColors(examinationsModel, p.getAge());
+                if (examinationsModel.getScore() > 6) {
+                    p.setPddScore("red");
+                } else if (examinationsModel.getScore() > 4){
+                    p.setPddScore("orange");
+                } else if (examinationsModel.getScore() > 3){
+                    p.setPddScore("yellow");
+                } else {
+                    p.setPddScore("white");
+                }
+            } catch (Exception e) {
+                p.setPddScore("white");
+            }
+        }
 
         ModelAndView mv = new ModelAndView();
         mv.addObject("userName", "Welcome " + user.getUserName());
@@ -106,6 +125,16 @@ public class PatientController {
         ModelAndView mv = new ModelAndView();
         mv.addObject("patient", patient);
         mv.setViewName("patient_edit");
+        return mv;
+    }
+
+
+    @GetMapping("/view/{id}")
+    public ModelAndView getViewUser(@PathVariable("id") int code, Model model) {
+        Patient patient = patientService.findPatientByCode(code);
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("patient", patient);
+        mv.setViewName("patient_view");
         return mv;
     }
 
@@ -194,8 +223,8 @@ public class PatientController {
         return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
     }
 
-    @GetMapping("/examinations/{id}")
-    public ModelAndView getExaminations(@PathVariable("id") int code, Model model) throws IOException, ParseException {
+    @GetMapping("/pdd/{id}")
+    public ModelAndView getPdd(@PathVariable("id") int code, Model model) throws IOException, ParseException {
 
         try {
             Patient patient = patientService.findPatientByCode(code);
@@ -210,15 +239,15 @@ public class PatientController {
                 examinationsModels.add(examinationsModel);
             }
             mv.addObject("examinations", examinationsModels);
-            mv.setViewName("examinations_list");
+            mv.setViewName("pdd_list");
             return mv;
         } catch (Exception e) {
             return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
         }
     }
 
-    @GetMapping("/examinations/add/{id}")
-    public ModelAndView getAddExaminations(@PathVariable("id") int code, Model model) throws IOException, ParseException {
+    @GetMapping("/pdd/add/{id}")
+    public ModelAndView getAddPdd(@PathVariable("id") int code, Model model) throws IOException, ParseException {
 
         try {
             Patient patient = patientService.findPatientByCode(code);
@@ -226,24 +255,42 @@ public class PatientController {
             mv.addObject("patient", patient);
             Examinations examinations = new Examinations();
             mv.addObject("examinations", examinations);
-            mv.setViewName("examinations_add");
+            mv.setViewName("pdd_add");
             return mv;
         } catch (Exception e) {
             return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
         }
     }
 
-    @PostMapping("/examinations/add/{id}")
-    public ModelAndView postAddExaminations(@PathVariable("id") int code, @Valid Examinations examinations, BindingResult result, Model model) throws IOException, SQLException {
+    @PostMapping("/pdd/add/{id}")
+    public ModelAndView postAddPdd(@PathVariable("id") int code, @Valid Examinations examinations, BindingResult result, Model model) throws IOException, SQLException {
         Patient patient = patientService.findPatientByCode(code);
         examinations.setPatient(patient);
+        examinations.setId(null);
 
         Date date = new Date();
         examinations.setDate(date);
 
-        examinationService.saveExaminaions(examinations);
+        examinationService.saveExaminations(examinations);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/examinations/" + code));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/pdd/" + code));
+    }
+
+    @GetMapping("/examinations/{id}")
+    public ModelAndView getExaminations(@PathVariable("id") int code, Model model) throws IOException, ParseException {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = userRepository.findByUserName(auth.getName());
+
+            Patient patient = patientService.findPatientByCode(code);
+            ModelAndView mv = new ModelAndView();
+            mv.addObject("patient", patient);
+            mv.addObject("userName", "Welcome " + user.getUserName() +"!");
+            mv.setViewName("examinations");
+            return mv;
+        } catch (Exception e) {
+            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
+        }
     }
 
 

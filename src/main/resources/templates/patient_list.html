@@ -115,7 +115,7 @@
                             <td>
                                 <div class="row" style="margin-top: 0;">
                                     <div class="col">
-                                        <a href="#">
+                                        <a th:href="@{/patient/view/{id}(id=${patient.code})}">
                                             <img class="action-icon" alt="" th:src="@{/images/view.png}">
                                             <p class="action-label">View</p>
                                         </a>
@@ -127,27 +127,20 @@
                                         </a>
                                     </div>
                                     <div class="col">
-                                        <a href="#">
-                                            <img class="action-icon" alt="" th:src="@{/images/download.png}">
-                                            <p class="action-label">Download</p>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a href="#">
-                                            <img class="action-icon" alt="" th:src="@{/images/critical.png}">
-                                            <p class="action-label">Critical</p>
+                                        <a th:href="@{/patient/pdd/{id}(id=${patient.code})}">
+                                            <div th:switch="${patient.pddScore}">
+                                                <img th:case="'red'" class="action-icon" alt="" th:src="@{/images/heart_red.png}">
+                                                <img th:case="'orange'" class="action-icon" alt="" th:src="@{/images/heart_orange.png}">
+                                                <img th:case="'yellow'" class="action-icon" alt="" th:src="@{/images/heart_yellow.png}">
+                                                <img th:case="'white'" class="action-icon" alt="" th:src="@{/images/heart_white.png}">
+                                            </div>
+                                            <p class="action-label">PDD</p>
                                         </a>
                                     </div>
                                     <div class="col">
                                         <a th:href="@{/patient/examinations/{id}(id=${patient.code})}">
                                             <img class="action-icon" alt="" th:src="@{/images/examination.png}">
                                             <p class="action-label">Examinations</p>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a href="#">
-                                            <img class="action-icon" alt="" th:src="@{/images/admission.png}">
-                                            <p class="action-label">Admission</p>
                                         </a>
                                     </div>
                                     <div class="col">

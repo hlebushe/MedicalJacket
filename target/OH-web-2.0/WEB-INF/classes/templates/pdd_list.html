@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>MedJacket</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .table thead th {
+            border-top: 1px dotted #aeacab!important;
+            border-bottom: 1px dotted #aeacab!important;
+            border-left: 1px dotted #aeacab;
+            border-right: 1px dotted #aeacab;
+            background-color: #5f5b91;
+            color: #ffffff;
+            font-weight: 300;
+        }
+
+        .table td {
+            border-left: 1px dotted #aeacab;
+            border-right: 1px dotted #aeacab;
+            border-top: 1px dotted #aeacab;
+            border-bottom: 1px dotted #aeacab;
+        }
+
+        #search {
+            width: 40%;
+            font-size: 22px;
+            float: left;
+            margin-bottom: 2%;
+            margin-top: 2%;
+            margin-left: 10%;
+        }
+
+        .action-label {
+            color: #000000;
+            font-size: 13px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-light header-custom">
+    <div class="header-left">
+        <span style="float: left;font-size: 24px;font-weight: bold;">PDD Form</span><span style="font-size: 24px;margin-left: 10px;" th:text="*{patient.firstName + ' ' + patient.secondName}"></span>
+        <a style="float: left;clear: both;color: #ffffff;" th:href="@{/patient/list}"><img th:src="@{/images/back_arrow.png}"> Back</a>
+    </div>
+    <div class="header-right">
+        <div class="header-logo">
+            <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
+        </div>
+        <div class="header-headings">
+            <h1 style="font-weight: bold">MEDJACKET</h1>
+            <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
+        </div>
+    </div>
+</nav>
+
+<div class="container text-center" style="margin-top: 3%;">
+    <div class="form-group" style="display: flex;">
+        <a th:href="@{/patient/list}" style="margin-left: 2%;">
+            <img class="action-icon" alt="" th:src="@{/images/discard.png}">
+            <p class="action-label">Discard</p>
+        </a>
+        <a th:href="@{/patient/pdd/add/{id}(id=${patient.code})}" style="margin-left: 2%;">
+            <img class="action-icon" alt="" th:src="@{/images/add.png}">
+            <p class="action-label">Add</p>
+        </a>
+    </div>
+    <ul class="nav nav-tabs" style="margin-right: -15px; margin-left: -15px;">
+        <li class="nav-item nav-item50 active">
+            <a class="nav-link active" href="#1" data-toggle="tab">General Examination</a>
+        </li>
+        <li class="nav-item nav-item50">
+            <a class="nav-link" href="#2" data-toggle="tab">Pathology Test</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="1">
+            <div class="form-group">
+                <div th:switch="*{examinations}">
+                    <h2 th:case="null">No examinations</h2>
+                    <div th:case="*">
+                        <table class="table" style="margin-top: 3%;">
+                            <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Body Mass Index</th>
+                                <th scope="col">Arterial Pressure Sys</th>
+                                <th scope="col">Arterial Pressure Dia</th>
+                                <th scope="col">Heart Rate</th>
+                                <th scope="col">Temperature</th>
+                                <th scope="col">Saturation</th>
+                                <th scope="col">Total score</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-body">
+                            <tr th:each="examination : *{examinations}">
+                                <td th:text="*{examination.date}"></td>
+                                <td th:style="*{'color:' + examination.bodyMassIndexColor}" th:text="*{examination.bodyMassIndex}"></td>
+                                <td th:style="*{'color:' + examination.bloodPressureMaxColor}" th:text="*{examination.bloodPressureMax}"></td>
+                                <td th:style="*{'color:' + examination.bloodPressureMinColor}" th:text="*{examination.bloodPressureMin}"></td>
+                                <td th:style="*{'color:' + examination.heartRateColor}" th:text="*{examination.heartRate}"></td>
+                                <td th:style="*{'color:' + examination.temperatureColor}" th:text="*{examination.temperature}"></td>
+                                <td th:style="*{'color:' + examination.o2SaturationColor}" th:text="*{examination.o2Saturation}"></td>
+                                <td th:text="*{'Total score: ' + examination.score}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="2">
+        </div>
+    </div>
+</div>
+<script>
+</script>
+</body>
+</html>
