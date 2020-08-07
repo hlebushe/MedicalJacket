@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
-    <title>Open Hospital</title>
+    <title>MedJacket</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
@@ -133,9 +133,15 @@
                         </div>
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text">Surname</span>
+                            </div>
+                            <input type="text" th:field="*{secondName}" class="form-control" id="surname" required="true">
+                        </div>
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1 radioLabel">
                                 <span class="input-group-text">Sex</span>
                             </div>
-                            <div class="form-control">
+                            <div class="form-control radioDiv">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="male" name="male" class="custom-control-input" value="M" th:field="*{sex}" required="true">
                                     <label class="custom-control-label" for="male">Male</label>
@@ -152,6 +158,8 @@
                             </div>
                             <input class="form-control" type="hidden" th:field="*{birthDate}" onchange="showAge(this.value)" required="true" name="birthDate" id="birthDate" />
                         </div>
+                    </div>
+                    <div class="col">
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text">Profession</span>
@@ -287,14 +295,6 @@
                                 <option th:value="'Any other similar Occupation'" th:text="'Any other similar Occupation'"></option>
                             </datalist>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group input-group required">
-                            <div class="input-group-prepend input-group-prepend1">
-                                <span class="input-group-text">Surname</span>
-                            </div>
-                            <input type="text" th:field="*{secondName}" class="form-control" id="surname" required="true">
-                        </div>
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend1" style="width: 40%;">
                                 <span class="input-group-text">Marital Status</span>
@@ -316,7 +316,7 @@
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text">Aadhaar ID</span>
                             </div>
-                            <input type="text" th:field="*{taxCode}" class="form-control" id="aadhaarNumber" required="true">
+                            <input type="number" th:field="*{taxCode}" class="form-control" id="aadhaarNumber" required="true">
                         </div>
                     </div>
                 </div>
@@ -346,7 +346,7 @@
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text">City</span>
                             </div>
-                            <input type="text" th:field="*{city}" class="form-control" id="city" required="true">
+                            <input onkeydown="return alphaOnly(event);"  type="text" th:field="*{city}" class="form-control" id="city" required="true">
                         </div>
                     </div>
                     <div class="col">
@@ -401,10 +401,10 @@
                             <input style="height: 62px;" type="text" th:field="*{natureOfMedicalCondition}" class="form-control" id="natureOfMedicalCondition">
                         </div>
                         <div class="form-group input-group" style="margin-top: 2rem; margin-bottom: 2rem;">
-                            <div class="input-group-prepend input-group-prepend2">
+                            <div class="input-group-prepend input-group-prepend2 radioLabel">
                                 <span class="input-group-text">Previous Operations</span>
                             </div>
-                            <div class="form-control">
+                            <div class="form-control radioDiv">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="previousOperationsy" name="previousOperationsy" class="custom-control-input" value="Y" th:field="*{previousOperations}" onclick="showPreviousOperations(true)">
                                     <label class="custom-control-label" for="previousOperationsy">Yes</label>
@@ -477,10 +477,10 @@
                             <input type="text" th:field="*{father_name}" class="form-control" id="father_name">
                         </div>
                         <div class="form-group input-group">
-                            <div class="input-group-prepend input-group-prepend3">
+                            <div class="input-group-prepend input-group-prepend3 radioLabel">
                                 <span class="input-group-text">Father status</span>
                             </div>
-                            <div class="form-control">
+                            <div class="form-control radioDiv">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="fd" name="fd" class="custom-control-input" value="D" th:field="*{father}">
                                     <label class="custom-control-label" for="fd">Dead</label>
@@ -498,10 +498,10 @@
                             <input type="text" th:field="*{mother_name}" class="form-control" id="mother_name">
                         </div>
                         <div class="form-group input-group">
-                            <div class="input-group-prepend input-group-prepend3">
+                            <div class="input-group-prepend input-group-prepend3 radioLabel">
                                 <span class="input-group-text">Mother status</span>
                             </div>
-                            <div class="form-control">
+                            <div class="form-control radioDiv">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="md" name="md" class="custom-control-input" value="D" th:field="*{mother}">
                                     <label class="custom-control-label" for="md">Dead</label>
@@ -513,10 +513,10 @@
                             </div>
                         </div>
                         <div class="form-group input-group">
-                            <div class="input-group-prepend input-group-prepend3">
+                            <div class="input-group-prepend input-group-prepend3 radioLabel">
                                 <span class="input-group-text">Parents Together</span>
                             </div>
-                            <div class="form-control">
+                            <div class="form-control radioDiv">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="parentTogethery" name="parentTogethery" class="custom-control-input" value="Y" th:field="*{parentTogether}">
                                     <label class="custom-control-label" for="parentTogethery">Yes</label>
@@ -567,10 +567,10 @@
                     </div>
                     <div class="col">
                         <div class="form-group input-group">
-                            <div class="input-group-prepend input-group-prepend3">
+                            <div class="input-group-prepend input-group-prepend3 radioLabel">
                                 <span class="input-group-text">Has Insurance</span>
                             </div>
-                            <div class="form-control">
+                            <div class="form-control radioDiv">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="hasInsurancey" name="hasInsurancey" class="custom-control-input" value="Y" th:field="*{hasInsurance}" onclick="showInsuranceDetails(true)">
                                     <label class="custom-control-label" for="hasInsurancey">Yes</label>
@@ -594,10 +594,10 @@
                             <input type="text" th:field="*{insuranceNumber}" class="form-control" id="insuranceNumber" style="height: 62px;">
                         </div>
                         <div class="form-group input-group">
-                            <div class="input-group-prepend input-group-prepend3">
+                            <div class="input-group-prepend input-group-prepend3 radioLabel">
                                 <span class="input-group-text">Has Health Cards</span>
                             </div>
-                            <div class="form-control">
+                            <div class="form-control radioDiv">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="hy" name="hy" class="custom-control-input" value="Y" th:field="*{healthCards}" onclick="showHealthCardDetails(true)">
                                     <label class="custom-control-label" for="hy">Yes</label>
@@ -628,10 +628,10 @@
                     </div>
                     <div class="col">
                         <div class="form-group input-group">
-                            <div class="input-group-prepend input-group-prepend3">
+                            <div class="input-group-prepend input-group-prepend3 radioLabel">
                                 <span class="input-group-text">Smoker</span>
                             </div>
-                            <div class="form-control">
+                            <div class="form-control radioDiv">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="smokery" name="smokery" class="custom-control-input" value="Y" th:field="*{smoker}" onclick="showSmokerDetails(true)">
                                     <label class="custom-control-label" for="smokery">Yes</label>
@@ -655,10 +655,10 @@
                             <input type="text" th:field="*{smokingADay}" class="form-control" id="smokingADay" style="height: 62px;">
                         </div>
                         <div class="form-group input-group">
-                            <div class="input-group-prepend input-group-prepend3">
+                            <div class="input-group-prepend input-group-prepend3 radioLabel">
                                 <span class="input-group-text">Alcohol intake</span>
                             </div>
-                            <div class="form-control">
+                            <div class="form-control radioDiv">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="alcoholy" name="alcoholy" class="custom-control-input" value="Y" th:field="*{alcohol}" onclick="showAlcoholDetails(true)">
                                     <label class="custom-control-label" for="alcoholy">Yes</label>

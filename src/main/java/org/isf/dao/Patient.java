@@ -16,7 +16,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 @Entity
@@ -233,6 +232,9 @@ public class Patient  {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
     List<Visit> visits;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
+    List<Pathology> pathologies;
 
 
     public Patient() {

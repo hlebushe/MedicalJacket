@@ -168,7 +168,7 @@ a {
 .input-group-text {
     width: 100%;
     border: 1px dotted #aeacab;
-    color: #06215c;
+    color: #38367a;
     background-color: white;
 }
 
@@ -184,4 +184,49 @@ a {
 
 input[class="form-control"] {
     border: 1px dotted #aeacab;
+}
+
+@media (max-width: 767px) {
+    .input-group-prepend1 {
+        width: 100%;
+    }
+
+    .input-group-prepend2 {
+        width: 100%;
+    }
+
+    .input-group-prepend3 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .radioLabel {
+        width: 100%!important;
+    }
+
+    .radioDiv {
+        height: 45px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .radioDiv {
+        height: 60px;
+    }
+}
+
+#btn-att {
+    width: 105px;
+    height: 55px;
+    margin-top: 0;
+    margin-right: 20px;
+    background-position: center;
+    background-image: url(../images/attachments.png);
+    float: left;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    background-color: #ffffff;
 }

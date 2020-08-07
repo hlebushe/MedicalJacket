@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
-    <title>Open Hospital</title>
+    <title>MedJacket</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
@@ -45,31 +45,31 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text">Respiratory Rate(brth/min):</span>
                         </div>
-                        <input type="text" th:field="*{respiratoryRate}" class="form-control" id="respiratoryRate" required="true">
+                        <input type="number" min="1" max="70" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{respiratoryRate}" class="form-control" id="respiratoryRate" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text">O2 Saturation(%):</span>
                         </div>
-                        <input type="text" th:field="*{o2Saturation}" class="form-control" id="o2Saturation" required="true">
+                        <input type="number" min="60" max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{o2Saturation}" class="form-control" id="o2Saturation" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text">O2 Flow Rate(L/min):</span>
                         </div>
-                        <input type="text" th:field="*{o2FlowRate}" class="form-control" id="o2FlowRate" required="true">
+                        <input type="number" min="0" max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{o2FlowRate}" class="form-control" id="o2FlowRate" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text">Weight:</span>
                         </div>
-                        <input type="text" th:field="*{weight}" class="form-control" id="weight" required="true">
+                        <input type="number" th:field="*{weight}" class="form-control" id="weight" required="true" step=".01">
                     </div>
                     <div class="form-group input-group  required" style="padding-bottom: 20px;">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text">Height:</span>
                         </div>
-                        <input type="text" th:field="*{height}" class="form-control" id="height" required="true">
+                        <input type="number" th:field="*{height}" class="form-control" id="height" required="true" step=".01">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
@@ -97,31 +97,31 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text">Blood Pressure sys(mmHg):</span>
                         </div>
-                        <input type="text" th:field="*{bloodPressureMax}" class="form-control" id="bloodPressureMax" required="true">
+                        <input type="number" min="40" max="250" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{bloodPressureMax}" class="form-control" id="bloodPressureMax" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text">Blood Pressure dia(mmHg):</span>
                         </div>
-                        <input type="text" th:field="*{bloodPressureMin}" class="form-control" id="bloodPressureMin" required="true">
+                        <input type="number" min="40" max="250" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{bloodPressureMin}" class="form-control" id="bloodPressureMin" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text">Heart Rate(beats/min):</span>
                         </div>
-                        <input type="text" th:field="*{heartRate}" class="form-control" id="heartRate" required="true">
+                        <input type="number" min="30" max="180" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{heartRate}" class="form-control" id="heartRate" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text">Temperature(°C):</span>
                         </div>
-                        <input type="text" th:field="*{temperature}" class="form-control" id="temperature" required="true">
+                        <input type="number" min="28" max="44" th:field="*{temperature}" class="form-control" id="temperature" required="true" step=".01">
                     </div>
                     <div class="form-group input-group required">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text">Blood Glucose Levels:</span>
                         </div>
-                        <input type="text" th:field="*{bloodGlucoseLevel}" class="form-control" id="bloodGlucoseLevel" required="true">
+                        <input type="number" min="0" max="50" th:field="*{bloodGlucoseLevel}" class="form-control" id="bloodGlucoseLevel" required="true" step=".01">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
-    <title>Open Hospital</title>
+    <title>MedJacket</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
@@ -44,7 +44,7 @@
 <nav class="navbar navbar-light header-custom">
     <div class="header-left">
         <span style="float: left;font-size: 24px;font-weight: bold;">Patient Visit Form</span><span style="font-size: 24px;margin-left: 10px;" th:text="*{patient.firstName + ' ' + patient.secondName}"></span>
-        <a style="float: left;clear: both;color: #ffffff;" th:href="@{/patient/list}"><img th:src="@{/images/back_arrow.png}"> Back</a>
+        <a style="float: left;clear: both;color: #ffffff;" href="javascript:history.back()"><img th:src="@{/images/back_arrow.png}"> Back</a>
     </div>
     <div class="header-right">
         <div class="header-logo">
@@ -65,6 +65,15 @@
             <a th:href="@{/patient/list}" style="margin-left: 2%;">
                 <img class="action-icon" alt="" th:src="@{/images/discard.png}">
                 <p class="action-label">Discard</p>
+            </a>
+            <a th:href="@{/patient/pdd/{id}(id=${patient.code})}" style="margin-left: auto;">
+                <div th:switch="${patient.pddScore}">
+                    <img th:case="'red'" class="action-icon" alt="" th:src="@{/images/heart_red.png}">
+                    <img th:case="'orange'" class="action-icon" alt="" th:src="@{/images/heart_orange.png}">
+                    <img th:case="'yellow'" class="action-icon" alt="" th:src="@{/images/heart_yellow.png}">
+                    <img th:case="'white'" class="action-icon" alt="" th:src="@{/images/heart_white.png}">
+                </div>
+                <p class="action-label">PDD</p>
             </a>
         </div>
         <ul class="nav nav-tabs" style="margin-right: -15px; margin-left: -15px;">
@@ -101,19 +110,23 @@
                     <div th:switch="${patient.hasInsurance}">
                         <td class="patient_td" th:case="'Y'">Has Insurance</td>
                         <td class="patient_td" th:case="'N'">No Insurance</td>
+                        <td class="patient_td" th:case="*">No Insurance information</td>
                     </div>
                     <td class="patient_td" th:text="*{patient.insuranceCompany + ' ' + patient.insuranceNumber}"></td>
                     <div th:switch="${patient.smoker}">
                         <td class="patient_td"th:case="'Y'">Smoker</td>
                         <td class="patient_td" th:case="'N'">Not smoker</td>
+                        <td class="patient_td" th:case="*">No Smoker information</td>
                     </div>
                     <div th:switch="${patient.alcohol}">
                         <td class="patient_td" th:case="'Y'">Alcoholic</td>
                         <td class="patient_td" th:case="'N'">Not Alcoholic</td>
+                        <td class="patient_td" th:case="*">No Alcohol information</td>
                     </div>
                     <div th:switch="${patient.healthCards}">
                         <td class="patient_td" th:case="'Y'">Health Card Available</td>
                         <td class="patient_td" th:case="'N'">Health Card not Available</td>
+                        <td class="patient_td" th:case="*">No Health Card information</td>
                     </div>
                     <td class="patient_td" th:text="*{patient.healthCardType + ' ' + patient.healthCardNumber}"></td>
                 </tr>
@@ -125,10 +138,10 @@
                 <form id="addVisit" th:action="@{/patient/visit/add/{id}(id=${patient.code})}" th:object="${visit}" method="post">
                     <div class="form-group" style="width: 50%;margin-left: 25%;">
                         <div class="form-group input-group required">
-                            <div class="input-group-prepend input-group-prepend1">
+                            <div class="input-group-prepend input-group-prepend1 radioLabel">
                                 <span class="input-group-text">Nature of visit:</span>
                             </div>
-                            <div class="form-control">
+                            <div class="form-control radioDiv">
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="home" name="home" class="custom-control-input" value="H" th:field="*{type}" required="true">
                                     <label class="custom-control-label" for="home">Home visit</label>
@@ -349,7 +362,8 @@
                                 <div class="input-group-prepend input-group-prepend1" style="float: left; width: 100%;">
                                     <span class="input-group-text">Next Visit Date</span>
                                 </div>
-                                <input class="form-control" type="hidden" th:field="*{nextVisitDate}" name="nextVisitDate" id="nextVisitDate" />
+                                <input class="form-control" type="hidden" th:field="*{nextVisitDate}" name="nextVisitDate" id="nextVisitDate" onchange="checkDate(this);"/>
+                                <span style="color:red;" id="dateError">Selected date must be in future!</span>
                             </div>
                         </div>
                     </div>
@@ -440,11 +454,15 @@
     </div>
 <script>
 
+    var nowYear = new Date().getFullYear();
+    var nextYear = nowYear + 1;
+    var nowDate = new Date();
+
     $(function () {
         $("#nextVisitDate").dateDropdowns({
             submitFormat: "dd/mm/yyyy",
-            minAge: -2,
-            maxAge: 0
+            minYear: nowYear,
+            maxYear: nextYear
         });
 
         $(".day").addClass("form-control");
@@ -459,7 +477,26 @@
         $(".month").css("float", "left");
         $(".year").css("float", "left");
 
+        $("#dateError").hide();
+
     });
+
+    function checkDate(date) {
+        var year = date.value.substring(6,10);
+        var month = date.value.substring(3,5);
+        var day = date.value.substring(0,2);
+        var selectedDate = new Date(date.value.substring(6,10));
+
+        if (selectedDate < nowDate) {
+            $("#dateError").show();
+            $("#btn-sub").prop('disabled', true);
+        } else {
+            $("#dateError").hide();
+            $("#btn-sub").prop('disabled', false);
+        }
+
+
+    }
 
     function addMainSymptom() {
         if ($(".mainComplaint2").is(":hidden")) {

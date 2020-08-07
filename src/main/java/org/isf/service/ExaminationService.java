@@ -285,6 +285,27 @@ public class ExaminationService {
                 examination.setBloodGlucoseLevelColor(level0);
             }
 
+            if (examination.getBodyMassIndex() == null) {
+                examination.setBodyMassIndexColor(level0);
+            } else if (examination.getBodyMassIndex() >= Double.parseDouble(prop.getProperty("bodyMassLevel4Min"))) {
+                examination.setBodyMassIndexColor(level4);
+                score = score + 5;
+            } else if (examination.getBodyMassIndex() <= Double.parseDouble(prop.getProperty("bodyMassLevel3Max")) &&
+                    examination.getBodyMassIndex() >= Double.parseDouble(prop.getProperty("bodyMassLevel3Min"))) {
+                examination.setBodyMassIndexColor(level3);
+                score = score + 3;
+            } else if (examination.getBodyMassIndex() <= Double.parseDouble(prop.getProperty("bodyMassLevel2Max")) &&
+                    examination.getBodyMassIndex() >= Double.parseDouble(prop.getProperty("bodyMassLevel2Min"))) {
+                examination.setBodyMassIndexColor(level2);
+                score = score + 2;
+            }  else if (examination.getBodyMassIndex() <= Double.parseDouble(prop.getProperty("bodyMassLevel1Max")) &&
+                    examination.getBodyMassIndex() >= Double.parseDouble(prop.getProperty("bodyMassLevel1Min"))) {
+                examination.setBodyMassIndexColor(level1);
+                score = score + 1;
+            } else {
+                examination.setBodyMassIndexColor(level0);
+            }
+
             if (examination.getSmell() == null) {
                 examination.setSmellColor(level0);
             } else if (examination.getSmell() == "normal") {
@@ -329,8 +350,6 @@ public class ExaminationService {
             } else {
                 examination.setConsciousnessColor(level0);
             }
-
-            examination.setBodyMassIndexColor(level0);
 
             examination.setScore(score);
 

@@ -1,16 +1,11 @@
 package org.isf.controller.web;
 
-import org.isf.dao.Examinations;
-import org.isf.dao.User;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.isf.dao.*;
 import org.isf.models.ExaminationsModel;
-import org.isf.dao.Patient;
 import org.isf.models.PreviousVisitModel;
 import org.isf.repository.UserRepository;
-import org.isf.service.CSVService;
-import org.isf.service.ExaminationService;
-import org.isf.service.PatientService;
-import org.isf.service.VisitService;
-import org.isf.dao.Visit;
+import org.isf.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -58,6 +54,9 @@ public class PatientController {
 
     @Autowired
     protected UserRepository userRepository;
+
+    @Autowired
+    protected PathologyService pathologyService;
 
     @GetMapping(value = "/list")
     public ModelAndView getPatients(Model model) throws IOException, ParseException {
@@ -108,9 +107,9 @@ public class PatientController {
 
         patient.setAge();
 
-        patientService.savePatient(patient);
+        Patient patientNew = patientService.savePatient(patient);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/view/" + patientNew.getCode()));
     }
 
     @GetMapping("/delete/{id}")
@@ -133,6 +132,24 @@ public class PatientController {
     public ModelAndView getViewUser(@PathVariable("id") int code, Model model) {
         Patient patient = patientService.findPatientByCode(code);
         ModelAndView mv = new ModelAndView();
+
+        try {
+            Examinations examinations = examinationService.getLastExaminationByPatient(patient);
+            ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
+            examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
+            if (examinationsModel.getScore() > 6) {
+                patient.setPddScore("red");
+            } else if (examinationsModel.getScore() > 4){
+                patient.setPddScore("orange");
+            } else if (examinationsModel.getScore() > 3){
+                patient.setPddScore("yellow");
+            } else {
+                patient.setPddScore("white");
+            }
+        } catch (Exception e) {
+            patient.setPddScore("white");
+        }
+
         mv.addObject("patient", patient);
         mv.setViewName("patient_view");
         return mv;
@@ -180,6 +197,24 @@ public class PatientController {
         try {
             Patient patient = patientService.findPatientByCode(code);
             ModelAndView mv = new ModelAndView();
+
+            try {
+                Examinations examinations = examinationService.getLastExaminationByPatient(patient);
+                ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
+                examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
+                if (examinationsModel.getScore() > 6) {
+                    patient.setPddScore("red");
+                } else if (examinationsModel.getScore() > 4){
+                    patient.setPddScore("orange");
+                } else if (examinationsModel.getScore() > 3){
+                    patient.setPddScore("yellow");
+                } else {
+                    patient.setPddScore("white");
+                }
+            } catch (Exception e) {
+                patient.setPddScore("white");
+            }
+
             mv.addObject("patient", patient);
             mv.addObject("visit", new Visit());
 
@@ -203,7 +238,37 @@ public class PatientController {
             mv.setViewName("visit_add");
             return mv;
         } catch (Exception e) {
-            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
+            Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = userRepository.findByUserName(auth.getName());
+
+            List<Patient> patients = new ArrayList<Patient>();
+            patients = patientService.findAll();
+
+            for (Patient p : patients) {
+                try {
+                    Examinations examinations = examinationService.getLastExaminationByPatient(p);
+                    ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
+                    examinationsModel = examinationService.setExaminationColors(examinationsModel, p.getAge());
+                    if (examinationsModel.getScore() > 6) {
+                        p.setPddScore("red");
+                    } else if (examinationsModel.getScore() > 4){
+                        p.setPddScore("orange");
+                    } else if (examinationsModel.getScore() > 3){
+                        p.setPddScore("yellow");
+                    } else {
+                        p.setPddScore("white");
+                    }
+                } catch (Exception f) {
+                    p.setPddScore("white");
+                }
+            }
+
+            ModelAndView mv = new ModelAndView();
+            mv.addObject("userName", "Welcome " + user.getUserName());
+            mv.addObject("patients", patients);
+            mv.addObject("error", "Please add examinations in 'PDD' before adding visit for patient");
+            mv.setViewName("patient_list");
+            return mv;
         }
     }
 
@@ -238,6 +303,19 @@ public class PatientController {
                 examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
                 examinationsModels.add(examinationsModel);
             }
+
+            if (examinationsModels.isEmpty()) {
+                examinationsModels = null;
+            }
+
+            List<Pathology> pathologies = pathologyService.getPathologies(patient);
+
+            if (pathologies.isEmpty()) {
+                pathologies = null;
+            }
+
+            mv.addObject("pathology", new Pathology());
+            mv.addObject("pathologies", pathologies);
             mv.addObject("examinations", examinationsModels);
             mv.setViewName("pdd_list");
             return mv;
@@ -261,6 +339,20 @@ public class PatientController {
             return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
         }
     }
+
+    @PostMapping("/pdd/add_report/{id}")
+    public ModelAndView postAddPathology(@PathVariable("id") int code, @RequestParam("pathologyData") MultipartFile pathologyData, @Valid Pathology pathology, BindingResult result, Model model) throws IOException, SQLException {
+        Patient patient = patientService.findPatientByCode(code);
+        pathology.setPatient(patient);
+        pathology.setPathologyData(getBlobData(pathologyData));
+
+        Date date = new Date();
+        pathology.setDate(date);
+
+        pathologyService.savePathology(pathology);
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/pdd/" + code));
+    }
+
 
     @PostMapping("/pdd/add/{id}")
     public ModelAndView postAddPdd(@PathVariable("id") int code, @Valid Examinations examinations, BindingResult result, Model model) throws IOException, SQLException {
@@ -291,6 +383,29 @@ public class PatientController {
         } catch (Exception e) {
             return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
         }
+    }
+
+    @RequestMapping("/pdd/get_report/{id}")
+    public String download(@PathVariable("id") int id, HttpServletResponse response) {
+
+        Pathology pathology = pathologyService.getPathology(id);
+        try {
+            response.setHeader("Content-Disposition", "inline; filename=\"" + id + "\"");
+            OutputStream out = response.getOutputStream();
+            response.setContentType("application/pdf");
+            IOUtils.copy(pathology.getPathologyData().getBinaryStream(), out);
+            out.flush();
+            out.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+            //Handle exception here
+        } catch (IOException e) {
+            System.out.println(e.toString());
+            //Handle exception here
+        }
+
+        return "Success";
     }
 
 

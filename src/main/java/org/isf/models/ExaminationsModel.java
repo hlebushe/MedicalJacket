@@ -88,7 +88,11 @@ public class ExaminationsModel {
         this.consciousness = examination.getConsciousness();
         this.date = examination.getDate().toString().substring(0, examination.getDate().toString().length() - 10);
         Double heightInMeters = examination.getHeight()*METER;
-        this.bodyMassIndex = round(examination.getWeight()/(heightInMeters*heightInMeters), 2);
+        if (examination.getHeight() == 0) {
+            this.bodyMassIndex = 0.0;
+        } else {
+            this.bodyMassIndex = round(examination.getWeight() / (heightInMeters * heightInMeters), 2);
+        }
     }
 
     public ExaminationsModel(PatientMeasurements patientMeasurements) {

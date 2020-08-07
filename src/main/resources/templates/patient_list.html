@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
-    <title>Open Hospital</title>
+    <title>MedJacket</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
@@ -83,6 +83,10 @@
             <div th:switch="${patients}">
                 <h2 th:case="null">No patients</h2>
                 <div th:case="*">
+                    <div class="form-group">
+                        <div style="color: red; width: 100%; margin-top: 9%; text-align: center;" th:if="${error != null}" th:text="${error}">
+                        </div>
+                    </div>
                     <table class="table">
                         <thead>
                         <tr>

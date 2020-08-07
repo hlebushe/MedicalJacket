@@ -45,13 +45,17 @@
             font-size: 13px;
             text-align: center;
         }
+
+        .modal-lg {
+            max-width: 80% !important;
+        }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-light header-custom">
     <div class="header-left">
         <span style="float: left;font-size: 24px;font-weight: bold;">PDD Form</span><span style="font-size: 24px;margin-left: 10px;" th:text="*{patient.firstName + ' ' + patient.secondName}"></span>
-        <a style="float: left;clear: both;color: #ffffff;" th:href="@{/patient/list}"><img th:src="@{/images/back_arrow.png}"> Back</a>
+        <a style="float: left;clear: both;color: #ffffff;" href="javascript:history.back()"><img th:src="@{/images/back_arrow.png}"> Back</a>
     </div>
     <div class="header-right">
         <div class="header-logo">
@@ -74,6 +78,53 @@
             <img class="action-icon" alt="" th:src="@{/images/add.png}">
             <p class="action-label">Add</p>
         </a>
+            <div th:if="${#lists.isEmpty(examinations)}"  style="margin-left: auto;">
+                <button type="button" id="btn-att" data-toggle="modal" data-target="#modal">
+                    <p class="action-label" style="margin-top: 45.5px;">Add Pathology</p>
+                </button>
+                <a th:href="@{/patient/visit/add/{id}(id=${patient.code})}" style="pointer-events: none; opacity: 0.4;">
+                    <img class="action-icon" alt="" th:src="@{/images/patient.png}">
+                    <p class="action-label">Visit</p>
+                </a>
+                <p style="color: red;">Please add examinations before adding a visit!</p>
+            </div>
+            <div th:if="!${#lists.isEmpty(examinations)}" style="margin-left: auto;">
+                <button type="button" id="btn-att" data-toggle="modal" data-target="#modal">
+                    <p class="action-label" style="margin-top: 45.5px;">Add Pathology</p>
+                </button>
+                <a th:href="@{/patient/visit/add/{id}(id=${patient.code})}">
+                    <img class="action-icon" alt="" th:src="@{/images/patient.png}">
+                    <p class="action-label">Visit</p>
+                </a>
+            </div>
+    </div>
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <form id="myForm" th:action="@{/patient/pdd/add_report/{id}(id=${patient.code})}" th:object="${pathology}" method="post" enctype="multipart/form-data" style="width: 100%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add Pathology</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group input-group" style="width: 100%;">
+                            <div class="input-group-prepend input-group-prepend2" style="width: 24%;">
+                                <span class="input-group-text">Pathology report</span>
+                            </div>
+                            <div class="form-control">
+                                <input th:field="*{pathologyData}" type="file" id="pathologyData" accept="application/pdf"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
     <ul class="nav nav-tabs" style="margin-right: -15px; margin-left: -15px;">
         <li class="nav-item nav-item50 active">
@@ -87,7 +138,7 @@
         <div class="tab-pane active" id="1">
             <div class="form-group">
                 <div th:switch="*{examinations}">
-                    <h2 th:case="null">No examinations</h2>
+                    <h4 th:case="null" style="margin-top: 10px;">No examinations</h4>
                     <div th:case="*">
                         <table class="table" style="margin-top: 3%;">
                             <thead>
@@ -120,6 +171,34 @@
             </div>
         </div>
         <div class="tab-pane" id="2">
+            <div class="form-group">
+                <div th:switch="*{pathologies}">
+                    <h4 th:case="null" style="margin-top: 10px;">No reports</h4>
+                    <div th:case="*">
+                        <table class="table" style="margin-top: 3%;">
+                            <thead>
+                            <tr>
+                                <th scope="col">Report id</th>
+                                <th scope="col">Report date</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-body">
+                            <tr th:each="pathology : *{pathologies}">
+                                <td th:text="*{pathology.id}"></td>
+                                <td th:text="*{pathology.date}"></td>
+                                <td>
+                                    <a th:href="@{/patient/pdd/get_report/{id}(id=${pathology.id})}">
+                                        <img class="action-icon" alt="" th:src="@{/images/download.png}" style="width: 25px; height: 25px; display: block; margin-left: auto; margin-right: auto;">
+                                        <p class="action-label" style="color: #000000; font-size: 13px; text-align: center;">Download</p>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
