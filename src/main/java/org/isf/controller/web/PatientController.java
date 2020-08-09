@@ -229,7 +229,7 @@ public class PatientController {
             if (previousVisits.isEmpty()) {
                 previousVisits = null;
             }
-            
+
             mv.addObject("visits", previousVisits);
             java.util.List<String> symptomsList = csvService.getSymptomsList();
             mv.addObject("symptoms", symptomsList);
