@@ -239,6 +239,7 @@ public class PatientController {
             ExaminationsModel examinationsModel = new ExaminationsModel(examination);
             examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
             mv.addObject("examinations", examinationsModel);
+            mv.addObject("openOnLastVisits", false);
             mv.setViewName("visit_add");
             return mv;
         } catch (Exception e) {
@@ -277,19 +278,63 @@ public class PatientController {
     }
 
     @PostMapping("/visit/add/{id}")
-    public ModelAndView postAddVisit(@PathVariable("id") int code, @Valid Visit visit, BindingResult result, Model model) throws IOException, SQLException {
+    public ModelAndView postAddVisit(@PathVariable("id") int code, @Valid Visit newVisit, BindingResult result, Model model) throws IOException, SQLException, ParseException {
         Patient patient = patientService.findPatientByCode(code);
-        Examinations examination = examinationService.getLastExaminationByPatient(patient);
+        Examinations lastExamination = examinationService.getLastExaminationByPatient(patient);
 
-        visit.setPatient(patient);
-        visit.setExamination(examination);
+        newVisit.setPatient(patient);
+        newVisit.setExamination(lastExamination);
 
         Date date = new Date();
-        visit.setDate(date);
+        newVisit.setDate(date);
 
-        visitService.saveVisit(visit);
+        visitService.saveVisit(newVisit);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
+        ModelAndView mv = new ModelAndView();
+
+        try {
+            Examinations examinations = examinationService.getLastExaminationByPatient(patient);
+            ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
+            examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
+            if (examinationsModel.getScore() > 6) {
+                patient.setPddScore("red");
+            } else if (examinationsModel.getScore() > 4){
+                patient.setPddScore("orange");
+            } else if (examinationsModel.getScore() > 3){
+                patient.setPddScore("yellow");
+            } else {
+                patient.setPddScore("white");
+            }
+        } catch (Exception e) {
+            patient.setPddScore("white");
+        }
+
+        mv.addObject("patient", patient);
+        mv.addObject("visit", new Visit());
+        List<Visit> visits = visitService.findAllByPatient(patient);
+        List<PreviousVisitModel> previousVisits = new ArrayList<>();
+
+        for (Visit visit : visits) {
+            PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
+            previousVisits.add(previousVisit);
+        }
+
+        if (previousVisits.isEmpty()) {
+            previousVisits = null;
+        }
+
+        mv.addObject("visits", previousVisits);
+        java.util.List<String> symptomsList = csvService.getSymptomsList();
+        mv.addObject("symptoms", symptomsList);
+        java.util.List<String> diseasesList = csvService.getDiseasesList();
+        mv.addObject("diseases", diseasesList);
+        Examinations examination = examinationService.getLastExaminationByPatient(patient);
+        ExaminationsModel examinationsModel = new ExaminationsModel(examination);
+        examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
+        mv.addObject("examinations", examinationsModel);
+        mv.addObject("openOnLastVisits", true);
+        mv.setViewName("visit_add");
+        return mv;
     }
 
     @GetMapping("/pdd/{id}")

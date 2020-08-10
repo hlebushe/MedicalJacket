@@ -29,6 +29,13 @@
             border-right: 1px dotted #aeacab;
             border-top: 1px dotted #aeacab;
             border-bottom: 1px dotted #aeacab;
+            color: #ffffff;
+            background-color: #000000;
+        }
+
+        .white_td {
+            color: #000000!important;
+            background-color: #ffffff!important;
         }
 
         #search {
@@ -156,12 +163,12 @@
                             <tbody id="table-body">
                             <tr th:each="examination : *{examinations}">
                                 <td th:text="*{examination.date}"></td>
-                                <td th:style="*{'color:' + examination.bodyMassIndexColor}" th:text="*{examination.bodyMassIndex}"></td>
-                                <td th:style="*{'color:' + examination.bloodPressureMaxColor}" th:text="*{examination.bloodPressureMax}"></td>
-                                <td th:style="*{'color:' + examination.bloodPressureMinColor}" th:text="*{examination.bloodPressureMin}"></td>
-                                <td th:style="*{'color:' + examination.heartRateColor}" th:text="*{examination.heartRate}"></td>
-                                <td th:style="*{'color:' + examination.temperatureColor}" th:text="*{examination.temperature}"></td>
-                                <td th:style="*{'color:' + examination.o2SaturationColor}" th:text="*{examination.o2Saturation}"></td>
+                                <td th:style="*{'background-color:' + examination.bodyMassIndexColor}" th:text="*{examination.bodyMassIndex}"></td>
+                                <td th:style="*{'background-color:' + examination.bloodPressureMaxColor}" th:text="*{examination.bloodPressureMax}"></td>
+                                <td th:style="*{'background-color:' + examination.bloodPressureMinColor}" th:text="*{examination.bloodPressureMin}"></td>
+                                <td th:style="*{'background-color:' + examination.heartRateColor}" th:text="*{examination.heartRate}"></td>
+                                <td th:style="*{'background-color:' + examination.temperatureColor}" th:text="*{examination.temperature}"></td>
+                                <td th:style="*{'background-color:' + examination.o2SaturationColor}" th:text="*{examination.o2Saturation}"></td>
                                 <td th:text="*{examination.score}"></td>
                             </tr>
                             </tbody>
@@ -185,9 +192,9 @@
                             </thead>
                             <tbody id="table-body">
                             <tr th:each="pathology : *{pathologies}">
-                                <td th:text="*{pathology.id}"></td>
-                                <td th:text="*{pathology.date}"></td>
-                                <td>
+                                <td class="white_td" th:text="*{pathology.id}"></td>
+                                <td class="white_td" th:text="*{pathology.date}"></td>
+                                <td class="white_td">
                                     <a th:href="@{/patient/pdd/get_report/{id}(id=${pathology.id})}">
                                         <img class="action-icon" alt="" th:src="@{/images/download.png}" style="width: 25px; height: 25px; display: block; margin-left: auto; margin-right: auto;">
                                         <p class="action-label" style="color: #000000; font-size: 13px; text-align: center;">Download</p>
