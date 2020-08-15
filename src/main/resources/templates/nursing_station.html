@@ -116,8 +116,8 @@
     var url = /*[[ @{/nursing_station/get_measurements} ]]*/
 
         function updateData() {
-        $.get(url, function(fragment) { // get from controller
-            $("#measurements").replaceWith(fragment); // update snippet of page
+        $.get(url, function(fragment) {
+            $("#measurements").replaceWith(fragment);
         });
     }
 

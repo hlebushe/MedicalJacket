@@ -50,6 +50,38 @@
         .custom-control-label {
             color: #000000;
         }
+
+        .modal-lg {
+            max-width: 80% !important;
+            text-align: left;
+        }
+
+        .action-icon {
+            margin-left: 10px;
+        }
+
+        .btn-primary {
+            background-color: #ffffff;
+            color: #38367a;
+            border-color: red;
+        }
+
+        .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:visited, .btn-primary:disabled, btn-primary:not(:disabled):not(.disabled).active,.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled):active:focus  {
+            background-color: #38367a;
+            color: #ffffff;
+            border-color: red;
+        }
+
+        .custom-tooltip {
+            width: 800px;
+            position: absolute;
+            border: solid 1px red;
+            top: -140px;
+            margin-bottom: 5px;
+            height: 120px;
+            background: #e6e6e6;
+        }
+
     </style>
 </head>
 <body>
@@ -165,68 +197,168 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#symptomsModal" onclick="showSymptoms()">Symptoms
+                                <img class="action-icon" alt="" th:src="@{/images/symptoms.png}">
+                            </button>
+                        </div>
+                        <div class="modal fade" id="symptomsModal" tabindex="-1" role="dialog" aria-labelledby="symptomsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="symptomsModalLabel">Symptoms</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="symptomsModalText" style="white-space: pre-line;">
+                                        Loading...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#diagnosisModal" onclick="showDiagnosis()">Diagnosis
+                            <img class="action-icon" alt="" th:src="@{/images/diagnosis.png}">
+                            </button>
+                        </div>
+                        <div class="modal fade" id="diagnosisModal" tabindex="-1" role="dialog" aria-labelledby="diagnosisModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="diagnosisModalLabel">Diagnosis</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="diagnosisModalText" style="white-space: pre-line;">
+                                        Loading...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#treatmentModal" onclick="showTreatment()">Treatment
+                                <img class="action-icon" alt="" th:src="@{/images/treatment.png}">
+                            </button>
+                        </div>
+                        <div class="modal fade" id="treatmentModal" tabindex="-1" role="dialog" aria-labelledby="treatmentModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="treatmentModalLabel">Treatment</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="treatmentModalText" style="white-space: pre-line;">
+                                        Loading...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#managementModal" onclick="showManagement()">Management
+                                <img class="action-icon" alt="" th:src="@{/images/management.png}">
+                            </button>
+                        </div>
+                        <div class="modal fade" id="managementModal" tabindex="-1" role="dialog" aria-labelledby="managementModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="managementModalLabel">Management</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="managementModalText" style="white-space: pre-line;">
+                                        Loading...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col" style="margin-left: 15px;">
 
                     <div class="form-group input-group mainComplaint1">
+                        <div class="custom-tooltip">Symptom Description</div>
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 1</span>
                         </div>
-                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom1}" id="mainComplaintSymptom1">
-                        <datalist id="symptoms">
+                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintSymptom1}" id="mainComplaintSymptom1">
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint2">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 2</span>
                         </div>
-                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom2}" id="mainComplaintSymptom2">
-                        <datalist id="symptoms">
+                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintSymptom2}" id="mainComplaintSymptom2">
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 3</span>
                         </div>
-                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom3}" id="mainComplaintSymptom3">
-                        <datalist id="symptoms">
+                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintSymptom3}" id="mainComplaintSymptom3">
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint4">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 4</span>
                         </div>
-                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom4}" id="mainComplaintSymptom4">
-                        <datalist id="symptoms">
+                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintSymptom4}" id="mainComplaintSymptom4">
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint5">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 5</span>
                         </div>
-                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom5}" id="mainComplaintSymptom5">
-                        <datalist id="symptoms">
+                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintSymptom5}" id="mainComplaintSymptom5">
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group mainComplaintButton">
                         <button type="button" class="btn btn-secondary" onclick="addMainSymptom()">Add</button>
@@ -569,9 +701,171 @@
 
     $(document).ready(function() {
         $(".mainComplaint").hide();
-        $(".secondaryComplaint").hide()
+        $(".secondaryComplaint").hide();
+        $(".custom-tooltip").hide();
+        $("select").val("");
     });
 
+
+</script>
+<script th:inline="javascript">
+    var symptomsUrl = /*[[ @{/diagnosis/get_symptoms_info} ]]*/
+
+    $("select").mousedown(function(){
+        $(this).attr("size", 15);
+        $(this).css("height", "400px");
+        $(".custom-tooltip").show()
+    });
+
+    $("select").on('mousedown','option',function(e) {
+        $(this).parent().attr("size", 1);
+        $(this).parent().css("height", "62px");
+        $(this).parent().val($(this).val());
+        $(".custom-tooltip").hide();
+        e.stopPropagation();
+    });
+
+    var symptomUrl = /*[[ @{/diagnosis/get_symptom_info} ]]*/
+
+    $("select").on('mouseenter','option',function(e) {
+        var $target = $(e.target);
+        $(this).css("background-color", "#dedede");
+
+        $.ajax({
+            url: symptomUrl,
+            type: "get", //send it through get method
+            data: {
+                symptom1: $target.text(),
+                infoType: "Description"
+            },
+            success: function(response) {
+                $('.custom-tooltip').text(response);
+            },
+            error: function(xhr) {
+                $('.custom-tooltip').text("No symptom information");
+            }
+        });
+    });
+
+    $("select").on('mouseout','option',function(e) {
+        $(this).css("background-color", "#ffffff");
+    });
+
+    function showSymptoms() {
+        var result = "";
+
+        var symptom1 = $("#mainComplaintSymptom1").val();
+        var symptom2 = $("#mainComplaintSymptom2").val();
+        var symptom3 = $("#mainComplaintSymptom3").val();
+        var symptom4 = $("#mainComplaintSymptom4").val();
+        var symptom5 = $("#mainComplaintSymptom5").val();
+
+        $.ajax({
+            url: symptomsUrl,
+            type: "get", //send it through get method
+            data: {
+                symptom1: symptom1,
+                symptom2: symptom2,
+                symptom3: symptom3,
+                symptom4: symptom4,
+                symptom5: symptom5,
+                infoType: "Description"
+            },
+            success: function(response) {
+                $('#symptomsModalText').text(response);
+            },
+            error: function(xhr) {
+                $('#symptomsModalText').text("No symptoms information");
+            }
+        });
+    }
+
+        function showDiagnosis() {
+            var result = "";
+
+            var symptom1 = $("#mainComplaintSymptom1").val();
+            var symptom2 = $("#mainComplaintSymptom2").val();
+            var symptom3 = $("#mainComplaintSymptom3").val();
+            var symptom4 = $("#mainComplaintSymptom4").val();
+            var symptom5 = $("#mainComplaintSymptom5").val();
+
+            $.ajax({
+                url: symptomsUrl,
+                type: "get", //send it through get method
+                data: {
+                    symptom1: symptom1,
+                    symptom2: symptom2,
+                    symptom3: symptom3,
+                    symptom4: symptom4,
+                    symptom5: symptom5,
+                    infoType: "Diagnosis"
+                },
+                success: function(response) {
+                    $('#diagnosisModalText').text(response);
+                },
+                error: function(xhr) {
+                    $('#symptomsModalText').text("No diagnosis information");
+                }
+            });
+        }
+
+        function showTreatment() {
+            var result = "";
+
+            var symptom1 = $("#mainComplaintSymptom1").val();
+            var symptom2 = $("#mainComplaintSymptom2").val();
+            var symptom3 = $("#mainComplaintSymptom3").val();
+            var symptom4 = $("#mainComplaintSymptom4").val();
+            var symptom5 = $("#mainComplaintSymptom5").val();
+
+            $.ajax({
+                url: symptomsUrl,
+                type: "get", //send it through get method
+                data: {
+                    symptom1: symptom1,
+                    symptom2: symptom2,
+                    symptom3: symptom3,
+                    symptom4: symptom4,
+                    symptom5: symptom5,
+                    infoType: "Treatment"
+                },
+                success: function(response) {
+                    $('#treatmentModalText').text(response);
+                },
+                error: function(xhr) {
+                    $('#treatmentModalText').text("No treatment information");
+                }
+            });
+        }
+
+        function showManagement() {
+            var result = "";
+
+            var symptom1 = $("#mainComplaintSymptom1").val();
+            var symptom2 = $("#mainComplaintSymptom2").val();
+            var symptom3 = $("#mainComplaintSymptom3").val();
+            var symptom4 = $("#mainComplaintSymptom4").val();
+            var symptom5 = $("#mainComplaintSymptom5").val();
+
+            $.ajax({
+                url: symptomsUrl,
+                type: "get", //send it through get method
+                data: {
+                    symptom1: symptom1,
+                    symptom2: symptom2,
+                    symptom3: symptom3,
+                    symptom4: symptom4,
+                    symptom5: symptom5,
+                    infoType: "Management"
+                },
+                success: function(response) {
+                    $('#managementModalText').text(response);
+                },
+                error: function(xhr) {
+                    $('#managementModalText').text("No management information");
+                }
+            });
+        }
 </script>
 </body>
 </html>

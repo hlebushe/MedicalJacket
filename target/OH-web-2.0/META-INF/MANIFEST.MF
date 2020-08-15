@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Created-By: IntelliJ IDEA
-Built-By: andriyblonskiy
-Build-Jdk: 1.8.0_242
-Implementation-Title: OpenHospital-web
-Implementation-Version: 2.0
-Implementation-Vendor-Id: org.isf
-Main-Class: ${start-class}
-

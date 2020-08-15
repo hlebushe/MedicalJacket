@@ -176,7 +176,8 @@
                         <datalist id="symptoms">
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
-                                    th:utext="${symtom.toString()}">
+                                    th:utext="${symtom.toString()}"
+                                    class="symptomsList">
                             </option>
                         </datalist>
                     </div>
@@ -571,6 +572,10 @@
         $(".mainComplaint").hide();
         $(".secondaryComplaint").hide()
     });
+
+    $(".symptomsList").hover(function(){
+        alert("Test");
+    })
 
 </script>
 </body>

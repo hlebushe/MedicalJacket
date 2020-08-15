@@ -4,6 +4,7 @@ import org.isf.dao.User;
 import org.isf.dao.Patient;
 import org.isf.repository.UserRepository;
 import org.isf.service.PatientService;
+import org.isf.service.XLSXService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,19 +25,22 @@ public class DefaultController {
 	private PatientService patientService;
 
 	@Autowired
+	XLSXService xlsxService;
+
+	@Autowired
 	public DefaultController(UserRepository userService) {
 		this.userService = userService;
 	}
 
 	@GetMapping(value = "/login")
-	public ModelAndView login() {
+	public ModelAndView login() throws IOException {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("login");
 		return modelAndView;
 	}
 
 	@GetMapping(value = "/home")
-	public ModelAndView home() {
+	public ModelAndView home() throws IOException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findByUserName(auth.getName());
 
