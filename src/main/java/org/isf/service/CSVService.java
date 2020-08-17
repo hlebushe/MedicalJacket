@@ -1,16 +1,15 @@
 package org.isf.service;
 
+import au.com.bytecode.opencsv.CSVReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,14 +29,19 @@ public class CSVService {
     }
 
     public List<String> getDiseasesList() throws IOException {
-        List<String> records = new ArrayList<>();
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("diseases.csv").getFile());
-        try (Scanner scanner = new Scanner(file)) {
-            while (scanner.hasNextLine()) {
-                records.add(scanner.nextLine());
-            }
+        List<String> records = new ArrayList<>();
+
+        CSVReader reader = new CSVReader(new FileReader(file), ',', '"', 1);
+
+        List<String[]> allRows = reader.readAll();
+
+        for(String[] row : allRows){
+            System.out.println(Arrays.toString(row));
+            records.add(row[0]);
         }
+
         return records;
     }
 

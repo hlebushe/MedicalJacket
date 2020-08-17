@@ -309,56 +309,61 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 1</span>
                         </div>
-                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintSymptom1}" id="mainComplaintSymptom1">
+                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom1}" id="mainComplaintSymptom1">
+                        <datalist id="symptoms">
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
-                        </select>
+                        </datalist>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint2">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 2</span>
                         </div>
-                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintSymptom2}" id="mainComplaintSymptom2">
+                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom2}" id="mainComplaintSymptom2">
+                        <datalist id="symptoms">
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
-                        </select>
+                        </datalist>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 3</span>
                         </div>
-                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintSymptom3}" id="mainComplaintSymptom3">
+                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom3}" id="mainComplaintSymptom3">
+                        <datalist id="symptoms">
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
-                        </select>
+                        </datalist>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint4">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 4</span>
                         </div>
-                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintSymptom4}" id="mainComplaintSymptom4">
+                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom4}" id="mainComplaintSymptom4">
+                        <datalist id="symptoms">
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
-                        </select>
+                        </datalist>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint5">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 5</span>
                         </div>
-                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintSymptom5}" id="mainComplaintSymptom5">
+                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom5}" id="mainComplaintSymptom5">
+                        <datalist id="symptoms">
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
-                        </select>
+                        </datalist>
                     </div>
                     <div class="form-group mainComplaintButton">
                         <button type="button" class="btn btn-secondary" onclick="addMainSymptom()">Add</button>
@@ -367,37 +372,34 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Diagnosis 1:</span>
                         </div>
-                        <input style="height: 62px;" list="diseases" class="form-control" th:field="*{mainComplaintDiagnosis1}" id="mainComplaintDiagnosis1">
-                        <datalist id="diseases">
+                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintDiagnosis1}" id="mainComplaintDiagnosis1">
                             <option th:each="disease : ${diseases}"
                                     th:value="${disease.toString()}"
                                     th:utext="${disease.toString()}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Diagnosis 2:</span>
                         </div>
-                        <input style="height: 62px;" list="diseases" class="form-control" th:field="*{mainComplaintDiagnosis2}" id="mainComplaintDiagnosis2">
-                        <datalist id="diseases">
+                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintDiagnosis2}" id="mainComplaintDiagnosis2">
                             <option th:each="disease : ${diseases}"
                                     th:value="${disease.toString()}"
                                     th:utext="${disease.toString()}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Diagnosis 3:</span>
                         </div>
-                        <input style="height: 62px;" list="diseases" class="form-control" th:field="*{mainComplaintDiagnosis3}" id="mainComplaintDiagnosis3">
-                        <datalist id="diseases">
+                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintDiagnosis3}" id="mainComplaintDiagnosis3">
                             <option th:each="disease : ${diseases}"
                                     th:value="${disease.toString()}"
                                     th:utext="${disease.toString()}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                 </div>
                 <div class="col">
@@ -735,14 +737,14 @@
             url: symptomUrl,
             type: "get", //send it through get method
             data: {
-                symptom1: $target.text(),
+                diagnosis1: $target.text(),
                 infoType: "Description"
             },
             success: function(response) {
                 $('.custom-tooltip').text(response);
             },
             error: function(xhr) {
-                $('.custom-tooltip').text("No symptom information");
+                $('.custom-tooltip').text("No diagnosis information");
             }
         });
     });
@@ -754,21 +756,17 @@
     function showSymptoms() {
         var result = "";
 
-        var symptom1 = $("#mainComplaintSymptom1").val();
-        var symptom2 = $("#mainComplaintSymptom2").val();
-        var symptom3 = $("#mainComplaintSymptom3").val();
-        var symptom4 = $("#mainComplaintSymptom4").val();
-        var symptom5 = $("#mainComplaintSymptom5").val();
+        var diagnosis1 = $("#mainComplaintDiagnosis1").val();
+        var diagnosis2 = $("#mainComplaintDiagnosis2").val();
+        var diagnosis3 = $("#mainComplaintDiagnosis3").val();
 
         $.ajax({
             url: symptomsUrl,
             type: "get", //send it through get method
             data: {
-                symptom1: symptom1,
-                symptom2: symptom2,
-                symptom3: symptom3,
-                symptom4: symptom4,
-                symptom5: symptom5,
+                diagnosis1: diagnosis1,
+                diagnosis2: diagnosis2,
+                diagnosis3: diagnosis3,
                 infoType: "Description"
             },
             success: function(response) {
@@ -783,28 +781,24 @@
         function showDiagnosis() {
             var result = "";
 
-            var symptom1 = $("#mainComplaintSymptom1").val();
-            var symptom2 = $("#mainComplaintSymptom2").val();
-            var symptom3 = $("#mainComplaintSymptom3").val();
-            var symptom4 = $("#mainComplaintSymptom4").val();
-            var symptom5 = $("#mainComplaintSymptom5").val();
+            var diagnosis1 = $("#mainComplaintDiagnosis1").val();
+            var diagnosis2 = $("#mainComplaintDiagnosis2").val();
+            var diagnosis3 = $("#mainComplaintDiagnosis3").val();
 
             $.ajax({
                 url: symptomsUrl,
                 type: "get", //send it through get method
                 data: {
-                    symptom1: symptom1,
-                    symptom2: symptom2,
-                    symptom3: symptom3,
-                    symptom4: symptom4,
-                    symptom5: symptom5,
+                    diagnosis1: diagnosis1,
+                    diagnosis2: diagnosis2,
+                    diagnosis3: diagnosis3,
                     infoType: "Diagnosis"
                 },
                 success: function(response) {
                     $('#diagnosisModalText').text(response);
                 },
                 error: function(xhr) {
-                    $('#symptomsModalText').text("No diagnosis information");
+                    $('#diagnosisModalText').text("No diagnosis information");
                 }
             });
         }
@@ -812,21 +806,17 @@
         function showTreatment() {
             var result = "";
 
-            var symptom1 = $("#mainComplaintSymptom1").val();
-            var symptom2 = $("#mainComplaintSymptom2").val();
-            var symptom3 = $("#mainComplaintSymptom3").val();
-            var symptom4 = $("#mainComplaintSymptom4").val();
-            var symptom5 = $("#mainComplaintSymptom5").val();
+            var diagnosis1 = $("#mainComplaintDiagnosis1").val();
+            var diagnosis2 = $("#mainComplaintDiagnosis2").val();
+            var diagnosis3 = $("#mainComplaintDiagnosis3").val();
 
             $.ajax({
                 url: symptomsUrl,
                 type: "get", //send it through get method
                 data: {
-                    symptom1: symptom1,
-                    symptom2: symptom2,
-                    symptom3: symptom3,
-                    symptom4: symptom4,
-                    symptom5: symptom5,
+                    diagnosis1: diagnosis1,
+                    diagnosis2: diagnosis2,
+                    diagnosis3: diagnosis3,
                     infoType: "Treatment"
                 },
                 success: function(response) {
@@ -841,21 +831,17 @@
         function showManagement() {
             var result = "";
 
-            var symptom1 = $("#mainComplaintSymptom1").val();
-            var symptom2 = $("#mainComplaintSymptom2").val();
-            var symptom3 = $("#mainComplaintSymptom3").val();
-            var symptom4 = $("#mainComplaintSymptom4").val();
-            var symptom5 = $("#mainComplaintSymptom5").val();
+            var diagnosis1 = $("#mainComplaintDiagnosis1").val();
+            var diagnosis2 = $("#mainComplaintDiagnosis2").val();
+            var diagnosis3 = $("#mainComplaintDiagnosis3").val();
 
             $.ajax({
                 url: symptomsUrl,
                 type: "get", //send it through get method
                 data: {
-                    symptom1: symptom1,
-                    symptom2: symptom2,
-                    symptom3: symptom3,
-                    symptom4: symptom4,
-                    symptom5: symptom5,
+                    diagnosis1: diagnosis1,
+                    diagnosis2: diagnosis2,
+                    diagnosis3: diagnosis3,
                     infoType: "Management"
                 },
                 success: function(response) {

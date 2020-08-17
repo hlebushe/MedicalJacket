@@ -21,11 +21,11 @@ public class DiagnosisController {
     XLSXService xlsxService;
 
     @RequestMapping(value = "/get_symptom_info", method = RequestMethod.GET)
-    public @ResponseBody String getSymptomInfo(@RequestParam String symptom1, @RequestParam String infoType, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public @ResponseBody String getSymptomInfo(@RequestParam String diagnosis1, @RequestParam String infoType, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String res = "";
 
-        if (!symptom1.isEmpty()) {
-            res = res.concat(xlsxService.getSymptomInfo(symptom1, infoType));
+        if (!diagnosis1.isEmpty()) {
+            res = res.concat(xlsxService.getSymptomInfo(diagnosis1, infoType));
         }
 
         return res;
@@ -33,27 +33,19 @@ public class DiagnosisController {
 
 
     @RequestMapping(value = "/get_symptoms_info", method = RequestMethod.GET)
-    public @ResponseBody String getSymptomsInfo(@RequestParam String symptom1, @RequestParam String symptom2, @RequestParam String symptom3, @RequestParam String symptom4, @RequestParam String symptom5, @RequestParam String infoType, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public @ResponseBody String getSymptomsInfo(@RequestParam String diagnosis1, @RequestParam String diagnosis2, @RequestParam String diagnosis3, @RequestParam String infoType, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String res = "";
 
-        if (!symptom1.isEmpty()) {
-            res = res.concat(symptom1 + ": " + xlsxService.getSymptomInfo(symptom1, infoType) + System.lineSeparator() + System.lineSeparator());
+        if (!diagnosis1.isEmpty()) {
+            res = res.concat(diagnosis1 + ": " + xlsxService.getSymptomInfo(diagnosis1, infoType) + System.lineSeparator() + System.lineSeparator());
         }
 
-        if (!symptom2.isEmpty()) {
-            res = res.concat(symptom2 + ": " + xlsxService.getSymptomInfo(symptom2, infoType) + System.lineSeparator() + System.lineSeparator());
+        if (!diagnosis2.isEmpty()) {
+            res = res.concat(diagnosis2 + ": " + xlsxService.getSymptomInfo(diagnosis2, infoType) + System.lineSeparator() + System.lineSeparator());
         }
 
-        if (!symptom3.isEmpty()) {
-            res = res.concat(symptom3 + ": " + xlsxService.getSymptomInfo(symptom3, infoType) + System.lineSeparator() + System.lineSeparator());
-        }
-
-        if (!symptom4.isEmpty()) {
-            res = res.concat(symptom4 + ": " + xlsxService.getSymptomInfo(symptom4, infoType) + System.lineSeparator() + System.lineSeparator());
-        }
-
-        if (!symptom5.isEmpty()) {
-            res = res.concat(symptom5 + ": " + xlsxService.getSymptomInfo(symptom5, infoType) + System.lineSeparator() + System.lineSeparator());
+        if (!diagnosis3.isEmpty()) {
+            res = res.concat(diagnosis3 + ": " + xlsxService.getSymptomInfo(diagnosis3, infoType) + System.lineSeparator() + System.lineSeparator());
         }
 
         return res;
