@@ -76,9 +76,9 @@
             width: 800px;
             position: absolute;
             border: solid 1px red;
-            top: -140px;
+            top: 420px;
             margin-bottom: 5px;
-            height: 120px;
+            height: auto;
             background: #e6e6e6;
         }
 
@@ -226,45 +226,20 @@
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#diagnosisModal" onclick="showDiagnosis()">Diagnosis
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#descriptionModal" onclick="showDescription()">Diagnosis
                             <img class="action-icon" alt="" th:src="@{/images/diagnosis.png}">
                             </button>
                         </div>
-                        <div class="modal fade" id="diagnosisModal" tabindex="-1" role="dialog" aria-labelledby="diagnosisModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="diagnosisModalLabel">Diagnosis</h5>
+                                        <h5 class="modal-title" id="descriptionModalLabel">Diagnosis</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body" id="diagnosisModalText" style="white-space: pre-line;">
-                                        Loading...
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#treatmentModal" onclick="showTreatment()">Treatment
-                                <img class="action-icon" alt="" th:src="@{/images/treatment.png}">
-                            </button>
-                        </div>
-                        <div class="modal fade" id="treatmentModal" tabindex="-1" role="dialog" aria-labelledby="treatmentModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="treatmentModalLabel">Treatment</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body" id="treatmentModalText" style="white-space: pre-line;">
+                                    <div class="modal-body" id="descriptionModalText" style="white-space: pre-line;">
                                         Loading...
                                     </div>
                                     <div class="modal-footer">
@@ -299,71 +274,94 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#diagnosisModal" onclick="showDiagnosis()">API Medic
+                                <img class="action-icon" alt="" th:src="@{/images/treatment.png}">
+                            </button>
+                        </div>
+                        <div class="modal fade" id="diagnosisModal" tabindex="-1" role="dialog" aria-labelledby="diagnosisModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="diagnosisModalLabel">Diagnosis</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="diagnosisModalText" style="white-space: pre-line;">
+                                        Loading...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col" style="margin-left: 15px;">
-
                     <div class="form-group input-group mainComplaint1">
-                        <div class="custom-tooltip">Symptom Description</div>
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 1</span>
                         </div>
-                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom1}" id="mainComplaintSymptom1">
-                        <datalist id="symptoms">
+                        <select style="height: 62px;" class="form-control" th:field="*{mainComplaintSymptom1}" id="mainComplaintSymptom1" onchange="symptom1Changed(this.options[this.selectedIndex].title);">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
-                                    th:utext="${symtom.toString()}">
+                                    th:value="${symtom.Name}"
+                                    th:utext="${symtom.Name}"
+                                    th:title="${symtom.ID}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint2">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 2</span>
                         </div>
-                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom2}" id="mainComplaintSymptom2">
-                        <datalist id="symptoms">
+                        <select style="height: 62px;" class="form-control" th:field="*{mainComplaintSymptom2}" id="mainComplaintSymptom2" onchange="symptom2Changed(this.options[this.selectedIndex].title);">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
-                                    th:utext="${symtom.toString()}">
+                                    th:value="${symtom.Name}"
+                                    th:utext="${symtom.Name}"
+                                    th:title="${symtom.ID}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 3</span>
                         </div>
-                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom3}" id="mainComplaintSymptom3">
-                        <datalist id="symptoms">
+                        <select style="height: 62px;" class="form-control" th:field="*{mainComplaintSymptom3}" id="mainComplaintSymptom3" onchange="symptom3Changed(this.options[this.selectedIndex].title);">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
-                                    th:utext="${symtom.toString()}">
+                                    th:value="${symtom.Name}"
+                                    th:utext="${symtom.Name}"
+                                    th:title="${symtom.ID}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint4">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 4</span>
                         </div>
-                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom4}" id="mainComplaintSymptom4">
-                        <datalist id="symptoms">
+                        <select style="height: 62px;" class="form-control" th:field="*{mainComplaintSymptom4}" id="mainComplaintSymptom4" onchange="symptom4Changed(this.options[this.selectedIndex].title);">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
-                                    th:utext="${symtom.toString()}">
+                                    th:value="${symtom.Name}"
+                                    th:utext="${symtom.Name}"
+                                    th:title="${symtom.ID}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint5">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 5</span>
                         </div>
-                        <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom5}" id="mainComplaintSymptom5">
-                        <datalist id="symptoms">
+                        <select style="height: 62px;" class="form-control" th:field="*{mainComplaintSymptom5}" id="mainComplaintSymptom5" onchange="symptom5Changed(this.options[this.selectedIndex].title);">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
-                                    th:utext="${symtom.toString()}">
+                                    th:value="${symtom.Name}"
+                                    th:utext="${symtom.Name}"
+                                    th:title="${symtom.ID}">
                             </option>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group mainComplaintButton">
                         <button type="button" class="btn btn-secondary" onclick="addMainSymptom()">Add</button>
@@ -372,10 +370,11 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Diagnosis 1:</span>
                         </div>
-                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintDiagnosis1}" id="mainComplaintDiagnosis1">
+                        <select style="height: 62px;" class="form-control tooltip-select" th:field="*{mainComplaintDiagnosis1}" id="mainComplaintDiagnosis1">
                             <option th:each="disease : ${diseases}"
-                                    th:value="${disease.toString()}"
-                                    th:utext="${disease.toString()}">
+                                    th:value="${disease.name}"
+                                    th:utext="${disease.name}"
+                                    th:title="${disease.description}">
                             </option>
                         </select>
                     </div>
@@ -383,10 +382,11 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Diagnosis 2:</span>
                         </div>
-                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintDiagnosis2}" id="mainComplaintDiagnosis2">
+                        <select style="height: 62px;" class="form-control tooltip-select" th:field="*{mainComplaintDiagnosis2}" id="mainComplaintDiagnosis2">
                             <option th:each="disease : ${diseases}"
-                                    th:value="${disease.toString()}"
-                                    th:utext="${disease.toString()}">
+                                    th:value="${disease.name}"
+                                    th:utext="${disease.name}"
+                                    th:title="${disease.description}">
                             </option>
                         </select>
                     </div>
@@ -394,10 +394,11 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Diagnosis 3:</span>
                         </div>
-                        <select style="height: 62px;" class="selectpicker form-control" th:field="*{mainComplaintDiagnosis3}" id="mainComplaintDiagnosis3">
+                        <select style="height: 62px;" class="form-control tooltip-select" th:field="*{mainComplaintDiagnosis3}" id="mainComplaintDiagnosis3">
                             <option th:each="disease : ${diseases}"
-                                    th:value="${disease.toString()}"
-                                    th:utext="${disease.toString()}">
+                                    th:value="${disease.name}"
+                                    th:utext="${disease.name}"
+                                    th:title="${disease.description}">
                             </option>
                         </select>
                     </div>
@@ -410,8 +411,8 @@
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom1}" id="secondaryComplaintSymptom1">
                         <datalist id="symptoms">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
-                                    th:utext="${symtom.toString()}">
+                                    th:value="${symtom.Name}"
+                                    th:utext="${symtom.Name}">
                             </option>
                         </datalist>
                     </div>
@@ -422,8 +423,8 @@
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom2}" id="secondaryComplaintSymptom2">
                         <datalist id="symptoms">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
-                                    th:utext="${symtom.toString()}">
+                                    th:value="${symtom.Name}"
+                                    th:utext="${symtom.Name}">
                             </option>
                         </datalist>
                     </div>
@@ -434,8 +435,8 @@
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom3}" id="secondaryComplaintSymptom3">
                         <datalist id="symptoms">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
-                                    th:utext="${symtom.toString()}">
+                                    th:value="${symtom.Name}"
+                                    th:utext="${symtom.Name}">
                             </option>
                         </datalist>
                     </div>
@@ -446,8 +447,8 @@
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom4}" id="secondaryComplaintSymptom4">
                         <datalist id="symptoms">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
-                                    th:utext="${symtom.toString()}">
+                                    th:value="${symtom.Name}"
+                                    th:utext="${symtom.Name}">
                             </option>
                         </datalist>
                     </div>
@@ -458,8 +459,8 @@
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom5}" id="secondaryComplaintSymptom5">
                         <datalist id="symptoms">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
-                                    th:utext="${symtom.toString()}">
+                                    th:value="${symtom.Name}"
+                                    th:utext="${symtom.Name}">
                             </option>
                         </datalist>
                     </div>
@@ -473,11 +474,12 @@
                         <input style="height: 62px;" list="diseases" class="form-control" th:field="*{secondaryComplaintDiagnosis}" id="secondaryComplaintDiagnosis">
                         <datalist id="diseases">
                             <option th:each="disease : ${diseases}"
-                                    th:value="${disease.toString()}"
-                                    th:utext="${disease.toString()}">
+                                    th:value="${disease.name}"
+                                    th:utext="${disease.name}">
                             </option>
                         </datalist>
                     </div>
+                    <div class="custom-tooltip">Symptom Description</div>
                 </div>
                 <div class="col">
                     <div class="form-group input-group">
@@ -532,13 +534,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="visit : *{visits}">
-                            <td th:text="*{visit.visitDate}"></td>
-                            <td th:text="*{visit.type}"></td>
-                            <td th:text="*{visit.mainComplaintSymptoms}"></td>
-                            <td th:text="*{visit.mainComplaintDiagnosis}"></td>
-                            <td th:text="*{visit.treatment}"></td>
-                            <td th:text="*{visit.management}"></td>
+                        <tr th:each="previosVisit : *{visits}">
+                            <td th:text="*{previosVisit.visitDate}"></td>
+                            <td th:text="*{previosVisit.type}"></td>
+                            <td th:text="*{previosVisit.mainComplaintSymptoms}"></td>
+                            <td th:text="*{previosVisit.mainComplaintDiagnosis}"></td>
+                            <td th:text="*{previosVisit.treatment}"></td>
+                            <td th:text="*{previosVisit.management}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -598,6 +600,14 @@
     </div>
 </div>
 </div>
+<!--<script th:src="@{/js/hmac-md5.js}"></script>-->
+<!--<script th:src="@{/js/enc-base64-min.js}"></script>-->
+<!--<script>-->
+<!--    var uri = "https://authservice.priaid.ch/login";-->
+<!--    var secret_key = "mysecretkey";-->
+<!--    var computedHash = CryptoJS.HmacMD5(uri, secret_key);-->
+<!--    var computedHashString = computedHash.toString(CryptoJS.enc.Base64);-->
+<!--</script>-->
 <script th:inline="javascript">
     /*<![CDATA[*/
 
@@ -711,47 +721,74 @@
 
 </script>
 <script th:inline="javascript">
+
+    /*<![CDATA[*/
+
+    var yearOfBirth = [[${yearOfBirth}]];
+
+    var sex = [[${patient.sex}]];
+    /*]]>*/
+
     var symptomsUrl = /*[[ @{/diagnosis/get_symptoms_info} ]]*/
 
-    $("select").mousedown(function(){
-        $(this).attr("size", 15);
-        $(this).css("height", "400px");
-        $(".custom-tooltip").show()
-    });
+    var diagnosisUrl = /*[[ @{/diagnosis/get_diagnosis} ]]*/
 
-    $("select").on('mousedown','option',function(e) {
-        $(this).parent().attr("size", 1);
-        $(this).parent().css("height", "62px");
-        $(this).parent().val($(this).val());
-        $(".custom-tooltip").hide();
-        e.stopPropagation();
-    });
+    var symptom1 = '0';
+    var symptom2 = '0';
+    var symptom3 = '0';
+    var symptom4 = '0';
+    var symptom5 = '0';
 
-    var symptomUrl = /*[[ @{/diagnosis/get_symptom_info} ]]*/
+    function symptom1Changed(e) {
+        symptom1 = e;
+    }
 
-    $("select").on('mouseenter','option',function(e) {
-        var $target = $(e.target);
-        $(this).css("background-color", "#dedede");
+    function symptom2Changed(e) {
+        symptom2 = e;
+    }
 
-        $.ajax({
-            url: symptomUrl,
-            type: "get", //send it through get method
-            data: {
-                diagnosis1: $target.text(),
-                infoType: "Description"
-            },
-            success: function(response) {
-                $('.custom-tooltip').text(response);
-            },
-            error: function(xhr) {
-                $('.custom-tooltip').text("No diagnosis information");
+    function symptom3Changed(e) {
+        symptom3 = e;
+    }
+
+    function symptom4Changed(e) {
+        symptom4 = e;
+    }
+
+    function symptom5Changed(e) {
+        symptom5 = e;
+    }
+
+        $(document).ready(function() {
+            var platform = navigator.platform;
+
+            if (!platform.includes("Win")) {
+                $(".tooltip-select").mousedown(function(){
+                    $(this).attr("size", 15);
+                    $(this).css("height", "400px");
+                    $(".custom-tooltip").show()
+                });
+
+                $(".tooltip-select").on('mousedown','option',function(e) {
+                    $(this).parent().attr("size", 1);
+                    $(this).parent().css("height", "62px");
+                    $(this).parent().val($(this).val());
+                    $(".custom-tooltip").hide();
+                    e.stopPropagation();
+                });
+
+                $(".tooltip-select").on('mouseenter','option',function(e) {
+                    $(this).css("background-color", "#dedede");
+                    var descrp = $(this).attr('title');
+                    $('.custom-tooltip').text(descrp);
+
+                });
+
+                $(".tooltip-select").on('mouseout','option',function(e) {
+                    $(this).css("background-color", "#ffffff");
+                });
             }
         });
-    });
-
-    $("select").on('mouseout','option',function(e) {
-        $(this).css("background-color", "#ffffff");
-    });
 
     function showSymptoms() {
         var result = "";
@@ -778,7 +815,7 @@
         });
     }
 
-        function showDiagnosis() {
+        function showDescription() {
             var result = "";
 
             var diagnosis1 = $("#mainComplaintDiagnosis1").val();
@@ -795,35 +832,32 @@
                     infoType: "Diagnosis"
                 },
                 success: function(response) {
-                    $('#diagnosisModalText').text(response);
+                    $('#descriptionModalText').text(response);
                 },
                 error: function(xhr) {
-                    $('#diagnosisModalText').text("No diagnosis information");
+                    $('#descriptionModalText').text("No description");
                 }
             });
         }
 
-        function showTreatment() {
-            var result = "";
-
-            var diagnosis1 = $("#mainComplaintDiagnosis1").val();
-            var diagnosis2 = $("#mainComplaintDiagnosis2").val();
-            var diagnosis3 = $("#mainComplaintDiagnosis3").val();
-
+        function showDiagnosis() {
             $.ajax({
-                url: symptomsUrl,
+                url: diagnosisUrl,
                 type: "get", //send it through get method
                 data: {
-                    diagnosis1: diagnosis1,
-                    diagnosis2: diagnosis2,
-                    diagnosis3: diagnosis3,
-                    infoType: "Treatment"
+                    symptom1: symptom1,
+                    symptom2: symptom2,
+                    symptom3: symptom3,
+                    symptom4: symptom4,
+                    symptom5: symptom5,
+                    yearOfBirth: yearOfBirth,
+                    sex: sex
                 },
                 success: function(response) {
-                    $('#treatmentModalText').text(response);
+                    $('#diagnosisModalText').text(response);
                 },
                 error: function(xhr) {
-                    $('#treatmentModalText').text("No treatment information");
+                    $('#diagnosisModalText').text("No diagnosis information");
                 }
             });
         }
