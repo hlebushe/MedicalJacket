@@ -2,10 +2,8 @@ package org.isf.controller.web;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.isf.dao.*;
-import org.isf.models.DiseaseModel;
 import org.isf.models.ExaminationsModel;
 import org.isf.models.PreviousVisitModel;
-import org.isf.priaid.Diagnosis.Model.HealthItem;
 import org.isf.repository.UserRepository;
 import org.isf.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,9 @@ import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @RequestMapping(value = "/patient")
 
@@ -57,9 +57,6 @@ public class PatientController {
 
     @Autowired
     protected PathologyService pathologyService;
-
-    @Autowired
-    protected XLSXService xlsxService;
 
     @GetMapping(value = "/list")
     public ModelAndView getPatients(Model model) throws IOException, ParseException {
@@ -221,9 +218,6 @@ public class PatientController {
             mv.addObject("patient", patient);
             mv.addObject("visit", new Visit());
 
-            String yearOfBirth = patient.getBirthDate().toString().substring(0,4);
-            mv.addObject("yearOfBirth", yearOfBirth);
-
             List<Visit> visits = visitService.findAllByPatient(patient);
             List<PreviousVisitModel> previousVisits = new ArrayList<>();
 
@@ -237,12 +231,9 @@ public class PatientController {
             }
 
             mv.addObject("visits", previousVisits);
-            PriaidService priaidService = new PriaidService();
-            priaidService.setClient();
-            java.util.List<HealthItem> symptomsList = priaidService.getAllSymptoms();
+            java.util.List<String> symptomsList = csvService.getSymptomsList();
             mv.addObject("symptoms", symptomsList);
-            java.util.List<DiseaseModel> diseasesList = xlsxService.getDiseasesList();
-            Collections.sort(diseasesList, Comparator.comparing(DiseaseModel::getName));
+            java.util.List<String> diseasesList = csvService.getDiseasesList();
             mv.addObject("diseases", diseasesList);
             Examinations examination = examinationService.getLastExaminationByPatient(patient);
             ExaminationsModel examinationsModel = new ExaminationsModel(examination);
@@ -287,7 +278,7 @@ public class PatientController {
     }
 
     @PostMapping("/visit/add/{id}")
-    public ModelAndView postAddVisit(@PathVariable("id") int code, @Valid Visit newVisit, BindingResult result, Model model) throws Exception {
+    public ModelAndView postAddVisit(@PathVariable("id") int code, @Valid Visit newVisit, BindingResult result, Model model) throws IOException, SQLException, ParseException {
         Patient patient = patientService.findPatientByCode(code);
         Examinations lastExamination = examinationService.getLastExaminationByPatient(patient);
 
@@ -320,10 +311,6 @@ public class PatientController {
 
         mv.addObject("patient", patient);
         mv.addObject("visit", new Visit());
-
-        String yearOfBirth = patient.getBirthDate().toString().substring(0,4);
-        mv.addObject("yearOfBirth", yearOfBirth);
-
         List<Visit> visits = visitService.findAllByPatient(patient);
         List<PreviousVisitModel> previousVisits = new ArrayList<>();
 
@@ -337,11 +324,9 @@ public class PatientController {
         }
 
         mv.addObject("visits", previousVisits);
-        PriaidService priaidService = new PriaidService();
-        java.util.List<HealthItem> symptomsList = priaidService.getAllSymptoms();
+        java.util.List<String> symptomsList = csvService.getSymptomsList();
         mv.addObject("symptoms", symptomsList);
-        java.util.List<DiseaseModel> diseasesList = xlsxService.getDiseasesList();
-        Collections.sort(diseasesList, Comparator.comparing(DiseaseModel::getName));
+        java.util.List<String> diseasesList = csvService.getDiseasesList();
         mv.addObject("diseases", diseasesList);
         Examinations examination = examinationService.getLastExaminationByPatient(patient);
         ExaminationsModel examinationsModel = new ExaminationsModel(examination);
