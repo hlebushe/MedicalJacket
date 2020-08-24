@@ -5,7 +5,6 @@ import org.isf.dao.*;
 import org.isf.models.DiseaseModel;
 import org.isf.models.ExaminationsModel;
 import org.isf.models.PreviousVisitModel;
-import org.isf.priaid.Diagnosis.Model.HealthItem;
 import org.isf.repository.UserRepository;
 import org.isf.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -237,9 +236,7 @@ public class PatientController {
             }
 
             mv.addObject("visits", previousVisits);
-            PriaidService priaidService = new PriaidService();
-            priaidService.setClient();
-            java.util.List<HealthItem> symptomsList = priaidService.getAllSymptoms();
+            java.util.List<String> symptomsList = csvService.getSymptomsList();
             mv.addObject("symptoms", symptomsList);
             java.util.List<DiseaseModel> diseasesList = xlsxService.getDiseasesList();
             Collections.sort(diseasesList, Comparator.comparing(DiseaseModel::getName));
@@ -337,8 +334,7 @@ public class PatientController {
         }
 
         mv.addObject("visits", previousVisits);
-        PriaidService priaidService = new PriaidService();
-        java.util.List<HealthItem> symptomsList = priaidService.getAllSymptoms();
+        java.util.List<String> symptomsList = csvService.getSymptomsList();
         mv.addObject("symptoms", symptomsList);
         java.util.List<DiseaseModel> diseasesList = xlsxService.getDiseasesList();
         Collections.sort(diseasesList, Comparator.comparing(DiseaseModel::getName));
