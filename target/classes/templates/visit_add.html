@@ -201,7 +201,8 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#symptomsModal" onclick="showSymptoms()">Symptoms
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#symptomsModal" onclick="showSymptoms()">
+                                <span th:text="#{common.symptoms}"></span>
                                 <img class="action-icon" alt="" th:src="@{/images/symptoms.png}">
                             </button>
                         </div>
@@ -209,7 +210,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="symptomsModalLabel">Symptoms</h5>
+                                        <h5 class="modal-title" id="symptomsModalLabel" th:text="#{common.symptoms}"></h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -226,15 +227,16 @@
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#descriptionModal" onclick="showDescription()">Diagnosis
-                            <img class="action-icon" alt="" th:src="@{/images/diagnosis.png}">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#descriptionModal" onclick="showDescription()">
+                                <span th:text="#{common.diagnosis}"></span>
+                                <img class="action-icon" alt="" th:src="@{/images/diagnosis.png}">
                             </button>
                         </div>
                         <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="descriptionModalLabel">Diagnosis</h5>
+                                        <h5 class="modal-title" id="descriptionModalLabel" th:text="#{common.diagnosis}"></h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -574,6 +576,13 @@
         </div>
     </div>
 </div>
+    <div class="form-group" style="margin-top: 10%">
+        <span th:text="#{lang.change}"></span>:
+        <a href="?lang=en" th:text="#{lang.eng}"></a> |
+        <a href="?lang=hi" th:text="#{lang.hi}"></a> |
+        <a href="?lang=te" th:text="#{lang.te}"></a>
+        </span>
+    </div>
 </div>
 <script th:inline="javascript">
     /*<![CDATA[*/

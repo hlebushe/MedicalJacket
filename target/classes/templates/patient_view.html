@@ -135,19 +135,19 @@
                     <div class="col">
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend1">
-                                <span class="input-group-text">Name</span>
+                                <span class="input-group-text" th:text="#{patient.name}"></span>
                             </div>
                             <input type="text" th:field="*{firstName}" class="form-control" id="name" required="true">
                         </div>
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend1">
-                                <span class="input-group-text">Surname</span>
+                                <span class="input-group-text" th:text="#{patient.surname}"></span>
                             </div>
                             <input type="text" th:field="*{secondName}" class="form-control" id="surname" required="true">
                         </div>
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend1 radioLabel">
-                                <span class="input-group-text">Sex</span>
+                                <span class="input-group-text" th:text="#{common.gender}"></span>
                             </div>
                             <div class="form-control radioDiv">
                                 <div class="custom-control custom-radio custom-control-inline">
@@ -162,7 +162,7 @@
                         </div>
                         <div class="form-group required" style="margin-bottom: 4.4rem;">
                             <div class="input-group-prepend input-group-prepend1" style="float: left">
-                                <span class="input-group-text">D.O.B.</span>
+                                <span class="input-group-text" th:text="#{patient.date_of_birth}"></span>
                             </div>
                             <input class="form-control" type="hidden" th:field="*{birthDate}" onchange="showAge(this.value)" required="true" name="birthDate" id="birthDate" />
                         </div>
@@ -305,7 +305,7 @@
                         </div>
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend1" style="width: 40%;">
-                                <span class="input-group-text">Marital Status</span>
+                                <span class="input-group-text" th:text="#{patient.relationship}"></span>
                             </div>
                             <select class="form-control" th:field="*{maritalStatus}" id="maritalStatus">
                                 <option th:value="'unmarried'" th:text="'unmarried'"></option>
@@ -334,13 +334,13 @@
                     <div class="col">
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend1">
-                                <span class="input-group-text">Telephone</span>
+                                <span class="input-group-text" th:text="#{patient.phone}"></span>
                             </div>
                             <input type="text" th:field="*{telephone}" class="form-control" id="telephone">
                         </div>
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend1">
-                                <span class="input-group-text">Address</span>
+                                <span class="input-group-text" th:text="#{patient.address}"></span>
                             </div>
                             <input type="text" th:field="*{address}" class="form-control" id="address">
                         </div>
@@ -352,7 +352,7 @@
                         </div>
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend1">
-                                <span class="input-group-text">City</span>
+                                <span class="input-group-text" th:text="#{patient.email}"></span>
                             </div>
                             <input type="text" onkeydown="return alphaOnly(event);" th:field="*{city}" class="form-control" id="city" required="true">
                         </div>
@@ -526,7 +526,7 @@
                         </div>
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend3">
-                                <span class="input-group-text">Next of Kin</span>
+                                <span class="input-group-text" th:text="#{patient.next_of_kin}"></span>
                             </div>
                             <input type="text" th:field="*{nextKin}" class="form-control" id="nextKin">
                         </div>
@@ -681,6 +681,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="form-group" style="margin-top: 10%">
+            <span th:text="#{lang.change}"></span>:
+            <a href="?lang=en" th:text="#{lang.eng}"></a> |
+            <a href="?lang=hi" th:text="#{lang.hi}"></a> |
+            <a href="?lang=te" th:text="#{lang.te}"></a>
+            </span>
         </div>
     </div>
 </form>
