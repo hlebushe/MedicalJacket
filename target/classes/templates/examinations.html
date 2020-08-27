@@ -4,9 +4,19 @@
     <title>MedJacket</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
     <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/plugins/sortable.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/css/fileinput.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
+    <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
     <style>
         .form-control {
             border-style: none;
@@ -55,19 +65,19 @@
         <div class="col">
             <a href="#">
                 <img th:src="@{/images/temp.png}" alt="" class="icon">
-                <p class="link-label">Temperature</p>
+                <p class="link-label" th:text="#{examinations.temperature}"></p>
             </a>
         </div>
         <div class="col">
             <a href="#">
                 <img alt="" th:src="@{/images/ir.png}" class="icon">
-                <p class="link-label">IR Thermometer</p>
+                <p class="link-label" th:text="#{examinations.ir_thermometer}"></p>
             </a>
         </div>
         <div class="col">
             <a href="#">
                 <img alt="" th:src="@{/images/oxim.png}" class="icon">
-                <p class="link-label">Pulse Oximeter</p>
+                <p class="link-label" th:text="#{examinations.pulse_oximeter}"></p>
             </a>
         </div>
     </div>
@@ -76,24 +86,43 @@
                 <div class="col">
                     <a href="#">
                         <img th:src="@{/images/blood_pressure.png}" alt="" class="icon">
-                        <p class="link-label">Blood Pressure</p>
+                        <p class="link-label" th:text="#{examinations.blood_pressure}"></p>
                     </a>
                 </div>
                 <div class="col">
                     <a href="#">
                         <img alt="" th:src="@{/images/diabetes.png}" class="icon">
-                        <p class="link-label">Diabetes test</p>
+                        <p class="link-label" th:text="#{examinations.diabetes_test}"></p>
                     </a>
                 </div>
                 <div class="col">
                     <a href="#">
                         <img alt="" th:src="@{/images/ecg.png}" class="icon">
-                        <p class="link-label">ECG</p>
+                        <p class="link-label" th:text="#{examinations.ecg}"></p>
                     </a>
                 </div>
             </div>
         </div>
 </div>
+    <div class="form-group dropdown" style="margin-top: 10%">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}">
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="?lang=en" th:text="#{lang.en}"></a>
+            <a class="dropdown-item" href="?lang=hi" th:text="#{lang.hi}"></a>
+            <a class="dropdown-item" href="?lang=te" th:text="#{lang.te}"></a>
+            <a class="dropdown-item" href="?lang=bn" th:text="#{lang.bn}"></a>
+            <a class="dropdown-item" href="?lang=gu" th:text="#{lang.gu}"></a>
+            <a class="dropdown-item" href="?lang=kn" th:text="#{lang.kn}"></a>
+            <a class="dropdown-item" href="?lang=ml" th:text="#{lang.ml}"></a>
+            <a class="dropdown-item" href="?lang=mr" th:text="#{lang.mr}"></a>
+            <a class="dropdown-item" href="?lang=or" th:text="#{lang.or}"></a>
+            <a class="dropdown-item" href="?lang=sd" th:text="#{lang.sd}"></a>
+            <a class="dropdown-item" href="?lang=ta" th:text="#{lang.ta}"></a>
+            <a class="dropdown-item" href="?lang=ur" th:text="#{lang.ur}"></a>
+            <a class="dropdown-item" href="?lang=pa" th:text="#{lang.pa}"></a>
+        </div>
+    </div>
 
 </div>
 </body>

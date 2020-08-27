@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
     <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
@@ -104,11 +105,11 @@
 <div class="container text-center" style="margin-top: 3%;">
     <div class="form-group" style="display: flex;">
         <button type="submit" id="btn-sub" form="addVisit">
-            <p class="action-label" style="margin-top: 45.5px;">Save</p>
+            <p class="action-label" style="margin-top: 45.5px;" th:text="#{common.save}"></p>
         </button>
         <a th:href="@{/patient/list}" style="margin-left: 2%;">
             <img class="action-icon" alt="" th:src="@{/images/discard.png}">
-            <p class="action-label">Discard</p>
+            <p class="action-label" th:text="#{common.discard}"></p>
         </a>
         <a th:href="@{/patient/pdd/{id}(id=${patient.code})}" style="margin-left: auto;">
             <div th:switch="${patient.pddScore}">
@@ -122,13 +123,13 @@
     </div>
     <ul class="nav nav-tabs" style="margin-right: -15px; margin-left: -15px;">
         <li class="nav-item nav-item33" id="ul1">
-            <a class="nav-link" id="a1" href="#1" data-toggle="tab">Consultation</a>
+            <a class="nav-link" id="a1" href="#1" data-toggle="tab" th:text="#{visit.consultation}"></a>
         </li>
         <li class="nav-item nav-item33" id="ul2">
-            <a class="nav-link" id="a2" href="#2" data-toggle="tab">Patient Visit Records</a>
+            <a class="nav-link" id="a2" href="#2" data-toggle="tab" th:text="#{visit.patient_visit_records}"></a>
         </li>
         <li class="nav-item nav-item33">
-            <a class="nav-link" href="#3" data-toggle="tab">Examinations</a>
+            <a class="nav-link" href="#3" data-toggle="tab" th:text="#{common.examinations}"></a>
         </li>
     </ul>
     <div>
@@ -141,8 +142,8 @@
                 <td class="patient_td" th:text="*{patient.firstName + ' ' + patient.secondName}"></td>
                 <td class="patient_td" th:text="*{patient.age + ' Y'}"></td>
                 <div th:switch="${patient.sex}">
-                    <td class="patient_td" th:case="'M'">Male</td>
-                    <td class="patient_td" th:case="'F'">Female</td>
+                    <td class="patient_td" th:case="'M'" th:text="#{patient.male}"></td>
+                    <td class="patient_td" th:case="'F'" th:text="#{patient.female}"></td>
                 </div>
                 <td class="patient_td" th:text="*{patient.maritalStatus}"></td>
                 <td class="patient_td" th:text="*{patient.city}"></td>
@@ -152,25 +153,25 @@
             <tr>
                 <td class="patient_td" th:text="*{'Blood Type: ' + patient.bloodType}"></td>
                 <div th:switch="${patient.hasInsurance}">
-                    <td class="patient_td" th:case="'Y'">Has Insurance</td>
-                    <td class="patient_td" th:case="'N'">No Insurance</td>
-                    <td class="patient_td" th:case="*">No Insurance information</td>
+                    <td class="patient_td" th:case="'Y'" th:text="#{visit.has_insurance}"></td>
+                    <td class="patient_td" th:case="'N'" th:text="#{visit.no_insurance}"></td>
+                    <td class="patient_td" th:case="*" th:text="#{visit.no_insurance_information}"></td>
                 </div>
                 <td class="patient_td" th:text="*{patient.insuranceCompany + ' ' + patient.insuranceNumber}"></td>
                 <div th:switch="${patient.smoker}">
-                    <td class="patient_td"th:case="'Y'">Smoker</td>
-                    <td class="patient_td" th:case="'N'">Not smoker</td>
-                    <td class="patient_td" th:case="*">No Smoker information</td>
+                    <td class="patient_td"th:case="'Y'" th:text="#{visit.smoker}"></td>
+                    <td class="patient_td" th:case="'N'" th:text="#{visit.not_smoker}"></td>
+                    <td class="patient_td" th:case="*" th:text="#{visit.no_smoker_infomation}"></td>
                 </div>
                 <div th:switch="${patient.alcohol}">
-                    <td class="patient_td" th:case="'Y'">Alcoholic</td>
-                    <td class="patient_td" th:case="'N'">Not Alcoholic</td>
-                    <td class="patient_td" th:case="*">No Alcohol information</td>
+                    <td class="patient_td" th:case="'Y'" th:text="#{visit.alcoholic}"></td>
+                    <td class="patient_td" th:case="'N'" th:text="#{visit.not_alcoholic}"></td>
+                    <td class="patient_td" th:case="*" th:text="#{visit.no_alcohol_infomation}"></td>
                 </div>
                 <div th:switch="${patient.healthCards}">
-                    <td class="patient_td" th:case="'Y'">Health Card Available</td>
-                    <td class="patient_td" th:case="'N'">Health Card not Available</td>
-                    <td class="patient_td" th:case="*">No Health Card information</td>
+                    <td class="patient_td" th:case="'Y'" th:text="#{visit.health_card_available}"></td>
+                    <td class="patient_td" th:case="'N'" th:text="#{visit.health_card_not_available}"></td>
+                    <td class="patient_td" th:case="*" th:text="#{visit.no_health_card_information}"></td>
                 </div>
                 <td class="patient_td" th:text="*{patient.healthCardType + ' ' + patient.healthCardNumber}"></td>
             </tr>
@@ -183,16 +184,16 @@
             <div class="form-group" style="width: 50%;margin-left: 25%;">
                 <div class="form-group input-group required">
                     <div class="input-group-prepend input-group-prepend1 radioLabel">
-                        <span class="input-group-text">Nature of visit:</span>
+                        <span class="input-group-text" th:text="#{visit.nature_of_visit}"></span>
                     </div>
                     <div class="form-control radioDiv">
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" id="home" name="home" class="custom-control-input" value="H" th:field="*{type}" required="true">
-                            <label class="custom-control-label" for="home">Home visit</label>
+                            <label class="custom-control-label" for="home" th:text="#{visit.home_visit}"></label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" id="clinic" name="clinic" class="custom-control-input" value="C" th:field="*{type}" required="true">
-                            <label class="custom-control-label" for="clinic">Visit to Clinic</label>
+                            <label class="custom-control-label" for="clinic" th:text="#{visit.visit_to_clinic}"></label>
                         </div>
                     </div>
                 </div>
@@ -202,7 +203,7 @@
                     <div class="col">
                         <div class="form-group">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#symptomsModal" onclick="showSymptoms()">
-                                <span th:text="#{common.symptoms}"></span>
+                                <span th:text="#{visit.symptoms}"></span>
                                 <img class="action-icon" alt="" th:src="@{/images/symptoms.png}">
                             </button>
                         </div>
@@ -210,7 +211,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="symptomsModalLabel" th:text="#{common.symptoms}"></h5>
+                                        <h5 class="modal-title" id="symptomsModalLabel" th:text="#{visit.symptoms}"></h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -219,7 +220,7 @@
                                         Loading...
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{common.close}">Close</button>
                                     </div>
                                 </div>
                             </div>
@@ -228,7 +229,7 @@
                     <div class="col">
                         <div class="form-group">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#descriptionModal" onclick="showDescription()">
-                                <span th:text="#{common.diagnosis}"></span>
+                                <span th:text="#{visit.diagnosis}"></span>
                                 <img class="action-icon" alt="" th:src="@{/images/diagnosis.png}">
                             </button>
                         </div>
@@ -236,7 +237,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="descriptionModalLabel" th:text="#{common.diagnosis}"></h5>
+                                        <h5 class="modal-title" id="descriptionModalLabel" th:text="#{visit.diagnosis}"></h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -245,7 +246,7 @@
                                         Loading...
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{common.close}"></button>
                                     </div>
                                 </div>
                             </div>
@@ -253,7 +254,8 @@
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#managementModal" onclick="showManagement()">Management
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#managementModal" onclick="showManagement()">
+                                <span th:text="#{visit.management}"></span>
                                 <img class="action-icon" alt="" th:src="@{/images/management.png}">
                             </button>
                         </div>
@@ -261,7 +263,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="managementModalLabel">Management</h5>
+                                        <h5 class="modal-title" id="managementModalLabel" th:text="#{visit.management}"></h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -270,7 +272,7 @@
                                         Loading...
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{common.close}"></button>
                                     </div>
                                 </div>
                             </div>
@@ -282,7 +284,7 @@
                 <div class="col" style="margin-left: 15px;">
                     <div class="form-group input-group mainComplaint1">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 1</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_symptom} + ' 1'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom1}" id="mainComplaintSymptom1">
                         <datalist id="symptoms">
@@ -294,7 +296,7 @@
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint2">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 2</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_symptom} + ' 2'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom2}" id="mainComplaintSymptom2">
                         <datalist id="symptoms">
@@ -306,7 +308,7 @@
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint3">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 3</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_symptom} + ' 3'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom3}" id="mainComplaintSymptom3">
                         <datalist id="symptoms">
@@ -318,7 +320,7 @@
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint4">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 4</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_symptom} + ' 4'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom4}" id="mainComplaintSymptom4">
                         <datalist id="symptoms">
@@ -330,7 +332,7 @@
                     </div>
                     <div class="form-group input-group mainComplaint mainComplaint5">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptom 5</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_symptom} + ' 5'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom5}" id="mainComplaintSymptom5">
                         <datalist id="symptoms">
@@ -341,11 +343,11 @@
                         </datalist>
                     </div>
                     <div class="form-group mainComplaintButton">
-                        <button type="button" class="btn btn-secondary" onclick="addMainSymptom()">Add</button>
+                        <button type="button" class="btn btn-secondary" onclick="addMainSymptom()" th:text="#{common.add}"></button>
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Main Diagnosis 1:</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_diagnosis} + ' 1'"></span>
                         </div>
                         <select style="height: 62px;" class="form-control tooltip-select" th:field="*{mainComplaintDiagnosis1}" id="mainComplaintDiagnosis1">
                             <option th:each="disease : ${diseases}"
@@ -357,7 +359,7 @@
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Main Diagnosis 2:</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_diagnosis} + ' 2'"></span>
                         </div>
                         <select style="height: 62px;" class="form-control tooltip-select" th:field="*{mainComplaintDiagnosis2}" id="mainComplaintDiagnosis2">
                             <option th:each="disease : ${diseases}"
@@ -369,7 +371,7 @@
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Main Diagnosis 3:</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_diagnosis} + ' 3'"></span>
                         </div>
                         <select style="height: 62px;" class="form-control tooltip-select" th:field="*{mainComplaintDiagnosis3}" id="mainComplaintDiagnosis3">
                             <option th:each="disease : ${diseases}"
@@ -383,7 +385,7 @@
                 <div class="col">
                     <div class="form-group input-group secondaryComplaint1">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Secondary Symptom 1</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_symptom} + ' 1'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom1}" id="secondaryComplaintSymptom1">
                         <datalist id="symptoms">
@@ -395,7 +397,7 @@
                     </div>
                     <div class="form-group input-group secondaryComplaint secondaryComplaint2">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Secondary Symptom 2</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_symptom} + ' 2'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom2}" id="secondaryComplaintSymptom2">
                         <datalist id="symptoms">
@@ -407,7 +409,7 @@
                     </div>
                     <div class="form-group input-group secondaryComplaint secondaryComplaint3">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Secondary Symptom 3</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_symptom} + ' 3'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom3}" id="secondaryComplaintSymptom3">
                         <datalist id="symptoms">
@@ -419,7 +421,7 @@
                     </div>
                     <div class="form-group input-group secondaryComplaint secondaryComplaint4">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Secondary Symptom 4</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_symptom} + ' 4'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom4}" id="secondaryComplaintSymptom4">
                         <datalist id="symptoms">
@@ -431,7 +433,7 @@
                     </div>
                     <div class="form-group input-group secondaryComplaint secondaryComplaint5">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Secondary Symptom 5</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_symptom} + ' 5'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom5}" id="secondaryComplaintSymptom5">
                         <datalist id="symptoms">
@@ -442,11 +444,11 @@
                         </datalist>
                     </div>
                     <div class="form-group secondaryComplaintButton">
-                        <button type="button" class="btn btn-secondary" onclick="addSecondarySymptom()">Add</button>
+                        <button type="button" class="btn btn-secondary" onclick="addSecondarySymptom()" th:text="#{common.add}"></button>
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Secondary Diagnosis:</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_diagnosis}"></span>
                         </div>
                         <input style="height: 62px;" list="diseases" class="form-control" th:field="*{secondaryComplaintDiagnosis}" id="secondaryComplaintDiagnosis">
                         <datalist id="diseases">
@@ -461,34 +463,34 @@
                 <div class="col">
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medicine Prescribed</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.medicine_prescribed}"></span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{medicinePrescribed}" id="medicinePrescribed">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">General Instructions</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.general_instructions}"></span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{generalInstructions}" id="generalInstructions">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Examinations Prescribed</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.examinations_prescribed}"></span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{examinationsPrescribed}" id="examinationsPrescribed">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Advisory</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.advisory}"></span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{advisory}" id="advisory">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend1" style="float: left; width: 100%;">
-                            <span class="input-group-text">Next Visit Date</span>
+                            <span class="input-group-text" th:text="#{visit.next_visit_date}"></span>
                         </div>
                         <input class="form-control" type="hidden" th:field="*{nextVisitDate}" name="nextVisitDate" id="nextVisitDate" onchange="checkDate(this);"/>
-                        <span style="color:red;" id="dateError">Selected date must be in future!</span>
+                        <span style="color:red;" id="dateError" th:text="#{visit.date_instructions}"></span>
                     </div>
                 </div>
             </div>
@@ -497,17 +499,17 @@
     <div class="tab-pane" id="2">
         <div class="form-group">
             <div th:switch="*{visits}">
-                <h2 th:case="null">No previous visits</h2>
+                <h2 th:case="null" th:text="#{visit.no_previous_visits}"></h2>
                 <div th:case="*">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Symptoms</th>
-                            <th scope="col">Diagnosis</th>
-                            <th scope="col">Treatment</th>
-                            <th scope="col">Management</th>
+                            <th scope="col" th:text="#{common.date}">Date</th>
+                            <th scope="col" th:text="#{common.type}">Type</th>
+                            <th scope="col" th:text="#{visit.symptoms}">Symptoms</th>
+                            <th scope="col" th:text="#{visit.diagnosis}">Diagnosis</th>
+                            <th scope="col" th:text="#{visit.treatment}">Treatment</th>
+                            <th scope="col" th:text="#{visit.management}">Management</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -576,12 +578,24 @@
         </div>
     </div>
 </div>
-    <div class="form-group" style="margin-top: 10%">
-        <span th:text="#{lang.change}"></span>:
-        <a href="?lang=en" th:text="#{lang.eng}"></a> |
-        <a href="?lang=hi" th:text="#{lang.hi}"></a> |
-        <a href="?lang=te" th:text="#{lang.te}"></a>
-        </span>
+    <div class="form-group dropdown" style="margin-top: 10%">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}">
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="?lang=en" th:text="#{lang.en}"></a>
+            <a class="dropdown-item" href="?lang=hi" th:text="#{lang.hi}"></a>
+            <a class="dropdown-item" href="?lang=te" th:text="#{lang.te}"></a>
+            <a class="dropdown-item" href="?lang=bn" th:text="#{lang.bn}"></a>
+            <a class="dropdown-item" href="?lang=gu" th:text="#{lang.gu}"></a>
+            <a class="dropdown-item" href="?lang=kn" th:text="#{lang.kn}"></a>
+            <a class="dropdown-item" href="?lang=ml" th:text="#{lang.ml}"></a>
+            <a class="dropdown-item" href="?lang=mr" th:text="#{lang.mr}"></a>
+            <a class="dropdown-item" href="?lang=or" th:text="#{lang.or}"></a>
+            <a class="dropdown-item" href="?lang=sd" th:text="#{lang.sd}"></a>
+            <a class="dropdown-item" href="?lang=ta" th:text="#{lang.ta}"></a>
+            <a class="dropdown-item" href="?lang=ur" th:text="#{lang.ur}"></a>
+            <a class="dropdown-item" href="?lang=pa" th:text="#{lang.pa}"></a>
+        </div>
     </div>
 </div>
 <script th:inline="javascript">

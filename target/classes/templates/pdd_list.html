@@ -6,9 +6,11 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
     <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+
     <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -79,29 +81,29 @@
     <div class="form-group" style="display: flex;">
         <a th:href="@{/patient/list}" style="margin-left: 2%;">
             <img class="action-icon" alt="" th:src="@{/images/discard.png}">
-            <p class="action-label">Discard</p>
+            <p class="action-label" th:text="#{common.discard}"></p>
         </a>
         <a th:href="@{/patient/pdd/add/{id}(id=${patient.code})}" style="margin-left: 2%;">
             <img class="action-icon" alt="" th:src="@{/images/add.png}">
-            <p class="action-label">Add</p>
+            <p class="action-label" th:text="#{common.add}"></p>
         </a>
             <div th:if="${#lists.isEmpty(examinations)}"  style="margin-left: auto;">
                 <button type="button" id="btn-att" data-toggle="modal" data-target="#modal">
-                    <p class="action-label" style="margin-top: 45.5px;">Add Pathology</p>
+                    <p class="action-label" style="margin-top: 45.5px;" th:text="#{pdd.add_pathology}"></p>
                 </button>
                 <a th:href="@{/patient/visit/add/{id}(id=${patient.code})}" style="pointer-events: none; opacity: 0.4;">
                     <img class="action-icon" alt="" th:src="@{/images/patient.png}">
-                    <p class="action-label">Visit</p>
+                    <p class="action-label" th:text="#{common.visit}"></p>
                 </a>
-                <p style="color: red;">Please add examinations before adding a visit!</p>
+                <p style="color: red;" th:text="#{common.visit_instructions}"></p>
             </div>
             <div th:if="!${#lists.isEmpty(examinations)}" style="margin-left: auto;">
                 <button type="button" id="btn-att" data-toggle="modal" data-target="#modal">
-                    <p class="action-label" style="margin-top: 45.5px;">Add Pathology</p>
+                    <p class="action-label" style="margin-top: 45.5px;" th:text="#{pdd.add_pathology}"></p>
                 </button>
                 <a th:href="@{/patient/visit/add/{id}(id=${patient.code})}">
                     <img class="action-icon" alt="" th:src="@{/images/patient.png}">
-                    <p class="action-label">Visit</p>
+                    <p class="action-label" th:text="#{common.visit}"></p>
                 </a>
             </div>
     </div>
@@ -110,7 +112,7 @@
             <form id="myForm" th:action="@{/patient/pdd/add_report/{id}(id=${patient.code})}" th:object="${pathology}" method="post" enctype="multipart/form-data" style="width: 100%;">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Add Pathology</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle" th:text="#{pdd.add_pathology}"></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -118,7 +120,7 @@
                     <div class="modal-body">
                         <div class="form-group input-group" style="width: 100%;">
                             <div class="input-group-prepend input-group-prepend2" style="width: 24%;">
-                                <span class="input-group-text">Pathology report</span>
+                                <span class="input-group-text" th:text="#{pdd.pathology_report}"></span>
                             </div>
                             <div class="form-control">
                                 <input th:field="*{pathologyData}" type="file" id="pathologyData" accept="application/pdf"/>
@@ -126,8 +128,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{common.close}"></button>
+                        <button type="submit" class="btn btn-primary" th:text="#{common.save_changes}"></button>
                     </div>
                 </div>
             </form>
@@ -135,10 +137,10 @@
     </div>
     <ul class="nav nav-tabs" style="margin-right: -15px; margin-left: -15px;">
         <li class="nav-item nav-item50 active">
-            <a class="nav-link active" href="#1" data-toggle="tab">General Examination</a>
+            <a class="nav-link active" href="#1" data-toggle="tab" th:text="#{pdd.general_examination}"></a>
         </li>
         <li class="nav-item nav-item50">
-            <a class="nav-link" href="#2" data-toggle="tab">Pathology Test</a>
+            <a class="nav-link" href="#2" data-toggle="tab" th:text="#{pdd.pathology_report}"></a>
         </li>
     </ul>
     <div class="tab-content">
@@ -150,14 +152,14 @@
                         <table class="table" style="margin-top: 3%;">
                             <thead>
                             <tr>
-                                <th scope="col">Date</th>
-                                <th scope="col">Body Mass Index</th>
-                                <th scope="col">Arterial Pressure Sys</th>
-                                <th scope="col">Arterial Pressure Dia</th>
-                                <th scope="col">Heart Rate</th>
-                                <th scope="col">Temperature</th>
-                                <th scope="col">Saturation</th>
-                                <th scope="col">Total score</th>
+                                <th scope="col" th:text="#{common.date}"></th>
+                                <th scope="col" th:text="#{pdd.body_mass_index}"></th>
+                                <th scope="col" th:text="#{pdd.blood_pressure_sys}"></th>
+                                <th scope="col" th:text="#{pdd.blood_pressure_dia}"></th>
+                                <th scope="col" th:text="#{pdd.heart_rate}"></th>
+                                <th scope="col" th:text="#{pdd.temperature}"></th>
+                                <th scope="col" th:text="#{pdd.o2_saturation}"></th>
+                                <th scope="col" th:text="#{pdd.total_score}"></th>
                             </tr>
                             </thead>
                             <tbody id="table-body">
@@ -185,9 +187,9 @@
                         <table class="table" style="margin-top: 3%;">
                             <thead>
                             <tr>
-                                <th scope="col">Report id</th>
-                                <th scope="col">Report date</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" th:text="#{pdd.report_id}"></th>
+                                <th scope="col" th:text="#{pdd.report_date}"></th>
+                                <th scope="col" th:text="#{common.action}"></th>
                             </tr>
                             </thead>
                             <tbody id="table-body">
@@ -206,6 +208,25 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="form-group dropdown" style="margin-top: 10%">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}">
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="?lang=en" th:text="#{lang.en}"></a>
+            <a class="dropdown-item" href="?lang=hi" th:text="#{lang.hi}"></a>
+            <a class="dropdown-item" href="?lang=te" th:text="#{lang.te}"></a>
+            <a class="dropdown-item" href="?lang=bn" th:text="#{lang.bn}"></a>
+            <a class="dropdown-item" href="?lang=gu" th:text="#{lang.gu}"></a>
+            <a class="dropdown-item" href="?lang=kn" th:text="#{lang.kn}"></a>
+            <a class="dropdown-item" href="?lang=ml" th:text="#{lang.ml}"></a>
+            <a class="dropdown-item" href="?lang=mr" th:text="#{lang.mr}"></a>
+            <a class="dropdown-item" href="?lang=or" th:text="#{lang.or}"></a>
+            <a class="dropdown-item" href="?lang=sd" th:text="#{lang.sd}"></a>
+            <a class="dropdown-item" href="?lang=ta" th:text="#{lang.ta}"></a>
+            <a class="dropdown-item" href="?lang=ur" th:text="#{lang.ur}"></a>
+            <a class="dropdown-item" href="?lang=pa" th:text="#{lang.pa}"></a>
         </div>
     </div>
 </div>

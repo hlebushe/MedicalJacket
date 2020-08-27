@@ -9,6 +9,14 @@
     <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/plugins/sortable.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/css/fileinput.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
+    <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
 
 </head>
 <body>
@@ -31,11 +39,11 @@
         <form action="#" th:action="@{/patient/pdd/add/{id}(id=${patient.code})}" th:object="${examinations}" method="post">
         <div class="form-group" style="display: flex;">
             <button type="submit" id="btn-sub">
-                <p class="action-label" style="margin-top: 45.5px;">Save</p>
+                <p class="action-label" style="margin-top: 45.5px;" th:text="#{common.save}"></p>
             </button>
             <a th:href="@{/patient/list}" style="margin-left: 2%;">
                 <img class="action-icon" alt="" th:src="@{/images/discard.png}">
-                <p class="action-label">Discard</p>
+                <p class="action-label" th:text="#{common.discard}"></p>
             </a>
         </div>
         <div style="width: 100%;">
@@ -43,37 +51,37 @@
                 <div class="col">
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text">Respiratory Rate(brth/min):</span>
+                            <span class="input-group-text" th:text="#{pdd.respiratory_rate}"></span>
                         </div>
                         <input type="number" min="1" max="70" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{respiratoryRate}" class="form-control" id="respiratoryRate" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text">O2 Saturation(%):</span>
+                            <span class="input-group-text" th:text="#{pdd.o2_saturation}"></span>
                         </div>
                         <input type="number" min="60" max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{o2Saturation}" class="form-control" id="o2Saturation" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text">O2 Flow Rate(L/min):</span>
+                            <span class="input-group-text" th:text="#{pdd.o2_flow_rate}"></span>
                         </div>
                         <input type="number" min="0" max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{o2FlowRate}" class="form-control" id="o2FlowRate" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text">Weight:</span>
+                            <span class="input-group-text" th:text="#{pdd.weight}"></span>
                         </div>
                         <input type="number" th:field="*{weight}" class="form-control" id="weight" required="true" step=".01">
                     </div>
                     <div class="form-group input-group  required" style="padding-bottom: 20px;">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text">Height:</span>
+                            <span class="input-group-text" th:text="#{pdd.height}"></span>
                         </div>
                         <input type="number" th:field="*{height}" class="form-control" id="height" required="true" step=".01">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Smell</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{pdd.smell}"></span>
                         </div>
                         <select class="form-control" th:field="*{smell}"  style="height: 62px;">
                             <option th:value="'normal'" th:text="'normal'"></option>
@@ -83,7 +91,7 @@
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Taste</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{pdd.taste}"></span>
                         </div>
                         <select class="form-control" th:field="*{taste}"  style="height: 62px;">
                             <option th:value="'normal'" th:text="'normal'"></option>
@@ -95,48 +103,68 @@
                 <div class="col">
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text">Blood Pressure sys(mmHg):</span>
+                            <span class="input-group-text" th:text="#{pdd.blood_pressure_sys}"></span>
                         </div>
                         <input type="number" min="40" max="250" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{bloodPressureMax}" class="form-control" id="bloodPressureMax" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text">Blood Pressure dia(mmHg):</span>
+                            <span class="input-group-text" th:text="#{pdd.blood_pressure_dia}"></span>
                         </div>
                         <input type="number" min="40" max="250" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{bloodPressureMin}" class="form-control" id="bloodPressureMin" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text">Heart Rate(beats/min):</span>
+                            <span class="input-group-text" th:text="#{pdd.heart_rate}"></span>
                         </div>
                         <input type="number" min="30" max="180" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{heartRate}" class="form-control" id="heartRate" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text">Temperature(°C):</span>
+                            <span class="input-group-text" th:text="#{pdd.temperature}"></span>
                         </div>
                         <input type="number" min="28" max="44" th:field="*{temperature}" class="form-control" id="temperature" required="true" step=".01">
                     </div>
                     <div class="form-group input-group required">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text">Blood Glucose Levels:</span>
-                        </div>
+                            <span class="input-group-text" th:text="#{pdd.blood_glucose_levels}"></span>
+
                         <input type="number" min="0" max="50" th:field="*{bloodGlucoseLevel}" class="form-control" id="bloodGlucoseLevel" required="true" step=".01">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Consciousness</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{pdd.consciousness}"></span>
                         </div>
                         <select class="form-control" th:field="*{consciousness}" style="height: 62px;">
-                            <option th:value="'alert'" th:text="'alert'"></option>
-                            <option th:value="'voice'" th:text="'voice'"></option>
-                            <option th:value="'pain'" th:text="'pain'"></option>
-                            <option th:value="'unresp'" th:text="'unresp'"></option>
+                            <option th:value="#{pdd.consciousness_alert}" th:text="#{pdd.consciousness_alert}"></option>
+                            <option th:value="#{pdd.consciousness_voice}" th:text="#{pdd.consciousness_voice}"></option>
+                            <option th:value="#{pdd.consciousness_pain}" th:text="#{pdd.consciousness_pain}"></option>
+                            <option th:value="#{pdd.consciousness_unresp}" th:text="#{pdd.consciousness_unresp}"></option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
+        </div>
+            <div class="form-group dropdown" style="margin-top: 10%">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}">
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="?lang=en" th:text="#{lang.en}"></a>
+                    <a class="dropdown-item" href="?lang=hi" th:text="#{lang.hi}"></a>
+                    <a class="dropdown-item" href="?lang=te" th:text="#{lang.te}"></a>
+                    <a class="dropdown-item" href="?lang=bn" th:text="#{lang.bn}"></a>
+                    <a class="dropdown-item" href="?lang=gu" th:text="#{lang.gu}"></a>
+                    <a class="dropdown-item" href="?lang=kn" th:text="#{lang.kn}"></a>
+                    <a class="dropdown-item" href="?lang=ml" th:text="#{lang.ml}"></a>
+                    <a class="dropdown-item" href="?lang=mr" th:text="#{lang.mr}"></a>
+                    <a class="dropdown-item" href="?lang=or" th:text="#{lang.or}"></a>
+                    <a class="dropdown-item" href="?lang=sd" th:text="#{lang.sd}"></a>
+                    <a class="dropdown-item" href="?lang=ta" th:text="#{lang.ta}"></a>
+                    <a class="dropdown-item" href="?lang=ur" th:text="#{lang.ur}"></a>
+                    <a class="dropdown-item" href="?lang=pa" th:text="#{lang.pa}"></a>
+                </div>
+            </div>
     </form>
 </div>
 </body>

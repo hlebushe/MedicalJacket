@@ -2,12 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <title>MedJacket</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
     <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
-    <script th:src="@{/webjars/popper.js/1.16.0/umd/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/plugins/sortable.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/css/fileinput.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
+    <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
 
     <style>
         .table thead th {
@@ -79,14 +88,14 @@
 </nav>
 <div class="form-group">
     <div th:switch="${measurements}" id="measurements" style="margin-top: 3%;">
-        <h2 th:case="null">No patients</h2>
+        <h2 th:case="null" th:text="#{patient.no_patients}"></h2>
         <div th:case="*">
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Patient Details</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Patient Statistics</th>
+                    <th scope="col" th:text="#{patient.patient_details}"></th>
+                    <th scope="col" th:text="#{patient.address}"></th>
+                    <th scope="col" th:text="#{patient.patient_statistics}"></th>
                 </tr>
                 </thead>
                 <tbody id="table-body">
@@ -95,8 +104,8 @@
                         <p th:text="${measurement.patientName}"></p>
                         <p th:text="${measurement.patientAge + ' Y'}"></p>
                         <div th:switch="${measurement.patientSex}">
-                            <p th:case="'M'">Male</p>
-                            <p th:case="'F'">Female</p>
+                            <p th:case="'M'" th:text="#{patient.male}"></p>
+                            <p th:case="'F'" th:text="#{patient.female}"></p>
                         </div>
                     </td>
                     <td th:text="${measurement.patientAddress}"></td>
@@ -109,6 +118,25 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="form-group dropdown" style="margin-top: 10%">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}">
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="?lang=en" th:text="#{lang.en}"></a>
+            <a class="dropdown-item" href="?lang=hi" th:text="#{lang.hi}"></a>
+            <a class="dropdown-item" href="?lang=te" th:text="#{lang.te}"></a>
+            <a class="dropdown-item" href="?lang=bn" th:text="#{lang.bn}"></a>
+            <a class="dropdown-item" href="?lang=gu" th:text="#{lang.gu}"></a>
+            <a class="dropdown-item" href="?lang=kn" th:text="#{lang.kn}"></a>
+            <a class="dropdown-item" href="?lang=ml" th:text="#{lang.ml}"></a>
+            <a class="dropdown-item" href="?lang=mr" th:text="#{lang.mr}"></a>
+            <a class="dropdown-item" href="?lang=or" th:text="#{lang.or}"></a>
+            <a class="dropdown-item" href="?lang=sd" th:text="#{lang.sd}"></a>
+            <a class="dropdown-item" href="?lang=ta" th:text="#{lang.ta}"></a>
+            <a class="dropdown-item" href="?lang=ur" th:text="#{lang.ur}"></a>
+            <a class="dropdown-item" href="?lang=pa" th:text="#{lang.pa}"></a>
         </div>
     </div>
 </div>
