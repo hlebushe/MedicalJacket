@@ -181,7 +181,7 @@
 <div class="tab-content">
     <div class="tab-pane" id="1">
         <form id="addVisit" th:action="@{/patient/visit/add/{id}(id=${patient.code})}" th:object="${visit}" method="post">
-            <div class="form-group" style="width: 50%;margin-left: 25%;">
+            <div class="form-group" style="width: 70%;margin-left: 15%;">
                 <div class="form-group input-group required">
                     <div class="input-group-prepend input-group-prepend1 radioLabel">
                         <span class="input-group-text" th:text="#{visit.nature_of_visit}"></span>
@@ -585,16 +585,8 @@
             <a class="dropdown-item" href="?lang=en" th:text="#{lang.en}"></a>
             <a class="dropdown-item" href="?lang=hi" th:text="#{lang.hi}"></a>
             <a class="dropdown-item" href="?lang=te" th:text="#{lang.te}"></a>
-            <a class="dropdown-item" href="?lang=bn" th:text="#{lang.bn}"></a>
             <a class="dropdown-item" href="?lang=gu" th:text="#{lang.gu}"></a>
-            <a class="dropdown-item" href="?lang=kn" th:text="#{lang.kn}"></a>
-            <a class="dropdown-item" href="?lang=ml" th:text="#{lang.ml}"></a>
-            <a class="dropdown-item" href="?lang=mr" th:text="#{lang.mr}"></a>
-            <a class="dropdown-item" href="?lang=or" th:text="#{lang.or}"></a>
-            <a class="dropdown-item" href="?lang=sd" th:text="#{lang.sd}"></a>
-            <a class="dropdown-item" href="?lang=ta" th:text="#{lang.ta}"></a>
             <a class="dropdown-item" href="?lang=ur" th:text="#{lang.ur}"></a>
-            <a class="dropdown-item" href="?lang=pa" th:text="#{lang.pa}"></a>
         </div>
     </div>
 </div>
