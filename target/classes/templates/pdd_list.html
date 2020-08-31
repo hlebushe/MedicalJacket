@@ -58,6 +58,31 @@
         .modal-lg {
             max-width: 80% !important;
         }
+
+        .level5 {
+            background-color: #9000ff!important;
+        }
+
+        .level4 {
+            background-color: #ff2e2e!important;
+        }
+
+        .level3 {
+            background-color: #f7844a!important;
+        }
+
+        .level2 {
+            background-color: #ebad63!important;
+        }
+
+        .level1 {
+            background-color: #c4c700!important;
+        }
+
+        .level0 {
+            background-color: #ffffff!important;
+            color: #000000!important;
+        }
     </style>
 </head>
 <body>
@@ -164,14 +189,14 @@
                             </thead>
                             <tbody id="table-body">
                             <tr th:each="examination : *{examinations}">
-                                <td th:text="*{examination.date}"></td>
-                                <td th:style="*{'background-color:' + examination.bodyMassIndexColor}" th:text="*{examination.bodyMassIndex}"></td>
-                                <td th:style="*{'background-color:' + examination.bloodPressureMaxColor}" th:text="*{examination.bloodPressureMax}"></td>
-                                <td th:style="*{'background-color:' + examination.bloodPressureMinColor}" th:text="*{examination.bloodPressureMin}"></td>
-                                <td th:style="*{'background-color:' + examination.heartRateColor}" th:text="*{examination.heartRate}"></td>
-                                <td th:style="*{'background-color:' + examination.temperatureColor}" th:text="*{examination.temperature}"></td>
-                                <td th:style="*{'background-color:' + examination.o2SaturationColor}" th:text="*{examination.o2Saturation}"></td>
-                                <td th:text="*{examination.score}"></td>
+                                <td class="level0" th:text="*{examination.date}"></td>
+                                <td th:class="*{examination.bodyMassIndexColor}" th:text="*{examination.bodyMassIndex}"></td>
+                                <td th:class="*{examination.bloodPressureMaxColor}" th:text="*{examination.bloodPressureMax}"></td>
+                                <td th:class="*{examination.bloodPressureMinColor}" th:text="*{examination.bloodPressureMin}"></td>
+                                <td th:class="*{examination.heartRateColor}" th:text="*{examination.heartRate}"></td>
+                                <td th:class="*{examination.temperatureColor}" th:text="*{examination.temperature}"></td>
+                                <td th:class="*{examination.o2SaturationColor}" th:text="*{examination.o2Saturation}"></td>
+                                <td class="level0" th:text="*{examination.score}"></td>
                             </tr>
                             </tbody>
                         </table>

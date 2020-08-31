@@ -83,6 +83,31 @@
             background: #e6e6e6;
         }
 
+        .level5 {
+            background-color: #9000ff!important;
+        }
+
+        .level4 {
+            background-color: #ff2e2e!important;
+        }
+
+        .level3 {
+            background-color: #f7844a!important;
+        }
+
+        .level2 {
+            background-color: #ebad63!important;
+        }
+
+        .level1 {
+            background-color: #c4c700!important;
+        }
+
+        .level0 {
+            background-color: #ffffff!important;
+            color: #000000;
+        }
+
     </style>
 </head>
 <body>
@@ -530,49 +555,49 @@
     <div class="tab-pane" id="3">
         <div class="row">
             <div class="col">
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.respiratoryRateColor}">
-                    <label th:text="*{'Respiratory Rate(brth/min): ' + examinations.respiratoryRate}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.respiratoryRateColor}">
+                    <label th:text="*{'Respiratory Rate(brth/min): ' + examinations.respiratoryRate}" th:classappend="*{examinations.respiratoryRateColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.o2SaturationColor}">
-                    <label th:text="*{'O2 Saturation(%): ' + examinations.o2Saturation}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.o2SaturationColor}">
+                    <label th:text="*{'O2 Saturation(%): ' + examinations.o2Saturation}" th:classappend="*{examinations.o2SaturationColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.o2FlowRateColor}">
-                    <label th:text="*{'O2 Flow Rate(L/min): ' + examinations.o2FlowRate}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.o2FlowRateColor}">
+                    <label th:text="*{'O2 Flow Rate(L/min): ' + examinations.o2FlowRate}" th:classappend="*{examinations.o2FlowRateColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.bloodPressureMaxColor}">
-                    <label th:text="*{'Blood Pressure sys(mmHg): ' + examinations.bloodPressureMax}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.bloodPressureMaxColor}">
+                    <label th:text="*{'Blood Pressure sys(mmHg): ' + examinations.bloodPressureMax}" th:classappend="*{examinations.bloodPressureMaxColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.bloodPressureMinColor}">
-                    <label th:text="*{'Blood Pressure dia(mmHg): ' + examinations.bloodPressureMin}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.bloodPressureMinColor}">
+                    <label th:text="*{'Blood Pressure dia(mmHg): ' + examinations.bloodPressureMin}" th:classappend="*{examinations.bloodPressureMinColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.smellColor}">
-                    <label th:text="*{'Smell: ' + examinations.smell}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.smellColor}">
+                    <label th:text="*{'Smell: ' + examinations.smell}" th:classappend="*{examinations.smellColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv">
-                    <label th:text="*{'Examinations date: ' + examinations.date}"></label>
+                <div class="form-group border-group examDiv level0">
+                    <label th:text="*{'Examinations date: ' + examinations.date}" class="level0"></label>
                 </div>
             </div>
             <div class="col">
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.bodyMassIndexColor}">
-                    <label th:text="*{'Body Mass Index: ' + examinations.bodyMassIndex}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.bodyMassIndexColor}">
+                    <label th:text="*{'Body Mass Index: ' + examinations.bodyMassIndex}" th:classappend="*{examinations.bodyMassIndexColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.heartRateColor}">
-                    <label th:text="*{'Heart Rate(beats/min): ' + examinations.heartRate}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.heartRateColor}">
+                    <label th:text="*{'Heart Rate(beats/min): ' + examinations.heartRate}" th:classappend="*{examinations.heartRateColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.temperatureColor}">
-                    <label th:text="*{'Temperature(°C): ' + examinations.temperature}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.temperatureColor}">
+                    <label th:text="*{'Temperature(°C): ' + examinations.temperature}" th:classappend="*{examinations.temperatureColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.bloodGlucoseLevelColor}">
-                    <label th:text="*{'Blood Glucose Levels: ' + examinations.bloodGlucoseLevel}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.bloodGlucoseLevelColor}">
+                    <label th:text="*{'Blood Glucose Levels: ' + examinations.bloodGlucoseLevel}" th:classappend="*{examinations.bloodGlucoseLevelColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.tasteColor}">
-                    <label th:text="*{'Taste: ' + examinations.taste}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.tasteColor}">
+                    <label th:text="*{'Taste: ' + examinations.taste}" th:classappend="*{examinations.tasteColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv" th:style="*{'background-color:' + examinations.consciousnessColor}">
-                    <label th:text="*{'Consciousness: ' + examinations.consciousness}"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.consciousnessColor}">
+                    <label th:text="*{'Consciousness: ' + examinations.consciousness}" th:classappend="*{examinations.consciousnessColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv">
-                    <label th:text="*{'Total score: ' + examinations.score}"></label>
+                <div class="form-group border-group examDiv level0">
+                    <label th:text="*{'Total score: ' + examinations.score}" class="level0"></label>
                 </div>
             </div>
         </div>

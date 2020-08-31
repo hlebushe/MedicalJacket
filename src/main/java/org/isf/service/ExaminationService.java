@@ -21,17 +21,17 @@ public class ExaminationService {
     @Autowired
     private ExaminationsRepository examinationRepository;
 
-    private String level5 = "#9000ff";
+    private String level5 = "level5";
 
-    private String level4 = "#ff2e2e";
+    private String level4 = "level4";
 
-    private String level3 = "#f7844a";
+    private String level3 = "level3";
 
-    private String level2 = "#ebad63";
+    private String level2 = "level2";
 
-    private String level1 = "#c4c700";
+    private String level1 = "level1";
 
-    private String level0 = "#000000";
+    private String level0 = "level0";
 
 //    public Examinations getExaminationByPatient(Patient patient) {
 //        return examinationRepository.getAllByPatient(patient).get(0);
