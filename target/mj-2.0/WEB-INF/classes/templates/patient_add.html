@@ -65,6 +65,7 @@
         .kv-fileinput-error ul {
             margin: 0 0 0 1rem;
         }
+
     </style>
 </head>
 <body>
@@ -122,14 +123,14 @@
                         <div class="input-group-prepend input-group-prepend1">
                             <span class="input-group-text" th:text="#{patient.name}"></span>
                         </div>
-                        <input type="text" th:field="*{firstName}" class="form-control" id="name" required="true">
+                        <input type="text" onkeydown="return alphaOnly(event);" th:field="*{firstName}" class="form-control" id="name" required="true">
                         <span id="validator_first_name" class="validator" style="color: red;width: 100%;font-size: 12px;">Please fill Name</span>
                     </div>
                     <div class="form-group input-group required">
                         <div class="input-group-prepend input-group-prepend1">
                             <span class="input-group-text" th:text="#{patient.surname}"></span>
                         </div>
-                        <input type="text" th:field="*{secondName}" class="form-control" id="surname" required="true">
+                        <input type="text" onkeydown="return alphaOnly(event);" th:field="*{secondName}" class="form-control" id="surname" required="true">
                         <span id="validator_second_name" class="validator" style="color: red;width: 100%;font-size: 12px;">Please fill Name</span>
                     </div>
                     <div class="form-group input-group required">
@@ -326,7 +327,7 @@
                         <div class="input-group-prepend input-group-prepend1">
                             <span class="input-group-text" th:text="#{patient.telephone}"></span>
                         </div>
-                        <input type="text" th:field="*{telephone}" class="form-control" id="telephone">
+                        <input type="number" th:field="*{telephone}" class="form-control" id="telephone">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend1">
@@ -338,7 +339,7 @@
                         <div class="input-group-prepend input-group-prepend1">
                             <span class="input-group-text" th:text="#{patient.area}"></span>
                         </div>
-                        <input type="text" th:field="*{area}" class="form-control" id="area">
+                        <input type="text" onkeydown="return alphaNumericOnly(event);" th:field="*{area}" class="form-control" id="area">
                     </div>
                     <div class="form-group input-group required">
                         <div class="input-group-prepend input-group-prepend1">
@@ -475,7 +476,7 @@
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" th:text="#{patient.fathername}"></span>
                         </div>
-                        <input type="text" th:field="*{father_name}" class="form-control" id="father_name">
+                        <input type="text" onkeydown="return alphaOnly(event);" th:field="*{father_name}" class="form-control" id="father_name">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend3 radioLabel">
@@ -496,7 +497,7 @@
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" th:text="#{patient.mothername}"></span>
                         </div>
-                        <input type="text" th:field="*{mother_name}" class="form-control" id="mother_name">
+                        <input type="text" onkeydown="return alphaOnly(event);" th:field="*{mother_name}" class="form-control" id="mother_name">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend3 radioLabel">
@@ -532,7 +533,7 @@
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" th:text="#{patient.next_of_kin}"></span>
                         </div>
-                        <input type="text" th:field="*{nextKin}" class="form-control" id="nextKin">
+                        <input type="text" onkeydown="return alphaOnly(event);" th:field="*{nextKin}" class="form-control" id="nextKin">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend3">
@@ -557,13 +558,13 @@
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.next_of_kin_phone}"></span>
                         </div>
-                        <input type="text" th:field="*{nextKinTelephone}" class="form-control" id="nextKinTelephone" style="height: 62px;">
+                        <input type="number" th:field="*{nextKinTelephone}" class="form-control" id="nextKinTelephone" style="height: 62px;">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.hereditary_diseases}"></span>
                         </div>
-                        <input type="text" th:field="*{hereditaryDiseasesInFamily}" class="form-control" id="hereditaryDiseasesInFamily" style="height: 86px;">
+                        <input type="text" onkeydown="return alphaOnly(event);" th:field="*{hereditaryDiseasesInFamily}" class="form-control" id="hereditaryDiseasesInFamily" style="height: 86px;">
                     </div>
                 </div>
                 <div class="col">
@@ -586,13 +587,13 @@
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.insurance_company}"></span>
                         </div>
-                        <input type="text" th:field="*{insuranceCompany}" class="form-control" id="insuranceCompany" style="height: 62px;">
+                        <input type="text" onkeydown="return alphaOnly(event);" th:field="*{insuranceCompany}" class="form-control" id="insuranceCompany" style="height: 62px;">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.insurance_number}"></span>
                         </div>
-                        <input type="text" th:field="*{insuranceNumber}" class="form-control" id="insuranceNumber" style="height: 62px;">
+                        <input type="text" onkeydown="return alphaNumericOnly(event);" th:field="*{insuranceNumber}" class="form-control" id="insuranceNumber" style="height: 62px;">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend3 radioLabel">
@@ -624,7 +625,7 @@
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.health_card_number}"></span>
                         </div>
-                        <input type="text" th:field="*{healthCardNumber}" class="form-control" id="healthCardNumber" style="height: 62px;">
+                        <input type="text" onkeydown="return alphaNumericOnly(event);" th:field="*{healthCardNumber}" class="form-control" id="healthCardNumber" style="height: 62px;">
                     </div>
                 </div>
                 <div class="col">
@@ -647,13 +648,13 @@
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.how_many_years}"></span>
                         </div>
-                        <input type="text" th:field="*{smokingYears}" class="form-control" id="smokingYears" style="height: 62px;">
+                        <input type="number" th:field="*{smokingYears}" class="form-control" id="smokingYears" style="height: 62px;">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.hom_much_per_day}"></span>
                         </div>
-                        <input type="text" th:field="*{smokingADay}" class="form-control" id="smokingADay" style="height: 62px;">
+                        <input type="number" th:field="*{smokingADay}" class="form-control" id="smokingADay" style="height: 62px;">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend3 radioLabel">
@@ -674,29 +675,19 @@
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.how_many_years}"></span>
                         </div>
-                        <input type="text" th:field="*{alcoholYears}" class="form-control" id="alcoholYears" style="height: 62px;">
+                        <input type="number" th:field="*{alcoholYears}" class="form-control" id="alcoholYears" style="height: 62px;">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.hom_much_per_day}"></span>
                         </div>
-                        <input type="text" th:field="*{alcoholWeek}" class="form-control" id="alcoholWeek" style="height: 62px;">
+                        <input type="number" th:field="*{alcoholWeek}" class="form-control" id="alcoholWeek" style="height: 62px;">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="form-group dropdown" style="margin-top: 10%">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}">
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="?lang=en" th:text="#{lang.en}"></a>
-            <a class="dropdown-item" href="?lang=hi" th:text="#{lang.hi}"></a>
-            <a class="dropdown-item" href="?lang=te" th:text="#{lang.te}"></a>
-            <a class="dropdown-item" href="?lang=gu" th:text="#{lang.gu}"></a>
-            <a class="dropdown-item" href="?lang=ur" th:text="#{lang.ur}"></a>
-        </div>
-    </div>
+    <div th:replace="fragments/language_selector :: language_selector"></div>
 </div>
 </form>
 <script type="text/javascript">
@@ -756,6 +747,8 @@
         $(".year").css("float", "left");
 
         $(".validator").hide();
+
+        document.getElementById("age").setAttribute("readonly", "true");
     });
 
     $('#email').on('input', function() {
@@ -775,7 +768,12 @@
 
     function alphaOnly(event) {
         var key = event.keyCode;
-        return ((key >= 65 && key <= 90) || key == 8);
+        return ((key >= 65 && key <= 90) || key == 8 || key == 32);
+    };
+
+    function alphaNumericOnly(event) {
+        var key = event.keyCode;
+        return ((key >= 65 && key <= 90) || key == 8 || key == 32 || (key >= 48 && key <= 57));
     };
 
     function showAge(birthday) {
@@ -948,7 +946,7 @@
                 showClose: false,
                 showCaption: false,
                 msgErrorClass: 'alert alert-block alert-danger text-left',
-                dropZoneTitle: "Click <i class='fas fa-folder-open h5'></i> to upload photo...",
+                dropZoneTitle: "Click <i class='fas fa-folder-open h5'></i> to upload photo... (max size 10Mb)",
                 layoutTemplates: { main2: '<div class="d-flex align-items-center flex-column"><div>{preview}</div><div>{browse}{upload}</div></div>' },
 
                 // Both settings are required to remove files from preview on error. retryErrorUploads was added in v5.0.0 as part of the resumable uploads.

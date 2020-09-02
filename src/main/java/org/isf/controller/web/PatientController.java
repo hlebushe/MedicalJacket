@@ -70,9 +70,17 @@ public class PatientController {
 
         for (Patient p : patients) {
             try {
+                Visit lastVisit = visitService.getLastVisitByPatient(p);
+                if (lastVisit == null) {
+                    p.setDateOfLastVisit("No visits");
+                } else {
+                    p.setDateOfLastVisit(lastVisit.getDate().toString().substring(0,10));
+                }
+
                 Examinations examinations = examinationService.getLastExaminationByPatient(p);
                 ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
                 examinationsModel = examinationService.setExaminationColors(examinationsModel, p.getAge());
+
                 if (examinationsModel.getScore() > 6) {
                     p.setPddScore("red");
                 } else if (examinationsModel.getScore() > 4){
@@ -84,6 +92,7 @@ public class PatientController {
                 }
             } catch (Exception e) {
                 p.setPddScore("white");
+                p.setDateOfLastVisit("No visits");
             }
         }
 

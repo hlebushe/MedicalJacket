@@ -197,6 +197,8 @@ public class Patient  {
     @Transient
     private String pddScore;
 
+    @Transient
+    private String dateOfLastVisit;
 
     @NotNull
     @JsonIgnore

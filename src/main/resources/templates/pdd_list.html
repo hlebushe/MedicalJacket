@@ -235,17 +235,7 @@
             </div>
         </div>
     </div>
-    <div class="form-group dropdown" style="margin-top: 10%">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}">
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="?lang=en" th:text="#{lang.en}"></a>
-            <a class="dropdown-item" href="?lang=hi" th:text="#{lang.hi}"></a>
-            <a class="dropdown-item" href="?lang=te" th:text="#{lang.te}"></a>
-            <a class="dropdown-item" href="?lang=gu" th:text="#{lang.gu}"></a>
-            <a class="dropdown-item" href="?lang=ur" th:text="#{lang.ur}"></a>
-        </div>
-    </div>
+    <div th:replace="fragments/language_selector :: language_selector"></div>
 </div>
 <script>
 </script>

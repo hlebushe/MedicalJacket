@@ -84,8 +84,7 @@
     </nav>
     <div class="form-group">
         <input class="form-control" id="search" type="text" placeholder="Type to search for the existing patient’s record ...">
-        <a class="btn btn-primary add-button button-default button-action" th:href="@{/patient/add}" role="button" style="width: 220px;margin-right: 5%;">
-            Enroll New Patient
+        <a class="btn btn-primary add-button button-default button-action" th:href="@{/patient/add}" role="button" style="width: 220px;margin-right: 5%;" th:text="#{patient.enroll_new_patient}">
         </a>
     </div>
         <div class="form-group">
@@ -123,7 +122,7 @@
                             </td>
                             <td th:text="${patient.address}"></td>
                             <td th:text="${patient.telephone}"></td>
-                            <td>20.02.2019</td>
+                            <td th:text="${patient.dateOfLastVisit}"></td>
                             <td th:text="${patient.taxCode}"></td>
                             <td>
                                 <div class="row" style="margin-top: 0;">
@@ -173,17 +172,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="form-group dropdown" style="text-align: center">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}">
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="?lang=en" th:text="#{lang.en}"></a>
-                            <a class="dropdown-item" href="?lang=hi" th:text="#{lang.hi}"></a>
-                            <a class="dropdown-item" href="?lang=te" th:text="#{lang.te}"></a>
-                            <a class="dropdown-item" href="?lang=gu" th:text="#{lang.gu}"></a>
-                            <a class="dropdown-item" href="?lang=ur" th:text="#{lang.ur}"></a>
-                        </div>
-                    </div>
+                    <div th:replace="fragments/language_selector :: language_selector"></div>
                 </div>
             </div>
         </div>
