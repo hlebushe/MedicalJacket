@@ -314,8 +314,9 @@
                         <div class="input-group-prepend input-group-prepend1">
                             <span class="input-group-text" th:text="#{patient.aadhaar_id}"></span>
                         </div>
-                        <input type="number" th:field="*{taxCode}" class="form-control" id="aadhaarNumber" required="true">
+                        <input type="text" onkeydown="return numericOnly(event);" th:field="*{taxCode}" minlength="12" maxlength="12" pattern="([0-9]{12})" class="form-control" id="aadhaarNumber" required="true" title="12 characters">
                         <span id="validator_aadhaar" class="validator" style="color: red;width: 100%;font-size: 12px;">Please fill Aadhaar ID</span>
+                        <span id="validator_aadhaar2" class="validator" style="color: red;width: 100%;font-size: 12px;">Should have 12 characters</span>
                     </div>
                 </div>
             </div>
@@ -554,11 +555,12 @@
                             <option th:value="#{common.other}" th:text="#{common.other}"></option>
                         </select>
                     </div>
-                    <div class="form-group input-group">
+                    <div class="form-group input-group required">
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.next_of_kin_phone}"></span>
                         </div>
                         <input type="number" th:field="*{nextKinTelephone}" class="form-control" id="nextKinTelephone" style="height: 62px;">
+                        <span id="validator_next_kin_tele" class="validator" style="color: red;width: 100%;font-size: 12px;">Please fill this field</span>
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend3">
@@ -614,7 +616,7 @@
                         <div class="input-group-prepend input-group-prepend3">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.health_card_type}"></span>
                         </div>
-                        <input list="healthCards" class="form-control" th:field="*{healthCardType}" id="healthCardType" style="height: 62px;">
+                        <input list="healthCards" onkeydown="return alphaOnly(event);" class="form-control" th:field="*{healthCardType}" id="healthCardType" style="height: 62px;">
                         <datalist id="healthCards">
                             <option th:value="'Arogyasir'" th:text="'Arogyasir'"></option>
                             <option th:value="'ESI Card'" th:text="'ESI Card'"></option>
@@ -718,11 +720,17 @@
         } else if($("#aadhaarNumber").val().length === 0) {
             $("#validator_aadhaar").show();
             $("#validator").show();
+        } else if($("#aadhaarNumber").val().length != 12) {
+            $("#validator_aadhaar2").show();
+            $("#validator").show();
         } else if($("#city").val().length === 0) {
             $("#validator_city").show();
             $("#validator").show();
         } else if($("#email").val().length === 0) {
             $("#validator_email").show();
+            $("#validator").show();
+        } else if($("#nextKinTelephone").val().length === 0) {
+            $("#validator_next_kin_tele").show();
             $("#validator").show();
         } else {
             $("#form_patient").submit();
@@ -774,6 +782,11 @@
     function alphaNumericOnly(event) {
         var key = event.keyCode;
         return ((key >= 65 && key <= 90) || key == 8 || key == 32 || (key >= 48 && key <= 57));
+    };
+
+    function numericOnly(event) {
+        var key = event.keyCode;
+        return (key == 8 || (key >= 48 && key <= 57));
     };
 
     function showAge(birthday) {

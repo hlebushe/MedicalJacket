@@ -759,24 +759,29 @@
         var diagnosis2 = $("#mainComplaintDiagnosis2").val();
         var diagnosis3 = $("#mainComplaintDiagnosis3").val();
 
-        $('#symptomsModalText').text("Loading...");
+        if (!diagnosis1 && !diagnosis2 && !diagnosis3) {
+            $('#symptomsModalText').text("Please select Diagnosis first to get Symptoms information.");
+        } else {
 
-        $.ajax({
-            url: symptomsUrl,
-            type: "get", //send it through get method
-            data: {
-                diagnosis1: diagnosis1,
-                diagnosis2: diagnosis2,
-                diagnosis3: diagnosis3,
-                infoType: "Description"
-            },
-            success: function(response) {
-                $('#symptomsModalText').text(response);
-            },
-            error: function(xhr) {
-                $('#symptomsModalText').text("No symptoms information");
-            }
-        });
+            $('#symptomsModalText').text("Loading...");
+
+            $.ajax({
+                url: symptomsUrl,
+                type: "get", //send it through get method
+                data: {
+                    diagnosis1: diagnosis1,
+                    diagnosis2: diagnosis2,
+                    diagnosis3: diagnosis3,
+                    infoType: "Description"
+                },
+                success: function (response) {
+                    $('#symptomsModalText').text(response);
+                },
+                error: function (xhr) {
+                    $('#symptomsModalText').text("No symptoms information");
+                }
+            });
+        }
     }
 
         function showDescription() {
@@ -786,24 +791,29 @@
             var diagnosis2 = $("#mainComplaintDiagnosis2").val();
             var diagnosis3 = $("#mainComplaintDiagnosis3").val();
 
-            $('#descriptionModalText').text("Loading...");
+            if (!diagnosis1 && !diagnosis2 && !diagnosis3) {
+                $('#descriptionModalText').text("Please select Diagnosis first to get description.");
+            } else {
 
-            $.ajax({
-                url: symptomsUrl,
-                type: "get", //send it through get method
-                data: {
-                    diagnosis1: diagnosis1,
-                    diagnosis2: diagnosis2,
-                    diagnosis3: diagnosis3,
-                    infoType: "Diagnosis"
-                },
-                success: function(response) {
-                    $('#descriptionModalText').text(response);
-                },
-                error: function(xhr) {
-                    $('#descriptionModalText').text("No description");
-                }
-            });
+                $('#descriptionModalText').text("Loading...");
+
+                $.ajax({
+                    url: symptomsUrl,
+                    type: "get", //send it through get method
+                    data: {
+                        diagnosis1: diagnosis1,
+                        diagnosis2: diagnosis2,
+                        diagnosis3: diagnosis3,
+                        infoType: "Diagnosis"
+                    },
+                    success: function (response) {
+                        $('#descriptionModalText').text(response);
+                    },
+                    error: function (xhr) {
+                        $('#descriptionModalText').text("No description");
+                    }
+                });
+            }
         }
 
         function showManagement() {
@@ -813,24 +823,28 @@
             var diagnosis2 = $("#mainComplaintDiagnosis2").val();
             var diagnosis3 = $("#mainComplaintDiagnosis3").val();
 
-            $('#managementModalText').text("Loading...");
+            if (!diagnosis1 && !diagnosis2 && !diagnosis3) {
+                $('#managementModalText').text("Please select Diagnosis first to get Management information.");
+            } else {
+                $('#managementModalText').text("Loading...");
 
-            $.ajax({
-                url: symptomsUrl,
-                type: "get", //send it through get method
-                data: {
-                    diagnosis1: diagnosis1,
-                    diagnosis2: diagnosis2,
-                    diagnosis3: diagnosis3,
-                    infoType: "Management"
-                },
-                success: function(response) {
-                    $('#managementModalText').text(response);
-                },
-                error: function(xhr) {
-                    $('#managementModalText').text("No management information");
-                }
-            });
+                $.ajax({
+                    url: symptomsUrl,
+                    type: "get", //send it through get method
+                    data: {
+                        diagnosis1: diagnosis1,
+                        diagnosis2: diagnosis2,
+                        diagnosis3: diagnosis3,
+                        infoType: "Management"
+                    },
+                    success: function(response) {
+                        $('#managementModalText').text(response);
+                    },
+                    error: function(xhr) {
+                        $('#managementModalText').text("No management information");
+                    }
+                });
+            }
         }
 </script>
 </body>

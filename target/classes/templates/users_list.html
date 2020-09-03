@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>MedJacket</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/plugins/sortable.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/css/fileinput.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
+    <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
+
+    <style>
+        .table thead th {
+            border-top: 1px dotted #aeacab!important;
+            border-bottom: 1px dotted #aeacab!important;
+            border-left: 1px dotted #aeacab;
+            border-right: 1px dotted #aeacab;
+            background-color: #5f5b91;
+            color: #ffffff;
+            font-weight: 300;
+        }
+
+        .table td {
+            border-left: 1px dotted #aeacab;
+            border-right: 1px dotted #aeacab;
+            border-top: 1px dotted #aeacab;
+            border-bottom: 1px dotted #aeacab;
+        }
+
+        #search {
+            width: 40%;
+            font-size: 22px;
+            float: left;
+            margin-bottom: 2%;
+            margin-top: 2%;
+            margin-left: 10%;
+        }
+
+        .action-icon {
+            width: 25px;
+            height: 25px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .action-label {
+            color: #000000;
+            font-size: 13px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-light header-custom">
+    <div class="header-left">
+        <span style="float: left;font-size: 24px;font-weight: bold;">Users Dashboard</span>
+        <a style="float: left;clear: both;color: #ffffff;" th:href="@{/home}"><img th:src="@{/images/back_arrow.png}"> Back</a>
+    </div>
+    <div class="header-right">
+        <div class="header-logo">
+            <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
+        </div>
+        <div class="header-headings">
+            <h1 style="font-weight: bold">MEDJACKET</h1>
+            <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
+        </div>
+    </div>
+</nav>
+<div class="form-group">
+    <input class="form-control" id="search" type="text" placeholder="Type to search for the existing patient’s record ...">
+    <a class="btn btn-primary add-button button-default button-action" href="#" role="button" style="width: 220px;margin-right: 5%;">Enroll a new User
+    </a>
+</div>
+<div class="form-group">
+    <div th:switch="${users}">
+        <h2 th:case="null">No users</h2>
+        <div th:case="*">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col" th:text="#{patient.name}"></th>
+                    <th scope="col" th:text="#{patient.age}"></th>
+                    <th scope="col" th:text="#{patient.sex}"></th>
+                    <th scope="col" th:text="#{patient.address}"></th>
+                    <th scope="col" th:text="#{patient.telephone}"></th>
+                    <th scope="col">Designation</th>
+                    <th scope="col" th:text="#{patient.aadhaar_id}"></th>
+                    <th scope="col" th:text="#{common.action}"></th>
+                </tr>
+                </thead>
+                <tbody id="table-body">
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.userName}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.age + ' Y'}"></td>
+                    <td>
+                        <div th:switch="${user.sex}">
+                            <p th:case="'M'" th:text="#{patient.male}"></p>
+                            <p th:case="'F'"th:text="#{patient.female}"></p>
+                        </div>
+                    </td>
+                    <td th:text="${user.address}"></td>
+                    <td th:text="${user.telephone}"></td>
+                    <td th:text="${user.desc}"></td>
+                    <td th:text="${user.aadhaarNumber}"></td>
+                    <td>
+                        <div class="row" style="margin-top: 0;">
+                            <div class="col">
+                                <a href="#">
+                                    <img class="action-icon" alt="" th:src="@{/images/view.png}">
+                                    <p class="action-label" th:text="#{common.view}"></p>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img class="action-icon" alt="" th:src="@{/images/modify.png}">
+                                    <p class="action-label" th:text="#{common.modify}"></p>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img class="action-icon" alt="" th:src="@{/images/pharmacy.png}">
+                                    <p class="action-label" th:text="#{common.pharmacy}"></p>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:replace="fragments/language_selector :: language_selector"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#search").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#table-body tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+</body>
+</html>

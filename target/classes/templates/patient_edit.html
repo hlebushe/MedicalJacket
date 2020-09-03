@@ -317,7 +317,7 @@
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text" th:text="#{patient.aadhaar_id}"></span>
                             </div>
-                            <input type="number" th:field="*{taxCode}" class="form-control" id="aadhaarNumber" required="true">
+                            <input type="text" onkeydown="return numericOnly(event);" th:field="*{taxCode}" minlength="12" maxlength="12" pattern="([0-9]{12})" class="form-control" id="aadhaarNumber" required="true" title="12 characters">
                         </div>
                     </div>
                 </div>
@@ -613,7 +613,7 @@
                             <div class="input-group-prepend input-group-prepend3">
                                 <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.health_card_type}"></span>
                             </div>
-                            <input list="healthCards" class="form-control" th:field="*{healthCardType}" id="healthCardType" style="height: 62px;">
+                            <input list="healthCards" onkeydown="return alphaOnly(event);" class="form-control" th:field="*{healthCardType}" id="healthCardType" style="height: 62px;">
                             <datalist id="healthCards">
                                 <option th:value="'Arogyasir'" th:text="'Arogyasir'"></option>
                                 <option th:value="'ESI Card'" th:text="'ESI Card'"></option>
@@ -755,6 +755,11 @@
     function alphaNumericOnly(event) {
         var key = event.keyCode;
         return ((key >= 65 && key <= 90) || key == 8 || key == 32 || (key >= 48 && key <= 57));
+    };
+
+    function numericOnly(event) {
+        var key = event.keyCode;
+        return (key == 8 || (key >= 48 && key <= 57));
     };
 
     function addPreviousOperation() {
