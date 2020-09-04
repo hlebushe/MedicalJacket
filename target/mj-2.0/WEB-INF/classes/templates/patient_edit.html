@@ -329,7 +329,7 @@
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text" th:text="#{patient.telephone}"></span>
                             </div>
-                            <input type="number" th:field="*{telephone}" class="form-control" id="telephone">
+                            <input type="text" onkeydown="return numericAndPlusOnly(event);" th:field="*{telephone}" minlength="2" maxlength="12" pattern="([0-9]{12})" class="form-control" id="telephone" title="from 2 till 12 characters">
                         </div>
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend1">
@@ -754,12 +754,20 @@
 
     function alphaNumericOnly(event) {
         var key = event.keyCode;
-        return ((key >= 65 && key <= 90) || key == 8 || key == 32 || (key >= 48 && key <= 57));
+        var shift = event.shiftKey;
+        return ((key >= 65 && key <= 90) || key == 8 || key == 32 || (key >= 48 && key <= 57 && !shift) || (key >= 96 && key <= 105 && !shift));
     };
 
     function numericOnly(event) {
         var key = event.keyCode;
-        return (key == 8 || (key >= 48 && key <= 57));
+        var shift = event.shiftKey;
+        return (key == 8 || (key >= 48 && key <= 57 && !shift) || (key >= 96 && key <= 105 && !shift));
+    };
+
+    function numericAndPlusOnly(event) {
+        var key = event.keyCode;
+        var shift = event.shiftKey;
+        return (key == 8 || key == 32 || (key >= 48 && key <= 57 && !shift) || (key >= 96 && key <= 105 && !shift) || (key == 187 && shift));
     };
 
     function addPreviousOperation() {

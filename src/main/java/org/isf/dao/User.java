@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotNull;
 import java.sql.Blob;
+import java.time.*;
 import java.util.Date;
 
 @Entity
@@ -77,20 +78,11 @@ public class User
     @Column(name="US_EDUCATION")
     private String education;
 
-    @Column(name="US_MAR_STAT")
-    private String martialStatus;
+    @Column(name="US_PROVIDER_NUMBER")
+    private String providerNumber;
 
-    @Column(name="US_ALLERGIES")
-    private String allergies;
-
-    @Column(name="US_SURGERIES")
-    private String surgeries;
-
-    @Column(name="US_MED_NOTES")
-    private String medicalNotes;
-
-    @Column(name="US_BTYPE")
-    private String bloodType;
+    @Column(name="US_ROLE")
+    private String role;
 
     @Column(name="US_PHOTO")
     @Lob
@@ -136,6 +128,19 @@ public class User
         }
 
         return this.hashCode;
+    }
+
+    public void setAge() {
+        Instant instant = this.dateOfBirth.toInstant();
+        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+        LocalDate givenDate = zone.toLocalDate();
+        Period period = Period.between(givenDate, LocalDate.now());
+        int age = period.getYears();
+        this.age = age;
+    }
+
+    public void setName() {
+        this.name = this.firstName + " " + this.secondName;
     }
 
 }

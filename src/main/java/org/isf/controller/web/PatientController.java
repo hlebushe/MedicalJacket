@@ -60,6 +60,9 @@ public class PatientController {
     @Autowired
     protected XLSXService xlsxService;
 
+    @Autowired
+    protected FilesService filesService;
+
     @GetMapping(value = "/list")
     public ModelAndView getPatients(Model model) throws IOException, ParseException {
         Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
@@ -70,13 +73,6 @@ public class PatientController {
 
         for (Patient p : patients) {
             try {
-                Visit lastVisit = visitService.getLastVisitByPatient(p);
-                if (lastVisit == null) {
-                    p.setDateOfLastVisit("No visits");
-                } else {
-                    p.setDateOfLastVisit(lastVisit.getDate().toString().substring(0,10));
-                }
-
                 Examinations examinations = examinationService.getLastExaminationByPatient(p);
                 ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
                 examinationsModel = examinationService.setExaminationColors(examinationsModel, p.getAge());
@@ -92,6 +88,16 @@ public class PatientController {
                 }
             } catch (Exception e) {
                 p.setPddScore("white");
+            }
+
+            try {
+                Visit lastVisit = visitService.getLastVisitByPatient(p);
+                if (lastVisit == null) {
+                    p.setDateOfLastVisit("No visits");
+                } else {
+                    p.setDateOfLastVisit(lastVisit.getDate().toString().substring(0,10));
+                }
+            } catch (Exception e) {
                 p.setDateOfLastVisit("No visits");
             }
         }
@@ -113,8 +119,8 @@ public class PatientController {
 
     @PostMapping("/add")
     public ModelAndView addPatient(@RequestParam("photo") MultipartFile photo, @RequestParam("existingMedication") MultipartFile existingMedication, @Valid Patient patient, BindingResult result, Model model) throws IOException, SQLException {
-        patient.setBlobPhoto(getBlobData(photo));
-        patient.setExistingMedication(getBlobData(existingMedication));
+        patient.setBlobPhoto(filesService.getBlobData(photo));
+        patient.setExistingMedication(filesService.getBlobData(existingMedication));
 
         patient.setAge();
 
@@ -171,13 +177,13 @@ public class PatientController {
         Patient patientFromDB = patientService.findPatientByCode(patient.getCode());
 
         if (!photo.isEmpty()) {
-            patient.setBlobPhoto(getBlobData(photo));
+            patient.setBlobPhoto(filesService.getBlobData(photo));
         } else {
             patient.setBlobPhoto(patientFromDB.getBlobPhoto());
         }
 
         if (!existingMedication.isEmpty()) {
-            patient.setExistingMedication(getBlobData(existingMedication));
+            patient.setExistingMedication(filesService.getBlobData(existingMedication));
         } else {
             patient.setExistingMedication(patientFromDB.getExistingMedication());
         }
@@ -413,7 +419,7 @@ public class PatientController {
     public ModelAndView postAddPathology(@PathVariable("id") int code, @RequestParam("pathologyData") MultipartFile pathologyData, @Valid Pathology pathology, BindingResult result, Model model) throws IOException, SQLException {
         Patient patient = patientService.findPatientByCode(code);
         pathology.setPatient(patient);
-        pathology.setPathologyData(getBlobData(pathologyData));
+        pathology.setPathologyData(filesService.getBlobData(pathologyData));
 
         Date date = new Date();
         pathology.setDate(date);
@@ -477,10 +483,4 @@ public class PatientController {
         return "Success";
     }
 
-
-
-    public Blob getBlobData(MultipartFile file) throws IOException, SQLException {
-        byte[] bytes = file.getBytes();
-        return new SerialBlob(bytes);
-    }
 }

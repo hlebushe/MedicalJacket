@@ -18,4 +18,6 @@ public interface UserGroupRepository extends JpaRepository<UserGroup, String> {
     @Transactional
     @Query(value =  "UPDATE USERGROUP SET UG_DESC = :description WHERE UG_ID_A = :id", nativeQuery= true)
     int updateDescription(@Param("description") String description, @Param("id") String id);
+
+    UserGroup findByCode(String code);
 }

@@ -78,7 +78,7 @@
 </nav>
 <div class="form-group">
     <input class="form-control" id="search" type="text" placeholder="Type to search for the existing patient’s record ...">
-    <a class="btn btn-primary add-button button-default button-action" href="#" role="button" style="width: 220px;margin-right: 5%;">Enroll a new User
+    <a class="btn btn-primary add-button button-default button-action" th:href="@{/users/add}" role="button" style="width: 220px;margin-right: 5%;">Enroll a new User
     </a>
 </div>
 <div class="form-group">
@@ -130,8 +130,8 @@
                             </div>
                             <div class="col">
                                 <a href="#">
-                                    <img class="action-icon" alt="" th:src="@{/images/pharmacy.png}">
-                                    <p class="action-label" th:text="#{common.pharmacy}"></p>
+                                    <img class="action-icon" alt="" th:src="@{/images/user_management.png}">
+                                    <p class="action-label">Authorize</p>
                                 </a>
                             </div>
                         </div>
