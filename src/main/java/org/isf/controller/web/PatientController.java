@@ -309,6 +309,8 @@ public class PatientController {
         Date date = new Date();
         newVisit.setDate(date);
 
+        newVisit.defineMed();
+
         visitService.saveVisit(newVisit);
 
         ModelAndView mv = new ModelAndView();

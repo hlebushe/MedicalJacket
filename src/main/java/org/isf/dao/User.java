@@ -89,6 +89,9 @@ public class User
     @JsonIgnore
     private Blob photo;
 
+    @Column(name="US_BIOMETRIC")
+    private Blob biometric;
+
     @Transient
     private volatile int hashCode = 0;
 

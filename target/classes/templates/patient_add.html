@@ -803,8 +803,12 @@
     };
 
     function showAge(birthday) {
-        var age = getAge(birthday);
-        document.getElementById("age").value=age;
+        if (birthday == "") {
+            return;
+        } else {
+            var age = getAge(birthday);
+            document.getElementById("age").value=age;
+        }
     }
 
     $(document).ready(function() {

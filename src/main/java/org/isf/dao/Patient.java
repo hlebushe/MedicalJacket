@@ -194,6 +194,9 @@ public class Patient  {
     @Column(name="PAT_HEALTH_CARD_NUMBER")
     private String healthCardNumber;
 
+    @Column(name="PAT_BIOMETRIC")
+    private Blob biometric;
+
     @Transient
     private String pddScore;
 

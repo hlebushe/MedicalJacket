@@ -137,8 +137,8 @@
                                 <span class="input-group-text">Password</span>
                             </div>
                             <input type="password" th:field="*{passwd}" class="form-control" id="passwd">
-                            <span id="email_validator" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Minimum 8 characters with upper and lower case and numbers</span>
-                            <span id="validator_email" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill password</span>
+                            <span id="password_validator" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Minimum 8 characters with upper and lower case and numbers</span>
+                            <span id="validator_password" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill password</span>
                         </div>
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend1 radioLabel">
@@ -283,6 +283,11 @@
         } else if (emailReg.test($("#email").val()) == false) {
             $("#email_validator").show();
             $("#validator").show();
+        } else if($("#passwd").val().length === 0) {
+            $("#validator_password").css('color', 'red');
+            $("#validator").show();
+        } else if(!testPassword()) {
+            $("#validator").show();
         } else {
             $("#form_user").submit();
         }
@@ -307,7 +312,6 @@
 
         $("#validator").hide();
 
-        document.getElementById("age").setAttribute("readonly", "true");
     });
 
     $('#email').on('input', function() {
@@ -322,17 +326,23 @@
 
     });
 
-    // $('#password').on('input', function() {
-    //     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-    //
-    //     if (reg.test($(this).val()) == false)
-    //     {
-    //         $("#password_validator").css('color', 'red');
-    //     } else {
-    //         $("#password_validator").css('color', '#ffffff');
-    //     }
-    //
-    // });
+    $('#passwd').on('input', function() {
+        testPassword();
+    });
+
+    function testPassword() {
+        var letter = /[a-z]/;
+        var upper = /[A-Z]/;
+        var number = /[0-9]/;
+
+        if($("#passwd").val().length < 8 || !letter.test($("#passwd").val()) || !number.test($("#passwd").val()) || !upper.test($("#passwd").val())) {
+            $("#password_validator").css('color', 'red');
+            return false
+        } else {
+            $("#password_validator").css('color', '#ffffff');
+            return true;
+        }
+    }
 
 </script>
 <script>
