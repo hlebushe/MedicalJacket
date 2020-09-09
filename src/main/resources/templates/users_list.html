@@ -92,7 +92,7 @@
                     <th scope="col" th:text="#{patient.name}"></th>
                     <th scope="col" th:text="#{patient.age}"></th>
                     <th scope="col" th:text="#{patient.sex}"></th>
-                    <th scope="col" th:text="#{patient.address}"></th>
+                    <th scope="col" th:text="#{patient.city}"></th>
                     <th scope="col" th:text="#{patient.telephone}"></th>
                     <th scope="col">Designation</th>
                     <th scope="col" th:text="#{patient.aadhaar_id}"></th>
@@ -110,20 +110,20 @@
                             <p th:case="'F'"th:text="#{patient.female}"></p>
                         </div>
                     </td>
-                    <td th:text="${user.address}"></td>
+                    <td th:text="${user.city}"></td>
                     <td th:text="${user.telephone}"></td>
                     <td th:text="${user.desc}"></td>
                     <td th:text="${user.aadhaarNumber}"></td>
                     <td>
                         <div class="row" style="margin-top: 0;">
                             <div class="col">
-                                <a href="#">
+                                <a th:href="@{/users/view/{userName}(userName=${user.userName})}">
                                     <img class="action-icon" alt="" th:src="@{/images/view.png}">
                                     <p class="action-label" th:text="#{common.view}"></p>
                                 </a>
                             </div>
                             <div class="col">
-                                <a href="#">
+                                <a th:href="@{/users/edit/{userName}(userName=${user.userName})}">
                                     <img class="action-icon" alt="" th:src="@{/images/modify.png}">
                                     <p class="action-label" th:text="#{common.modify}"></p>
                                 </a>

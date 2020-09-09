@@ -329,7 +329,7 @@
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text" th:text="#{patient.telephone}"></span>
                             </div>
-                            <input type="text" onkeydown="return numericAndPlusOnly(event);" th:field="*{telephone}" minlength="2" maxlength="12" pattern="([0-9]{12})" class="form-control" id="telephone" title="from 2 till 12 characters">
+                            <input type="text" onkeydown="return numericAndPlusOnly(event);" th:field="*{telephone}" class="form-control" id="telephone">
                         </div>
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend1">
@@ -952,17 +952,7 @@
                 // Plugin logs to help developers see issues in their setup. Show in Chrome console. Set to false for PROD.
                 showConsoleLogs:true,
 
-
-
-                // ---------------------- upload button styling and function
-                showUpload: true,
-                uploadLabel: 'Upload',
-                uploadClass: "btn btn-warning btn-sm mx-2 mt-2",
-                uploadIcon: '<i class="fas fa-upload"></i>',
-                uploadUrl: '/endpoint/endpoint-pro-upload-profilepic-file/',
-                uploadAsync: true,
-                msgUploadEmpty: "Please select some files to upload.",
-                msgUploadBegin: "",
+                showUpload: false,
 
                 // ----------------------- browse button styling and function
                 showBrowse: true,

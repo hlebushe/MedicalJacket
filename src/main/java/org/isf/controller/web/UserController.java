@@ -12,15 +12,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -62,6 +62,17 @@ public class UserController {
         return mv;
     }
 
+    @GetMapping("/userPic/{userName}")
+    public void getUserPic(@PathVariable("userName") String userName, HttpServletResponse response, HttpServletRequest request)
+            throws ServletException, IOException, SQLException {
+
+        User user = userRepository.findByUserName(userName);
+        response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+        response.getOutputStream().write(user.getPhoto().getBytes(1, (int) user.getPhoto().length()));
+
+        response.getOutputStream().close();
+    }
+
     @GetMapping(value = "/add")
     public ModelAndView getAddUser(Model model) {
         ModelAndView mv = new ModelAndView();
@@ -72,16 +83,63 @@ public class UserController {
 
     @PostMapping("/add")
     public ModelAndView addUser(@RequestParam("photo") MultipartFile photo, @Valid User user, BindingResult result, Model model) throws IOException, SQLException {
-        user.setPhoto(filesService.getBlobData(photo));
 
-        user.setAge();
-        user.setName();
-        UserGroup userGroup = userGroupRepository.findByCode("admin");
-        user.setUserGroupName(userGroup);
-        user.setUserName(user.getEmail());
+        if (userService.checkIfUserNameBusy(user.getEmail())) {
+            ModelAndView mv = new ModelAndView();
+            user.setDateOfBirth(null);
+            mv.addObject("user", user);
+            mv.addObject("error", "This email is busy!");
+            mv.setViewName("user_add");
+            return mv;
+        } else {
+            user.setPhoto(filesService.getBlobData(photo));
+            user.setAge();
+            user.setName();
+            UserGroup userGroup = userGroupRepository.findByCode("admin");
+            user.setUserGroupName(userGroup);
+            user.setUserName(user.getEmail());
 
-        User userNew = userService.saveUser(user);
+            User userNew = userService.saveUser(user);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/users/list"));
+            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/users/list"));
+        }
+    }
+
+    @GetMapping("/edit/{userName}")
+    public ModelAndView getEditUser(@PathVariable("userName") String userName, Model model) {
+        User user = userRepository.findByUserName(userName);
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("user", user);
+        mv.setViewName("user_edit");
+        return mv;
+    }
+
+    @PostMapping("/edit/{userName}")
+    public ModelAndView editUser(@RequestParam("photo") MultipartFile photo, @PathVariable("userName") String userName, @Valid User user, BindingResult result, Model model) throws IOException, SQLException {
+        User userFromDB = userRepository.findByUserName(userName);
+        user.setEmail(userName);
+
+        if (!photo.isEmpty()) {
+            user.setPhoto(filesService.getBlobData(photo));
+        } else {
+            user.setPhoto(userFromDB.getPhoto());
+        }
+
+        if (user.getDateOfBirth() == null) {
+            user.setDateOfBirth(userFromDB.getDateOfBirth());
+        }
+
+        userService.updateUser(user);
+
+        return new ModelAndView(new RedirectView(mContext.getContextPath() + "/users/list"));
+    }
+
+    @GetMapping("/view/{userName}")
+    public ModelAndView getViewUser(@PathVariable("userName") String userName, Model model) {
+        User user = userRepository.findByUserName(userName);
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("user", user);
+        mv.setViewName("user_view");
+        return mv;
     }
 }

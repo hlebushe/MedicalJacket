@@ -66,12 +66,18 @@
             margin: 0 0 0 1rem;
         }
 
+        #preview {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-light header-custom">
     <div class="header-left">
-        <span style="float: left;font-size: 24px;font-weight: bold;">New User Form</span>
+        <span style="float: left;font-size: 24px;font-weight: bold;">Edit User Form</span>
         <a style="float: left;clear: both;color: #ffffff;" th:href="@{/users/list}"><img th:src="@{/images/back_arrow.png}"> Back</a>
     </div>
     <div class="header-right">
@@ -84,7 +90,7 @@
         </div>
     </div>
 </nav>
-<form id="form_user" th:action="@{/users/add}" th:object="${user}" method="post" enctype="multipart/form-data">
+<form id="form_user" th:action="@{/users/edit/{userName}(userName=${user.userName})}" th:object="${user}" method="post" enctype="multipart/form-data">
     <div class="container text-center" style="margin-top: 3%;">
         <div class="form-group" style="display: flex;">
             <button onclick="submitForm()" type="button" id="btn-sub">
@@ -101,10 +107,6 @@
                 <a class="nav-link active" href="#1" data-toggle="tab" th:text="#{patient.general_details}"></a>
             </li>
         </ul>
-        <div class="form-group">
-            <div style="color: red; width: 100%; text-align: center;" th:if="${error != null}" th:text="${error}">
-            </div>
-        </div>
         <div class="tab-content">
             <div class="tab-pane active" id="1">
                 <div class="row">
@@ -127,22 +129,6 @@
                             </div>
                             <input type="text" onkeydown="return alphaOnly(event);" th:field="*{secondName}" class="form-control" id="surname" required="true">
                             <span id="validator_second_name" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Name</span>
-                        </div>
-                        <div class="form-group input-group required">
-                            <div class="input-group-prepend input-group-prepend1">
-                                <span class="input-group-text" th:text="#{patient.email}"></span>
-                            </div>
-                            <input type="text" th:field="*{email}" class="form-control" id="email">
-                            <span id="email_validator" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Invalid email address</span>
-                            <span id="validator_email" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill email</span>
-                        </div>
-                        <div class="form-group input-group required">
-                            <div class="input-group-prepend input-group-prepend1">
-                                <span class="input-group-text">Password</span>
-                            </div>
-                            <input type="password" th:field="*{passwd}" class="form-control" id="passwd">
-                            <span id="password_validator" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Minimum 8 characters with upper and lower case and numbers</span>
-                            <span id="validator_password" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill password</span>
                         </div>
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend1 radioLabel">
@@ -249,6 +235,35 @@
         });
     });
 </script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+
+    var birthDate = [[${user.dateOfBirth}]].substring(0,10);
+    /*]]>*/
+
+    $(function () {
+        $("#birthDate").dateDropdowns({
+            submitFormat: "dd/mm/yyyy",
+            // submitFieldName: 'birthDate',
+            defaultDate: birthDate
+        });
+
+        $(".day").addClass("form-control");
+        $(".month").addClass("form-control");
+        $(".year").addClass("form-control");
+
+        $(".day").css("width", "20%");
+        $(".month").css("width", "30%");
+        $(".year").css("width", "20%");
+
+        $(".day").css("float", "left");
+        $(".month").css("float", "left");
+        $(".year").css("float", "left");
+
+    });
+
+</script>
 <script>
     function submitForm() {
         var emailReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -275,22 +290,11 @@
         } else if($("#city").val().length === 0) {
             $("#validator_city").css('color', 'red');
             $("#validator").show();
-        } else if($("#email").val().length === 0) {
-            $("#validator_email").css('color', 'red');
-            $("#validator").show();
         } else if($("#role").val().length === 0) {
             $("#validator_role").css('color', 'red');
             $("#validator").show();
         } else if($("#desc").val().length === 0) {
             $("#validator_desc").css('color', 'red');
-            $("#validator").show();
-        } else if (emailReg.test($("#email").val()) == false) {
-            $("#email_validator").show();
-            $("#validator").show();
-        } else if($("#passwd").val().length === 0) {
-            $("#validator_password").css('color', 'red');
-            $("#validator").show();
-        } else if(!testPassword()) {
             $("#validator").show();
         } else {
             $("#form_user").submit();
@@ -298,55 +302,8 @@
     }
 
     $(function () {
-        $("#birthDate").dateDropdowns({
-            submitFormat: "dd/mm/yyyy"
-        });
-
-        $(".day").addClass("form-control");
-        $(".month").addClass("form-control");
-        $(".year").addClass("form-control");
-
-        $(".day").css("width", "20%");
-        $(".month").css("width", "30%");
-        $(".year").css("width", "20%");
-
-        $(".day").css("float", "left");
-        $(".month").css("float", "left");
-        $(".year").css("float", "left");
-
         $("#validator").hide();
-
     });
-
-    $('#email').on('input', function() {
-        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-
-        if (reg.test($(this).val()) == false)
-        {
-            $("#email_validator").css('color', 'red');
-        } else {
-            $("#email_validator").css('color', '#ffffff');
-        }
-
-    });
-
-    $('#passwd').on('input', function() {
-        testPassword();
-    });
-
-    function testPassword() {
-        var letter = /[a-z]/;
-        var upper = /[A-Z]/;
-        var number = /[0-9]/;
-
-        if($("#passwd").val().length < 8 || !letter.test($("#passwd").val()) || !number.test($("#passwd").val()) || !upper.test($("#passwd").val())) {
-            $("#password_validator").css('color', 'red');
-            return false
-        } else {
-            $("#password_validator").css('color', '#ffffff');
-            return true;
-        }
-    }
 
 </script>
 <script>
@@ -457,7 +414,12 @@
         return ageString;
     }
 </script>
-<script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+
+    var userName = [[${user.userName}]];
+    /*]]>*/
     jQuery(function ($) {
 
         var fileInputSettingsProfilepic =
@@ -473,7 +435,7 @@
                 // Both settings are required to remove files from preview on error. retryErrorUploads was added in v5.0.0 as part of the resumable uploads.
                 removeFromPreviewOnError: true,
                 retryErrorUploads: false,
-
+                defaultPreviewContent: '<img src="#" alt="Your Avatar" id="preview">',
                 // "true" works only for JPEG images and only for client-side orientation.
                 // Also, if "true", autoorient is broken on the phone. Use server side rotation during upload instead.
                 // If autoOrientImage is not set to false, "Error loading the piexif.js library." appears.
@@ -484,7 +446,6 @@
 
                 // ---------------------- upload button styling and function
                 showUpload: false,
-
                 // ----------------------- browse button styling and function
                 showBrowse: true,
                 browseOnZoneClick: false,
@@ -544,6 +505,8 @@
         $("#photo")
         // Assign fileInputSettings to the drpozone.
             .fileinput(fileInputSettingsProfilepic)
+
+        document.getElementById('preview').src = '../../users/userPic/' + userName;
 
     }); // end jQuery $ function
 </script>
