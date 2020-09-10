@@ -8,6 +8,7 @@ import org.isf.models.PreviousVisitModel;
 import org.isf.repository.UserRepository;
 import org.isf.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Blob;
@@ -62,6 +65,9 @@ public class PatientController {
 
     @Autowired
     protected FilesService filesService;
+
+    @Autowired
+    protected PDFService pdfService;
 
     @GetMapping(value = "/list")
     public ModelAndView getPatients(Model model) throws IOException, ParseException {
@@ -463,7 +469,7 @@ public class PatientController {
     }
 
     @RequestMapping("/pdd/get_report/{id}")
-    public String download(@PathVariable("id") int id, HttpServletResponse response) {
+    public String downloadPddReport(@PathVariable("id") int id, HttpServletResponse response) {
 
         Pathology pathology = pathologyService.getPathology(id);
         try {
@@ -477,6 +483,30 @@ public class PatientController {
         } catch (SQLException e) {
             System.out.println(e.toString());
             //Handle exception here
+        } catch (IOException e) {
+            System.out.println(e.toString());
+            //Handle exception here
+        }
+
+        return "Success";
+    }
+
+    @RequestMapping("/visit/get_visit_report/{id}")
+    public String downloadVisitReport(@PathVariable("id") int id, HttpServletResponse response) {
+
+        Visit visit = visitService.getVisitById(id);
+        try {
+            File pdf = pdfService.createDocumentFromEntry(visit);
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(pdf));
+            pdf.delete();
+
+            response.setHeader("Content-Disposition", "inline; filename=\"" + id + "\"");
+            OutputStream out = response.getOutputStream();
+            response.setContentType("application/pdf");
+            IOUtils.copy(resource.getInputStream(), out);
+            out.flush();
+            out.close();
+
         } catch (IOException e) {
             System.out.println(e.toString());
             //Handle exception here

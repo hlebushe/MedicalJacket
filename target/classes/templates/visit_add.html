@@ -679,6 +679,7 @@
                             <th scope="col" th:text="#{visit.symptoms}">Symptoms</th>
                             <th scope="col" th:text="#{visit.diagnosis}">Diagnosis</th>
                             <th scope="col" th:text="#{visit.treatment}">Treatment</th>
+                            <th scope="col">Report</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -688,6 +689,12 @@
                             <td th:text="*{previosVisit.mainComplaintSymptoms}"></td>
                             <td th:text="*{previosVisit.mainComplaintDiagnosis}"></td>
                             <td th:text="*{previosVisit.treatment}"></td>
+                            <td>
+                                <a th:href="@{/patient/visit/get_visit_report/{id}(id=${previosVisit.visitID})}">
+                                    <img class="action-icon" alt="" th:src="@{/images/download.png}" style="width: 25px; height: 25px; display: block; margin-left: auto; margin-right: auto;">
+                                    <p class="action-label" style="color: #000000; font-size: 13px; text-align: center;">Download</p>
+                                </a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
