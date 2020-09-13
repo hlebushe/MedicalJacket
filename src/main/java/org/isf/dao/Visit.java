@@ -23,7 +23,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Data
-@Table(name="VISITS")
+@Table(name="visits")
 @EntityListeners(AuditingEntityListener.class)
 @AttributeOverrides({
         @AttributeOverride(name="createdBy", column=@Column(name="VST_CREATED_BY")),

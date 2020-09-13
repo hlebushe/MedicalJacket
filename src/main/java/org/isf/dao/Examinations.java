@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name="EXAMINATIONS")
+@Table(name="examinations")
 @EntityListeners(AuditingEntityListener.class)
 public class Examinations {
 

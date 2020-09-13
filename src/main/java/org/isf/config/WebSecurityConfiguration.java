@@ -35,7 +35,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		String logoutPage = "/logout";
 		http.csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/login", "/docs", "/patient/add", "/swagger-ui.html", "/swagger-resources/**", "/v1/api/**", "/v2/api-docs", "/webjars/**", "/test").permitAll()
+			.antMatchers("/login", "/docs", "/api/**", "/swagger-ui.html", "/swagger-resources/**", "/v1/api/**", "/v2/api-docs", "/webjars/**", "/test").permitAll()
 			.antMatchers("/home").hasAnyAuthority("ADMIN", "GUEST")
 			.anyRequest().authenticated()
 			.and()

@@ -20,7 +20,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name="PATIENT")
+@Table(name="patient")
 @EntityListeners(AuditingEntityListener.class)
 @AttributeOverrides({
         @AttributeOverride(name="createdBy", column=@Column(name="PAT_CREATED_BY")),
@@ -240,6 +240,9 @@ public class Patient  {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
     List<Pathology> pathologies;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
+    List<MeasurementsData> measurementsData;
 
 
     public Patient() {

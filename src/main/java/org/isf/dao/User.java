@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name="USER")
+@Table(name="user")
 @AttributeOverrides({
         @AttributeOverride(name="createdBy", column=@Column(name="US_CREATED_BY")),
         @AttributeOverride(name="createdDate", column=@Column(name="US_CREATED_DATE")),

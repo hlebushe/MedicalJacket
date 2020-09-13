@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name="PATHOLOGY")
+@Table(name="pathology")
 @EntityListeners(AuditingEntityListener.class)
 public class Pathology {
 

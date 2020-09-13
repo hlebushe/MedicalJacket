@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name="USERGROUP")
+@Table(name="usergroup")
 @EntityListeners(AuditingEntityListener.class)
 @AttributeOverrides({
         @AttributeOverride(name="createdBy", column=@Column(name="UG_CREATED_BY")),
