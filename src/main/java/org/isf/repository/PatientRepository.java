@@ -18,13 +18,13 @@ import java.util.List;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
 
-    @Query(value = "SELECT * FROM PATIENT WHERE (PAT_DELETED='N' OR PAT_DELETED IS NULL) ORDER BY PAT_ID", nativeQuery= true)
+    @Query(value = "SELECT * FROM patient WHERE (PAT_DELETED='N' OR PAT_DELETED IS NULL) ORDER BY PAT_ID", nativeQuery= true)
     List<Patient> findAllWhereDeleted();
 
     @Transactional
     void deleteByCode(int code);
 
-    @Query(value = "SELECT * FROM PATIENT WHERE PAT_ID = :id", nativeQuery= true)
+    @Query(value = "SELECT * FROM patient WHERE PAT_ID = :id", nativeQuery= true)
     List<Patient> findAllWhereId(@Param("id") Integer id);
 
     Patient findByCode(Integer code);

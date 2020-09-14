@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface PathologyRepository extends JpaRepository<Pathology, Integer> {
 
-    @Query(value = "SELECT * FROM oh.PATHOLOGY WHERE PATHOLOGY_PAT_ID = :patient ORDER BY PATHOLOGY_DATE DESC", nativeQuery= true)
+    @Query(value = "SELECT * FROM oh.pathology WHERE PATHOLOGY_PAT_ID = :patient ORDER BY PATHOLOGY_DATE DESC", nativeQuery= true)
     List<Pathology> getAllByPatient(Patient patient);
 
     Optional<Pathology> findById(Integer id);

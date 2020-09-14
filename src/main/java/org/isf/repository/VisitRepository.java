@@ -17,7 +17,7 @@ public interface VisitRepository extends JpaRepository<Visit, Integer> {
 //    @Query(value = "SELECT * FROM VISITS ORDER BY VST_PAT_ID, VST_DATE", nativeQuery= true)
 //    List<Visit> findAllByOrderPatientAndDateAsc();
 //
-    @Query(value = "SELECT * FROM VISITS WHERE VST_PAT_ID = :patient ORDER BY VST_PAT_ID, VST_DATE", nativeQuery= true)
+    @Query(value = "SELECT * FROM visits WHERE VST_PAT_ID = :patient ORDER BY VST_PAT_ID, VST_DATE", nativeQuery= true)
     List<Visit> findAllWherePatientByOrderPatientAndDateAsc(@Param("patient") Integer patient);
 
     Visit findByVisitID(int id);

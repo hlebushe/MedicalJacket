@@ -8,6 +8,7 @@ import org.isf.models.PreviousVisitModel;
 import org.isf.repository.UserRepository;
 import org.isf.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -256,11 +257,13 @@ public class PatientController {
                 previousVisits = null;
             }
 
+            Locale locale = LocaleContextHolder.getLocale();
+            String loc = locale.toString();
+
             mv.addObject("visits", previousVisits);
             java.util.List<String> symptomsList = csvService.getSymptomsList();
             mv.addObject("symptoms", symptomsList);
-            java.util.List<DiseaseModel> diseasesList = xlsxService.getDiseasesList();
-            Collections.sort(diseasesList, Comparator.comparing(DiseaseModel::getName));
+            java.util.List<DiseaseModel> diseasesList = xlsxService.getDiseasesList(loc);
             mv.addObject("diseases", diseasesList);
             Examinations examination = examinationService.getLastExaminationByPatient(patient);
             ExaminationsModel examinationsModel = new ExaminationsModel(examination);
@@ -356,11 +359,13 @@ public class PatientController {
             previousVisits = null;
         }
 
+        Locale locale = LocaleContextHolder.getLocale();
+        String loc = locale.toString();
+
         mv.addObject("visits", previousVisits);
         java.util.List<String> symptomsList = csvService.getSymptomsList();
         mv.addObject("symptoms", symptomsList);
-        java.util.List<DiseaseModel> diseasesList = xlsxService.getDiseasesList();
-        Collections.sort(diseasesList, Comparator.comparing(DiseaseModel::getName));
+        java.util.List<DiseaseModel> diseasesList = xlsxService.getDiseasesList(loc);
         mv.addObject("diseases", diseasesList);
         Examinations examination = examinationService.getLastExaminationByPatient(patient);
         ExaminationsModel examinationsModel = new ExaminationsModel(examination);

@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class XLSXService {
 
-    public String getSymptomInfo(String symptom, String infoType) throws IOException {
+    public String getSymptomInfo(String symptom, String infoType, String loc) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("diagnosis.xlsx").getFile());
 
@@ -56,13 +56,36 @@ public class XLSXService {
         } else {
             CellReference cellReference = new CellReference(h.getAddress());
             Row descriptionRow = sheet2.getRow(cellReference.getRow());
-            Cell descriptionCell = descriptionRow.getCell(cellReference.getCol());
+            Cell descriptionCell;
+
+            switch (loc) {
+                case "gu":
+                    descriptionCell = descriptionRow.getCell(2);
+                    break;
+                case "hi":
+                    descriptionCell = descriptionRow.getCell(5);
+                    break;
+                case "kok":
+                    descriptionCell = descriptionRow.getCell(2);
+                    break;
+                case "te":
+                    descriptionCell = descriptionRow.getCell(3);
+                    break;
+                case "ur":
+                    descriptionCell = descriptionRow.getCell(4);
+                    break;
+                default:
+                    descriptionCell = descriptionRow.getCell(2);
+                    break;
+            }
+
+            if (descriptionCell == null || descriptionCell.getStringCellValue().equals("")) descriptionCell = descriptionRow.getCell(2);
 
             return descriptionCell.getStringCellValue();
         }
     }
 
-    public List<DiseaseModel> getDiseasesList() throws IOException {
+    public List<DiseaseModel> getDiseasesList(String loc) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("diagnosis.xlsx").getFile());
 
@@ -93,7 +116,30 @@ public class XLSXService {
                 } else {
                     CellReference cellReference = new CellReference(h.getAddress());
                     Row descriptionRow = sheet2.getRow(cellReference.getRow());
-                    Cell descriptionCell = descriptionRow.getCell(cellReference.getCol());
+                    Cell descriptionCell;
+
+                    switch (loc) {
+                        case "gu":
+                            descriptionCell = descriptionRow.getCell(2);
+                            break;
+                        case "hi":
+                            descriptionCell = descriptionRow.getCell(5);
+                            break;
+                        case "kok":
+                            descriptionCell = descriptionRow.getCell(2);
+                            break;
+                        case "te":
+                            descriptionCell = descriptionRow.getCell(3);
+                            break;
+                        case "ur":
+                            descriptionCell = descriptionRow.getCell(4);
+                            break;
+                        default:
+                            descriptionCell = descriptionRow.getCell(2);
+                            break;
+                    }
+
+                    if (descriptionCell == null || descriptionCell.getStringCellValue().equals("")) descriptionCell = descriptionRow.getCell(2);
                     diseaseModel.setDescription(descriptionCell.getStringCellValue());
                 }
 

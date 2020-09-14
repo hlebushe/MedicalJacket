@@ -16,16 +16,16 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     User findByUserName(String userName);
 
-    @Query(value = "SELECT * FROM USER WHERE US_UG_ID_A = :groupId ORDER BY US_ID_A", nativeQuery= true)
+    @Query(value = "SELECT * FROM user WHERE US_UG_ID_A = :groupId ORDER BY US_ID_A", nativeQuery= true)
     List<User> findAllWhereUserGroupNameByOrderUserNameAsc(@Param("groupId") String groupId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE USER SET US_DESC = :description WHERE US_ID_A = :id", nativeQuery= true)
+    @Query(value = "UPDATE user SET US_DESC = :description WHERE US_ID_A = :id", nativeQuery= true)
     int updateDescription(@Param("description") String description, @Param("id") String id);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE USER SET US_PASSWD = :password WHERE US_ID_A = :id", nativeQuery= true)
+    @Query(value = "UPDATE user SET US_PASSWD = :password WHERE US_ID_A = :id", nativeQuery= true)
     int updatePassword(@Param("password") String password, @Param("id") String id);
 }
