@@ -351,6 +351,20 @@ public class ExaminationService {
                 examination.setConsciousnessColor(level0);
             }
 
+            if (score == 0) {
+                examination.setScoreColor(level0);
+            } else if (score == 1) {
+                examination.setScoreColor(level1);
+            } else if (score == 2) {
+                examination.setScoreColor(level2);
+            } else if (score == 3) {
+                examination.setScoreColor(level3);
+            } else if (score == 4) {
+                examination.setScoreColor(level4);
+            } else {
+                examination.setScoreColor(level5);
+            }
+
             examination.setScore(score);
 
         return examination;

@@ -231,3 +231,10 @@ input[class="form-control"] {
     background-color: #ffffff;
 }
 
+body {
+    position: relative!important;
+    min-height: 100%!important;
+    padding-bottom: 70px!important;
+}
+
+

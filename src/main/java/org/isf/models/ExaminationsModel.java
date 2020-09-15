@@ -71,6 +71,8 @@ public class ExaminationsModel {
 
     private Integer score;
 
+    private String scoreColor;
+
     final double METER = 0.01;
 
     public ExaminationsModel(Examinations examination) {
@@ -364,5 +366,13 @@ public class ExaminationsModel {
 
     public void setConsciousnessColor(String consciousnessColor) {
         this.consciousnessColor = consciousnessColor;
+    }
+
+    public String getScoreColor() {
+        return scoreColor;
+    }
+
+    public void setScoreColor(String scoreColor) {
+        this.scoreColor = scoreColor;
     }
 }

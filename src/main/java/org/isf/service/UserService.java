@@ -1,5 +1,6 @@
 package org.isf.service;
 
+import org.isf.dao.DeviceDetails;
 import org.isf.dao.User;
 import org.isf.dao.UserGroup;
 import org.isf.repository.UserGroupRepository;
@@ -22,6 +23,18 @@ public class UserService {
 
     public User saveUser(User user) {
         user.setPasswd(bCryptPasswordEncoder.encode(user.getPasswd()));
+        return userRepository.save(user);
+    }
+
+    public User saveFromDevice(DeviceDetails deviceDetails) {
+        UserGroup userGroup = userGroupRepository.findByCode("admin");
+        User user = new User();
+
+        user.setEmail(deviceDetails.getEmail());
+        user.setUserGroupName(userGroup);
+        user.setUserName(deviceDetails.getEmail());
+        user.setPasswd(deviceDetails.getPassword());
+
         return userRepository.save(user);
     }
 

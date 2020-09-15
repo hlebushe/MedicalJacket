@@ -32,15 +32,12 @@ public class User
     @JoinColumn(name="US_UG_ID_A")
     private UserGroup userGroupName;
 
-    @NotNull
     @Column(name="US_FNAME")
     private String firstName;
 
-    @NotNull
     @Column(name="US_SNAME")
     private String secondName;
 
-    @NotNull
     @Column(name="US_NAME")
     private String name;
 

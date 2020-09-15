@@ -83,6 +83,10 @@
             background-color: #ffffff!important;
             color: #000000!important;
         }
+
+        #lang_sel {
+            top: 100%;
+        }
     </style>
 </head>
 <body>
@@ -170,11 +174,11 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="1">
-            <div class="form-group">
+            <div class="form-group" style="position: absolute; left: 10%; right: 10%; width: 80%;">
                 <div th:switch="*{examinations}">
                     <h4 th:case="null" style="margin-top: 10px;">No examinations</h4>
                     <div th:case="*">
-                        <table class="table" style="margin-top: 3%;">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th scope="col" th:text="#{common.date}"></th>
@@ -184,24 +188,37 @@
                                 <th scope="col" th:text="#{pdd.heart_rate}"></th>
                                 <th scope="col" th:text="#{pdd.temperature}"></th>
                                 <th scope="col" th:text="#{pdd.o2_saturation}"></th>
+                                <th scope="col" th:text="#{pdd.o2_flow_rate}"></th>
+                                <th scope="col" th:text="#{pdd.respiratory_rate}"></th>
+                                <th scope="col" th:text="#{pdd.blood_glucose_levels}"></th>
+                                <th scope="col" th:text="#{pdd.consciousness}"></th>
+                                <th scope="col" th:text="#{pdd.taste}"></th>
+                                <th scope="col" th:text="#{pdd.smell}"></th>
                                 <th scope="col" th:text="#{pdd.total_score}"></th>
                             </tr>
                             </thead>
                             <tbody id="table-body">
                             <tr th:each="examination : *{examinations}">
-                                <td class="level0" th:text="*{examination.date}"></td>
+                                <td style="white-space: nowrap;" class="level0" th:text="*{examination.date}"></td>
                                 <td th:class="*{examination.bodyMassIndexColor}" th:text="*{examination.bodyMassIndex}"></td>
                                 <td th:class="*{examination.bloodPressureMaxColor}" th:text="*{examination.bloodPressureMax}"></td>
                                 <td th:class="*{examination.bloodPressureMinColor}" th:text="*{examination.bloodPressureMin}"></td>
                                 <td th:class="*{examination.heartRateColor}" th:text="*{examination.heartRate}"></td>
                                 <td th:class="*{examination.temperatureColor}" th:text="*{examination.temperature}"></td>
                                 <td th:class="*{examination.o2SaturationColor}" th:text="*{examination.o2Saturation}"></td>
-                                <td class="level0" th:text="*{examination.score}"></td>
+                                <td th:class="*{examination.o2FlowRateColor}" th:text="*{examination.o2FlowRate}"></td>
+                                <td th:class="*{examination.respiratoryRateColor}" th:text="*{examination.respiratoryRate}"></td>
+                                <td th:class="*{examination.bloodGlucoseLevelColor}" th:text="*{examination.bloodGlucoseLevel}"></td>
+                                <td th:class="*{examination.consciousnessColor}" th:text="*{examination.consciousness}"></td>
+                                <td th:class="*{examination.tasteColor}" th:text="*{examination.taste}"></td>
+                                <td th:class="*{examination.smellColor}" th:text="*{examination.smell}"></td>
+                                <td th:class="*{examination.scoreColor}" th:text="*{examination.score}"></td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+                <div th:replace="fragments/language_selector :: language_selector"></div>
             </div>
         </div>
         <div class="tab-pane" id="2">
@@ -232,10 +249,10 @@
                         </table>
                     </div>
                 </div>
+                <div th:replace="fragments/language_selector :: language_selector"></div>
             </div>
         </div>
     </div>
-    <div th:replace="fragments/language_selector :: language_selector"></div>
 </div>
 <script>
 </script>

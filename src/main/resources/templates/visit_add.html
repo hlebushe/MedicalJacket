@@ -141,7 +141,7 @@
             </div>
             <p class="action-label">PDD</p>
         </a>
-        <a href="#" style="margin-left: 2%;">
+        <a href="https://doxy.me/medjacket" target="_blank" style="margin-left: 2%;">
             <img class="action-icon" alt="" th:src="@{/images/nursing_station.png}">
             <p class="action-label">Call the Doctor</p>
         </a>
@@ -746,8 +746,8 @@
                 <div class="form-group border-group examDiv" th:classappend="*{examinations.consciousnessColor}">
                     <label th:text="*{'Consciousness: ' + examinations.consciousness}" th:classappend="*{examinations.consciousnessColor}"></label>
                 </div>
-                <div class="form-group border-group examDiv level0">
-                    <label th:text="*{'Total score: ' + examinations.score}" class="level0"></label>
+                <div class="form-group border-group examDiv" th:classappend="*{examinations.scoreColor}">
+                    <label th:text="*{'Total score: ' + examinations.score}" th:classappend="*{examinations.scoreColor}"></label>
                 </div>
             </div>
         </div>
