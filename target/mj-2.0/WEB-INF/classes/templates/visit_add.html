@@ -1026,5 +1026,11 @@
             }
         }
 </script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var patient_name = [[${patient.firstName + ' ' + patient.secondName}]];
+    /*]]>*/
+</script>
 </body>
 </html>
