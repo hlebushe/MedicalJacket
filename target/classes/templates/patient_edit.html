@@ -123,6 +123,12 @@
                     <div class="col">
                         <div class="form-group">
                             <input th:field="*{photo}" type="file" id="photo"/>
+                            <button type="button" id="pic_btn" class="btn btn-secondary" onclick="toogleCamera();" style="width: 150px; margin-top: 20px; background-color: #625e96;">Take a picture</button>
+                            <span id="pic_error" style="color: #ffffff;width: 100%;font-size: 12px;">Browser not allowed to use camera</span>
+                        </div>
+                        <div class="form-group" id="camera">
+                            <div id="my_camera"></div>
+                            <button type="button" class="btn btn-secondary" onclick="takeSnapshot()" style="margin-top: 10px;">Shot</button>
                         </div>
                     </div>
                     <div class="col">
@@ -714,7 +720,12 @@
         $(".day").css("float", "left");
         $(".month").css("float", "left");
         $(".year").css("float", "left");
+        $("#camera").hide();
     });
+
+    function toogleCamera() {
+        $("#camera").toggle();
+    }
 
 </script>
 <script th:inline="javascript">
@@ -919,6 +930,127 @@
         else ageString = "Could not calculate age!";
 
         return ageString;
+    }
+</script>
+<script th:src="@{/js/webcam.min.js}"></script>
+<script>
+    var dataURI;
+
+    Webcam.on( 'error', function(err) {
+        $("#pic_btn").hide();
+        $("#pic_error").css("cssText", "color: red !important;");
+    } );
+
+    Webcam.set({
+        width: 320,
+        height: 240,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+    Webcam.attach('#my_camera');
+
+
+    function takeSnapshot() {
+
+        Webcam.snap( function(data_uri) {
+            dataURI = data_uri;
+            $("#photo").fileinput('clear').fileinput('destroy').fileinput({
+                initialPreview: data_uri,
+                initialPreviewAsData: true, // identify if you are sending preview data only and not the raw markup
+                initialPreviewFileType: 'image',
+                initialPreviewConfig: {caption: "image.jpg", filetype: "image/jpeg"},
+                fileActionSettings: {
+                    removeIcon: '<i class="fas fa-trash-alt"></i>',
+                    zoomIcon: '<i class="fas fa-search-plus"></i>',
+                    zoomTitle: 'Image zoom',
+
+                    showDownload: false,
+                    showUpload: false,
+                    showZoom: true,
+                    showRemove: false,
+                },
+
+                previewZoomButtonClasses: {
+                    prev: 'btn btn-navigate',
+                    next: 'btn btn-navigate',
+                    toggleheader: 'd-none',
+                    fullscreen: 'd-none',
+                    borderless: 'd-none',
+                    close: 'btn btn-kv btn-default btn-outline-secondary'
+                },
+
+                previewZoomButtonIcons: {
+                    close: '<i class="fas fa-times"></i>',
+                    prev: '<i class="fas fa-angle-left"></i>',
+                    next: '<i class="fas fa-angle-right"></i>',
+                },
+                // ---------------------- remove button styling and function
+                showRemove: false,
+
+                // --------------------- validations
+                allowedFileExtensions: ['jpg', 'png', 'jpeg'],
+                allowedPreviewTypes: ['image'],
+                maxFileSize: 10000,
+                minFileSize: 100,
+                msgSizeTooSmall: 'File "{name}" ({size} KB) is too small. To maintain quality, we ask that image sizes are no less than {minSize} KB in size.',
+                //maxFileCount: 1,
+                msgFilesTooMany: 'Please choose only 1 profile picture. You can add more photos later in "Get real - photos" section.',
+                //validateInitialCount: false,
+
+                // ---------------------- initial preview
+                overwriteInitial: true, // if true, any initialPreview content will be overwritten with new upload
+                msgValidationErrorIcon: '<i class="fas fa-exclamation-circle"></i> ',
+                msgZoomModalHeading: "Image zoom view",
+
+                showClose: true,
+                showCaption: false,
+                msgErrorClass: 'alert alert-block alert-danger text-left',
+                dropZoneTitle: "Click <i class='fas fa-folder-open h5'></i> to upload photo... (max size 10Mb)",
+                layoutTemplates: { main2: '<div class="d-flex align-items-center flex-column"><div>{preview}</div><div>{browse}{upload}</div></div>' },
+
+                // Both settings are required to remove files from preview on error. retryErrorUploads was added in v5.0.0 as part of the resumable uploads.
+                removeFromPreviewOnError: true,
+                retryErrorUploads: false,
+
+                // "true" works only for JPEG images and only for client-side orientation.
+                // Also, if "true", autoorient is broken on the phone. Use server side rotation during upload instead.
+                // If autoOrientImage is not set to false, "Error loading the piexif.js library." appears.
+                autoOrientImage: false,
+
+                // Plugin logs to help developers see issues in their setup. Show in Chrome console. Set to false for PROD.
+                showConsoleLogs:true,
+
+                showUpload: false,
+
+                // ----------------------- browse button styling and function
+                showBrowse: true,
+                browseOnZoneClick: false,
+                browseLabel: 'Browse...',
+                browseClass: "btn  btn-secondary btn-sm mx-2 mt-2",
+                browseIcon: '<i class="fas fa-folder-open"></i>',
+            });
+        });
+
+        const dT = new ClipboardEvent('').clipboardData || // Firefox < 62 workaround exploiting https://bugzilla.mozilla.org/show_bug.cgi?id=1422655
+            new DataTransfer(); // specs compliant (as of March 2018 only Chrome)
+        var file = dataURLtoFile(dataURI);
+        dT.items.add(file);
+        photo.files = dT.files;
+    }
+
+    function dataURLtoFile(dataurl) {
+
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+
+        return new File([u8arr], "photo.jpg", {type:mime});
     }
 </script>
 <script th:inline="javascript">
