@@ -5,13 +5,14 @@ import org.isf.dao.Patient;
 import org.isf.dao.Visit;
 
 import java.util.Date;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Data
 public class PreviousVisitModel {
 
-    private int visitID;
+    private UUID visitID;
     private Patient patient;
     private String visitDate;
     private String type;

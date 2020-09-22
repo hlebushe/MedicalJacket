@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VisitService {
@@ -26,7 +27,7 @@ public class VisitService {
         return visitRepository.findAllWherePatientByOrderPatientAndDateAsc(patient.getCode()).get(0);
     }
 
-    public Visit getVisitById(int id) {
+    public Visit getVisitById(UUID id) {
         return visitRepository.findByVisitID(id);
     }
 }

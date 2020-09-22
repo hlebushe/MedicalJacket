@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -31,8 +32,8 @@ public class MeasurementsApiController {
 
     @RequestMapping(value = "/send_examination/{patientId}", method = RequestMethod.POST)
     public MeasurementModel sendMeasurement(@RequestBody MeasurementModel data, @PathVariable String patientId) throws ParseException {
-        Patient patient = patientService.findPatientByCode(Integer.parseInt(patientId));
-        MeasurementTypes measurementTypes = measurementTypeRepository.findById(data.getMeasurementType()).get();
+        Patient patient = patientService.findPatientByCode(UUID.fromString(patientId));
+        MeasurementTypes measurementTypes = measurementTypeRepository.findByIndex(data.getIndex());
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss a", Locale.ENGLISH);
         Date date = formatter.parse(data.getDate());

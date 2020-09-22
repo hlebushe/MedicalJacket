@@ -1,8 +1,10 @@
 package org.isf.dao;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -10,9 +12,10 @@ import javax.persistence.*;
 public class DeviceDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "DeviceID")
-    private Integer id;
+    @Column(name = "DeviceID", columnDefinition = "BINARY(16)")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private UUID id;
 
     @Column(name = "MachineID")
     private String machineID;

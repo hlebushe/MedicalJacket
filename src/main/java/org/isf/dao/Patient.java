@@ -2,6 +2,7 @@ package org.isf.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -32,9 +34,10 @@ import java.util.List;
 public class Patient  {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="PAT_ID")
-    private Integer code;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name="PAT_ID", columnDefinition = "BINARY(16)")
+    private UUID code;
 
     @NotNull
     @Column(name="PAT_FNAME")
@@ -299,7 +302,7 @@ public class Patient  {
         this.profession = profession;
     }
 
-    public Patient(int code, String firstName, String secondName, String name, Date birthDate, int age, String agetype, char sex,
+    public Patient(UUID code, String firstName, String secondName, String name, Date birthDate, int age, String agetype, char sex,
                    String address, String city, String nextKin, String telephone, String note,
                    String mother_name, char mother, String father_name, char father,
                    String bloodType, char economicStatut, char parentTogether, String taxCode,
@@ -489,20 +492,6 @@ public class Patient  {
 
         Patient patient = (Patient)obj;
         return (this.getCode().equals(patient.getCode()));
-    }
-
-    @Override
-    public int hashCode() {
-        if (this.hashCode == 0) {
-            final int m = 23;
-            int c = 133;
-
-            c = m * c + ((code == null) ? 0 : code);
-
-            this.hashCode = c;
-        }
-
-        return this.hashCode;
     }
 
     @JsonIgnore

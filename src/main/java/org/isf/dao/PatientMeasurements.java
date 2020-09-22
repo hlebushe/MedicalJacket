@@ -1,10 +1,12 @@
 package org.isf.dao;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -12,9 +14,10 @@ import java.util.Date;
 public class PatientMeasurements {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "PM_ID")
-    private Integer id;
+    @Column(name = "PM_ID", columnDefinition = "BINARY(16)")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private UUID id;
 
     @Column(name = "PM_DEV_ID")
     private Integer devId;

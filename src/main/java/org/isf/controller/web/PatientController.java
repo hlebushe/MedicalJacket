@@ -137,14 +137,14 @@ public class PatientController {
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView deleteUser(@PathVariable("id") int code, Model model) {
-        patientService.deleteByCode(code);
+    public ModelAndView deleteUser(@PathVariable("id") String code, Model model) {
+        patientService.deleteByCode(UUID.fromString(code));
         return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView getEditUser(@PathVariable("id") int code, Model model) {
-        Patient patient = patientService.findPatientByCode(code);
+    public ModelAndView getEditUser(@PathVariable("id") String code, Model model) {
+        Patient patient = patientService.findPatientByCode(UUID.fromString(code));
         ModelAndView mv = new ModelAndView();
         mv.addObject("patient", patient);
         mv.setViewName("patient_edit");
@@ -153,8 +153,8 @@ public class PatientController {
 
 
     @GetMapping("/view/{id}")
-    public ModelAndView getViewUser(@PathVariable("id") int code, Model model) {
-        Patient patient = patientService.findPatientByCode(code);
+    public ModelAndView getViewUser(@PathVariable("id") String code, Model model) {
+        Patient patient = patientService.findPatientByCode(UUID.fromString(code));
         ModelAndView mv = new ModelAndView();
 
         try {
@@ -205,10 +205,10 @@ public class PatientController {
     }
 
     @GetMapping("/userPic/{id}")
-    public void getUserPic(@PathVariable("id") int code, HttpServletResponse response, HttpServletRequest request)
+    public void getUserPic(@PathVariable("id") String code, HttpServletResponse response, HttpServletRequest request)
             throws ServletException, IOException, SQLException {
 
-        Patient patient = patientService.findPatientByCode(code);
+        Patient patient = patientService.findPatientByCode(UUID.fromString(code));
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
         response.getOutputStream().write(patient.getBlobPhoto().getBytes(1, (int) patient.getBlobPhoto().length()));
 
@@ -217,9 +217,9 @@ public class PatientController {
 
 
     @GetMapping("/visit/add/{id}")
-    public ModelAndView getAddVisit(@PathVariable("id") int code, Model model) throws IOException, ParseException {
+    public ModelAndView getAddVisit(@PathVariable("id") String code, Model model) throws IOException, ParseException {
         try {
-            Patient patient = patientService.findPatientByCode(code);
+            Patient patient = patientService.findPatientByCode(UUID.fromString(code));
             ModelAndView mv = new ModelAndView();
 
             try {
@@ -308,8 +308,8 @@ public class PatientController {
     }
 
     @PostMapping("/visit/add/{id}")
-    public ModelAndView postAddVisit(@PathVariable("id") int code, @Valid Visit newVisit, BindingResult result, Model model) throws Exception {
-        Patient patient = patientService.findPatientByCode(code);
+    public ModelAndView postAddVisit(@PathVariable("id") String code, @Valid Visit newVisit, BindingResult result, Model model) throws Exception {
+        Patient patient = patientService.findPatientByCode(UUID.fromString(code));
         Examinations lastExamination = examinationService.getLastExaminationByPatient(patient);
 
         newVisit.setPatient(patient);
@@ -377,10 +377,10 @@ public class PatientController {
     }
 
     @GetMapping("/pdd/{id}")
-    public ModelAndView getPdd(@PathVariable("id") int code, Model model) throws IOException, ParseException {
+    public ModelAndView getPdd(@PathVariable("id") String code, Model model) throws IOException, ParseException {
 
         try {
-            Patient patient = patientService.findPatientByCode(code);
+            Patient patient = patientService.findPatientByCode(UUID.fromString(code));
             ModelAndView mv = new ModelAndView();
             mv.addObject("patient", patient);
             List<Examinations> examinations = examinationService.getExaminations(patient);
@@ -413,10 +413,10 @@ public class PatientController {
     }
 
     @GetMapping("/pdd/add/{id}")
-    public ModelAndView getAddPdd(@PathVariable("id") int code, Model model) throws IOException, ParseException {
+    public ModelAndView getAddPdd(@PathVariable("id") String code, Model model) throws IOException, ParseException {
 
         try {
-            Patient patient = patientService.findPatientByCode(code);
+            Patient patient = patientService.findPatientByCode(UUID.fromString(code));
             ModelAndView mv = new ModelAndView();
             mv.addObject("patient", patient);
             Examinations examinations = new Examinations();
@@ -429,8 +429,8 @@ public class PatientController {
     }
 
     @PostMapping("/pdd/add_report/{id}")
-    public ModelAndView postAddPathology(@PathVariable("id") int code, @RequestParam("pathologyData") MultipartFile pathologyData, @Valid Pathology pathology, BindingResult result, Model model) throws IOException, SQLException {
-        Patient patient = patientService.findPatientByCode(code);
+    public ModelAndView postAddPathology(@PathVariable("id") String code, @RequestParam("pathologyData") MultipartFile pathologyData, @Valid Pathology pathology, BindingResult result, Model model) throws IOException, SQLException {
+        Patient patient = patientService.findPatientByCode(UUID.fromString(code));
         pathology.setPatient(patient);
         pathology.setPathologyData(filesService.getBlobData(pathologyData));
 
@@ -443,8 +443,8 @@ public class PatientController {
 
 
     @PostMapping("/pdd/add/{id}")
-    public ModelAndView postAddPdd(@PathVariable("id") int code, @Valid Examinations examinations, BindingResult result, Model model) throws IOException, SQLException {
-        Patient patient = patientService.findPatientByCode(code);
+    public ModelAndView postAddPdd(@PathVariable("id") String code, @Valid Examinations examinations, BindingResult result, Model model) throws IOException, SQLException {
+        Patient patient = patientService.findPatientByCode(UUID.fromString(code));
         examinations.setPatient(patient);
         examinations.setId(null);
 
@@ -457,12 +457,12 @@ public class PatientController {
     }
 
     @GetMapping("/examinations/{id}")
-    public ModelAndView getExaminations(@PathVariable("id") int code, Model model) throws IOException, ParseException {
+    public ModelAndView getExaminations(@PathVariable("id") String code, Model model) throws IOException, ParseException {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userRepository.findByUserName(auth.getName());
 
-            Patient patient = patientService.findPatientByCode(code);
+            Patient patient = patientService.findPatientByCode(UUID.fromString(code));
             ModelAndView mv = new ModelAndView();
             mv.addObject("patient", patient);
             mv.addObject("userName", "Welcome " + user.getUserName() +"!");
@@ -474,9 +474,9 @@ public class PatientController {
     }
 
     @RequestMapping("/pdd/get_report/{id}")
-    public String downloadPddReport(@PathVariable("id") int id, HttpServletResponse response) {
+    public String downloadPddReport(@PathVariable("id") String id, HttpServletResponse response) {
 
-        Pathology pathology = pathologyService.getPathology(id);
+        Pathology pathology = pathologyService.getPathology(UUID.fromString(id));
         try {
             response.setHeader("Content-Disposition", "inline; filename=\"" + id + "\"");
             OutputStream out = response.getOutputStream();
@@ -497,9 +497,9 @@ public class PatientController {
     }
 
     @RequestMapping("/visit/get_visit_report/{id}")
-    public String downloadVisitReport(@PathVariable("id") int id, HttpServletResponse response) {
+    public String downloadVisitReport(@PathVariable("id") String id, HttpServletResponse response) {
 
-        Visit visit = visitService.getVisitById(id);
+        Visit visit = visitService.getVisitById(UUID.fromString(id));
         try {
             File pdf = pdfService.createDocumentFromEntry(visit);
             InputStreamResource resource = new InputStreamResource(new FileInputStream(pdf));

@@ -1,12 +1,14 @@
 package org.isf.dao;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Blob;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -15,9 +17,10 @@ import java.util.Date;
 public class Pathology {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "PATHOLOGY_ID")
-    private Integer id;
+    @Column(name = "PATHOLOGY_ID", columnDefinition = "BINARY(16)")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private UUID id;
 
     @Column(name="PATHOLOGY_DATA")
     private Blob pathologyData;

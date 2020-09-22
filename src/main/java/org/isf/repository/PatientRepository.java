@@ -13,21 +13,22 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 @Repository
-public interface PatientRepository extends JpaRepository<Patient, Integer> {
+public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
     @Query(value = "SELECT * FROM patient WHERE (PAT_DELETED='N' OR PAT_DELETED IS NULL) ORDER BY PAT_ID", nativeQuery= true)
     List<Patient> findAllWhereDeleted();
 
     @Transactional
-    void deleteByCode(int code);
+    void deleteByCode(UUID code);
 
     @Query(value = "SELECT * FROM patient WHERE PAT_ID = :id", nativeQuery= true)
     List<Patient> findAllWhereId(@Param("id") Integer id);
 
-    Patient findByCode(Integer code);
+    Patient findByCode(UUID code);
 
 
 }

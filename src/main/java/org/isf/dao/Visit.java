@@ -3,6 +3,7 @@ package org.isf.dao;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.UUID;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 
@@ -19,6 +20,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -34,9 +36,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 })
 public class Visit {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="VST_ID")
-    private int visitID;
+    @Column(name="VST_ID", columnDefinition = "BINARY(16)")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private UUID visitID;
 
     @NotNull
     @ManyToOne
@@ -214,7 +217,7 @@ public class Visit {
         super();
     }
 
-    public Visit(int visitID, Date date, Patient patient, String note, boolean sms) {
+    public Visit(UUID visitID, Date date, Patient patient, String note, boolean sms) {
         super();
         this.visitID = visitID;
         this.date = date;
@@ -269,20 +272,6 @@ public class Visit {
 
         Visit visit = (Visit)obj;
         return (visitID == visit.getVisitID());
-    }
-
-    @Override
-    public int hashCode() {
-        if (this.hashCode == 0) {
-            final int m = 23;
-            int c = 133;
-
-            c = m * c + visitID;
-
-            this.hashCode = c;
-        }
-
-        return this.hashCode;
     }
 
     public void defineMed1() {

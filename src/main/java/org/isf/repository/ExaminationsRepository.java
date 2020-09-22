@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface ExaminationsRepository extends JpaRepository<Examinations, Integer> {
+public interface ExaminationsRepository extends JpaRepository<Examinations, UUID> {
 
 //    List<Examinations> getAllByPatient(Patient patient);
 

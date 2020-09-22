@@ -98,7 +98,6 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th scope="col" th:text="#{patient.record_id}"></th>
                             <th scope="col" th:text="#{patient.name}"></th>
                             <th scope="col" th:text="#{patient.age}"></th>
                             <th scope="col" th:text="#{patient.sex}"></th>
@@ -111,7 +110,6 @@
                         </thead>
                         <tbody id="table-body">
                         <tr th:each="patient : ${patients}">
-                            <td th:text="${patient.code}"></td>
                             <td th:text="${patient.name}"></td>
                             <td th:text="${patient.age + ' Y'}"></td>
                             <td>

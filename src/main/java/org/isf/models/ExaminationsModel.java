@@ -6,6 +6,7 @@ import org.isf.dao.PatientMeasurements;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.UUID;
 
 public class ExaminationsModel {
 
@@ -17,7 +18,7 @@ public class ExaminationsModel {
 
     private String patientAddress;
 
-    private Integer id;
+    private UUID id;
 
     private Integer respiratoryRate;
 
@@ -112,11 +113,11 @@ public class ExaminationsModel {
     public ExaminationsModel() {
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

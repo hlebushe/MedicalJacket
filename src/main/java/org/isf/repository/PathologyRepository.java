@@ -8,12 +8,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface PathologyRepository extends JpaRepository<Pathology, Integer> {
+public interface PathologyRepository extends JpaRepository<Pathology, UUID> {
 
-    @Query(value = "SELECT * FROM oh.pathology WHERE PATHOLOGY_PAT_ID = :patient ORDER BY PATHOLOGY_DATE DESC", nativeQuery= true)
+    @Query(value = "SELECT * FROM pathology WHERE PATHOLOGY_PAT_ID = :patient ORDER BY PATHOLOGY_DATE DESC", nativeQuery= true)
     List<Pathology> getAllByPatient(Patient patient);
 
-    Optional<Pathology> findById(Integer id);
+    Optional<Pathology> findById(UUID id);
 }
