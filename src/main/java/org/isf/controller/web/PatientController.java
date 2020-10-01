@@ -68,6 +68,9 @@ public class PatientController {
     protected FilesService filesService;
 
     @Autowired
+    protected DeviceDetailsService deviceDetailsService;
+
+    @Autowired
     protected PDFService pdfService;
 
     @GetMapping(value = "/list")
@@ -75,8 +78,7 @@ public class PatientController {
         Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserName(auth.getName());
 
-        List<Patient> patients = new ArrayList<Patient>();
-        patients = patientService.findAll();
+        List<Patient> patients = patientService.findAll();
 
         for (Patient p : patients) {
             try {
@@ -109,6 +111,8 @@ public class PatientController {
             }
         }
 
+        if (patients.isEmpty()) patients = null;
+
         ModelAndView mv = new ModelAndView();
         mv.addObject("userName", "Welcome " + user.getUserName());
         mv.addObject("patients", patients);
@@ -128,7 +132,8 @@ public class PatientController {
     public ModelAndView addPatient(@RequestParam("photo") MultipartFile photo, @RequestParam("existingMedication") MultipartFile existingMedication, @Valid Patient patient, BindingResult result, Model model) throws IOException, SQLException {
         patient.setBlobPhoto(filesService.getBlobData(photo));
         patient.setExistingMedication(filesService.getBlobData(existingMedication));
-
+        DeviceDetails deviceDetails = deviceDetailsService.findAll().get(0);
+        patient.setDeviceDetails(deviceDetails);
         patient.setAge();
 
         Patient patientNew = patientService.savePatient(patient);

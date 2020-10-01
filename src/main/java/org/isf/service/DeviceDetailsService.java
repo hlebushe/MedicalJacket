@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DeviceDetailsService {
 
@@ -19,4 +21,10 @@ public class DeviceDetailsService {
         deviceDetails.setPassword(bCryptPasswordEncoder.encode(deviceDetails.getPassword()));
         return deviceDetailsRepository.save(deviceDetails);
     }
+
+    public List<DeviceDetails> findAll() {
+        return deviceDetailsRepository.findAll();
+    }
+
+
 }

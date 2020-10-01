@@ -1,11 +1,13 @@
 package org.isf.controller.api;
 
+import org.isf.dao.Examinations;
 import org.isf.dao.MeasurementTypes;
 import org.isf.dao.MeasurementsData;
 import org.isf.dao.Patient;
 import org.isf.models.MeasurementModel;
 import org.isf.repository.MeasurementTypeRepository;
 import org.isf.repository.MeasurementsDataRepository;
+import org.isf.service.ExaminationService;
 import org.isf.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,9 @@ public class MeasurementsApiController {
     MeasurementTypeRepository measurementTypeRepository;
 
     @Autowired
+    ExaminationService examinationService;
+
+    @Autowired
     MeasurementsDataRepository measurementsDataRepository;
 
 
@@ -43,7 +48,9 @@ public class MeasurementsApiController {
         measurementsData.setValue(data.getValue());
         measurementsData.setDate(date);
         measurementsDataRepository.save(measurementsData);
+        examinationService.saveToExamination(data, patient, date);
         return data;
 
     }
+
 }

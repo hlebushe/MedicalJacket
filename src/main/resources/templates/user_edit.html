@@ -78,7 +78,6 @@
 <nav class="navbar navbar-light header-custom">
     <div class="header-left">
         <span style="float: left;font-size: 24px;font-weight: bold;">Edit User Form</span>
-        <a style="float: left;clear: both;color: #ffffff;" th:href="@{/users/list}"><img th:src="@{/images/back_arrow.png}"> Back</a>
     </div>
     <div class="header-right">
         <div class="header-logo">
@@ -90,6 +89,7 @@
         </div>
     </div>
 </nav>
+<div th:replace="fragments/header :: header"></div>
 <form id="form_user" th:action="@{/users/edit/{userName}(userName=${user.userName})}" th:object="${user}" method="post" enctype="multipart/form-data">
     <div class="container text-center" style="margin-top: 3%;">
         <div class="form-group" style="display: flex;">

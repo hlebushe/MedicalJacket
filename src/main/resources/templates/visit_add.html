@@ -29,10 +29,6 @@
             border-top: 1px dotted #aeacab;
         }
 
-        .patient_td {
-            background-color: #e6e6e6;
-        }
-
         th {
             color: #ffffff;
             background-color: #5f5b91;
@@ -110,7 +106,6 @@
 <nav class="navbar navbar-light header-custom">
     <div class="header-left">
         <span style="float: left;font-size: 24px;font-weight: bold;">Patient Visit Form</span><span style="font-size: 24px;margin-left: 10px;" th:text="*{patient.firstName + ' ' + patient.secondName}"></span>
-        <a style="float: left;clear: both;color: #ffffff;" href="javascript:history.back()"><img th:src="@{/images/back_arrow.png}"> Back</a>
     </div>
     <div class="header-right">
         <div class="header-logo">
@@ -122,7 +117,7 @@
         </div>
     </div>
 </nav>
-
+<div th:replace="fragments/header :: header"></div>
 <div class="container text-center" style="margin-top: 3%;">
     <div class="form-group" style="display: flex;">
         <button type="submit" id="btn-sub" form="addVisit">

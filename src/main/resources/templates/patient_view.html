@@ -78,7 +78,6 @@
 <nav class="navbar navbar-light header-custom">
     <div class="header-left">
         <span style="float: left;font-size: 24px;font-weight: bold;">View Patient Form</span>
-        <a style="float: left;clear: both;color: #ffffff;" th:href="@{/patient/list}"><img th:src="@{/images/back_arrow.png}"> Back</a>
     </div>
     <div class="header-right">
         <div class="header-logo">
@@ -90,6 +89,7 @@
         </div>
     </div>
 </nav>
+<div th:replace="fragments/header :: header"></div>
 <form id="form_patient"th:object="${patient}" method="get">
     <input id="code" th:field="*{code}" type="hidden"/>
     <div class="container text-center" style="margin-top: 3%;">

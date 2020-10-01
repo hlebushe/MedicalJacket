@@ -3,6 +3,7 @@ package org.isf.service;
 import org.isf.dao.Examinations;
 import org.isf.models.ExaminationsModel;
 import org.isf.dao.Patient;
+import org.isf.models.MeasurementModel;
 import org.isf.repository.ExaminationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -33,10 +35,6 @@ public class ExaminationService {
 
     private String level0 = "level0";
 
-//    public Examinations getExaminationByPatient(Patient patient) {
-//        return examinationRepository.getAllByPatient(patient).get(0);
-//    }
-
     public Examinations getLastExaminationByPatient(Patient patient) {
         return examinationRepository.getByPatientAndOrderByDate(patient).get(0);
     }
@@ -44,6 +42,62 @@ public class ExaminationService {
     public List<Examinations> getExaminations(Patient patient) {
         return examinationRepository.getByPatientAndOrderByDate(patient);
     }
+
+    public void saveToExamination(MeasurementModel data, Patient patient, Date date) {
+        Examinations examinations;
+        try {
+            examinations = getLastExaminationByDay(patient, date);
+        } catch (Exception e) {
+            examinations = null;
+        }
+
+        if (examinations == null) {
+            examinations = new Examinations();
+            examinations.setPatient(patient);
+            examinations.setId(null);
+
+            Date dateNew = new Date();
+            examinations.setDate(dateNew);
+        }
+
+        switch (data.getIndex()) {
+            case 1:
+                examinations.setTemperature(data.getValue());
+                break;
+            case 2:
+                examinations.setBloodGlucoseLevel(data.getValue());
+                break;
+            case 3:
+                examinations.setBloodPressureMax(data.getValue().intValue());
+                break;
+            case 4:
+                examinations.setBloodPressureMin(data.getValue().intValue());
+                break;
+            case 5:
+                examinations.setO2Saturation(data.getValue().intValue());
+                break;
+        }
+        examinationRepository.save(examinations);
+
+
+    }
+
+    public Examinations getLastExaminationByDay(Patient patient, Date date) throws ParseException {
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String dateStr = f.format(date);
+        String start = dateStr.substring(0,10);
+
+        Date dateNewFormat = f.parse(dateStr);
+        Calendar c = Calendar.getInstance();
+        c.setTime(dateNewFormat);
+        c.add(Calendar.DATE, 1);
+        dateNewFormat = c.getTime();
+        String finish = f.format(dateNewFormat).substring(0,10);
+
+        return examinationRepository.getByPatientAndDay(patient, start, finish).get(0);
+    }
+
+
 
     public ExaminationsModel setExaminationColors(ExaminationsModel examination, int age) throws IOException, ParseException {
 

@@ -34,6 +34,7 @@ public class UserService {
         user.setUserGroupName(userGroup);
         user.setUserName(deviceDetails.getEmail());
         user.setPasswd(deviceDetails.getPassword());
+        user.setDeviceDetails(deviceDetails);
 
         return userRepository.save(user);
     }
@@ -75,6 +76,7 @@ public class UserService {
         userFromDB.setProviderNumber(user.getProviderNumber());
         userFromDB.setBiometric(user.getBiometric());
         userFromDB.setRole(user.getRole());
+        userFromDB.setDeviceDetails(user.getDeviceDetails());
 
         userRepository.save(userFromDB);
         return true;

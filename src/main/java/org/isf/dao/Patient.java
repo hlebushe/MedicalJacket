@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -31,7 +32,9 @@ import java.util.UUID;
         @AttributeOverride(name="active", column=@Column(name="PAT_ACTIVE")),
         @AttributeOverride(name="lastModifiedDate", column=@Column(name="PAT_LAST_MODIFIED_DATE"))
 })
-public class Patient  {
+public class Patient implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -246,6 +249,11 @@ public class Patient  {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
     List<MeasurementsData> measurementsData;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "PAT_MACHINE_ID", referencedColumnName = "MachineID")
+    DeviceDetails deviceDetails;
 
 
     public Patient() {

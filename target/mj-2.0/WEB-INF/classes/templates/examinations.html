@@ -44,7 +44,6 @@
 <nav class="navbar navbar-light header-custom">
     <div class="header-left">
         <span style="float: left;font-size: 24px;font-weight: bold;">Examinations Form</span><span style="font-size: 24px;margin-left: 10px;" th:text="*{patient.firstName + ' ' + patient.secondName}"></span>
-        <a style="float: left;clear: both;color: #ffffff;" th:href="@{/patient/list}"><img th:src="@{/images/back_arrow.png}"> Back</a>
     </div>
     <div class="header-right">
         <div class="header-logo">
@@ -56,6 +55,7 @@
         </div>
     </div>
 </nav>
+<div th:replace="fragments/header :: header"></div>
 <div class="container text-center">
     <div class="form-control" style="margin-top: 2%;">
         <h4 th:text="${userName}" style="float: left"></h4>

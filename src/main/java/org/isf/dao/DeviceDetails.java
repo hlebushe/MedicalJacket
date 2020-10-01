@@ -4,12 +4,16 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Data
 @Table(name="device_details")
-public class DeviceDetails {
+public class DeviceDetails implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "DeviceID", columnDefinition = "BINARY(16)")
@@ -55,5 +59,11 @@ public class DeviceDetails {
 
     @Column(name = "NumberOfUsers")
     private String numberOfUsers;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "deviceDetails")
+    List<Patient> patients;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "deviceDetails")
+    List<User> users;
 
 }

@@ -85,10 +85,7 @@ h3 {
 }
 
 .button-action {
-    color: #000000!important;
-    border: none!important;
     width: 20%;
-    background-color: #e8a296!important;
     font-size: 22px!important;
 }
 
@@ -142,6 +139,10 @@ a {
 
 .nav-item a {
     color: #ffffff;
+}
+
+.patient_td {
+    background-color: #e6e6e6;
 }
 
 .action-icon {
@@ -237,4 +238,81 @@ body {
     padding-bottom: 70px!important;
 }
 
+.notification {
+ position: absolute;
+}
+
+.notification p{
+    color: red;
+    font-size: 10px;
+    margin: 0;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.weather-container{
+    width: 100px;
+    float: left;
+    height: 83px;
+    margin-right: 15px;
+    background-color: #ffffff;
+}
+
+.weather-icon{
+    width: 40px;
+    height: 40px;
+    margin-left: 25px;
+}
+
+.weather-icon img{
+    display: block;
+    margin: 0 auto;
+}
+
+.temperature-value p{
+    padding: 0;
+    margin: 0;
+    color: #293251;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.temperature-value p:hover{
+
+}
+
+.temperature-value span{
+    color: #293251;
+    font-size: 0.5em;
+}
+
+.temperature-description{
+
+}
+
+.temperature-description p{
+    margin: 0;
+    color: #293251;
+    text-align: center;
+    font-size: 11px;
+}
+
+.location{
+
+}
+
+.location p{
+    margin: 0;
+    padding: 0;
+    color: #293251;
+    text-align: center;
+    font-size: 0.8em;
+}
+
+.nav-item-straight {
+    border-radius: inherit;
+    text-align: center;
+    border: 4px solid;
+}
 

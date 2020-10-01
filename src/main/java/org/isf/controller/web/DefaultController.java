@@ -21,6 +21,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -51,18 +53,28 @@ public class DefaultController {
 
 	@GetMapping(value = "/login")
 	public ModelAndView login() throws IOException {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("login");
-		return modelAndView;
+		if (deviceDetailsService.findAll().isEmpty()) {
+			ModelAndView mv = new ModelAndView();
+			DeviceDetails deviceDetails = new DeviceDetails();
+			deviceDetails.setMachineID(getMacAddress());
+			mv.addObject("device", deviceDetails);
+			mv.setViewName("register");
+			return mv;
+		} else {
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("login");
+			return modelAndView;
+		}
 	}
 
 	@GetMapping(value = "/home")
 	public ModelAndView home() throws IOException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userRepository.findByUserName(auth.getName());
-
+		DeviceDetails deviceDetails = deviceDetailsService.findAll().get(0);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("userName", "Welcome " + user.getUserName() +"!");
+		mv.addObject("hospitalName", deviceDetails.getHospitalName());
 		mv.setViewName("home");
 		return mv;
 	}
@@ -84,10 +96,18 @@ public class DefaultController {
 
 	@GetMapping(value = "/register")
 	public ModelAndView register() throws IOException {
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("device", new DeviceDetails());
-		mv.setViewName("register");
-		return mv;
+		if (deviceDetailsService.findAll().isEmpty()) {
+			ModelAndView mv = new ModelAndView();
+			DeviceDetails deviceDetails = new DeviceDetails();
+			deviceDetails.setMachineID(getMacAddress());
+			mv.addObject("device", deviceDetails);
+			mv.setViewName("register");
+			return mv;
+		} else {
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("login");
+			return modelAndView;
+		}
 	}
 
 	@PostMapping("/register")
@@ -96,6 +116,22 @@ public class DefaultController {
 		userService.saveFromDevice(deviceDetails);
 
 		return new ModelAndView(new RedirectView(mContext.getContextPath() +"/login"));
+	}
+
+	public String getMacAddress() {
+		try {
+			InetAddress localHost = InetAddress.getLocalHost();
+			NetworkInterface ni = NetworkInterface.getByInetAddress(localHost);
+			byte[] hardwareAddress = ni.getHardwareAddress();
+			String[] hexadecimal = new String[hardwareAddress.length];
+			for (int i = 0; i < hardwareAddress.length; i++) {
+				hexadecimal[i] = String.format("%02X", hardwareAddress[i]);
+			}
+			String macAddress = String.join("-", hexadecimal);
+			return macAddress;
+		} catch (Exception e) {
+			return "";
+		}
 	}
 
 }

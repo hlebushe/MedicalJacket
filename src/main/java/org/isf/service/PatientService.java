@@ -84,6 +84,7 @@ public class PatientService {
         patientFromDB.setInsuranceNumber(patient.getInsuranceNumber());
         patientFromDB.setNextKinRelationship(patient.getNextKinRelationship());
         patientFromDB.setNextKinTelephone(patient.getNextKinTelephone());
+        patientFromDB.setDeviceDetails(patientFromDB.getDeviceDetails());
         repository.save(patientFromDB);
         return true;
     }

@@ -23,7 +23,6 @@
 <nav class="navbar navbar-light header-custom">
     <div class="header-left">
         <span style="float: left;font-size: 24px;font-weight: bold;">PDD Adding Form</span><span style="font-size: 24px;margin-left: 10px;" th:text="*{patient.firstName + ' ' + patient.secondName}"></span>
-        <a style="float: left;clear: both;color: #ffffff;" th:href="@{/patient/list}"><img th:src="@{/images/back_arrow.png}"> Back</a>
     </div>
     <div class="header-right">
         <div class="header-logo">
@@ -35,6 +34,7 @@
         </div>
     </div>
 </nav>
+<div th:replace="fragments/header :: header"></div>
 <div class="container text-center" style="margin-top: 3%;">
         <form action="#" th:action="@{/patient/pdd/add/{id}(id=${patient.code})}" th:object="${examinations}" method="post">
         <div class="form-group" style="display: flex;">

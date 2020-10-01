@@ -7,6 +7,7 @@ import org.isf.dao.UserGroup;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.sql.Blob;
 import java.time.*;
 import java.util.Date;
@@ -21,8 +22,10 @@ import java.util.Date;
         @AttributeOverride(name="active", column=@Column(name="US_ACTIVE")),
         @AttributeOverride(name="lastModifiedDate", column=@Column(name="US_LAST_MODIFIED_DATE"))
 })
-public class User
-{
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name="US_ID_A")
     private String userName;
@@ -91,6 +94,11 @@ public class User
 
     @Transient
     private volatile int hashCode = 0;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "US_MACHINE_ID", referencedColumnName = "MachineID")
+    DeviceDetails deviceDetails;
 
 
     public User(){

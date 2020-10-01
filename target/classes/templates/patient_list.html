@@ -70,7 +70,6 @@
     <nav class="navbar navbar-light header-custom">
         <div class="header-left">
             <span style="float: left;font-size: 24px;font-weight: bold;">Patient Dashboard</span>
-            <a style="float: left;clear: both;color: #ffffff;" th:href="@{/home}"><img th:src="@{/images/back_arrow.png}"> Back</a>
         </div>
         <div class="header-right">
             <div class="header-logo">
@@ -82,14 +81,15 @@
             </div>
         </div>
     </nav>
+    <div th:replace="fragments/header :: header"></div>
     <div class="form-group">
         <input class="form-control" id="search" type="text" placeholder="Type to search for the existing patient’s record ...">
-        <a class="btn btn-primary add-button button-default button-action" th:href="@{/patient/add}" role="button" style="width: 220px;margin-right: 5%;" th:text="#{patient.enroll_new_patient}">
+        <a class="btn btn-secondary add-button button-action" th:href="@{/patient/add}" role="button" style="width: 220px;margin-right: 5%;" th:text="#{patient.enroll_new_patient}">
         </a>
     </div>
         <div class="form-group">
-            <div th:switch="${patients}">
-                <h2 th:case="null" th:text="#{patient.no_patients}"></h2>
+            <div th:switch="*{patients}">
+                <h2 th:case="null" th:text="#{patient.no_patients}" style="margin-top: 10%; text-align: center;"></h2>
                 <div th:case="*">
                     <div class="form-group">
                         <div style="color: red; width: 100%; margin-top: 9%; text-align: center;" th:if="${error != null}" th:text="${error}">

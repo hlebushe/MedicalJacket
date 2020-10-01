@@ -35,8 +35,29 @@
 <body>
 <nav class="navbar navbar-light header-custom">
     <div class="header-left">
-        <span style="float: left;font-size: 24px;font-weight: bold;">Home page</span>
-        <a style="float: left;clear: both;color: #ffffff;" th:href="@{/logout}">Sign Out</a>
+        <div style="float: left;">
+            <span style="float: left;font-size: 24px;font-weight: bold;">Home page</span>
+            <a style="float: left;clear: both;color: #ffffff;" th:href="@{/logout}">Sign Out</a>
+        </div>
+        <div style="float: left; margin-left: 100px;">
+            <div class="weather-container">
+                <div class="weather-icon">
+                    <img src="icons/unknown.png" alt="">
+                </div>
+                <div class="temperature-value">
+                    <p>- °<span>C</span></p>
+                </div>
+                <div class="temperature-description">
+                    <p> - </p>
+                </div>
+            </div>
+        </div>
+        <div style="float: left;position: absolute;left: 40%;right: 40%;z-index: 15;top: 15px;">
+            <span style="float: left;font-size: 28px;font-weight: bold;" th:text="${hospitalName}"></span>
+        </div>
+        <div style="float:left; margin-left: 15px;">
+            <div class="notification"></div>
+        </div>
     </div>
     <div class="header-right">
         <div class="header-logo">
@@ -91,5 +112,6 @@
     </div>
     <div th:replace="fragments/language_selector :: language_selector"></div>
 </div>
+<script th:src="@{/js/weather.js}"></script>
 </body>
 </html>

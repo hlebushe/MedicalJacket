@@ -4,6 +4,7 @@ import org.isf.dao.*;
 import org.isf.models.ExaminationsModel;
 import org.isf.repository.UserGroupRepository;
 import org.isf.repository.UserRepository;
+import org.isf.service.DeviceDetailsService;
 import org.isf.service.FilesService;
 import org.isf.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,9 @@ public class UserController {
 
     @Autowired
     UserGroupRepository userGroupRepository;
+
+    @Autowired
+    DeviceDetailsService deviceDetailsService;
 
     @Autowired
     protected ServletContext mContext;
@@ -98,6 +102,8 @@ public class UserController {
             UserGroup userGroup = userGroupRepository.findByCode("admin");
             user.setUserGroupName(userGroup);
             user.setUserName(user.getEmail());
+            DeviceDetails deviceDetails = deviceDetailsService.findAll().get(0);
+            user.setDeviceDetails(deviceDetails);
 
             User userNew = userService.saveUser(user);
 
