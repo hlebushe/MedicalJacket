@@ -125,10 +125,10 @@
                         </div>
                         <input type="number" min="28" max="44" th:field="*{temperature}" class="form-control" id="temperature" required="true" step=".01">
                     </div>
-                    <div class="form-group input-group required">
+                    <div class="form-group input-group required" style="padding-bottom: 20px;">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" th:text="#{pdd.blood_glucose_levels}"></span>
-
+                        </div>
                         <input type="number" min="0" max="50" th:field="*{bloodGlucoseLevel}" class="form-control" id="bloodGlucoseLevel" required="true" step=".01">
                     </div>
                     <div class="form-group input-group">

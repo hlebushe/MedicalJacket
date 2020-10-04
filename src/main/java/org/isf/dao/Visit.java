@@ -135,9 +135,6 @@ public class Visit {
     private String med1;
 
     @Transient
-    private String med1_dosage;
-
-    @Transient
     private String med1_duration;
 
     @Transient
@@ -145,9 +142,6 @@ public class Visit {
 
     @Transient
     private String med2;
-
-    @Transient
-    private String med2_dosage;
 
     @Transient
     private String med2_duration;
@@ -159,9 +153,6 @@ public class Visit {
     private String med3;
 
     @Transient
-    private String med3_dosage;
-
-    @Transient
     private String med3_duration;
 
     @Transient
@@ -169,9 +160,6 @@ public class Visit {
 
     @Transient
     private String med4;
-
-    @Transient
-    private String med4_dosage;
 
     @Transient
     private String med4_duration;
@@ -183,9 +171,6 @@ public class Visit {
     private String med5;
 
     @Transient
-    private String med5_dosage;
-
-    @Transient
     private String med5_duration;
 
     @Transient
@@ -193,9 +178,6 @@ public class Visit {
 
     @Transient
     private String med6;
-
-    @Transient
-    private String med6_dosage;
 
     @Transient
     private String med6_duration;
@@ -278,7 +260,7 @@ public class Visit {
         if (this.med1.isEmpty()) {
             this.medication1 = "";
         } else {
-            this.medication1 = this.med1 + ";" + this.med1_dosage + ";" + this.med1_duration + ";" + this.med1_caution;
+            this.medication1 = this.med1 + ";" + this.med1_duration + ";" + this.med1_caution;
         }
     }
 
@@ -286,7 +268,7 @@ public class Visit {
         if (this.med2.isEmpty()) {
             this.medication2 = "";
         } else {
-            this.medication2 = this.med2 + ";" + this.med2_dosage + ";" + this.med2_duration + ";" + this.med2_caution;
+            this.medication2 = this.med2 + ";" + this.med2_duration + ";" + this.med2_caution;
         }
     }
 
@@ -294,7 +276,7 @@ public class Visit {
         if (this.med3.isEmpty()) {
             this.medication3 = "";
         } else {
-            this.medication3 = this.med3 + ";" + this.med3_dosage + ";" + this.med3_duration + ";" + this.med3_caution;
+            this.medication3 = this.med3 + ";" + this.med3_duration + ";" + this.med3_caution;
         }
     }
 
@@ -302,7 +284,7 @@ public class Visit {
         if (this.med4.isEmpty()) {
             this.medication4 = "";
         } else {
-            this.medication4 = this.med4 + ";" + this.med4_dosage + ";" + this.med4_duration + ";" + this.med4_caution;
+            this.medication4 = this.med4 + ";" + this.med4_duration + ";" + this.med4_caution;
         }
     }
 
@@ -310,7 +292,7 @@ public class Visit {
         if (this.med5.isEmpty()) {
             this.medication5 = "";
         } else {
-            this.medication5 = this.med5 + ";" + this.med5_dosage + ";" + this.med5_duration + ";" + this.med5_caution;
+            this.medication5 = this.med5 + ";" + this.med5_duration + ";" + this.med5_caution;
         }
     }
 
@@ -318,7 +300,7 @@ public class Visit {
         if (this.med6.isEmpty()) {
             this.medication6 = "";
         } else {
-            this.medication6 = this.med6 + ";" + this.med6_dosage + ";" + this.med6_duration + ";" + this.med6_caution;
+            this.medication6 = this.med6 + ";" + this.med6_duration + ";" + this.med6_caution;
         }
     }
 

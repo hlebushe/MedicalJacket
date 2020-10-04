@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class XLSXService {
@@ -150,6 +152,102 @@ public class XLSXService {
         }
 
         return list;
+    }
+
+    public List<String> getFullMedicationList() throws IOException {
+        List<String> result = new ArrayList<>();
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("cipla_draft.xlsx").getFile());
+
+        FileInputStream fis = new FileInputStream(file);
+
+        XSSFWorkbook wb = new XSSFWorkbook(fis);
+        Sheet sheet = wb.getSheetAt(0);
+
+        for (Row row : sheet) {
+            result.add(row.getCell(0).getStringCellValue());
+        }
+
+        return result;
+    }
+
+    public List<String> getMedications(String diagnosis) throws IOException { List<String> result = new ArrayList<>();
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("cipla_draft.xlsx").getFile());
+
+        FileInputStream fis = new FileInputStream(file);
+
+        XSSFWorkbook wb = new XSSFWorkbook(fis);
+        Sheet sheet = wb.getSheetAt(0);
+
+        Pattern pattern = Pattern.compile("\\s");
+        Matcher matcher = pattern.matcher(diagnosis);
+        boolean found = matcher.find();
+
+        if (found) {
+            String[] splitArray = diagnosis.split("\\s+");
+            String first = splitArray[0];
+            String second = splitArray[1];
+
+            List<Row> foundRows = new ArrayList<>();
+
+            for (Row row : sheet) {
+                for (Cell cell : row) {
+                    if (cell.getCellType() == CellType.STRING) {
+                        if (cell.getStringCellValue().contains(first)) {
+                            foundRows.add(row);
+                        }
+                    }
+                }
+            }
+
+            for (Row row : foundRows) {
+                for (Cell cell : row) {
+                    if (cell.getCellType() == CellType.STRING) {
+                        if (cell.getStringCellValue().contains(second)) {
+                            result.add(row.getCell(0).getStringCellValue());
+                        }
+                    }
+                }
+            }
+
+        } else {
+            for (Row row : sheet) {
+                for (Cell cell : row) {
+                    if (cell.getCellType() == CellType.STRING) {
+                        if (cell.getStringCellValue().contains(diagnosis)) {
+                            result.add(row.getCell(0).getStringCellValue());
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
+
+    }
+
+    public List<String> getCombination(String medication) throws IOException {
+        List<String> result = new ArrayList<>();
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("cipla_draft.xlsx").getFile());
+
+        FileInputStream fis = new FileInputStream(file);
+
+        XSSFWorkbook wb = new XSSFWorkbook(fis);
+        Sheet sheet = wb.getSheetAt(0);
+
+        for (Row row : sheet) {
+            if (row.getCell(0).getStringCellValue().contains(medication)) {
+                result.add(row.getCell(3).getStringCellValue());
+            }
+        }
+
+        return result;
+
     }
 
 }

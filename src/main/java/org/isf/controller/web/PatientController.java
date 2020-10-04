@@ -266,10 +266,12 @@ public class PatientController {
             String loc = locale.toString();
 
             mv.addObject("visits", previousVisits);
-            java.util.List<String> symptomsList = csvService.getSymptomsList();
+            List<String> symptomsList = csvService.getSymptomsList();
             mv.addObject("symptoms", symptomsList);
-            java.util.List<DiseaseModel> diseasesList = xlsxService.getDiseasesList(loc);
+            List<DiseaseModel> diseasesList = xlsxService.getDiseasesList(loc);
             mv.addObject("diseases", diseasesList);
+            List<String> meds = xlsxService.getFullMedicationList();
+            mv.addObject("medications", meds);
             Examinations examination = examinationService.getLastExaminationByPatient(patient);
             ExaminationsModel examinationsModel = new ExaminationsModel(examination);
             examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
@@ -372,6 +374,8 @@ public class PatientController {
         mv.addObject("symptoms", symptomsList);
         java.util.List<DiseaseModel> diseasesList = xlsxService.getDiseasesList(loc);
         mv.addObject("diseases", diseasesList);
+        List<String> meds = xlsxService.getFullMedicationList();
+        mv.addObject("medications", meds);
         Examinations examination = examinationService.getLastExaminationByPatient(patient);
         ExaminationsModel examinationsModel = new ExaminationsModel(examination);
         examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());

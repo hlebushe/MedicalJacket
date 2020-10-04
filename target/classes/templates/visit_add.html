@@ -11,8 +11,10 @@
     <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
     <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" />
     <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
     <style>
         p {
@@ -508,13 +510,7 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 1</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med1}" id="med1">
-                    </div>
-                    <div class="form-group input-group med1">
-                        <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 1 Dosage</span>
-                        </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med1_dosage}" id="med1_dosage">
+                        <input style="height: 62px;" class="form-control medication_input" th:field="*{med1}" id="med1">
                     </div>
                     <div class="form-group input-group med1">
                         <div class="input-group-prepend input-group-prepend2">
@@ -522,23 +518,17 @@
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med1_duration}" id="med1_duration">
                     </div>
-                    <div class="form-group input-group med1" style="margin-bottom: 2rem;">
+                    <div class="form-group input-group med1 medication_combination_div" style="margin-bottom: 2rem;">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 1 Caution</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 1 Notes</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med1_caution}" id="med1_caution">
+                        <input style="height: 62px;" class="form-control medication_combination" th:field="*{med1_caution}" id="med1_caution">
                     </div>
                     <div class="form-group input-group med med4">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 4</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med4}" id="med4">
-                    </div>
-                    <div class="form-group input-group med med4">
-                        <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 4 Dosage</span>
-                        </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med4_dosage}" id="med4_dosage">
+                        <input style="height: 62px;" class="form-control medication_input" th:field="*{med4}" id="med4">
                     </div>
                     <div class="form-group input-group med med4">
                         <div class="input-group-prepend input-group-prepend2">
@@ -546,11 +536,11 @@
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med4_duration}" id="med4_duration">
                     </div>
-                    <div class="form-group input-group med med4">
+                    <div class="form-group input-group med med4 medication_combination_div">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 4 Caution</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 4 Notes</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med4_caution}" id="med4_caution">
+                        <input style="height: 62px;" class="form-control medication_combination" th:field="*{med4_caution}" id="med4_caution">
                     </div>
                 </div>
                 <div class="col">
@@ -558,13 +548,7 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 2</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med2}" id="med2">
-                    </div>
-                    <div class="form-group input-group med med2">
-                        <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 2 Dosage</span>
-                        </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med2_dosage}" id="med2_dosage">
+                        <input style="height: 62px;" class="form-control medication_input" th:field="*{med2}" id="med2">
                     </div>
                     <div class="form-group input-group med med2">
                         <div class="input-group-prepend input-group-prepend2">
@@ -572,23 +556,17 @@
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med2_duration}" id="med2_duration">
                     </div>
-                    <div class="form-group input-group med med2" style="margin-bottom: 2rem;">
+                    <div class="form-group input-group med med2 medication_combination_div" style="margin-bottom: 2rem;">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 2 Caution</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 2 Notes</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med2_caution}" id="med2_caution">
+                        <input style="height: 62px;" class="form-control medication_combination" th:field="*{med2_caution}" id="med2_caution">
                     </div>
                     <div class="form-group input-group med med5">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 5</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med5}" id="med5">
-                    </div>
-                    <div class="form-group input-group med med5">
-                        <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 5 Dosage</span>
-                        </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med5_dosage}" id="med5_dosage">
+                        <input style="height: 62px;" class="form-control medication_input" th:field="*{med5}" id="med5">
                     </div>
                     <div class="form-group input-group med med5">
                         <div class="input-group-prepend input-group-prepend2">
@@ -596,11 +574,11 @@
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med5_duration}" id="med5_duration">
                     </div>
-                    <div class="form-group input-group med med5">
+                    <div class="form-group input-group med med5 medication_combination_div">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 5 Caution</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 5 Notes</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med5_caution}" id="med5_caution">
+                        <input style="height: 62px;" class="form-control medication_combination" th:field="*{med5_caution}" id="med5_caution">
                     </div>
                 </div>
                 <div class="col">
@@ -608,13 +586,7 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 3</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med3}" id="med3">
-                    </div>
-                    <div class="form-group input-group med med3">
-                        <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 3 Dosage</span>
-                        </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med3_dosage}" id="med3_dosage">
+                        <input style="height: 62px;" class="form-control medication_input" th:field="*{med3}" id="med3">
                     </div>
                     <div class="form-group input-group med med3">
                         <div class="input-group-prepend input-group-prepend2">
@@ -622,23 +594,17 @@
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med3_duration}" id="med3_duration">
                     </div>
-                    <div class="form-group input-group med med3" style="margin-bottom: 2rem;">
+                    <div class="form-group input-group med med3 medication_combination_div" style="margin-bottom: 2rem;">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 3 Caution</span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 3 Notes</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med3_caution}" id="med3_caution">
+                        <input style="height: 62px;" class="form-control medication_combination" th:field="*{med3_caution}" id="med3_caution">
                     </div>
                     <div class="form-group input-group med med6">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 6</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med6}" id="med6">
-                    </div>
-                    <div class="form-group input-group med med6">
-                        <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 6 Dosage</span>
-                        </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med6_dosage}" id="med6_dosage">
+                        <input style="height: 62px;" class="form-control medication_input" th:field="*{med6}" id="med6">
                     </div>
                     <div class="form-group input-group med med6">
                         <div class="input-group-prepend input-group-prepend2">
@@ -646,11 +612,11 @@
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med6_duration}" id="med6_duration">
                     </div>
-                    <div class="form-group input-group med med6">
-                        <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 6 Caution</span>
+                    <div class="form-group input-group med med6 medication_combination_div">
+                        <div class="input-group-prepend input-group-prepend2 ">
+                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 6 Notes</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{med6_caution}" id="med6_caution">
+                        <input style="height: 62px;" class="form-control medication_combination" th:field="*{med6_caution}" id="med6_caution">
                     </div>
                 </div>
             </div>
@@ -889,6 +855,68 @@
         $("select").val("");
     });
 
+
+</script>
+<script th:inline="javascript">
+
+    var medicationsUrl = /*[[ @{/medication/get_medications} ]]*/
+
+    var medicationsCombUrl = /*[[ @{/medication/get_combination} ]]*/
+
+    $(".medication_input").keyup(function(e) {
+        var diagnosis = $(this).val();
+
+        // if (diagnosis.length < 3) return;
+        var containerJquery = $(this);
+
+        $.ajax({
+            url: medicationsUrl,
+            type: "get", //send it through get method
+            data: {
+                diagnosis: diagnosis
+            },
+            success: function (response) {
+                var data = response;
+
+                containerJquery.autocomplete({
+                    minLength: 0,
+                    source: function( request, response ) {
+                        response(data);
+                    },
+                });
+
+            },
+            error: function (xhr) {
+            }
+        });
+
+    });
+
+    $(".medication_input").change(function(e) {
+        var medication = $(this).val();
+        var containerJquery = $(this).closest('div').next().next().find('.medication_combination');
+
+        $.ajax({
+            url: medicationsCombUrl,
+            type: "get", //send it through get method
+            data: {
+                medication: medication
+            },
+            success: function (response) {
+                var data = response;
+
+                containerJquery.autocomplete({
+                    minLength: 0,
+                    source: function( request, response ) {
+                        response(data);
+                    },
+                });
+
+            },
+            error: function (xhr) {
+            }
+        });
+    });
 
 </script>
 <script th:inline="javascript">
