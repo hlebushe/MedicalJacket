@@ -3,11 +3,13 @@ package org.isf.controller.web;
 import org.isf.dao.Patient;
 import org.isf.dao.PatientMeasurements;
 import org.isf.dao.User;
+import org.isf.dao.Visit;
 import org.isf.models.ExaminationsModel;
 import org.isf.repository.UserRepository;
 import org.isf.service.ExaminationService;
 import org.isf.service.PatientMeasurementsService;
 import org.isf.service.PatientService;
+import org.isf.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,6 +46,9 @@ public class NursingStationController {
     @Autowired
     protected PatientMeasurementsService patientMeasurementsService;
 
+    @Autowired
+    protected VisitService visitService;
+
     @GetMapping(value = "/list")
     public ModelAndView getPatients(Model model) throws IOException, ParseException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -61,6 +66,12 @@ public class NursingStationController {
 
         for (PatientMeasurements pM : patientMeasurements) {
             ExaminationsModel examinations = new ExaminationsModel(pM);
+
+            Visit lastVisit = visitService.getLastVisitByPatient(pM.getPatient());
+            if (lastVisit != null) {
+                examinations.setVisitData(lastVisit);
+            }
+
             examinations = examinationService.setExaminationColors(examinations, Integer.parseInt(examinations.getPatientAge()));
             measurementsInfo.add(examinations);
         }
@@ -86,6 +97,10 @@ public class NursingStationController {
 
         for (PatientMeasurements pM : patientMeasurements) {
             ExaminationsModel examinations = new ExaminationsModel(pM);
+
+            Visit lastVisit = visitService.getLastVisitByPatient(pM.getPatient());
+            if (lastVisit != null) examinations.setVisitData(lastVisit);
+
             examinations = examinationService.setExaminationColors(examinations, Integer.parseInt(examinations.getPatientAge()));
             measurementsInfo.add(examinations);
         }

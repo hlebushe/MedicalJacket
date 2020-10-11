@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +73,9 @@ public class PatientController {
 
     @Autowired
     protected PDFService pdfService;
+
+    @Autowired
+    protected MailService mailService;
 
     @GetMapping(value = "/list")
     public ModelAndView getPatients(Model model) throws IOException, ParseException {
@@ -507,10 +511,13 @@ public class PatientController {
 
     @RequestMapping("/visit/get_visit_report/{id}")
     public String downloadVisitReport(@PathVariable("id") String id, HttpServletResponse response) {
+        Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUserName(auth.getName());
 
         Visit visit = visitService.getVisitById(UUID.fromString(id));
         try {
-            File pdf = pdfService.createDocumentFromEntry(visit);
+            File pdf = pdfService.createDocumentFromEntry(visit, user);
+            mailService.sendVisitReport(visit, pdf);
             InputStreamResource resource = new InputStreamResource(new FileInputStream(pdf));
             pdf.delete();
 

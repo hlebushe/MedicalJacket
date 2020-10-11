@@ -3,9 +3,12 @@ package org.isf.models;
 import org.isf.dao.Examinations;
 import org.isf.dao.Patient;
 import org.isf.dao.PatientMeasurements;
+import org.isf.dao.Visit;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ExaminationsModel {
@@ -74,6 +77,10 @@ public class ExaminationsModel {
 
     private String scoreColor;
 
+    private List<String> external;
+
+    private List<String> tasks;
+
     final double METER = 0.01;
 
     public ExaminationsModel(Examinations examination) {
@@ -113,6 +120,57 @@ public class ExaminationsModel {
         this.patientAge = String.valueOf(patientMeasurements.getPatient().getAge());
         this.patientAddress = patientMeasurements.getPatient().getAddress();
         this.patientSex = patientMeasurements.getPatient().getSex();
+    }
+
+    public void setVisitData(Visit visit) {
+            String externalString = visit.getExaminationsPrescribed();
+            List<String> externalsList = new ArrayList<>();
+            if (!externalString.isEmpty()) {
+                try {
+                    String[] splitArrayExternals = externalString.split(",");
+
+                    for (int i = 0; i < splitArrayExternals.length; i++) {
+                        externalsList.add(splitArrayExternals[i]);
+                    }
+                    this.external = externalsList;
+
+                } catch (Exception e) {
+                    externalsList.add("No externals prescribed");
+                    this.external = externalsList;
+                }
+            } else {
+                externalsList.add("No externals prescribed");
+                this.external = externalsList;
+            }
+
+            List<String> meds = new ArrayList<>();
+            List<String> tasksList = new ArrayList<>();
+
+            meds.add(visit.getMedication1());
+            meds.add(visit.getMedication2());
+            meds.add(visit.getMedication3());
+            meds.add(visit.getMedication4());
+            meds.add(visit.getMedication5());
+            meds.add(visit.getMedication6());
+
+            for (String s : meds) {
+                if (!s.isEmpty()) {
+                    String[] split = s.split(";");
+                    try {
+                        tasksList.add(split[0] + " " +split[1]);
+                    } catch (Exception es) {
+                        tasksList.add("");
+                    }
+                }
+            }
+
+            if (tasksList.isEmpty()) {
+                tasksList.add("No tasks");
+            }
+
+            this.tasks = tasksList;
+
+
     }
 
     public ExaminationsModel() {
@@ -380,5 +438,21 @@ public class ExaminationsModel {
 
     public void setScoreColor(String scoreColor) {
         this.scoreColor = scoreColor;
+    }
+
+    public List<String> getExternal() {
+        return external;
+    }
+
+    public void setExternal(List<String> external) {
+        this.external = external;
+    }
+
+    public List<String> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<String> tasks) {
+        this.tasks = tasks;
     }
 }

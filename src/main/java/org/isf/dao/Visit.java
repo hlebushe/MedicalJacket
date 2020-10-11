@@ -135,6 +135,9 @@ public class Visit {
     private String med1;
 
     @Transient
+    private String med1_time;
+
+    @Transient
     private String med1_duration;
 
     @Transient
@@ -142,6 +145,9 @@ public class Visit {
 
     @Transient
     private String med2;
+
+    @Transient
+    private String med2_time;
 
     @Transient
     private String med2_duration;
@@ -153,6 +159,9 @@ public class Visit {
     private String med3;
 
     @Transient
+    private String med3_time;
+
+    @Transient
     private String med3_duration;
 
     @Transient
@@ -160,6 +169,9 @@ public class Visit {
 
     @Transient
     private String med4;
+
+    @Transient
+    private String med4_time;
 
     @Transient
     private String med4_duration;
@@ -171,6 +183,9 @@ public class Visit {
     private String med5;
 
     @Transient
+    private String med5_time;
+
+    @Transient
     private String med5_duration;
 
     @Transient
@@ -178,6 +193,9 @@ public class Visit {
 
     @Transient
     private String med6;
+
+    @Transient
+    private String med6_time;
 
     @Transient
     private String med6_duration;
@@ -260,7 +278,7 @@ public class Visit {
         if (this.med1.isEmpty()) {
             this.medication1 = "";
         } else {
-            this.medication1 = this.med1 + ";" + this.med1_duration + ";" + this.med1_caution;
+            this.medication1 = this.med1 + ";" + this.med1_time + ";" + this.med1_duration + ";" + this.med1_caution;
         }
     }
 
@@ -268,7 +286,7 @@ public class Visit {
         if (this.med2.isEmpty()) {
             this.medication2 = "";
         } else {
-            this.medication2 = this.med2 + ";" + this.med2_duration + ";" + this.med2_caution;
+            this.medication2 = this.med2 + ";" + this.med2_time + ";" + this.med2_duration + ";" + this.med2_caution;
         }
     }
 
@@ -276,7 +294,7 @@ public class Visit {
         if (this.med3.isEmpty()) {
             this.medication3 = "";
         } else {
-            this.medication3 = this.med3 + ";" + this.med3_duration + ";" + this.med3_caution;
+            this.medication3 = this.med3 + ";" + this.med3_time + ";" + this.med3_duration + ";" + this.med3_caution;
         }
     }
 
@@ -284,7 +302,7 @@ public class Visit {
         if (this.med4.isEmpty()) {
             this.medication4 = "";
         } else {
-            this.medication4 = this.med4 + ";" + this.med4_duration + ";" + this.med4_caution;
+            this.medication4 = this.med4 + ";" + this.med4_time + ";" + this.med4_duration + ";" + this.med4_caution;
         }
     }
 
@@ -292,7 +310,7 @@ public class Visit {
         if (this.med5.isEmpty()) {
             this.medication5 = "";
         } else {
-            this.medication5 = this.med5 + ";" + this.med5_duration + ";" + this.med5_caution;
+            this.medication5 = this.med5 + ";" + this.med5_time + ";" + this.med5_duration + ";" + this.med5_caution;
         }
     }
 
@@ -300,8 +318,152 @@ public class Visit {
         if (this.med6.isEmpty()) {
             this.medication6 = "";
         } else {
-            this.medication6 = this.med6 + ";" + this.med6_duration + ";" + this.med6_caution;
+            this.medication6 = this.med6 + ";" + this.med6_time + ";" + this.med6_duration + ";" + this.med6_caution;
         }
+    }
+
+    public String getMed1Name() {
+        String res = this.medication1.split(";")[0];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed1Time(){
+        String res = this.medication1.split(";")[1];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed1Duration() {
+        String res = this.medication1.split(";")[2];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed1Caution(){
+        String res = this.medication1.split(";")[3];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed2Name() {
+        String res = this.medication2.split(";")[0];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed2Time(){
+        String res = this.medication2.split(";")[1];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed2Duration() {
+        String res = this.medication2.split(";")[2];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed2Caution(){
+        String res = this.medication2.split(";")[3];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed3Name() {
+        String res = this.medication3.split(";")[0];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed3Time(){
+        String res = this.medication3.split(";")[1];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed3Duration() {
+        String res = this.medication3.split(";")[2];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed3Caution(){
+        String res = this.medication3.split(";")[3];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed4Name() {
+        String res = this.medication4.split(";")[0];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed4Time(){
+        String res = this.medication4.split(";")[1];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed4Duration() {
+        String res = this.medication4.split(";")[2];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed4Caution(){
+        String res = this.medication4.split(";")[3];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed5Name() {
+        String res = this.medication5.split(";")[0];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed5Time(){
+        String res = this.medication5.split(";")[1];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed5Duration() {
+        String res = this.medication5.split(";")[2];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed5Caution(){
+        String res = this.medication5.split(";")[3];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed6Name() {
+        String res = this.medication6.split(";")[0];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed6Time(){
+        String res = this.medication6.split(";")[1];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed6Duration() {
+        String res = this.medication6.split(";")[2];
+        if (res == null) res = "";
+        return res;
+    }
+
+    public String getMed6Caution(){
+        String res = this.medication6.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public void defineMed() {

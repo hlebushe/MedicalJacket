@@ -219,6 +219,12 @@
                             </div>
                             <input style="height: 62px;" type="text" onkeydown="return numericOnly(event);" th:field="*{providerNumber}" class="form-control" id="providerNumber">
                         </div>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend input-group-prepend3">
+                                <span class="input-group-text" style="white-space: unset; text-align: left;">Preferred Pathologies</span>
+                            </div>
+                            <input style="height: 62px;" type="text" th:field="*{preferredPathology}" class="form-control" id="preferredPathology">
+                        </div>
                     </div>
                 </div>
             </div>

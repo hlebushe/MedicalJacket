@@ -196,7 +196,7 @@ public class XLSXService {
             for (Row row : sheet) {
                 for (Cell cell : row) {
                     if (cell.getCellType() == CellType.STRING) {
-                        if (cell.getStringCellValue().contains(first)) {
+                        if (cell.getStringCellValue().toLowerCase().contains(first.toLowerCase())) {
                             foundRows.add(row);
                         }
                     }
@@ -206,7 +206,7 @@ public class XLSXService {
             for (Row row : foundRows) {
                 for (Cell cell : row) {
                     if (cell.getCellType() == CellType.STRING) {
-                        if (cell.getStringCellValue().contains(second)) {
+                        if (cell.getStringCellValue().toLowerCase().contains(second.toLowerCase())) {
                             result.add(row.getCell(0).getStringCellValue());
                         }
                     }
@@ -217,7 +217,7 @@ public class XLSXService {
             for (Row row : sheet) {
                 for (Cell cell : row) {
                     if (cell.getCellType() == CellType.STRING) {
-                        if (cell.getStringCellValue().contains(diagnosis)) {
+                        if (cell.getStringCellValue().toLowerCase().contains(diagnosis.toLowerCase())) {
                             result.add(row.getCell(0).getStringCellValue());
                         }
                     }
@@ -229,24 +229,27 @@ public class XLSXService {
 
     }
 
-    public List<String> getCombination(String medication) throws IOException {
+    public List<String> getCombination(String medication) {
         List<String> result = new ArrayList<>();
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+            File file = new File(classLoader.getResource("cipla_draft.xlsx").getFile());
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("cipla_draft.xlsx").getFile());
+            FileInputStream fis = new FileInputStream(file);
 
-        FileInputStream fis = new FileInputStream(file);
+            XSSFWorkbook wb = new XSSFWorkbook(fis);
+            Sheet sheet = wb.getSheetAt(0);
 
-        XSSFWorkbook wb = new XSSFWorkbook(fis);
-        Sheet sheet = wb.getSheetAt(0);
-
-        for (Row row : sheet) {
-            if (row.getCell(0).getStringCellValue().contains(medication)) {
-                result.add(row.getCell(3).getStringCellValue());
+            for (Row row : sheet) {
+                if (row.getCell(0).getStringCellValue().contains(medication)) {
+                    result.add(row.getCell(4).getStringCellValue());
+                }
             }
-        }
 
-        return result;
+            return result;
+        } catch (Exception e) {
+            return result;
+        }
 
     }
 

@@ -316,3 +316,8 @@ body {
     border: 4px solid;
 }
 
+.caption {
+    text-align: left;
+    font-size: 13px;
+}
+

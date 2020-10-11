@@ -62,6 +62,30 @@
         p {
             margin-bottom: 0;
         }
+
+        .level5 {
+            color: #9000ff!important;
+        }
+
+        .level4 {
+            color: #ff2e2e!important;
+        }
+
+        .level3 {
+            color: #f7844a!important;
+        }
+
+        .level2 {
+            color: #ebad63!important;
+        }
+
+        .level1 {
+            color: #c4c700!important;
+        }
+
+        .level0 {
+            color: #000000;
+        }
     </style>
 </head>
 <body>
@@ -94,8 +118,10 @@
                 <thead>
                 <tr>
                     <th scope="col" th:text="#{patient.patient_details}"></th>
-                    <th scope="col" th:text="#{patient.address}"></th>
                     <th scope="col" th:text="#{patient.patient_statistics}"></th>
+                    <th scope="col">Tasks Due</th>
+                    <th scope="col">External Results</th>
+                    <th scope="col">Action Control</th>
                 </tr>
                 </thead>
                 <tbody id="table-body">
@@ -107,13 +133,44 @@
                             <p th:case="'M'" th:text="#{patient.male}"></p>
                             <p th:case="'F'" th:text="#{patient.female}"></p>
                         </div>
+                        <p th:text="${measurement.patientAddress}"></p>
                     </td>
-                    <td th:text="${measurement.patientAddress}"></td>
                     <td>
-                        <p th:style="*{'color:' + measurement.bloodPressureMaxColor}" th:text="${'Blood Pressure sys(mmHg): ' + measurement.bloodPressureMax}"></p>
-                        <p th:style="*{'color:' + measurement.bloodPressureMinColor}" th:text="${'Blood Pressure dia(mmHg): ' + measurement.bloodPressureMin}"></p>
-                        <p th:style="*{'color:' + measurement.o2SaturationColor}" th:text="${'O2 Saturation(%): ' + measurement.o2Saturation}"></p>
-                        <p th:style="*{'color:' + measurement.heartRateColor}"  th:text="${'Heart Rate(beats/min): ' + measurement.heartRate}"></p>
+                        <p th:classappend="*{measurement.bloodPressureMaxColor}" th:text="${'Blood Pressure sys(mmHg): ' + measurement.bloodPressureMax}"></p>
+                        <p th:classappend="*{measurement.bloodPressureMinColor}" th:text="${'Blood Pressure dia(mmHg): ' + measurement.bloodPressureMin}"></p>
+                        <p th:classappend="*{measurement.o2SaturationColor}" th:text="${'O2 Saturation(%): ' + measurement.o2Saturation}"></p>
+                        <p th:classappend="*{measurement.heartRateColor}"  th:text="${'Heart Rate(beats/min): ' + measurement.heartRate}"></p>
+                    </td>
+                    <td>
+                        <div th:each="task, iter : ${measurement.tasks}">
+                            <p><span th:text="${iter.index + 1}"></span>.<span th:text="${task}"></span></p>
+                        </div>
+                    </td>
+                    <td>
+                        <div th:each="exter, iter : ${measurement.external}">
+                            <p><span th:text="${iter.index + 1}"></span>.<span th:text="${exter}"></span></p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row" style="margin-top: 0;">
+                            <div class="col">
+                                <a href="#">
+                                    <img class="action-icon" alt="" th:src="@{/images/task_confirm.png}">
+                                    <p class="action-label">Task Confirm</p>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img class="action-icon" alt="" th:src="@{/images/video_call.png}">
+                                    <p class="action-label">Live Cam</p>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img class="action-icon" alt="" th:src="@{/images/call.png}">
+                                    <p class="action-label">Call</p>
+                                </a>
+                            </div>
                     </td>
                 </tr>
                 </tbody>

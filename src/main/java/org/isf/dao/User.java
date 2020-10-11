@@ -100,6 +100,8 @@ public class User implements Serializable {
     @JoinColumn(name = "US_MACHINE_ID", referencedColumnName = "MachineID")
     DeviceDetails deviceDetails;
 
+    @Column(name="US_PREFERRED_PATHOLOGY")
+    private String preferredPathology;
 
     public User(){
     }
