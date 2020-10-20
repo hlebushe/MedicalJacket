@@ -418,12 +418,51 @@ public class PatientController {
             mv.addObject("pathology", new Pathology());
             mv.addObject("pathologies", pathologies);
             mv.addObject("examinations", examinationsModels);
+            mv.addObject("openOnPathology", false);
             mv.setViewName("pdd_list");
             return mv;
         } catch (Exception e) {
             return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
         }
     }
+
+    @GetMapping("/pathology/{id}")
+    public ModelAndView getPathology(@PathVariable("id") String code, Model model) throws IOException, ParseException {
+
+        try {
+            Patient patient = patientService.findPatientByCode(UUID.fromString(code));
+            ModelAndView mv = new ModelAndView();
+            mv.addObject("patient", patient);
+            List<Examinations> examinations = examinationService.getExaminations(patient);
+            List<ExaminationsModel> examinationsModels = new ArrayList<>();
+
+            for (Examinations exam : examinations) {
+                ExaminationsModel examinationsModel = new ExaminationsModel(exam);
+                examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
+                examinationsModels.add(examinationsModel);
+            }
+
+            if (examinationsModels.isEmpty()) {
+                examinationsModels = null;
+            }
+
+            List<Pathology> pathologies = pathologyService.getPathologies(patient);
+
+            if (pathologies.isEmpty()) {
+                pathologies = null;
+            }
+
+            mv.addObject("pathology", new Pathology());
+            mv.addObject("pathologies", pathologies);
+            mv.addObject("examinations", examinationsModels);
+            mv.addObject("openOnPathology", true);
+            mv.setViewName("pdd_list");
+            return mv;
+        } catch (Exception e) {
+            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
+        }
+    }
+
 
     @GetMapping("/pdd/add/{id}")
     public ModelAndView getAddPdd(@PathVariable("id") String code, Model model) throws IOException, ParseException {

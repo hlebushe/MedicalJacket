@@ -231,6 +231,18 @@ public class Patient implements Serializable {
     @JsonIgnore
     private Image photoImage;
 
+    @Column(name="PAT_REC_INJ")
+    private Character recentlyInjured;
+
+    @Column(name="PAT_CHOLESTEROL")
+    private Character cholesterol;
+
+    @Column(name="PAT_HYPERTESION")
+    private Character hypertension;
+
+    @Column(name="PAT_DIABETES")
+    private Character diabetes;
+
     @Transient
     @JsonIgnore
     private volatile int hashCode = 0;

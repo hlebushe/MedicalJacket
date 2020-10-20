@@ -59,20 +59,8 @@ public class Visit {
     @Column(name="VST_TYPE")
     private Character type;
 
-    @Column(name="VST_MAIN_COMPLAINT_SYMPTOM1")
-    private String mainComplaintSymptom1;
-
-    @Column(name="VST_MAIN_COMPLAINT_SYMPTOM2")
-    private String mainComplaintSymptom2;
-
-    @Column(name="VST_MAIN_COMPLAINT_SYMPTOM3")
-    private String mainComplaintSymptom3;
-
-    @Column(name="VST_MAIN_COMPLAINT_SYMPTOM4")
-    private String mainComplaintSymptom4;
-
-    @Column(name="VST_MAIN_COMPLAINT_SYMPTOM5")
-    private String mainComplaintSymptom5;
+    @Column(name="VST_MAIN_COMPLAINT_SYMPTOM")
+    private String mainComplaintSymptom;
 
     @Column(name="VST_MAIN_COMPLAINT_DIAGNOSIS1")
     private String mainComplaintDiagnosis1;
@@ -82,21 +70,6 @@ public class Visit {
 
     @Column(name="VST_MAIN_COMPLAINT_DIAGNOSIS3")
     private String mainComplaintDiagnosis3;
-
-    @Column(name="VST_SECONDARY_COMPLAINT_SYMPTOM1")
-    private String secondaryComplaintSymptom1;
-
-    @Column(name="VST_SECONDARY_COMPLAINT_SYMPTOM2")
-    private String secondaryComplaintSymptom2;
-
-    @Column(name="VST_SECONDARY_COMPLAINT_SYMPTOM3")
-    private String secondaryComplaintSymptom3;
-
-    @Column(name="VST_SECONDARY_COMPLAINT_SYMPTOM4")
-    private String secondaryComplaintSymptom4;
-
-    @Column(name="VST_SECONDARY_COMPLAINT_SYMPTOM5")
-    private String secondaryComplaintSymptom5;
 
     @Column(name="VST_SECONDARY_COMPLAINT_DIAGNOSIS")
     private String secondaryComplaintDiagnosis;

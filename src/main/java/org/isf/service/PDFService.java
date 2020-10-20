@@ -51,10 +51,7 @@ public class PDFService {
 
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
-            String mainCompSympt =
-                    Stream.of(visit.getMainComplaintSymptom1(), visit.getMainComplaintSymptom2(), visit.getMainComplaintSymptom3(), visit.getMainComplaintSymptom4(), visit.getMainComplaintSymptom5())
-                            .filter(s -> s != null && !s.isEmpty())
-                            .collect(Collectors.joining(", "));
+            String mainCompSympt = visit.getMainComplaintSymptom();
 
             if (mainCompSympt.equals("")) mainCompSympt = "no symptoms";
 
