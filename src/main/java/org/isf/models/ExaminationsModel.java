@@ -1,8 +1,7 @@
 package org.isf.models;
 
 import org.isf.dao.Examinations;
-import org.isf.dao.Patient;
-import org.isf.dao.PatientMeasurements;
+import org.isf.dao.NursingStationData;
 import org.isf.dao.Visit;
 
 import java.math.BigDecimal;
@@ -110,16 +109,16 @@ public class ExaminationsModel {
 
     }
 
-    public ExaminationsModel(PatientMeasurements patientMeasurements) {
-        this.id = patientMeasurements.getId();
-        this.o2Saturation = patientMeasurements.getOxygen();
-        this.bloodPressureMin = patientMeasurements.getBloodPressureDia();
-        this.bloodPressureMax = patientMeasurements.getBloodPressureSys();
-        this.heartRate = patientMeasurements.getHeartRate();
-        this.patientName = patientMeasurements.getPatient().getName();
-        this.patientAge = String.valueOf(patientMeasurements.getPatient().getAge());
-        this.patientAddress = patientMeasurements.getPatient().getAddress();
-        this.patientSex = patientMeasurements.getPatient().getSex();
+    public ExaminationsModel(NursingStationData nursingStationData) {
+        this.id = nursingStationData.getId();
+        this.o2Saturation = nursingStationData.getOxygen();
+        this.bloodPressureMin = nursingStationData.getBloodPressureDia();
+        this.bloodPressureMax = nursingStationData.getBloodPressureSys();
+        this.heartRate = nursingStationData.getHeartRate();
+        this.patientName = nursingStationData.getPatient().getName();
+        this.patientAge = String.valueOf(nursingStationData.getPatient().getAge());
+        this.patientAddress = nursingStationData.getPatient().getAddress();
+        this.patientSex = nursingStationData.getPatient().getSex();
     }
 
     public void setVisitData(Visit visit) {

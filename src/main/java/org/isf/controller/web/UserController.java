@@ -57,7 +57,7 @@ public class UserController {
         User user = userRepository.findByUserName(auth.getName());
 
         List<User> users = new ArrayList<User>();
-        users = userRepository.findAll();
+        users = userRepository.findAllByDeviceDetails(user.getDeviceDetails());
 
         ModelAndView mv = new ModelAndView();
         mv.addObject("userName", "Welcome " + user.getUserName());

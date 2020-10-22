@@ -77,12 +77,15 @@ public class PatientController {
     @Autowired
     protected MailService mailService;
 
+    @Autowired
+    protected NursingStationDataService nursingStationDataService;
+
     @GetMapping(value = "/list")
     public ModelAndView getPatients(Model model) throws IOException, ParseException {
         Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserName(auth.getName());
 
-        List<Patient> patients = patientService.findAll();
+        List<Patient> patients = patientService.findAllByMachineId(user.getDeviceDetails());
 
         for (Patient p : patients) {
             try {
@@ -323,6 +326,19 @@ public class PatientController {
         Patient patient = patientService.findPatientByCode(UUID.fromString(code));
         Examinations lastExamination = examinationService.getLastExaminationByPatient(patient);
 
+        List<Visit> visits = visitService.findAllByPatient(patient);
+        List<PreviousVisitModel> previousVisits = new ArrayList<>();
+        Examinations examinations = examinationService.getLastExaminationByPatient(patient);
+
+        for (Visit visit : visits) {
+            PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
+            previousVisits.add(previousVisit);
+        }
+
+        if (previousVisits.isEmpty()) {
+            previousVisits = null;
+        }
+
         newVisit.setPatient(patient);
         newVisit.setExamination(lastExamination);
 
@@ -333,10 +349,35 @@ public class PatientController {
 
         visitService.saveVisit(newVisit);
 
+        if (previousVisits == null) {
+            NursingStationData nursingStationData = new NursingStationData();
+            nursingStationData.setDate(date);
+            nursingStationData.setPatient(patient);
+            nursingStationData.setDevId(1);
+            nursingStationData.setBloodPressureDia(examinations.getBloodPressureMax());
+            nursingStationData.setBloodPressureSys(examinations.getBloodPressureMin());
+            nursingStationData.setHeartRate(examinations.getHeartRate());
+            nursingStationData.setOxygen(examinations.getO2Saturation());
+
+            nursingStationDataService.save(nursingStationData);
+        }
+
         ModelAndView mv = new ModelAndView();
 
         try {
-            Examinations examinations = examinationService.getLastExaminationByPatient(patient);
+            visits = visitService.findAllByPatient(patient);
+            previousVisits = new ArrayList<>();
+            examinations = examinationService.getLastExaminationByPatient(patient);
+
+            for (Visit visit : visits) {
+                PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
+                previousVisits.add(previousVisit);
+            }
+
+            if (previousVisits.isEmpty()) {
+                previousVisits = null;
+            }
+
             ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
             examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
             if (examinationsModel.getScore() > 6) {
@@ -357,18 +398,6 @@ public class PatientController {
 
         String yearOfBirth = patient.getBirthDate().toString().substring(0,4);
         mv.addObject("yearOfBirth", yearOfBirth);
-
-        List<Visit> visits = visitService.findAllByPatient(patient);
-        List<PreviousVisitModel> previousVisits = new ArrayList<>();
-
-        for (Visit visit : visits) {
-            PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
-            previousVisits.add(previousVisit);
-        }
-
-        if (previousVisits.isEmpty()) {
-            previousVisits = null;
-        }
 
         Locale locale = LocaleContextHolder.getLocale();
         String loc = locale.toString();

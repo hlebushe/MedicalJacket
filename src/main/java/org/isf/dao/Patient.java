@@ -251,7 +251,7 @@ public class Patient implements Serializable {
     List<Examinations> examinations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
-    List<PatientMeasurements> patientMeasurements;
+    List<NursingStationData> patientMeasurements;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
     List<Visit> visits;

@@ -1,13 +1,13 @@
 package org.isf.controller.web;
 
 import org.isf.dao.Patient;
-import org.isf.dao.PatientMeasurements;
+import org.isf.dao.NursingStationData;
 import org.isf.dao.User;
 import org.isf.dao.Visit;
 import org.isf.models.ExaminationsModel;
 import org.isf.repository.UserRepository;
 import org.isf.service.ExaminationService;
-import org.isf.service.PatientMeasurementsService;
+import org.isf.service.NursingStationDataService;
 import org.isf.service.PatientService;
 import org.isf.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -44,7 +43,7 @@ public class NursingStationController {
     protected ExaminationService examinationService;
 
     @Autowired
-    protected PatientMeasurementsService patientMeasurementsService;
+    protected NursingStationDataService nursingStationDataService;
 
     @Autowired
     protected VisitService visitService;
@@ -54,17 +53,17 @@ public class NursingStationController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserName(auth.getName());
 
-        List<Patient> patients = patientMeasurementsService.getPatientsWithLastMeasurements();
-        List<PatientMeasurements> patientMeasurements = new ArrayList<>();
+        List<Patient> patients = nursingStationDataService.getPatientsWithLastMeasurements();
+        List<NursingStationData> patientMeasurements = new ArrayList<>();
 
         for (Patient patient : patients) {
-            PatientMeasurements patientMeasurement = patientMeasurementsService.getLastByPatient(patient);
+            NursingStationData patientMeasurement = nursingStationDataService.getLastByPatient(patient);
             patientMeasurements.add(patientMeasurement);
         }
 
         List<ExaminationsModel> measurementsInfo = new ArrayList<>();
 
-        for (PatientMeasurements pM : patientMeasurements) {
+        for (NursingStationData pM : patientMeasurements) {
             ExaminationsModel examinations = new ExaminationsModel(pM);
 
             Visit lastVisit = visitService.getLastVisitByPatient(pM.getPatient());
@@ -85,17 +84,17 @@ public class NursingStationController {
 
     @GetMapping("/get_measurements")
     public ModelAndView updateData(Model model) throws IOException, ParseException {
-        List<Patient> patients = patientMeasurementsService.getPatientsWithLastMeasurements();
-        List<PatientMeasurements> patientMeasurements = new ArrayList<>();
+        List<Patient> patients = nursingStationDataService.getPatientsWithLastMeasurements();
+        List<NursingStationData> patientMeasurements = new ArrayList<>();
 
         for (Patient patient : patients) {
-            PatientMeasurements patientMeasurement = patientMeasurementsService.getLastByPatient(patient);
+            NursingStationData patientMeasurement = nursingStationDataService.getLastByPatient(patient);
             patientMeasurements.add(patientMeasurement);
         }
 
         List<ExaminationsModel> measurementsInfo = new ArrayList<>();
 
-        for (PatientMeasurements pM : patientMeasurements) {
+        for (NursingStationData pM : patientMeasurements) {
             ExaminationsModel examinations = new ExaminationsModel(pM);
 
             Visit lastVisit = visitService.getLastVisitByPatient(pM.getPatient());

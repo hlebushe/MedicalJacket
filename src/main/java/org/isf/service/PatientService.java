@@ -1,5 +1,6 @@
 package org.isf.service;
 
+import org.isf.dao.DeviceDetails;
 import org.isf.dao.Patient;
 import org.isf.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class PatientService {
     public void deleteByCode(UUID code) {
         repository.deleteByCode(code);
     }
+
+    public List<Patient> findAllByMachineId(DeviceDetails deviceDetails) { return repository.findAllByDeviceDetails(deviceDetails); }
 
     public Patient findPatientByCode(UUID code) {
         return repository.findByCode(code);
