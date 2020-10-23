@@ -122,22 +122,22 @@ public class UserController {
 
     @PostMapping("/edit/{userName}")
     public ModelAndView editUser(@RequestParam("photo") MultipartFile photo, @PathVariable("userName") String userName, @Valid User user, BindingResult result, Model model) throws IOException, SQLException {
-        User userFromDB = userRepository.findByUserName(userName);
-        user.setEmail(userName);
+            User userFromDB = userRepository.findByUserName(userName);
+            user.setEmail(userName);
 
-        if (!photo.isEmpty()) {
-            user.setPhoto(filesService.getBlobData(photo));
-        } else {
-            user.setPhoto(userFromDB.getPhoto());
-        }
+            if (!photo.isEmpty()) {
+                user.setPhoto(filesService.getBlobData(photo));
+            } else {
+                user.setPhoto(userFromDB.getPhoto());
+            }
 
-        if (user.getDateOfBirth() == null) {
-            user.setDateOfBirth(userFromDB.getDateOfBirth());
-        }
+            if (user.getDateOfBirth() == null) {
+                user.setDateOfBirth(userFromDB.getDateOfBirth());
+            }
 
-        userService.updateUser(user);
+            userService.updateUser(user);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() + "/users/list"));
+            return new ModelAndView(new RedirectView(mContext.getContextPath() + "/users/list"));
     }
 
     @GetMapping("/view/{userName}")
