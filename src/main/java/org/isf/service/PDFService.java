@@ -12,6 +12,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.isf.dao.User;
 import org.isf.dao.Visit;
+import org.isf.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -134,7 +135,11 @@ public class PDFService {
             contentStream.newLine();
             contentStream.newLine();
 
-            if (visit.getNextVisitDate() != null) contentStream.showText("Next Visit Date: " + visit.getNextVisitDate().toString().substring(0, 10));
+            if (visit.getNextVisitDate() != null) {
+                String date = visit.getNextVisitDate().toString().substring(0, 10);
+                String formattedDate = DateUtil.format(date);
+                contentStream.showText("Next Visit Date: " + formattedDate);
+            }
 
             contentStream.newLine();
             contentStream.newLine();
@@ -147,7 +152,10 @@ public class PDFService {
 
             contentStream.showText("Doctor " + doctor.getName());
             contentStream.newLine();
-            contentStream.showText("Date: " + visit.getDate().toString().substring(0, 10));
+            //TODO report date fixed
+            String date = visit.getDate().toString().substring(0, 10);
+            String formattedDate = DateUtil.format(date);
+            contentStream.showText("Date: " + formattedDate);
 
             String qr = createQRCodeForDocument(visit, doctor);
             PDImageXObject QRImage = PDImageXObject.createFromFile(qr, document);

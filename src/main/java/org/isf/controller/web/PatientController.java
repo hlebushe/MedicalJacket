@@ -7,6 +7,7 @@ import org.isf.models.ExaminationsModel;
 import org.isf.models.PreviousVisitModel;
 import org.isf.repository.UserRepository;
 import org.isf.service.*;
+import org.isf.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.io.InputStreamResource;
@@ -111,7 +112,10 @@ public class PatientController {
                 if (lastVisit == null) {
                     p.setDateOfLastVisit("No visits");
                 } else {
-                    p.setDateOfLastVisit(lastVisit.getDate().toString().substring(0,10));
+                    String visitDate = lastVisit.getDate().toString().substring(0,10);
+                    String formattedDate = DateUtil.format(visitDate);
+                    p.setDateOfLastVisit(formattedDate);
+                    //TODO список пацієнтів зроблено
                 }
             } catch (Exception e) {
                 p.setDateOfLastVisit("No visits");
@@ -237,6 +241,10 @@ public class PatientController {
             try {
                 Examinations examinations = examinationService.getLastExaminationByPatient(patient);
                 ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
+                //TODO visits examenation fixed
+                String date = examinationsModel.getDate();
+                String formattedDate = DateUtil.format(date);
+                examinationsModel.setDate(formattedDate);
                 examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
                 if (examinationsModel.getScore() > 6) {
                     patient.setPddScore("red");
@@ -262,6 +270,10 @@ public class PatientController {
 
             for (Visit visit : visits) {
                 PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
+                //TODO previous visit fixed
+                String date = previousVisit.getVisitDate();
+                String formattedDate = DateUtil.format(date);
+                previousVisit.setVisitDate(formattedDate);
                 previousVisits.add(previousVisit);
             }
 
@@ -431,6 +443,10 @@ public class PatientController {
             for (Examinations exam : examinations) {
                 ExaminationsModel examinationsModel = new ExaminationsModel(exam);
                 examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
+                //TODO бдд пацієнта зроблено
+                String date = examinationsModel.getDate();
+                String formattedDate = DateUtil.format(date);
+                examinationsModel.setDate(formattedDate);
                 examinationsModels.add(examinationsModel);
             }
 
@@ -439,6 +455,7 @@ public class PatientController {
             }
 
             List<Pathology> pathologies = pathologyService.getPathologies(patient);
+            //TODO: патології пофіксив на вюхі
 
             if (pathologies.isEmpty()) {
                 pathologies = null;

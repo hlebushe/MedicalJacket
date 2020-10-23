@@ -2,6 +2,7 @@ package org.isf.dao;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.isf.util.DateUtil;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -32,4 +33,8 @@ public class Pathology {
 
     @Column(name = "PATHOLOGY_DATE")
     private Date date;
+
+    public String getFormattedDate() {
+        return DateUtil.formatDate(date);
+    }
 }
