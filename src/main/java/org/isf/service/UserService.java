@@ -76,7 +76,7 @@ public class UserService {
         userFromDB.setProviderNumber(user.getProviderNumber());
         userFromDB.setBiometric(user.getBiometric());
         userFromDB.setRole(user.getRole());
-        userFromDB.setDeviceDetails(user.getDeviceDetails());
+        userFromDB.setDeviceDetails(userFromDB.getDeviceDetails());
 
         userRepository.save(userFromDB);
         return true;
