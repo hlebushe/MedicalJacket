@@ -115,7 +115,6 @@ public class PatientController {
                     String visitDate = lastVisit.getDate().toString().substring(0,10);
                     String formattedDate = DateUtil.format(visitDate);
                     p.setDateOfLastVisit(formattedDate);
-                    //TODO список пацієнтів зроблено
                 }
             } catch (Exception e) {
                 p.setDateOfLastVisit("No visits");
@@ -241,7 +240,6 @@ public class PatientController {
             try {
                 Examinations examinations = examinationService.getLastExaminationByPatient(patient);
                 ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
-                //TODO visits examenation fixed
                 String date = examinationsModel.getDate();
                 String formattedDate = DateUtil.format(date);
                 examinationsModel.setDate(formattedDate);
@@ -270,7 +268,6 @@ public class PatientController {
 
             for (Visit visit : visits) {
                 PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
-                //TODO previous visit fixed
                 String date = previousVisit.getVisitDate();
                 String formattedDate = DateUtil.format(date);
                 previousVisit.setVisitDate(formattedDate);
@@ -443,7 +440,6 @@ public class PatientController {
             for (Examinations exam : examinations) {
                 ExaminationsModel examinationsModel = new ExaminationsModel(exam);
                 examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
-                //TODO бдд пацієнта зроблено
                 String date = examinationsModel.getDate();
                 String formattedDate = DateUtil.format(date);
                 examinationsModel.setDate(formattedDate);
@@ -455,7 +451,6 @@ public class PatientController {
             }
 
             List<Pathology> pathologies = pathologyService.getPathologies(patient);
-            //TODO: патології пофіксив на вюхі
 
             if (pathologies.isEmpty()) {
                 pathologies = null;

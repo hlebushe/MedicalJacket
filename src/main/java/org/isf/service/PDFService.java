@@ -152,7 +152,6 @@ public class PDFService {
 
             contentStream.showText("Doctor " + doctor.getName());
             contentStream.newLine();
-            //TODO report date fixed
             String date = visit.getDate().toString().substring(0, 10);
             String formattedDate = DateUtil.format(date);
             contentStream.showText("Date: " + formattedDate);
