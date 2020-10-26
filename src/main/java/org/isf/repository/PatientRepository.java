@@ -33,5 +33,7 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
     List<Patient> findAllByDeviceDetails(DeviceDetails deviceDetails);
 
+    List<Patient> findByTaxCode(String texCode);
+
 
 }

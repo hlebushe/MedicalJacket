@@ -3,10 +3,12 @@ package org.isf.models;
 import org.isf.dao.Examinations;
 import org.isf.dao.NursingStationData;
 import org.isf.dao.Visit;
+import org.isf.util.TasksListComparator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +21,8 @@ public class ExaminationsModel {
     private Character patientSex;
 
     private String patientAddress;
+
+    private String patientAadhaarId;
 
     private UUID id;
 
@@ -76,9 +80,13 @@ public class ExaminationsModel {
 
     private String scoreColor;
 
+    private Boolean dripFlow;
+
     private List<String> external;
 
-    private List<String> tasks;
+    private List<String> tasksFuture;
+
+    private List<String> tasksPast;
 
     final double METER = 0.01;
 
@@ -111,18 +119,24 @@ public class ExaminationsModel {
 
     public ExaminationsModel(NursingStationData nursingStationData) {
         this.id = nursingStationData.getId();
-        this.o2Saturation = nursingStationData.getOxygen();
+        this.o2Saturation = nursingStationData.getOxygenSaturation();
         this.bloodPressureMin = nursingStationData.getBloodPressureDia();
         this.bloodPressureMax = nursingStationData.getBloodPressureSys();
+        this.heartRate = nursingStationData.getHeartRate();
+        this.temperature = nursingStationData.getTemperature();
+        this.bloodGlucoseLevel = nursingStationData.getBloodGlucose();
+        this.o2FlowRate = nursingStationData.getOxygenFlowRate();
         this.heartRate = nursingStationData.getHeartRate();
         this.patientName = nursingStationData.getPatient().getName();
         this.patientAge = String.valueOf(nursingStationData.getPatient().getAge());
         this.patientAddress = nursingStationData.getPatient().getAddress();
         this.patientSex = nursingStationData.getPatient().getSex();
+        this.patientAadhaarId = "Aadhaar: " + nursingStationData.getPatient().getTaxCode();
     }
 
     public void setVisitData(Visit visit) {
             String externalString = visit.getExaminationsPrescribed();
+            String radiologyString = visit.getRadiologyPrescribed();
             List<String> externalsList = new ArrayList<>();
             if (!externalString.isEmpty()) {
                 try {
@@ -130,6 +144,14 @@ public class ExaminationsModel {
 
                     for (int i = 0; i < splitArrayExternals.length; i++) {
                         externalsList.add(splitArrayExternals[i]);
+                    }
+
+                    if (!radiologyString.isEmpty()) {
+                        String[] splitArrayRadiology = radiologyString.split(",");
+
+                        for (int i = 0; i < splitArrayRadiology.length; i++) {
+                            externalsList.add(splitArrayRadiology[i]);
+                        }
                     }
                     this.external = externalsList;
 
@@ -141,34 +163,6 @@ public class ExaminationsModel {
                 externalsList.add("No externals prescribed");
                 this.external = externalsList;
             }
-
-            List<String> meds = new ArrayList<>();
-            List<String> tasksList = new ArrayList<>();
-
-            meds.add(visit.getMedication1());
-            meds.add(visit.getMedication2());
-            meds.add(visit.getMedication3());
-            meds.add(visit.getMedication4());
-            meds.add(visit.getMedication5());
-            meds.add(visit.getMedication6());
-
-            for (String s : meds) {
-                if (!s.isEmpty()) {
-                    String[] split = s.split(";");
-                    try {
-                        tasksList.add(split[0] + " " +split[1]);
-                    } catch (Exception es) {
-                        tasksList.add("");
-                    }
-                }
-            }
-
-            if (tasksList.isEmpty()) {
-                tasksList.add("No tasks");
-            }
-
-            this.tasks = tasksList;
-
 
     }
 
@@ -447,11 +441,35 @@ public class ExaminationsModel {
         this.external = external;
     }
 
-    public List<String> getTasks() {
-        return tasks;
+    public List<String> getTasksFuture() {
+        return tasksFuture;
     }
 
-    public void setTasks(List<String> tasks) {
-        this.tasks = tasks;
+    public void setTasksFuture(List<String> tasksFuture) {
+        this.tasksFuture = tasksFuture;
+    }
+
+    public List<String> getTasksPast() {
+        return tasksPast;
+    }
+
+    public void setTasksPast(List<String> tasksPast) {
+        this.tasksPast = tasksPast;
+    }
+
+    public String getPatientAadhaarId() {
+        return patientAadhaarId;
+    }
+
+    public void setPatientAadhaarId(String patientAadhaarId) {
+        this.patientAadhaarId = patientAadhaarId;
+    }
+
+    public Boolean getDripFlow() {
+        return dripFlow;
+    }
+
+    public void setDripFlow(Boolean dripFlow) {
+        this.dripFlow = dripFlow;
     }
 }

@@ -77,6 +77,9 @@ public class Visit {
     @Column(name = "VST_EXAMINATIONS_PRESCRIBED")
     private String examinationsPrescribed;
 
+    @Column(name = "VST_RADIOLOGY_PRESCRIBED")
+    private String radiologyPrescribed;
+
     @Column(name = "VST_ADVISORY")
     private String advisory;
 

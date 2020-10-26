@@ -89,7 +89,7 @@
             text-align: left;
             padding: 10px;
             border-radius: 8px;
-            max-height: 500px;
+            max-height: 300px;
             overflow-y: auto;
         }
 
@@ -161,6 +161,11 @@
             float: left;
             padding: 2px 8px;
             margin: 5px;
+        }
+
+        .ss-multi-selected {
+            max-height: 120px;
+            overflow-y: auto;
         }
 
     </style>
@@ -379,20 +384,37 @@
                 </div>
                 <div class="col-4">
                     <div class="form-group input-group">
-                        <div class="input-group-prepend input-group-prepend2">
+                        <div class="input-group-prepend input-group-prepend2" style="float: left;width: 100%;">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Pathology Tests</span>
                         </div>
-                        <input style="height: 62px;" class="form-control" th:field="*{examinationsPrescribed}" id="examinationsPrescribed">
-                        <span class="caption">* if more then one: describe using coma (like X-Ray, Serum Test)</span>
+                        <select style="height: 62px;" id="examinationsPrescribed" th:field="*{examinationsPrescribed}" multiple>
+                            <option th:each="pathology : ${pathologies}"
+                                    th:value="${pathology.toString()}"
+                                    th:utext="${pathology.toString()}">
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
+            <div class="row" style="margin-top: 60px;">
+                <div class="col-8">
                     <div class="custom-tooltip2"></div>
                 </div>
+                <div class="col-4">
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend input-group-prepend2" style="float: left;width: 100%;">
+                            <span class="input-group-text" style="white-space: unset; text-align: left;">Radiology Tests</span>
+                        </div>
+                        <select style="height: 62px;" id="radiologyPrescribed" th:field="*{radiologyPrescribed}" multiple>
+                            <option th:each="radiology : ${radiologies}"
+                                    th:value="${radiology.toString()}"
+                                    th:utext="${radiology.toString()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin-top: 60px;">
                 <div class="col">
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
@@ -751,7 +773,15 @@
 
     var select = new SlimSelect({
         select: '#symptoms'
-    })
+    });
+
+    var select3 = new SlimSelect({
+        select: '#examinationsPrescribed'
+    });
+
+    var select4 = new SlimSelect({
+        select: '#radiologyPrescribed'
+    });
 </script>
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -835,7 +865,7 @@
     $(".medication_input").keyup(function(e) {
         var diagnosis = $(this).val();
 
-        // if (diagnosis.length < 3) return;
+        if (diagnosis.length < 3) return;
         var containerJquery = $(this);
 
         $.ajax({

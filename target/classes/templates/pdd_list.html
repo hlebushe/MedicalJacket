@@ -290,7 +290,6 @@
                             <tbody id="table-body">
                             <tr th:each="pathology : *{pathologies}">
                                 <td class="white_td" th:text="*{pathology.id}"></td>
-<!--                                TODO вюха патологі пофіксив-->
                                 <td class="white_td" th:text="*{pathology.getFormattedDate()}"></td>
                                 <td class="white_td">
                                     <a th:href="@{/patient/pdd/get_report/{id}(id=${pathology.id})}">

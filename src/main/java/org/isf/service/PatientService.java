@@ -96,6 +96,10 @@ public class PatientService {
         return true;
     }
 
+    public Patient getByAadharId(String aadharId) {
+        return repository.findByTaxCode(aadharId).get(0);
+    }
+
 
 
 }

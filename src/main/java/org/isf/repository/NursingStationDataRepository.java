@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -17,4 +18,6 @@ public interface NursingStationDataRepository extends JpaRepository<NursingStati
 
     @Query(value = "SELECT * FROM nursing_station_data WHERE PM_PAT_ID = :patient ORDER BY PM_TIME DESC LIMIT 1", nativeQuery= true)
     NursingStationData getLastByPatient(Patient patient);
+
+    Optional<NursingStationData> findById(UUID id);
 }

@@ -57,4 +57,45 @@ public class NursingStationDataService {
 
         return result;
     }
+
+    public NursingStationData findById(UUID code) {
+        return nursingStationDataRepository.findById(code).get();
+    }
+
+    public boolean updateNursingStationDataTasks(UUID uid, String futureTasks, String pastTasks) {
+        NursingStationData uD = nursingStationDataRepository.findById(uid).get();
+
+        if (uD == null) {
+            return false;
+        }
+
+        uD.setFutureTasks(futureTasks);
+        uD.setPastTasks(pastTasks);
+
+        nursingStationDataRepository.save(uD);
+        return true;
+    }
+
+    public NursingStationData update(NursingStationData nursingStationData) {
+        NursingStationData uD = nursingStationDataRepository.getLastByPatient(nursingStationData.getPatient());
+
+        if (uD == null) {
+            return null;
+        }
+
+        uD.setDate(nursingStationData.getDate());
+        uD.setDevId(1);
+        uD.setBloodPressureDia(nursingStationData.getBloodPressureDia());
+        uD.setBloodPressureSys(nursingStationData.getBloodPressureSys());
+        uD.setHeartRate(nursingStationData.getHeartRate());
+        uD.setOxygenSaturation(nursingStationData.getOxygenSaturation());
+        uD.setOxygenFlowRate(nursingStationData.getOxygenFlowRate());
+        uD.setTemperature(nursingStationData.getTemperature());
+        uD.setBloodGlucose(nursingStationData.getBloodGlucose());
+        uD.setFutureTasks(nursingStationData.getFutureTasks());
+        uD.setPastTasks("");
+
+        return nursingStationDataRepository.save(uD);
+    }
+
 }

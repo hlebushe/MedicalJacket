@@ -24,7 +24,8 @@ public class VisitService {
     };
 
     public Visit getLastVisitByPatient(Patient patient) {
-        return visitRepository.findAllWherePatientByOrderPatientAndDateAsc(patient.getCode()).get(0);
+        List<Visit> list = visitRepository.findAllWherePatientByOrderPatientAndDateAsc(patient.getCode());
+        return list.get(list.size()-1);
     }
 
     public Visit getVisitById(UUID id) {

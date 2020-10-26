@@ -2,6 +2,7 @@ package org.isf.dao;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,8 +26,8 @@ public class NursingStationData {
     @Column(name = "PM_HEART_RATE")
     private Integer heartRate;
 
-    @Column(name = "PM_OXYGEN")
-    private Integer oxygen;
+    @Column(name = "PM_OXYGEN_SATURATION")
+    private Integer oxygenSaturation;
 
     @Column(name = "PM_PRESSURE_SYS")
     private Integer bloodPressureSys;
@@ -42,6 +43,20 @@ public class NursingStationData {
 
     @Column(name = "PM_PATHOLOGY")
     private String pathology;
+
+    @Column(name = "PM_BLOOD_GLUCOSE")
+    private Double bloodGlucose;
+
+    @Column(name = "PM_TEMPERATURE")
+    private Double temperature;
+
+    @Column(name = "PM_DRIP_FLOW")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private Boolean dripFlow;
+
+    @Column(name = "PM_OXYGEN_FLOW_RATE")
+    private Integer oxygenFlowRate;
+
 
     @NotNull
     @ManyToOne
