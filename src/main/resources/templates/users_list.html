@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <title>MedJacket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
@@ -76,7 +78,7 @@
     </div>
 </nav>
 <div th:replace="fragments/header :: header"></div>
-<div class="form-group">
+<div class="form-group search-wrap">
     <input class="form-control" id="search" type="text" placeholder="Type to search for the existing patient’s record ...">
     <a class="btn btn-secondary add-button button-action" th:href="@{/users/add}" role="button" style="width: 220px;margin-right: 5%;">Enroll a new User
     </a>
@@ -84,19 +86,19 @@
 <div class="form-group">
     <div th:switch="${users}">
         <h2 th:case="null">No users</h2>
-        <div th:case="*">
+        <div class="table-wrap" th:case="*">
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">Username</th>
                     <th scope="col" th:text="#{patient.name}"></th>
-                    <th scope="col" th:text="#{patient.age}"></th>
+                    <th style="min-width: 75px" scope="col" th:text="#{patient.age}"></th>
                     <th scope="col" th:text="#{patient.sex}"></th>
                     <th scope="col" th:text="#{patient.city}"></th>
                     <th scope="col" th:text="#{patient.telephone}"></th>
                     <th scope="col">Designation</th>
                     <th scope="col" th:text="#{patient.aadhaar_id}"></th>
-                    <th scope="col" th:text="#{common.action}"></th>
+                    <th style="min-width: 220px" scope="col" th:text="#{common.action}"></th>
                 </tr>
                 </thead>
                 <tbody id="table-body">

@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <title>MedJacket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
@@ -18,7 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
     <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
 
-    <style>
+    <style>+
         .table thead th {
             border-top: 1px dotted #aeacab!important;
             border-bottom: 1px dotted #aeacab!important;
@@ -82,15 +84,15 @@
         </div>
     </nav>
     <div th:replace="fragments/header :: header"></div>
-    <div class="form-group">
+    <div class="form-group search-wrap">
         <input class="form-control" id="search" type="text" placeholder="Type to search for the existing patient’s record ...">
-        <a class="btn btn-secondary add-button button-action" th:href="@{/patient/add}" role="button" style="width: 220px;margin-right: 5%;" th:text="#{patient.enroll_new_patient}">
-        </a>
+        <a class="btn btn-secondary add-button button-action"
+           th:href="@{/patient/add}" role="button" th:text="#{patient.enroll_new_patient}"></a>
     </div>
         <div class="form-group">
             <div th:switch="*{patients}">
                 <h2 th:case="null" th:text="#{patient.no_patients}" style="margin-top: 10%; text-align: center;"></h2>
-                <div th:case="*">
+                <div class="table-wrap" th:case="*">
                     <div class="form-group">
                         <div style="color: red; width: 100%; margin-top: 9%; text-align: center;" th:if="${error != null}" th:text="${error}">
                         </div>
@@ -99,13 +101,13 @@
                         <thead>
                         <tr>
                             <th scope="col" th:text="#{patient.name}"></th>
-                            <th scope="col" th:text="#{patient.age}"></th>
+                            <th style="min-width: 60px" scope="col" th:text="#{patient.age}"></th>
                             <th scope="col" th:text="#{patient.sex}"></th>
                             <th scope="col" th:text="#{patient.address}"></th>
                             <th scope="col" th:text="#{patient.telephone}"></th>
-                            <th scope="col" th:text="#{patient.date_of_last_visit}"></th>
+                            <th style="min-width: 115px" scope="col" th:text="#{patient.date_of_last_visit}"></th>
                             <th scope="col" th:text="#{patient.aadhaar_id}"></th>
-                            <th scope="col" th:text="#{common.action}"></th>
+                            <th style="min-width: 330px" scope="col" th:text="#{common.action}"></th>
                         </tr>
                         </thead>
                         <tbody id="table-body">
@@ -124,13 +126,13 @@
                             <td th:text="${patient.taxCode}"></td>
                             <td>
                                 <div class="row" style="margin-top: 0;">
-                                    <div class="col">
+                                    <div class="col-3">
                                         <a th:href="@{/patient/edit/{id}(id=${patient.code})}">
                                             <img class="action-icon" alt="" th:src="@{/images/modify.png}">
                                             <p class="action-label" th:text="#{common.modify}"></p>
                                         </a>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-3">
                                         <a th:href="@{/patient/pdd/{id}(id=${patient.code})}">
                                             <div th:switch="${patient.pddScore}">
                                                 <img th:case="'red'" class="action-icon" alt="" th:src="@{/images/heart_red.png}">
@@ -141,13 +143,13 @@
                                             <p class="action-label">PDD</p>
                                         </a>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-3">
                                         <a th:href="@{/patient/examinations/{id}(id=${patient.code})}">
                                             <img class="action-icon" alt="" th:src="@{/images/examination.png}">
                                             <p class="action-label" th:text="#{common.examinations}"></p>
                                         </a>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-3">
                                         <a th:href="@{/patient/visit/add/{id}(id=${patient.code})}">
                                             <img class="action-icon" alt="" th:src="@{/images/patient.png}">
                                             <p class="action-label" th:text="#{common.visit}"></p>

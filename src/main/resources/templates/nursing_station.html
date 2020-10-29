@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <title>MedJacket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
@@ -182,7 +184,7 @@
 <div class="form-group">
     <div th:switch="${measurements}" id="measurements" style="margin-top: 3%;">
         <h2 th:case="null" th:text="#{patient.no_patients}"></h2>
-        <div th:case="*">
+        <div class="table-wrap" th:case="*">
             <table class="table">
                 <thead>
                 <tr>
@@ -258,25 +260,25 @@
                     <td>
                         <div class="div_tr">
                             <div class="row" style="margin-top: 0;">
-                                <div class="col">
+                                <div class="col-12 col-lg-6">
                                     <button th:class="*{measurement.id}" onclick="confirmTask(this)" style="background: #ffffff;border: none;">
                                         <img class="action-icon" alt="" th:src="@{/images/task_confirm.png}">
                                         <p class="action-label">Task Confirm</p>
                                     </button>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-lg-6">
                                     <button th:class="*{measurement.id}" onclick="undoTask(this)" style="background: #ffffff;border: none;">
                                         <img class="action-icon" alt="" th:src="@{/images/discard.png}">
                                         <p class="action-label">Undo Task</p>
                                     </button>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-lg-6">
                                     <a href="#">
                                         <img class="action-icon" alt="" th:src="@{/images/video_call.png}">
                                         <p class="action-label">Live Cam</p>
                                     </a>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-lg-6">
                                     <a href="#">
                                         <img class="action-icon" alt="" th:src="@{/images/call.png}">
                                         <p class="action-label">Call</p>
@@ -299,9 +301,12 @@
         $.get(url, function(fragment) {
             $("#measurements").replaceWith(fragment);
         });
-    }
+    };
 
-    setInterval(updateData, 1000)
+    $( document ).ready(function() {
+        updateData();
+    });
+    // setInterval(updateData, 1000);
 </script>
 <script th:inline="javascript">
     var urlTask = /*[[ @{/nursing_station/confirm_task} ]]*/

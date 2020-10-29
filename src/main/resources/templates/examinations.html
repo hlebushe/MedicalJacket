@@ -1,7 +1,10 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <title>MedJacket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
@@ -14,7 +17,8 @@
     <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/fileinput.min.js"></script>
     <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/plugins/sortable.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/css/fileinput.min.css">
+    <link rel="stylesheet"
+          href="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/css/fileinput.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
     <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
     <style>
@@ -43,7 +47,8 @@
 <body>
 <nav class="navbar navbar-light header-custom">
     <div class="header-left">
-        <span style="float: left;font-size: 24px;font-weight: bold;">Examinations Form</span><span style="font-size: 24px;margin-left: 10px;" th:text="*{patient.firstName + ' ' + patient.secondName}"></span>
+        <span style="float: left;font-size: 24px;font-weight: bold;">Examinations Form</span><span
+            style="font-size: 24px;margin-left: 10px;" th:text="*{patient.firstName + ' ' + patient.secondName}"></span>
     </div>
     <div class="header-right">
         <div class="header-logo">
@@ -61,50 +66,47 @@
         <h4 th:text="${userName}" style="float: left"></h4>
     </div>
     <div class="form-control" style="display: inline;">
-    <div class="row">
-        <div class="col">
-            <a href="#">
-                <img th:src="@{/images/temp.png}" alt="" class="icon">
-                <p class="link-label" th:text="#{examinations.temperature}"></p>
-            </a>
-        </div>
-        <div class="col">
-            <a href="#">
-                <img alt="" th:src="@{/images/ir.png}" class="icon">
-                <p class="link-label" th:text="#{examinations.ir_thermometer}"></p>
-            </a>
-        </div>
-        <div class="col">
-            <a href="#">
-                <img alt="" th:src="@{/images/oxim.png}" class="icon">
-                <p class="link-label" th:text="#{examinations.pulse_oximeter}"></p>
-            </a>
-        </div>
-    </div>
-        <div class="form-control" style="display: inline;">
-            <div class="row">
-                <div class="col">
-                    <a href="#">
-                        <img th:src="@{/images/blood_pressure.png}" alt="" class="icon">
-                        <p class="link-label" th:text="#{examinations.blood_pressure}"></p>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="#">
-                        <img alt="" th:src="@{/images/diabetes.png}" class="icon">
-                        <p class="link-label" th:text="#{examinations.diabetes_test}"></p>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="#">
-                        <img alt="" th:src="@{/images/ecg.png}" class="icon">
-                        <p class="link-label" th:text="#{examinations.ecg}"></p>
-                    </a>
-                </div>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4">
+                <a href="#">
+                    <img th:src="@{/images/temp.png}" alt="" class="icon">
+                    <p class="link-label" th:text="#{examinations.temperature}"></p>
+                </a>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <a href="#">
+                    <img alt="" th:src="@{/images/ir.png}" class="icon">
+                    <p class="link-label" th:text="#{examinations.ir_thermometer}"></p>
+                </a>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <a href="#">
+                    <img alt="" th:src="@{/images/oxim.png}" class="icon">
+                    <p class="link-label" th:text="#{examinations.pulse_oximeter}"></p>
+                </a>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <a href="#">
+                    <img th:src="@{/images/blood_pressure.png}" alt="" class="icon">
+                    <p class="link-label" th:text="#{examinations.blood_pressure}"></p>
+                </a>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <a href="#">
+                    <img alt="" th:src="@{/images/diabetes.png}" class="icon">
+                    <p class="link-label" th:text="#{examinations.diabetes_test}"></p>
+                </a>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <a href="#">
+                    <img alt="" th:src="@{/images/ecg.png}" class="icon">
+                    <p class="link-label" th:text="#{examinations.ecg}"></p>
+                </a>
             </div>
         </div>
+    </div>
 </div>
-    <div th:replace="fragments/language_selector :: language_selector"></div>
+<div th:replace="fragments/language_selector :: language_selector"></div>
 </div>
 </body>
 </html>

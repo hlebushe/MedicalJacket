@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <title>MedJacket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
@@ -168,6 +170,10 @@
             overflow-y: auto;
         }
 
+        .visit-red-btn{
+            width: 100%;
+        }
+
     </style>
 </head>
 <body>
@@ -220,9 +226,9 @@
             <a class="nav-link" href="#3" data-toggle="tab" th:text="#{common.examinations}"></a>
         </li>
     </ul>
-    <div>
-        <div style="margin-bottom: 3%; background-color: #ffffff; width: 20%; float: left; height: 147px;">
-            <img id="userPic" th:src="@{/patient/userPic/{id}(id=${patient.code})}" alt="your image" style="max-width: 100%; max-height: 100%;"/>
+    <div class="table-wrap">
+        <div style="margin-top:3%; margin-bottom: 3%; background-color: #ffffff; width: 20%; float: left; height: 147px;">
+            <img id="userPic" th:src="@{/patient/userPic/{id}(id=${patient.code})}" alt="your image" style="height: 100%;"/>
         </div>
         <table class="table" style="margin-top: 15px; width: 79%; margin-left: 1%;">
             <tbody>
@@ -288,9 +294,9 @@
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-12 col-md-4">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#symptomsModal" onclick="showSymptoms()">
+                            <button type="button" class="btn btn-primary visit-red-btn" data-toggle="modal" data-target="#symptomsModal" onclick="showSymptoms()">
                                 <span th:text="#{visit.symptoms}"></span>
                                 <img class="action-icon" alt="" th:src="@{/images/symptoms.png}">
                             </button>
@@ -314,9 +320,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-12 col-md-4">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#descriptionModal" onclick="showDescription()">
+                            <button type="button" class="btn btn-primary visit-red-btn" data-toggle="modal" data-target="#descriptionModal" onclick="showDescription()">
                                 <span th:text="#{visit.diagnosis}"></span>
                                 <img class="action-icon" alt="" th:src="@{/images/diagnosis.png}">
                             </button>
@@ -340,9 +346,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-12 col-md-4">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#managementModal" onclick="showManagement()">
+                            <button type="button" class="btn btn-primary visit-red-btn" data-toggle="modal" data-target="#managementModal" onclick="showManagement()">
                                 <span th:text="#{visit.management}"></span>
                                 <img class="action-icon" alt="" th:src="@{/images/management.png}">
                             </button>
@@ -369,7 +375,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-8">
+                <div class="col-12 col-md-6 col-lg-8">
                     <div class="form-group input-group mainComplaint1">
                         <div class="input-group-prepend input-group-prepend2" style="float: left;width: 100%;">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Main Symptoms</span>
@@ -382,7 +388,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2" style="float: left;width: 100%;">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Pathology Tests</span>
@@ -396,11 +402,11 @@
                     </div>
                 </div>
             </div>
-            <div class="row" style="margin-top: 60px;">
-                <div class="col-8">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-8">
                     <div class="custom-tooltip2"></div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2" style="float: left;width: 100%;">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Radiology Tests</span>
@@ -415,7 +421,7 @@
                 </div>
             </div>
             <div class="row" style="margin-top: 60px;">
-                <div class="col">
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_diagnosis} + ' 1'"></span>
@@ -453,7 +459,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_diagnosis}"></span>
@@ -468,7 +474,7 @@
                     </div>
                     <div class="custom-tooltip">Symptom Description</div>
                 </div>
-                <div class="col">
+                <div class="col-12 col-md-6 col-lg-4">
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.advisory}"></span>
@@ -485,26 +491,26 @@
                 </div>
             </div>
             <div class="row">
-                    <div class="form-group input-group med1 col">
+                    <div class="form-group input-group med1 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 1</span>
                         </div>
                         <input style="height: 62px;" class="form-control medication_input" th:field="*{med1}" id="med1">
                     </div>
-                    <div class="form-group input-group med1 col">
+                    <div class="form-group input-group med1 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 1 Time</span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med1_time}" id="med1_time">
                         <span class="caption">* please write time of use. If more then one: describe using coma (like 12:00, 18:30)</span>
                     </div>
-                    <div class="form-group input-group med1 col">
+                    <div class="form-group input-group med1 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 1 Duration</span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med1_duration}" id="med1_duration">
                     </div>
-                    <div class="form-group input-group med1 medication_combination_div col" style="margin-bottom: 2rem;">
+                    <div class="form-group input-group med1 medication_combination_div col-12 col-md-6 col-lg-3" style="margin-bottom: 2rem;">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 1 Notes</span>
                         </div>
@@ -512,26 +518,26 @@
                     </div>
             </div>
                 <div class="row med med2">
-                    <div class="form-group input-group med med2 col">
+                    <div class="form-group input-group med med2 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 2</span>
                         </div>
                         <input style="height: 62px;" class="form-control medication_input" th:field="*{med2}" id="med2">
                     </div>
-                    <div class="form-group input-group med med2 col">
+                    <div class="form-group input-group med med2 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 2 Time</span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med2_time}" id="med2_time">
                         <span class="caption">* please write time of use. If more then one: describe using coma (like 12:00, 18:30)</span>
                     </div>
-                    <div class="form-group input-group med med2 col">
+                    <div class="form-group input-group med med2 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 2 Duration</span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med2_duration}" id="med2_duration">
                     </div>
-                    <div class="form-group input-group med med2 medication_combination_div col" style="margin-bottom: 2rem;">
+                    <div class="form-group input-group med med2 medication_combination_div col-12 col-md-6 col-lg-3" style="margin-bottom: 2rem;">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 2 Notes</span>
                         </div>
@@ -539,26 +545,26 @@
                     </div>
                 </div>
                 <div class="row med med3">
-                    <div class="form-group input-group med med3 col">
+                    <div class="form-group input-group med med3 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 3</span>
                         </div>
                         <input style="height: 62px;" class="form-control medication_input" th:field="*{med3}" id="med3">
                     </div>
-                    <div class="form-group input-group med med3 col">
+                    <div class="form-group input-group med med3 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 3 Time</span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med3_time}" id="med3_time">
                         <span class="caption">* please write time of use. If more then one: describe using coma (like 12:00, 18:30)</span>
                     </div>
-                    <div class="form-group input-group med med3 col">
+                    <div class="form-group input-group med med3 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 3 Duration</span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med3_duration}" id="med3_duration">
                     </div>
-                    <div class="form-group input-group med med3 medication_combination_div col" style="margin-bottom: 2rem;">
+                    <div class="form-group input-group med med3 medication_combination_div col-12 col-md-6 col-lg-3" style="margin-bottom: 2rem;">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 3 Notes</span>
                         </div>
@@ -566,26 +572,26 @@
                     </div>
                 </div>
             <div class="row med med4">
-                <div class="form-group input-group med med4 col">
+                <div class="form-group input-group med med4 col-12 col-md-6 col-lg-3">
                     <div class="input-group-prepend input-group-prepend2">
                         <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 4</span>
                     </div>
                     <input style="height: 62px;" class="form-control medication_input" th:field="*{med4}" id="med4">
                 </div>
-                <div class="form-group input-group med med4 col">
+                <div class="form-group input-group med med4 col-12 col-md-6 col-lg-3">
                     <div class="input-group-prepend input-group-prepend2">
                         <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 4 Time</span>
                     </div>
                     <input style="height: 62px;" class="form-control" th:field="*{med4_time}" id="med4_time">
                     <span class="caption">* please write time of use. If more then one: describe using coma (like 12:00, 18:30)</span>
                 </div>
-                <div class="form-group input-group med med4 col">
+                <div class="form-group input-group med med4 col-12 col-md-6 col-lg-3">
                     <div class="input-group-prepend input-group-prepend2">
                         <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 4 Duration</span>
                     </div>
                     <input style="height: 62px;" class="form-control" th:field="*{med4_duration}" id="med4_duration">
                 </div>
-                <div class="form-group input-group med med4 medication_combination_div col">
+                <div class="form-group input-group med med4 medication_combination_div col-12 col-md-6 col-lg-3">
                     <div class="input-group-prepend input-group-prepend2">
                         <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 4 Notes</span>
                     </div>
@@ -593,26 +599,26 @@
                 </div>
             </div>
             <div class="row med med5">
-                <div class="form-group input-group med med5 col">
+                <div class="form-group input-group med med5 col-12 col-md-6 col-lg-3">
                     <div class="input-group-prepend input-group-prepend2">
                         <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 5</span>
                     </div>
                     <input style="height: 62px;" class="form-control medication_input" th:field="*{med5}" id="med5">
                 </div>
-                <div class="form-group input-group med med5 col">
+                <div class="form-group input-group med med5 col-12 col-md-6 col-lg-3">
                     <div class="input-group-prepend input-group-prepend2">
                         <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 5 Time</span>
                     </div>
                     <input style="height: 62px;" class="form-control" th:field="*{med5_time}" id="med5_time">
                     <span class="caption">* please write time of use. If more then one: describe using coma (like 12:00, 18:30)</span>
                 </div>
-                <div class="form-group input-group med med5 col">
+                <div class="form-group input-group med med5 col-12 col-md-6 col-lg-3">
                     <div class="input-group-prepend input-group-prepend2">
                         <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 5 Duration</span>
                     </div>
                     <input style="height: 62px;" class="form-control" th:field="*{med5_duration}" id="med5_duration">
                 </div>
-                <div class="form-group input-group med med5 medication_combination_div  col">
+                <div class="form-group input-group med med5 medication_combination_div  col-12 col-md-6 col-lg-3">
                     <div class="input-group-prepend input-group-prepend2">
                         <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 5 Notes</span>
                     </div>
@@ -620,26 +626,26 @@
                 </div>
             </div>
                 <div class="row med med6">
-                    <div class="form-group input-group med med6 col">
+                    <div class="form-group input-group med med6 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 6</span>
                         </div>
                         <input style="height: 62px;" class="form-control medication_input" th:field="*{med6}" id="med6">
                     </div>
-                    <div class="form-group input-group med med6 col">
+                    <div class="form-group input-group med med6 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 6 Time</span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med6_time}" id="med6_time">
                         <span class="caption">* please write time of use. If more then one: describe using coma (like 12:00, 18:30)</span>
                     </div>
-                    <div class="form-group input-group med med6 col">
+                    <div class="form-group input-group med med6 col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 6 Duration</span>
                         </div>
                         <input style="height: 62px;" class="form-control" th:field="*{med6_duration}" id="med6_duration">
                     </div>
-                    <div class="form-group input-group med med6 medication_combination_div col">
+                    <div class="form-group input-group med med6 medication_combination_div col-12 col-md-6 col-lg-3">
                         <div class="input-group-prepend input-group-prepend2 ">
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 6 Notes</span>
                         </div>
@@ -657,7 +663,7 @@
         <div class="form-group">
             <div th:switch="*{visits}">
                 <h2 th:case="null" th:text="#{visit.no_previous_visits}"></h2>
-                <div th:case="*">
+                <div class="table-wrap" th:case="*">
                     <table class="table">
                         <thead>
                         <tr>
@@ -691,7 +697,7 @@
     </div>
     <div class="tab-pane" id="3">
         <div class="row">
-            <div class="col">
+            <div class="col-12 col-sm-6">
                 <div class="form-group border-group examDiv" th:classappend="*{examinations.respiratoryRateColor}">
                     <label th:text="*{'Respiratory Rate(brth/min): ' + examinations.respiratoryRate}" th:classappend="*{examinations.respiratoryRateColor}"></label>
                 </div>
@@ -714,7 +720,7 @@
                     <label th:text="*{'Examinations date: ' + examinations.date}" class="level0"></label>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-12 col-sm-6">
                 <div class="form-group border-group examDiv" th:classappend="*{examinations.bodyMassIndexColor}">
                     <label th:text="*{'Body Mass Index: ' + examinations.bodyMassIndex}" th:classappend="*{examinations.bodyMassIndexColor}"></label>
                 </div>

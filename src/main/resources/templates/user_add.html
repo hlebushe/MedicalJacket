@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <title>MedJacket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
@@ -96,7 +98,7 @@
             </a>
         </div>
         <span id="validator" class="validator" style="color: red;width: 100%;font-size: 12px;">Please fill all mandatory fields</span>
-        <ul class="nav nav-tabs" style="margin-right: -15px; margin-left: -15px;">
+        <ul class="tab-nav nav nav-tabs" style="margin-right: -15px; margin-left: -15px;">
             <li class="nav-item active">
                 <a class="nav-link active" href="#1" data-toggle="tab" th:text="#{patient.general_details}"></a>
             </li>
@@ -108,12 +110,12 @@
         <div class="tab-content">
             <div class="tab-pane active" id="1">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group">
                             <input th:field="*{photo}" type="file" id="photo"/>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text" th:text="#{patient.name}"></span>
@@ -192,7 +194,7 @@
                             <span id="dob_validator" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill D.O.B.</span>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text">Education</span>
