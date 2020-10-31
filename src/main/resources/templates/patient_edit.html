@@ -122,7 +122,7 @@
         <div class="tab-content">
             <div class="tab-pane active" id="1">
                 <div class="row">
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group">
                             <input th:field="*{photo}" type="file" id="photo"/>
                             <button type="button" id="pic_btn" class="btn btn-secondary" onclick="toogleCamera();" style="width: 50%; margin-left: 20%; margin-top: 20px; background-color: #625e96;">Take a picture</button>
@@ -133,7 +133,7 @@
                             <button type="button" class="btn btn-secondary" onclick="takeSnapshot()" style="margin-top: 10px;">Shot</button>
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text" th:text="#{patient.name}"></span>
@@ -168,7 +168,7 @@
                             <input class="form-control" type="hidden" th:field="*{birthDate}" onchange="showAge(this.value)" required="true" name="birthDate" id="birthDate" />
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text" th:text="#{patient.profession}"></span>
@@ -332,7 +332,7 @@
             </div>
             <div class="tab-pane" id="2">
                 <div class="row">
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text" th:text="#{patient.telephone}"></span>
@@ -358,7 +358,7 @@
                             <input onkeydown="return alphaOnly(event);"  type="text" th:field="*{city}" class="form-control" id="city" required="true">
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text" th:text="#{patient.email}"></span>
@@ -372,7 +372,7 @@
             </div>
             <div class="tab-pane" id="3">
                 <div class="row">
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend2">
                                 <span class="input-group-text" th:text="#{patient.blood_type}"></span>
@@ -402,7 +402,7 @@
                             <input type="text" th:field="*{previousMedicalConditions}" class="form-control" id="previousMedicalConditions" style="height: 62px;">
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend2">
                                 <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{patient.nature_of_mediacal_condition}"></span>
@@ -464,7 +464,7 @@
                             <button type="button" class="btn btn-secondary" onclick="addPreviousOperation()" style="width: 50%;margin-left: 25%;" th:text="#{common.add}"></button>
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                     </div>
                 </div>
                 <div class="form-group input-group patient-edit-file">
@@ -478,7 +478,7 @@
             </div>
             <div class="tab-pane" id="4">
                 <div class="row">
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend3">
                                 <span class="input-group-text" th:text="#{patient.fathername}"></span>
@@ -574,7 +574,7 @@
                             <input type="text" onkeydown="return alphaOnly(event);"  th:field="*{hereditaryDiseasesInFamily}" class="form-control" id="hereditaryDiseasesInFamily" style="height: 86px;">
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend3 radioLabel">
                                 <span class="input-group-text" th:text="#{patient.has_insurance}"></span>
@@ -635,7 +635,7 @@
                             <input type="text" onkeydown="return alphaNumericOnly(event);" th:field="*{healthCardNumber}" class="form-control" id="healthCardNumber" style="height: 62px;">
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend3 radioLabel">
                                 <span class="input-group-text" th:text="#{patient.smoker}"></span>
