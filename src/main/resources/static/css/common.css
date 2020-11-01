@@ -371,6 +371,10 @@ body {
     width: 160px;
 }
 
+.dark_table_block *{
+    font-size: 1em!important;
+}
+
 @media (min-width: 576px) {
     .header-headings>h1{
         font-size: 2.5em;

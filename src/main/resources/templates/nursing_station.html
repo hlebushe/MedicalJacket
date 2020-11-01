@@ -189,7 +189,7 @@
                 <thead>
                 <tr>
                     <th scope="col" th:text="#{patient.patient_details}"></th>
-                    <th scope="col" th:text="#{patient.patient_statistics}"></th>
+                    <th style="min-width: 310px" scope="col" th:text="#{patient.patient_statistics}"></th>
                     <th scope="col">Tasks Due</th>
                     <th scope="col">External Results</th>
                     <th scope="col">Action Control</th>
@@ -210,7 +210,7 @@
                         </div>
                     </td>
                     <td>
-                        <div class="div_tr" style="max-width: 500px">
+                        <div class="div_tr dark_table_block" style="max-width: 500px">
                             <div class="heart_rate_monitor">
                                 <div class="grid">
                                     <div style="width: 100%; position: relative">
@@ -260,25 +260,25 @@
                     <td>
                         <div class="div_tr">
                             <div class="row" style="margin-top: 0;">
-                                <div class="col-12 col-lg-6">
-                                    <button th:class="*{measurement.id}" onclick="confirmTask(this)" style="background: #ffffff;border: none;">
+                                <div class="col-12 col-xl-3">
+                                    <button th:class="*{measurement.id}" onclick="confirmTask(this)" style="background: #ffffff;border: none;width: 100%">
                                         <img class="action-icon" alt="" th:src="@{/images/task_confirm.png}">
                                         <p class="action-label">Task Confirm</p>
                                     </button>
                                 </div>
-                                <div class="col-12 col-lg-6">
-                                    <button th:class="*{measurement.id}" onclick="undoTask(this)" style="background: #ffffff;border: none;">
+                                <div class="col-12 col-xl-3">
+                                    <button th:class="*{measurement.id}" onclick="undoTask(this)" style="background: #ffffff;border: none;width: 100%">
                                         <img class="action-icon" alt="" th:src="@{/images/discard.png}">
                                         <p class="action-label">Undo Task</p>
                                     </button>
                                 </div>
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12 col-xl-3">
                                     <a href="#">
                                         <img class="action-icon" alt="" th:src="@{/images/video_call.png}">
                                         <p class="action-label">Live Cam</p>
                                     </a>
                                 </div>
-                                <div class="col-12 col-lg-6">
+                                <div class="col-12 col-xl-3">
                                     <a href="#">
                                         <img class="action-icon" alt="" th:src="@{/images/call.png}">
                                         <p class="action-label">Call</p>
