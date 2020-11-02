@@ -292,7 +292,7 @@
                                 <td class="white_td" th:text="*{pathology.id}"></td>
                                 <td class="white_td" th:text="*{pathology.getFormattedDate()}"></td>
                                 <td class="white_td">
-                                    <a th:href="@{/patient/pdd/get_report/{id}(id=${pathology.id})}">
+                                    <a th:href="@{/patient/pdd/get_report/{id}(id=${pathology.id})}" target="_blank">
                                         <img class="action-icon" alt="" th:src="@{/images/download.png}" style="width: 25px; height: 25px; display: block; margin-left: auto; margin-right: auto;">
                                         <p class="action-label" style="color: #000000; font-size: 13px; text-align: center;">Download</p>
                                     </a>

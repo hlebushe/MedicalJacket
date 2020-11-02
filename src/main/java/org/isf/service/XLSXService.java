@@ -31,7 +31,7 @@ public class XLSXService {
 
         Row neededRow = null;
 
-        for (Row row : sheet1) {
+        for (Row row : sheet2) {
             for (Cell cell : row) {
                 if (cell.getCellType() == CellType.STRING) {
                     if (cell.getRichStringCellValue().getString().trim().equals(symptom)) {
@@ -57,7 +57,7 @@ public class XLSXService {
             return "No " + infoType;
         } else {
             CellReference cellReference = new CellReference(h.getAddress());
-            Row descriptionRow = sheet2.getRow(cellReference.getRow());
+            Row descriptionRow = sheet1.getRow(cellReference.getRow());
             Cell descriptionCell;
 
             switch (loc) {
@@ -100,7 +100,7 @@ public class XLSXService {
         Sheet sheet1 = wb.getSheetAt(0);
         Sheet sheet2 = wb.getSheetAt(1);
 
-        for (Row row : sheet1) {
+        for (Row row : sheet2) {
             DiseaseModel diseaseModel = new DiseaseModel();
 
             try {
@@ -117,7 +117,7 @@ public class XLSXService {
                     diseaseModel.setDescription("No description");
                 } else {
                     CellReference cellReference = new CellReference(h.getAddress());
-                    Row descriptionRow = sheet2.getRow(cellReference.getRow());
+                    Row descriptionRow = sheet1.getRow(cellReference.getRow());
                     Cell descriptionCell;
 
                     switch (loc) {
@@ -243,11 +243,12 @@ public class XLSXService {
             Sheet sheet2 = wb.getSheetAt(1);
             Sheet sheet3 = wb.getSheetAt(2);
             Sheet sheet4 = wb.getSheetAt(3);
+            Sheet sheet5 = wb.getSheetAt(4);
             Boolean found = false;
 
             for (Row row : sheet1) {
                 if (row.getCell(0).getStringCellValue().contains(medication)) {
-                    result.add(row.getCell(3).getStringCellValue());
+                    result.add(row.getCell(2).getStringCellValue());
                     found = true;
                     break;
                 }
@@ -257,7 +258,7 @@ public class XLSXService {
             if (!found) {
                 for (Row row : sheet2) {
                     if (row.getCell(0).getStringCellValue().contains(medication)) {
-                        result.add(row.getCell(3).getStringCellValue());
+                        result.add(row.getCell(2).getStringCellValue());
                         found = true;
                         break;
                     }
@@ -267,7 +268,7 @@ public class XLSXService {
             if (!found) {
                 for (Row row : sheet3) {
                     if (row.getCell(0).getStringCellValue().contains(medication)) {
-                        result.add(row.getCell(4).getStringCellValue());
+                        result.add(row.getCell(2).getStringCellValue());
                         found = true;
                         break;
                     }
@@ -277,7 +278,17 @@ public class XLSXService {
             if (!found) {
                 for (Row row : sheet4) {
                     if (row.getCell(0).getStringCellValue().contains(medication)) {
-                        result.add(row.getCell(3).getStringCellValue());
+                        result.add(row.getCell(2).getStringCellValue());
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!found) {
+                for (Row row : sheet5) {
+                    if (row.getCell(0).getStringCellValue().contains(medication)) {
+                        result.add(row.getCell(2).getStringCellValue());
                         found = true;
                         break;
                     }

@@ -677,7 +677,7 @@
                             <td th:text="*{previosVisit.mainComplaintDiagnosis}"></td>
                             <td th:text="*{previosVisit.treatment}"></td>
                             <td>
-                                <a th:href="@{/patient/visit/get_visit_report/{id}(id=${previosVisit.visitID})}">
+                                <a th:href="@{/patient/visit/get_visit_report/{id}(id=${previosVisit.visitID})}" target="_blank">
                                     <img class="action-icon" alt="" th:src="@{/images/download.png}" style="width: 25px; height: 25px; display: block; margin-left: auto; margin-right: auto;">
                                     <p class="action-label" style="color: #000000; font-size: 13px; text-align: center;">Download</p>
                                 </a>
