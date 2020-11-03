@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -85,6 +86,15 @@ public class Patient implements Serializable {
 
     @Column(name="PAT_TELE")
     private String telephone;
+
+    @Column(name="PAT_LAND_PHONE")
+    private String landPhone;
+
+    @Column(name="PAT_PIN_CODE")
+    private String pinOrZipCode;
+
+    @Column(name="PAT_COUNTRY")
+    private String country;
 
     @Column(name="PAT_NOTE")
     private String note;
@@ -230,18 +240,6 @@ public class Patient implements Serializable {
     @Transient
     @JsonIgnore
     private Image photoImage;
-
-    @Column(name="PAT_REC_INJ")
-    private Character recentlyInjured;
-
-    @Column(name="PAT_CHOLESTEROL")
-    private Character cholesterol;
-
-    @Column(name="PAT_HYPERTESION")
-    private Character hypertension;
-
-    @Column(name="PAT_DIABETES")
-    private Character diabetes;
 
     @Transient
     @JsonIgnore

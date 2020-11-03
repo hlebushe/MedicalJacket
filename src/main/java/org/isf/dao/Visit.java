@@ -299,243 +299,147 @@ public class Visit {
     }
 
     public String getMed1Name() {
-        try {
-            String res = this.medication1.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication1.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed1Time() {
-        try {
-            String res = this.medication1.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed1Time(){
+        String res = this.medication1.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed1Duration() {
-        try {
-            String res = this.medication1.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication1.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed1Caution() {
-        try {
-            String res = this.medication1.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed1Caution(){
+        String res = this.medication1.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed2Name() {
-        try {
-            String res = this.medication2.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication2.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed2Time() {
-        try {
-            String res = this.medication2.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed2Time(){
+        String res = this.medication2.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed2Duration() {
-        try {
-            String res = this.medication2.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication2.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed2Caution() {
-        try {
-            String res = this.medication2.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed2Caution(){
+        String res = this.medication2.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed3Name() {
-        try {
-            String res = this.medication3.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication3.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed3Time() {
-        try {
-            String res = this.medication3.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed3Time(){
+        String res = this.medication3.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed3Duration() {
-        try {
-            String res = this.medication3.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication3.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed3Caution() {
-        try {
-            String res = this.medication3.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed3Caution(){
+        String res = this.medication3.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed4Name() {
-        try {
-            String res = this.medication4.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication4.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed4Time() {
-        try {
-            String res = this.medication4.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed4Time(){
+        String res = this.medication4.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed4Duration() {
-        try {
-            String res = this.medication4.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication4.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed4Caution() {
-        try {
-            String res = this.medication4.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed4Caution(){
+        String res = this.medication4.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed5Name() {
-        try {
-            String res = this.medication5.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication5.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed5Time() {
-        try {
-            String res = this.medication5.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed5Time(){
+        String res = this.medication5.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed5Duration() {
-        try {
-            String res = this.medication5.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication5.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed5Caution() {
-        try {
-            String res = this.medication5.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed5Caution(){
+        String res = this.medication5.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed6Name() {
-        try {
-            String res = this.medication6.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication6.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed6Time() {
-        try {
-            String res = this.medication6.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed6Time(){
+        String res = this.medication6.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed6Duration() {
-        try {
-            String res = this.medication6.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication6.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed6Caution() {
-        try {
-            String res = this.medication6.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed6Caution(){
+        String res = this.medication6.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public void defineMed() {

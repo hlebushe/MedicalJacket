@@ -176,12 +176,15 @@
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text">Role</span>
                             </div>
-                            <input list="roles" class="form-control" th:field="*{role}" id="role" required>
-                            <datalist id="roles">
-                                <option th:value="''" th:text="''"></option>
-                                <option th:value="'Doctor'" th:text="'Doctor'"></option>
-                                <option th:value="'Care Provider'" th:text="'Care Provider'"></option>
-                            </datalist>
+<!--                            <input list="roles" class="form-control" th:field="*{role}" id="role" required>-->
+                            <select th:field="*{role}" required class="form-control">
+                                <option th:each="ug : ${usergrouplist}" th:value="${ug.code}" th:text="${ug.code}"></option>
+                            </select>
+<!--                            <datalist id="roles">-->
+<!--                                <option th:value="''" th:text="''"></option>-->
+<!--                                <option th:value="'Doctor'" th:text="'Doctor'"></option>-->
+<!--                                <option th:value="'Care Provider'" th:text="'Care Provider'"></option>-->
+<!--                            </datalist>-->
                             <span id="validator_role" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Role</span>
                         </div>
                         <div class="form-group required" style="margin-bottom: 4.4rem;" id="dob_div">
@@ -228,7 +231,8 @@
                         </div>
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend3">
-                                <span class="input-group-text" style="white-space: unset; text-align: left;">Provider Number</span>
+                                <!-- data can not read from properties-->
+                                <span class="input-group-text" style="white-space: unset; text-align: left;" >Medical Resitration number</span>
                             </div>
                             <input style="height: 62px;" type="text" onkeydown="return numericOnly(event);" th:field="*{providerNumber}" class="form-control" id="providerNumber">
                         </div>

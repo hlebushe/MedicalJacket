@@ -906,7 +906,7 @@
 
                 containerJquery.autocomplete({
                     minLength: 0,
-                    source: function( request, response ) {
+                    source: function (request, response) {
                         response(data);
                     },
                 });
@@ -996,17 +996,17 @@
 
     var symptomsUrl = /*[[ @{/diagnosis/get_symptoms_info} ]]*/
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             var platform = navigator.platform;
 
             if (!platform.includes("Win")) {
-                $(".tooltip-select").mousedown(function(){
+                $(".tooltip-select").mousedown(function () {
                     $(this).attr("size", 15);
                     $(this).css("height", "400px");
                     $(".custom-tooltip").show()
                 });
 
-                $(".tooltip-select").on('mousedown','option',function(e) {
+                $(".tooltip-select").on('mousedown', 'option', function (e) {
                     $(this).parent().attr("size", 1);
                     $(this).parent().css("height", "62px");
                     $(this).parent().val($(this).val());
@@ -1014,14 +1014,14 @@
                     e.stopPropagation();
                 });
 
-                $(".tooltip-select").on('mouseenter','option',function(e) {
+                $(".tooltip-select").on('mouseenter', 'option', function (e) {
                     $(this).css("background-color", "#dedede");
                     var descrp = $(this).attr('title');
                     $('.custom-tooltip').text(descrp);
 
                 });
 
-                $(".tooltip-select").on('mouseout','option',function(e) {
+                $(".tooltip-select").on('mouseout', 'option', function (e) {
                     $(this).css("background-color", "#ffffff");
                 });
             }
@@ -1059,68 +1059,68 @@
         }
     }
 
-        function showDescription() {
-            var result = "";
+    function showDescription() {
+        var result = "";
 
-            var diagnosis1 = $("#mainComplaintDiagnosis1").val();
-            var diagnosis2 = $("#mainComplaintDiagnosis2").val();
-            var diagnosis3 = $("#mainComplaintDiagnosis3").val();
+        var diagnosis1 = $("#mainComplaintDiagnosis1").val();
+        var diagnosis2 = $("#mainComplaintDiagnosis2").val();
+        var diagnosis3 = $("#mainComplaintDiagnosis3").val();
 
-            if (!diagnosis1 && !diagnosis2 && !diagnosis3) {
-                $('#descriptionModalText').text("Please select Diagnosis first to get description.");
-            } else {
+        if (!diagnosis1 && !diagnosis2 && !diagnosis3) {
+            $('#descriptionModalText').text("Please select Diagnosis first to get description.");
+        } else {
 
-                $('#descriptionModalText').text("Loading...");
+            $('#descriptionModalText').text("Loading...");
 
-                $.ajax({
-                    url: symptomsUrl,
-                    type: "get", //send it through get method
-                    data: {
-                        diagnosis1: diagnosis1,
-                        diagnosis2: diagnosis2,
-                        diagnosis3: diagnosis3,
-                        infoType: "Diagnosis"
-                    },
-                    success: function (response) {
-                        $('#descriptionModalText').text(response);
-                    },
-                    error: function (xhr) {
-                        $('#descriptionModalText').text("No description");
-                    }
-                });
-            }
+            $.ajax({
+                url: symptomsUrl,
+                type: "get", //send it through get method
+                data: {
+                    diagnosis1: diagnosis1,
+                    diagnosis2: diagnosis2,
+                    diagnosis3: diagnosis3,
+                    infoType: "Diagnosis"
+                },
+                success: function (response) {
+                    $('#descriptionModalText').text(response);
+                },
+                error: function (xhr) {
+                    $('#descriptionModalText').text("No description");
+                }
+            });
         }
+    }
 
-        function showManagement() {
-            var result = "";
+    function showManagement() {
+        var result = "";
 
-            var diagnosis1 = $("#mainComplaintDiagnosis1").val();
-            var diagnosis2 = $("#mainComplaintDiagnosis2").val();
-            var diagnosis3 = $("#mainComplaintDiagnosis3").val();
+        var diagnosis1 = $("#mainComplaintDiagnosis1").val();
+        var diagnosis2 = $("#mainComplaintDiagnosis2").val();
+        var diagnosis3 = $("#mainComplaintDiagnosis3").val();
 
-            if (!diagnosis1 && !diagnosis2 && !diagnosis3) {
-                $('#managementModalText').text("Please select Diagnosis first to get Management information.");
-            } else {
-                $('#managementModalText').text("Loading...");
+        if (!diagnosis1 && !diagnosis2 && !diagnosis3) {
+            $('#managementModalText').text("Please select Diagnosis first to get Management information.");
+        } else {
+            $('#managementModalText').text("Loading...");
 
-                $.ajax({
-                    url: symptomsUrl,
-                    type: "get", //send it through get method
-                    data: {
-                        diagnosis1: diagnosis1,
-                        diagnosis2: diagnosis2,
-                        diagnosis3: diagnosis3,
-                        infoType: "Management"
-                    },
-                    success: function(response) {
-                        $('#managementModalText').text(response);
-                    },
-                    error: function(xhr) {
-                        $('#managementModalText').text("No management information");
-                    }
-                });
-            }
+            $.ajax({
+                url: symptomsUrl,
+                type: "get", //send it through get method
+                data: {
+                    diagnosis1: diagnosis1,
+                    diagnosis2: diagnosis2,
+                    diagnosis3: diagnosis3,
+                    infoType: "Management"
+                },
+                success: function (response) {
+                    $('#managementModalText').text(response);
+                },
+                error: function (xhr) {
+                    $('#managementModalText').text("No management information");
+                }
+            });
         }
+    }
 </script>
 <script th:inline="javascript">
     /*<![CDATA[*/

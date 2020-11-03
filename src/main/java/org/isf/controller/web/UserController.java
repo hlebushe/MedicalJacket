@@ -57,7 +57,7 @@ public class UserController {
         User user = userRepository.findByUserName(auth.getName());
 
         List<User> users = new ArrayList<User>();
-        users = userRepository.findAllByDeviceDetails(user.getDeviceDetails());
+        users = userRepository.findAll();
 
         ModelAndView mv = new ModelAndView();
         mv.addObject("userName", "Welcome " + user.getUserName());
@@ -81,6 +81,7 @@ public class UserController {
     public ModelAndView getAddUser(Model model) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("user", new User());
+        mv.addObject("usergrouplist", this.userGroupRepository.findAll());
         mv.setViewName("user_add");
         return mv;
     }
@@ -99,8 +100,8 @@ public class UserController {
             user.setPhoto(filesService.getBlobData(photo));
             user.setAge();
             user.setName();
-            UserGroup userGroup = userGroupRepository.findByCode("admin");
-            user.setUserGroupName(userGroup);
+            UserGroup userGroup = userGroupRepository.findByCode(user.getRole());
+            user.setUserGroupName(this.userGroupRepository.findByCode(user.getRole()));
             user.setUserName(user.getEmail());
             DeviceDetails deviceDetails = deviceDetailsService.findAll().get(0);
             user.setDeviceDetails(deviceDetails);
@@ -116,28 +117,29 @@ public class UserController {
         User user = userRepository.findByUserName(userName);
         ModelAndView mv = new ModelAndView();
         mv.addObject("user", user);
+        mv.addObject("usergrouplist", this.userGroupRepository.findAll());
         mv.setViewName("user_edit");
         return mv;
     }
 
     @PostMapping("/edit/{userName}")
     public ModelAndView editUser(@RequestParam("photo") MultipartFile photo, @PathVariable("userName") String userName, @Valid User user, BindingResult result, Model model) throws IOException, SQLException {
-            User userFromDB = userRepository.findByUserName(userName);
-            user.setEmail(userName);
+        User userFromDB = userRepository.findByUserName(userName);
+        user.setEmail(userName);
 
-            if (!photo.isEmpty()) {
-                user.setPhoto(filesService.getBlobData(photo));
-            } else {
-                user.setPhoto(userFromDB.getPhoto());
-            }
+        if (!photo.isEmpty()) {
+            user.setPhoto(filesService.getBlobData(photo));
+        } else {
+            user.setPhoto(userFromDB.getPhoto());
+        }
 
-            if (user.getDateOfBirth() == null) {
-                user.setDateOfBirth(userFromDB.getDateOfBirth());
-            }
+        if (user.getDateOfBirth() == null) {
+            user.setDateOfBirth(userFromDB.getDateOfBirth());
+        }
 
-            userService.updateUser(user);
+        userService.updateUser(user);
 
-            return new ModelAndView(new RedirectView(mContext.getContextPath() + "/users/list"));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() + "/users/list"));
     }
 
     @GetMapping("/view/{userName}")

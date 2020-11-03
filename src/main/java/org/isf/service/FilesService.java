@@ -10,7 +10,6 @@ import java.sql.SQLException;
 
 @Service
 public class FilesService {
-
     public Blob getBlobData(MultipartFile file) throws IOException, SQLException {
         byte[] bytes = file.getBytes();
         return new SerialBlob(bytes);

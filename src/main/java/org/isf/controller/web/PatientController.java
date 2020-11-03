@@ -21,15 +21,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.rowset.serial.SerialBlob;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
@@ -449,8 +452,20 @@ public class PatientController {
         mv.addObject("patient", patient);
         mv.addObject("visit", new Visit());
 
-        String yearOfBirth = patient.getBirthDate().toString().substring(0, 4);
+        String yearOfBirth = patient.getBirthDate().toString().substring(0,4);
         mv.addObject("yearOfBirth", yearOfBirth);
+
+        List<Visit> visits = visitService.findAllByPatient(patient);
+        List<PreviousVisitModel> previousVisits = new ArrayList<>();
+
+        for (Visit visit : visits) {
+            PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
+            previousVisits.add(previousVisit);
+        }
+
+        if (previousVisits.isEmpty()) {
+            previousVisits = null;
+        }
 
         Locale locale = LocaleContextHolder.getLocale();
         String loc = locale.toString();

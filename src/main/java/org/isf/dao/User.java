@@ -72,7 +72,7 @@ public class User implements Serializable {
     @Column(name="US_TELE")
     private String telephone;
 
-    @Column(name="US_AADHAAR")
+    @Column(name="US_AADHAAR", unique = true)
     private String aadhaarNumber;
 
     @Column(name="US_EDUCATION")
@@ -94,6 +94,10 @@ public class User implements Serializable {
 
     @Transient
     private volatile int hashCode = 0;
+
+    @ManyToOne
+    @JoinColumn(name = "center_id")
+    private DifferentCentre differentCentre;
 
     @NotNull
     @ManyToOne
