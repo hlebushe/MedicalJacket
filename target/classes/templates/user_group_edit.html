@@ -1,0 +1,262 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>MedJacket</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/plugins/sortable.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/css/fileinput.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
+    <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
+    <style>
+        .day {
+            padding: 8px;
+        }
+
+        .year {
+            padding: 8px;
+        }
+
+        .previousOperationInput {
+            height: 62px;
+        }
+
+        .kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
+            margin: 0;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+            text-align: center;
+        }
+        .kv-avatar {
+            display: inline-block;
+        }
+        .kv-avatar .file-input {
+            display: table-cell;
+            width: 213px;
+        }
+        .kv-reqd {
+            color: red;
+            font-family: monospace;
+            font-weight: normal;
+        }
+
+        .file-footer-caption {
+            margin-bottom: 0px !important;
+        }
+
+        .file-drop-zone .file-preview-thumbnails{
+            display: inline-block;
+        }
+
+        .krajee-default .file-actions{
+            padding-top: 30px; /* Move delete/vew buttons down to accomodate progress messages */
+        }
+
+        .kv-fileinput-error ul {
+            margin: 0 0 0 1rem;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-light header-custom">
+    <div class="header-left">
+        <span style="float: left;font-size: 24px;font-weight: bold;">Update User Group Form</span>
+    </div>
+    <div class="header-right">
+        <div class="header-logo">
+            <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
+        </div>
+        <div class="header-headings">
+            <h1 style="font-weight: bold">MEDJACKET</h1>
+            <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
+        </div>
+    </div>
+</nav>
+<div th:replace="fragments/header :: header"></div>
+<form id="form_user" th:action="@{/usergroup/edit/}+${code}" th:object="${userGroup}" method="post" >
+    <div class="container text-center" style="margin-top: 3%;">
+        <div class="form-group" style="display: flex;">
+            <button type="submit" id="btn-sub">
+                <p class="action-label" style="margin-top: 45.5px;" th:text="#{common.save}"></p>
+            </button>
+            <a th:href="@{/usergroup/list}" style="margin-left: 2%;">
+                <img class="action-icon" alt="" th:src="@{/images/discard.png}">
+                <p class="action-label" th:text="#{common.discard}"></p>
+            </a>
+        </div>
+        <span id="validator" class="validator" style="color: red;width: 100%;font-size: 12px;">Please fill all mandatory fields</span>
+        <ul class="nav nav-tabs" style="margin-right: -15px; margin-left: -15px;">
+            <li class="nav-item active">
+                <a class="nav-link active" href="#1" data-toggle="tab">Role Details</a>
+            </li>
+        </ul>
+        <div class="form-group">
+            <div style="color: red; width: 100%; text-align: center;" th:text="${errMsg}">
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane active" id="1">
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text">Role Name</span>
+                            </div>
+                            <input type="hidden" th:required="required" onkeydown="return alphaOnly(event);" th:field="*{code}" class="form-control" id="name" required="true">
+                            <span id="validator_first_name" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Role Name</span>
+                        </div>
+
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text">Description</span>
+                            </div>
+                            <textarea class="form-control" th:field="*{desc}" id="desc" required/>
+                            <span id="validator_desc" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Description</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragments/language_selector :: language_selector"></div>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#locales").change(function () {
+            var selectedOption = $('#locales').val();
+            if (selectedOption != ''){
+                window.location.replace('international?lang=' + selectedOption);
+            }
+        });
+    });
+</script>
+<script>
+    function submitForm() {
+
+        if($("#name").val().length === 0) {
+            $("#validator_first_name").css('color', 'red');
+            $("#validator").show();
+        }  else if($("#surname").val().length === 0) {
+            $("#validator_second_name").css('color', 'red');
+            $("#validator").show();
+        } else {
+            $("#form_user").submit();
+        }
+    }
+
+
+</script>
+<script>
+
+    function alphaOnly(event) {
+        var key = event.keyCode;
+        return ((key >= 65 && key <= 90) || key == 8 || key == 32);
+    };
+
+</script>
+<script>
+    jQuery(function ($) {
+
+        var fileInputSettingsProfilepic =
+            {
+                // -------------------- look and feel
+                initialPreviewAsData: true, // this setting shows the preview image
+                showClose: false,
+                showCaption: false,
+                msgErrorClass: 'alert alert-block alert-danger text-left',
+                dropZoneTitle: "Click <i class='fas fa-folder-open h5'></i> to upload photo... (max size 10Mb)",
+                layoutTemplates: { main2: '<div class="d-flex align-items-center flex-column"><div>{preview}</div><div>{browse}{upload}</div></div>' },
+
+                // Both settings are required to remove files from preview on error. retryErrorUploads was added in v5.0.0 as part of the resumable uploads.
+                removeFromPreviewOnError: true,
+                retryErrorUploads: false,
+
+                // "true" works only for JPEG images and only for client-side orientation.
+                // Also, if "true", autoorient is broken on the phone. Use server side rotation during upload instead.
+                // If autoOrientImage is not set to false, "Error loading the piexif.js library." appears.
+                autoOrientImage: false,
+
+                // Plugin logs to help developers see issues in their setup. Show in Chrome console. Set to false for PROD.
+                showConsoleLogs:true,
+
+                // ---------------------- upload button styling and function
+                showUpload: false,
+
+                // ----------------------- browse button styling and function
+                showBrowse: true,
+                browseOnZoneClick: false,
+                browseLabel: 'Browse...',
+                browseClass: "btn  btn-secondary btn-sm mx-2 mt-2",
+                browseIcon: '<i class="fas fa-folder-open"></i>',
+
+                // ---------------------- remove button styling and function
+                showRemove: false,
+
+                // --------------------- validations
+                allowedFileExtensions: ['jpg', 'png', 'jpeg'],
+                allowedPreviewTypes: ['image'],
+                maxFileSize: 10000,
+                minFileSize: 100,
+                msgSizeTooSmall: 'File "{name}" ({size} KB) is too small. To maintain quality, we ask that image sizes are no less than {minSize} KB in size.',
+                //maxFileCount: 1,
+                msgFilesTooMany: 'Please choose only 1 profile picture. You can add more photos later in "Get real - photos" section.',
+                //validateInitialCount: false,
+                maxFileSize: 10000,
+                minFileSize: 100,
+                msgSizeTooSmall: 'File "{name}" ({size} KB) is too small. To maintain quality, we ask that image sizes are no less than {minSize} KB in size.',
+
+                // ---------------------- initial preview
+                overwriteInitial: true, // if true, any initialPreview content will be overwritten with new upload
+                msgValidationErrorIcon: '<i class="fas fa-exclamation-circle"></i> ',
+                msgZoomModalHeading: "Image zoom view",
+                showClose: false, // Top right button, which clears new files and validation errors. It does not get disabled during upload, resulting in unpredictable behavior, if user clicks it.
+
+                // ---------------------- file action settings in preview area
+                fileActionSettings: {
+                    removeIcon: '<i class="fas fa-trash-alt"></i>',
+                    zoomIcon: '<i class="fas fa-search-plus"></i>',
+                    zoomTitle: 'Image zoom',
+
+                    showDownload: false,
+                    showUpload: false,
+                    showZoom: true,
+                },
+
+                previewZoomButtonClasses: {
+                    prev: 'btn btn-navigate',
+                    next: 'btn btn-navigate',
+                    toggleheader: 'd-none',
+                    fullscreen: 'd-none',
+                    borderless: 'd-none',
+                    close: 'btn btn-kv btn-default btn-outline-secondary'
+                },
+
+                previewZoomButtonIcons: {
+                    close: '<i class="fas fa-times"></i>',
+                    prev: '<i class="fas fa-angle-left"></i>',
+                    next: '<i class="fas fa-angle-right"></i>',
+                },
+            }; // fileInputSettingsProfilepic object
+
+        $("#photo")
+        // Assign fileInputSettings to the drpozone.
+            .fileinput(fileInputSettingsProfilepic)
+
+    }); // end jQuery $ function
+</script>
+</body>
+</html>

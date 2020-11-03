@@ -455,18 +455,6 @@ public class PatientController {
         String yearOfBirth = patient.getBirthDate().toString().substring(0,4);
         mv.addObject("yearOfBirth", yearOfBirth);
 
-        List<Visit> visits = visitService.findAllByPatient(patient);
-        List<PreviousVisitModel> previousVisits = new ArrayList<>();
-
-        for (Visit visit : visits) {
-            PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
-            previousVisits.add(previousVisit);
-        }
-
-        if (previousVisits.isEmpty()) {
-            previousVisits = null;
-        }
-
         Locale locale = LocaleContextHolder.getLocale();
         String loc = locale.toString();
 

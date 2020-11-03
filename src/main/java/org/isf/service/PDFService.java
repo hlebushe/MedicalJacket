@@ -202,18 +202,18 @@ public class PDFService {
             contentStream.showText("Symptoms: ");
             contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
             contentStream.newLine();
-            heightCounter = heightCounter - 24;
+            heightCounter = heightCounter - 30;
 
             if (mainCompSympt.equals("")) {
                 contentStream.showText("no symptoms");
                 contentStream.newLine();
-                heightCounter = heightCounter - 12;
+                heightCounter = heightCounter - 17;
             } else {
                 int index = 1;
                 for (String symptom : symptomsList) {
                     contentStream.showText((index++) + "." + symptom);
                     contentStream.newLine();
-                    heightCounter = heightCounter - 12;
+                    heightCounter = heightCounter - 17;
                 }
             }
 
@@ -222,18 +222,18 @@ public class PDFService {
             contentStream.showText("Diagnosis: ");
             contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
             contentStream.newLine();
-            heightCounter = heightCounter - 24;
+            heightCounter = heightCounter - 30;
 
             if (mainCompDia.equals("")) {
                 contentStream.showText("no diagnosis");
                 contentStream.newLine();
-                heightCounter = heightCounter - 12;
+                heightCounter = heightCounter - 17;
             } else {
                 int index = 1;
                 for (String diagnosis : diagnosisList) {
                     contentStream.showText((index++) + "." + diagnosis);
                     contentStream.newLine();
-                    heightCounter = heightCounter - 12;
+                    heightCounter = heightCounter - 17;
                 }
             }
             contentStream.newLine();
@@ -394,21 +394,20 @@ public class PDFService {
             contentStream.showText("Pathological Examinations: ");
             contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
             contentStream.newLine();
-            heightCounter = heightCounter - 12;
-
-            String pathology = visit.getExaminationsPrescribed();
-            List<String> pathologyList = Arrays.asList(pathology.split(","));
+            heightCounter = heightCounter - 17;
 
             if (visit.getExaminationsPrescribed().equals("")) {
                 contentStream.showText("no pathological examinations");
                 contentStream.newLine();
-                heightCounter = heightCounter - 12;
+                heightCounter = heightCounter - 17;
             } else {
+                String pathology = visit.getExaminationsPrescribed();
+                List<String> pathologyList = Arrays.asList(pathology.split(","));
                 int index = 1;
                 for (String p : pathologyList) {
                     contentStream.showText((index++) + "." + p);
                     contentStream.newLine();
-                    heightCounter = heightCounter - 12;
+                    heightCounter = heightCounter - 17;
                 }
             }
 
@@ -418,16 +417,15 @@ public class PDFService {
             contentStream.showText("Radiology Examinations: ");
             contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
             contentStream.newLine();
-            heightCounter = heightCounter - 12;
-
-            String radiology = visit.getRadiologyPrescribed();
-            List<String> radiologyList = Arrays.asList(radiology.split(","));
+            heightCounter = heightCounter - 17;
 
             if (visit.getRadiologyPrescribed().equals("")) {
                 contentStream.showText("no radiology examinations");
                 contentStream.newLine();
-                heightCounter = heightCounter - 12;
+                heightCounter = heightCounter - 17;
             } else {
+                String radiology = visit.getRadiologyPrescribed();
+                List<String> radiologyList = Arrays.asList(radiology.split(","));
                 int index = 1;
                 for (String r : radiologyList) {
                     contentStream.showText((index++) + "." + r);

@@ -1,6 +1,7 @@
 package org.isf.repository;
 
 import com.sun.org.apache.xpath.internal.objects.XBoolean;
+import org.isf.dao.DeviceDetails;
 import org.isf.dao.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

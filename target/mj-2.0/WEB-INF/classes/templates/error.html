@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MedJacket</title>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="webjars/jquery/3.5.0/jquery.min.js"></script>
+    <script src="webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<form th:action="@{/login}" method="get">
+    <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
+</form>
+<div class="container text-center">
+    <h1>Error occurred</h1>
+    <p>
+        An error has occurred. Please contact the administrator
+    </p>
+</div>
+</body>
+</html>
