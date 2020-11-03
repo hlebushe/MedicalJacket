@@ -117,6 +117,7 @@ public class UserController {
         User user = userRepository.findByUserName(userName);
         ModelAndView mv = new ModelAndView();
         mv.addObject("user", user);
+        mv.addObject("usergrouplist", this.userGroupRepository.findAll());
         mv.setViewName("user_edit");
         return mv;
     }
