@@ -86,75 +86,6 @@
         .level0 {
             color: #000000;
         }
-
-        heart_rate_monitor {
-            background: #151515;
-            margin: 2rem 0;
-            background-position: top left, top right;
-            color: #14b51b;
-            font-family: "Source Code Pro", monospace;
-            font-family: "Exo 2", sans-serif;
-            text-shadow: 0 0 4px #14b51b;
-        }
-        heart_rate_monitor:after {
-            /* the video interlace effect overlaying everything - feel free to remove it */
-            background-size: 5px 3px;
-            display: block;
-            position: absolute;
-            content: "";
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-
-        .number-1 {
-            font-size: 24px;
-            text-align: center;
-            background: #151515;
-            background-position: top left, top right;
-            color: #14b51b;
-            font-family: "Source Code Pro", monospace;
-            font-family: "Exo 2", sans-serif;
-            text-shadow: 0 0 4px #14b51b;
-        }
-        .number-1:after {
-            /* the video interlace effect overlaying everything - feel free to remove it */
-            background-size: 5px 3px;
-            display: block;
-            position: absolute;
-            content: "";
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-        .number-1 span {
-            font-size: 24px;
-            position: relative;
-            opacity: 1;
-            animation: beat 0.5s infinite;
-        }
-
-        .EKG {
-            background: url(https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2019/06/1559545453ping2.gif);
-            height: 100px;
-            background-size: contain;
-        }
-
-        @keyframes beat {
-            0% {
-                opacity: 1;
-            }
-            70% {
-                opacity: 0.3;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-
     </style>
 </head>
 <body>
@@ -196,94 +127,50 @@
                 <tbody id="table-body">
                 <tr th:each="measurement : ${measurements}">
                     <td>
-                        <div class="div_tr">
-                            <p th:text="${measurement.patientName}" style="font-weight: bold;"></p>
-                            <p th:text="${measurement.patientAge + ' Y'}"></p>
-                            <div th:switch="${measurement.patientSex}">
-                                <p th:case="'M'" th:text="#{patient.male}"></p>
-                                <p th:case="'F'" th:text="#{patient.female}"></p>
-                            </div>
-                            <p th:text="${measurement.patientAddress}"></p>
-                            <p th:text="${measurement.patientAadhaarId}"></p>
+                        <p th:text="${measurement.patientName}"></p>
+                        <p th:text="${measurement.patientAge + ' Y'}"></p>
+                        <div th:switch="${measurement.patientSex}">
+                            <p th:case="'M'" th:text="#{patient.male}"></p>
+                            <p th:case="'F'" th:text="#{patient.female}"></p>
+                        </div>
+                        <p th:text="${measurement.patientAddress}"></p>
+                    </td>
+                    <td>
+                        <p th:classappend="*{measurement.bloodPressureMaxColor}" th:text="${'Blood Pressure sys(mmHg): ' + measurement.bloodPressureMax}"></p>
+                        <p th:classappend="*{measurement.bloodPressureMinColor}" th:text="${'Blood Pressure dia(mmHg): ' + measurement.bloodPressureMin}"></p>
+                        <p th:classappend="*{measurement.o2SaturationColor}" th:text="${'O2 Saturation(%): ' + measurement.o2Saturation}"></p>
+                        <p th:classappend="*{measurement.heartRateColor}"  th:text="${'Heart Rate(beats/min): ' + measurement.heartRate}"></p>
+                    </td>
+                    <td>
+                        <div th:each="task, iter : ${measurement.tasks}">
+                            <p><span th:text="${iter.index + 1}"></span>.<span th:text="${task}"></span></p>
                         </div>
                     </td>
                     <td>
-                        <div class="div_tr" style="max-width: 500px">
-                            <div class="heart_rate_monitor">
-                                <div class="grid">
-                                    <div style="width: 100%; position: relative">
-
-                                        <div class="EKG"></div>
-                                        <!-- Currently an animated GIF background  -->
-                                    </div>
-
-                                    <div style="width: 100%; position: relative; margin-top: 0px; margin-left: 0px;" class="row">
-                                        <div class="number-1 col-8" th:classappend="*{measurement.heartRateColor}" th:text="${'Heart Rate ' + measurement.heartRate}"></div>
-                                        <div class="number-1 col-4"><span>&#9829;</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="width: 100%; position: relative; margin-top: 0px; margin-left: 0px; max-width: 500px" class="row">
-                                <div class="number-1" style="width: 100%" th:classappend="*{measurement.bloodPressureMaxColor}" th:text="${'Blood Pressure sys(mmHg): ' + measurement.bloodPressureMax}"></div>
-                                <div class="number-1" style="width: 100%" th:classappend="*{measurement.bloodPressureMinColor}" th:text="${'Blood Pressure dia(mmHg): ' + measurement.bloodPressureMin}"></div>
-                                <div class="number-1" style="width: 100%" th:classappend="*{measurement.o2SaturationColor}" th:text="${'O2 Saturation(%): ' + measurement.o2Saturation}"></div>
-                                <div class="number-1" style="width: 100%" th:classappend="*{measurement.temperatureColor}" th:text="${'Temperature(°C): ' + measurement.temperature}"></div>
-                                <div class="number-1" style="width: 100%" th:classappend="*{measurement.bloodGlucoseLevelColor}" th:text="${'Blood Glucose Level: ' + measurement.bloodGlucoseLevel}"></div>
-                                <div class="number-1" style="width: 100%" th:classappend="*{measurement.o2FlowRateColor}" th:text="${'O2 Flow Rate(L/min): ' + measurement.o2FlowRate}"></div>
-                                <div class="number-1" style="width: 100%" th:switch="${measurement.dripFlow}">
-                                    <div th:case="true" style="color: #14b51b;">Drip Flow: Available</div>
-                                    <span th:case="false" style="color: red;">Drip Flow: Not Available</span>
-                                </div>
-                            </div>
+                        <div th:each="exter, iter : ${measurement.external}">
+                            <p><span th:text="${iter.index + 1}"></span>.<span th:text="${exter}"></span></p>
                         </div>
                     </td>
                     <td>
-                        <div class="div_tr">
-                            <div th:each="task, iter : ${measurement.tasksPast}">
-                                <p><span th:text="${iter.index + 1}"></span>.<span style="text-decoration: line-through" th:text="${task}"></span></p>
+                        <div class="row" style="margin-top: 0;">
+                            <div class="col">
+                                <a href="#">
+                                    <img class="action-icon" alt="" th:src="@{/images/task_confirm.png}">
+                                    <p class="action-label">Task Confirm</p>
+                                </a>
                             </div>
-                            <hr style="width: 100%;">
-                            <div th:each="task, iter : ${measurement.tasksFuture}">
-                                <p><span th:text="${iter.index + 1}"></span>.<span th:text="${task}"></span></p>
+                            <div class="col">
+                                <a href="#">
+                                    <img class="action-icon" alt="" th:src="@{/images/video_call.png}">
+                                    <p class="action-label">Live Cam</p>
+                                </a>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="div_tr">
-                            <div th:each="exter, iter : ${measurement.external}">
-                                <p><span th:text="${iter.index + 1}"></span>.<span th:text="${exter}"></span></p>
+                            <div class="col">
+                                <a href="#">
+                                    <img class="action-icon" alt="" th:src="@{/images/call.png}">
+                                    <p class="action-label">Call</p>
+                                </a>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="div_tr">
-                            <div class="row" style="margin-top: 0;">
-                                <div class="col">
-                                    <button th:class="*{measurement.id}" onclick="confirmTask(this)" style="background: #ffffff;border: none;">
-                                        <img class="action-icon" alt="" th:src="@{/images/task_confirm.png}">
-                                        <p class="action-label">Task Confirm</p>
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button th:class="*{measurement.id}" onclick="undoTask(this)" style="background: #ffffff;border: none;">
-                                        <img class="action-icon" alt="" th:src="@{/images/discard.png}">
-                                        <p class="action-label">Undo Task</p>
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <a href="#">
-                                        <img class="action-icon" alt="" th:src="@{/images/video_call.png}">
-                                        <p class="action-label">Live Cam</p>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a href="#">
-                                        <img class="action-icon" alt="" th:src="@{/images/call.png}">
-                                        <p class="action-label">Call</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -302,47 +189,6 @@
     }
 
     setInterval(updateData, 1000)
-</script>
-<script th:inline="javascript">
-    var urlTask = /*[[ @{/nursing_station/confirm_task} ]]*/
-
-    function confirmTask(task) {
-        var nursingStationDataId = $(task).attr('class');
-
-        $.ajax({
-            url: urlTask,
-            type: "get", //send it through get method
-            data: {
-                id: nursingStationDataId
-            },
-            success: function (response) {
-            },
-            error: function (xhr) {
-            }
-        });
-    }
-</script>
-<script th:inline="javascript">
-    var urlTaskUndo = /*[[ @{/nursing_station/undo_task} ]]*/
-
-        function undoTask(task) {
-            var nursingStationDataId = $(task).attr('class');
-
-            $.ajax({
-                url: urlTaskUndo,
-                type: "get", //send it through get method
-                data: {
-                    id: nursingStationDataId
-                },
-                success: function (response) {
-                },
-                error: function (xhr) {
-                }
-            });
-        }
-</script>
-<script>
-    $('.custom-tooltip2').append('<span>&#9829;</span>');
 </script>
 </body>
 </html>

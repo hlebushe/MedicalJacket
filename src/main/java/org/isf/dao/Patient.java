@@ -231,18 +231,6 @@ public class Patient implements Serializable {
     @JsonIgnore
     private Image photoImage;
 
-    @Column(name="PAT_REC_INJ")
-    private Character recentlyInjured;
-
-    @Column(name="PAT_CHOLESTEROL")
-    private Character cholesterol;
-
-    @Column(name="PAT_HYPERTESION")
-    private Character hypertension;
-
-    @Column(name="PAT_DIABETES")
-    private Character diabetes;
-
     @Transient
     @JsonIgnore
     private volatile int hashCode = 0;
@@ -251,7 +239,7 @@ public class Patient implements Serializable {
     List<Examinations> examinations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
-    List<NursingStationData> patientMeasurements;
+    List<PatientMeasurements> patientMeasurements;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
     List<Visit> visits;

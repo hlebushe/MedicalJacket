@@ -8,12 +8,10 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.isf.dao.User;
 import org.isf.dao.Visit;
-import org.isf.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,7 +22,6 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -48,14 +45,61 @@ public class PDFService {
 
         try {
             PDDocument document = new PDDocument();
+
             PDPage page = new PDPage();
             document.addPage(page);
+
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
+            String mainCompSympt =
+                    Stream.of(visit.getMainComplaintSymptom1(), visit.getMainComplaintSymptom2(), visit.getMainComplaintSymptom3(), visit.getMainComplaintSymptom4(), visit.getMainComplaintSymptom5())
+                            .filter(s -> s != null && !s.isEmpty())
+                            .collect(Collectors.joining(", "));
 
-            addHeader(contentStream, visit, page);
-            addPatientData(contentStream, visit, doctor, document);
-            addSymptomsAndDiagnosis(contentStream, visit);
+            if (mainCompSympt.equals("")) mainCompSympt = "no symptoms";
+
+            String mainCompDia =
+                    Stream.of(visit.getMainComplaintDiagnosis1(), visit.getMainComplaintDiagnosis2(), visit.getMainComplaintDiagnosis3())
+                            .filter(s -> s != null && !s.isEmpty())
+                            .collect(Collectors.joining(", "));
+
+            if (mainCompDia.equals("")) mainCompDia = "no diagnosis";
+
+            contentStream.setFont(PDType1Font.TIMES_BOLD, 14);
+
+            // HEADER
+            contentStream.beginText();
+            contentStream.setLeading(17f);
+            contentStream.newLineAtOffset(250, 730);
+            contentStream.showText(hospitalName);
+            contentStream.endText();
+
+            // PATIENT DETAILS
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+            contentStream.beginText();
+            contentStream.setLeading(17f);
+            contentStream.newLineAtOffset(100, 670);
+            contentStream.showText("Patient Name: " + visit.getPatient().getName());
+            contentStream.newLine();
+            contentStream.showText("Age: " + visit.getPatient().getAge());
+            contentStream.newLine();
+            contentStream.showText("Gender: " + visit.getPatient().getSex());
+            contentStream.newLine();
+            contentStream.showText("Address: " + visit.getPatient().getAddress() + ", " + visit.getPatient().getCity());
+            contentStream.newLine();
+            contentStream.showText("Aadhaar ID: " + visit.getPatient().getTaxCode());
+            contentStream.endText();
+
+            // VISIT DETAILS
+            contentStream.beginText();
+            contentStream.setLeading(17f);
+            contentStream.newLineAtOffset(100, 550);
+            contentStream.showText("Symptoms: " + mainCompSympt);
+            contentStream.newLine();
+            contentStream.newLine();
+            contentStream.showText("Diagnosis: " + mainCompDia);
+            contentStream.newLine();
+            contentStream.newLine();
 
             if (!visit.getMedication1().equals("")) {
                 contentStream.showText("Prescribed Medication: ");
@@ -93,18 +137,27 @@ public class PDFService {
             contentStream.newLine();
             contentStream.newLine();
 
-            if (visit.getNextVisitDate() != null) {
-                String date = visit.getNextVisitDate().toString().substring(0, 10);
-                String formattedDate = DateUtil.format(date);
-                contentStream.showText("Next Visit Date: " + formattedDate);
-            }
+            if (visit.getNextVisitDate() != null) contentStream.showText("Next Visit Date: " + visit.getNextVisitDate().toString().substring(0, 10));
 
             contentStream.newLine();
             contentStream.newLine();
             contentStream.endText();
+
+            // FOOTER
+            contentStream.beginText();
+            contentStream.setLeading(17f);
+            contentStream.newLineAtOffset(100, 250);
+
+            contentStream.showText("Doctor " + doctor.getName());
+            contentStream.newLine();
+            contentStream.showText("Date: " + visit.getDate().toString().substring(0, 10));
+
+            String qr = createQRCodeForDocument(visit, doctor);
+            PDImageXObject QRImage = PDImageXObject.createFromFile(qr, document);
+            contentStream.endText();
+
+            contentStream.drawImage(QRImage, 350, 200);
             contentStream.close();
-
-
 
             document.save(mContext.getRealPath("/") + visit.getVisitID() + ".pdf");
             document.close();
@@ -136,132 +189,6 @@ public class PDFService {
             es.printStackTrace();
             return null;
         }
-
-    }
-
-    public void addHeader(PDPageContentStream contentStream, Visit visit, PDPage pdPage) throws IOException {
-        try{
-            String hospitalName = deviceDetailsService.findAll().get(0).getHospitalName();
-            String hospitalAddress = deviceDetailsService.findAll().get(0).getHospitalAddress();
-            int marginTop1 = 30;
-            int marginTop2 = 50;
-
-            PDFont font = PDType1Font.TIMES_BOLD; // Or whatever font you want.
-
-            int fontSize = 16; // Or whatever font size you want.
-            float title1Width = font.getStringWidth(hospitalName) / 1000 * fontSize;
-            float title2Width = font.getStringWidth(hospitalAddress) / 1000 * fontSize;
-            float titleHeight = font.getFontDescriptor().getFontBoundingBox().getHeight() / 1000 * fontSize;
-
-            contentStream.beginText();
-            contentStream.setFont(font, fontSize);
-
-            contentStream.newLineAtOffset((pdPage.getMediaBox().getWidth() - title1Width) / 2, pdPage.getMediaBox().getHeight() - marginTop1 - titleHeight);
-            contentStream.showText(hospitalName);
-            contentStream.endText();
-
-            contentStream.beginText();
-            contentStream.newLineAtOffset((pdPage.getMediaBox().getWidth() - title2Width) / 2, pdPage.getMediaBox().getHeight() - marginTop2 - titleHeight);
-            contentStream.showText(hospitalAddress);
-            contentStream.endText();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addPatientData(PDPageContentStream contentStream, Visit visit, User doctor, PDDocument document) {
-        try {
-            String date = visit.getDate().toString().substring(0, 10);
-            String formattedDate = DateUtil.format(date);
-
-            contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
-            contentStream.beginText();
-            contentStream.setLeading(17f);
-            contentStream.newLineAtOffset(50, 670);
-            contentStream.showText("Date: " + formattedDate);
-            contentStream.newLine();
-            contentStream.showText("Doctor " + doctor.getName());
-            contentStream.newLine();
-            contentStream.showText("Patient Name: " + visit.getPatient().getName());
-            contentStream.newLine();
-            contentStream.showText("Age: " + visit.getPatient().getAge() + "       Gender: " + visit.getPatient().getSex());
-            contentStream.newLine();
-
-            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
-            contentStream.showText("Patient Telephone Number: " + visit.getPatient().getTelephone());
-            contentStream.newLine();
-            contentStream.showText("Patient email address: " + visit.getPatient().getEmail());
-            contentStream.newLine();
-            contentStream.showText("Address: " + visit.getPatient().getAddress() + ", " + visit.getPatient().getCity());
-            contentStream.newLine();
-            contentStream.showText("Aadhaar ID: " + visit.getPatient().getTaxCode());
-
-            String qr = createQRCodeForDocument(visit, doctor);
-            PDImageXObject QRImage = PDImageXObject.createFromFile(qr, document);
-            contentStream.endText();
-
-            contentStream.drawImage(QRImage, 400, 620);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addSymptomsAndDiagnosis(PDPageContentStream contentStream, Visit visit) {
-        try{
-            String mainCompSympt = visit.getMainComplaintSymptom();
-            List<String> symptomsList = new ArrayList<>();
-            symptomsList = Arrays.asList(mainCompSympt.split(","));
-
-            String mainCompDia =
-                    Stream.of(visit.getMainComplaintDiagnosis1(), visit.getMainComplaintDiagnosis2(), visit.getMainComplaintDiagnosis3())
-                            .filter(s -> s != null && !s.isEmpty())
-                            .collect(Collectors.joining(","));
-            List<String> diagnosisList = new ArrayList<>();
-            diagnosisList = Arrays.asList(mainCompDia.split(","));
-
-            contentStream.beginText();
-            contentStream.setLeading(17f);
-            contentStream.newLineAtOffset(50, 520);
-            contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
-            contentStream.showText("Symptoms: ");
-            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
-            contentStream.newLine();
-
-            if (mainCompSympt.equals("")) {
-                contentStream.showText("no symptoms");
-                contentStream.newLine();
-            } else {
-                int index = 1;
-                for (String symptom : symptomsList) {
-                    contentStream.showText((index++) + "." + symptom);
-                    contentStream.newLine();
-                }
-            }
-
-            contentStream.newLine();
-            contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
-            contentStream.showText("Diagnosis: ");
-            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
-            contentStream.newLine();
-
-            if (mainCompDia.equals("")) {
-                contentStream.showText("no diagnosis");
-                contentStream.newLine();
-            } else {
-                int index = 1;
-                for (String diagnosis : diagnosisList) {
-                    contentStream.showText((index++) + "." + diagnosis);
-                    contentStream.newLine();
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addMedications(PDPageContentStream contentStream, Visit visit) {
 
     }
 }

@@ -25,86 +25,110 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Data
-@Table(name = "visits")
+@Table(name="visits")
 @EntityListeners(AuditingEntityListener.class)
 @AttributeOverrides({
-        @AttributeOverride(name = "createdBy", column = @Column(name = "VST_CREATED_BY")),
-        @AttributeOverride(name = "createdDate", column = @Column(name = "VST_CREATED_DATE")),
-        @AttributeOverride(name = "lastModifiedBy", column = @Column(name = "VST_LAST_MODIFIED_BY")),
-        @AttributeOverride(name = "active", column = @Column(name = "VST_ACTIVE")),
-        @AttributeOverride(name = "lastModifiedDate", column = @Column(name = "VST_LAST_MODIFIED_DATE"))
+        @AttributeOverride(name="createdBy", column=@Column(name="VST_CREATED_BY")),
+        @AttributeOverride(name="createdDate", column=@Column(name="VST_CREATED_DATE")),
+        @AttributeOverride(name="lastModifiedBy", column=@Column(name="VST_LAST_MODIFIED_BY")),
+        @AttributeOverride(name="active", column=@Column(name="VST_ACTIVE")),
+        @AttributeOverride(name="lastModifiedDate", column=@Column(name="VST_LAST_MODIFIED_DATE"))
 })
 public class Visit {
     @Id
-    @Column(name = "VST_ID", columnDefinition = "BINARY(16)")
+    @Column(name="VST_ID", columnDefinition = "BINARY(16)")
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private UUID visitID;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "VST_PAT_ID")
+    @JoinColumn(name="VST_PAT_ID")
     Patient patient;
 
     @NotNull
-    @Column(name = "VST_DATE")
+    @Column(name="VST_DATE")
     private Date date;
 
-    @Column(name = "VST_NOTE")
+    @Column(name="VST_NOTE")
     private String note;
 
-    @Column(name = "VST_SMS")
+    @Column(name="VST_SMS")
     private boolean sms;
 
-    @Column(name = "VST_TYPE")
+    @Column(name="VST_TYPE")
     private Character type;
 
-    @Column(name = "VST_MAIN_COMPLAINT_SYMPTOM")
-    private String mainComplaintSymptom;
+    @Column(name="VST_MAIN_COMPLAINT_SYMPTOM1")
+    private String mainComplaintSymptom1;
 
-    @Column(name = "VST_MAIN_COMPLAINT_DIAGNOSIS1")
+    @Column(name="VST_MAIN_COMPLAINT_SYMPTOM2")
+    private String mainComplaintSymptom2;
+
+    @Column(name="VST_MAIN_COMPLAINT_SYMPTOM3")
+    private String mainComplaintSymptom3;
+
+    @Column(name="VST_MAIN_COMPLAINT_SYMPTOM4")
+    private String mainComplaintSymptom4;
+
+    @Column(name="VST_MAIN_COMPLAINT_SYMPTOM5")
+    private String mainComplaintSymptom5;
+
+    @Column(name="VST_MAIN_COMPLAINT_DIAGNOSIS1")
     private String mainComplaintDiagnosis1;
 
-    @Column(name = "VST_MAIN_COMPLAINT_DIAGNOSIS2")
+    @Column(name="VST_MAIN_COMPLAINT_DIAGNOSIS2")
     private String mainComplaintDiagnosis2;
 
-    @Column(name = "VST_MAIN_COMPLAINT_DIAGNOSIS3")
+    @Column(name="VST_MAIN_COMPLAINT_DIAGNOSIS3")
     private String mainComplaintDiagnosis3;
 
-    @Column(name = "VST_SECONDARY_COMPLAINT_DIAGNOSIS")
+    @Column(name="VST_SECONDARY_COMPLAINT_SYMPTOM1")
+    private String secondaryComplaintSymptom1;
+
+    @Column(name="VST_SECONDARY_COMPLAINT_SYMPTOM2")
+    private String secondaryComplaintSymptom2;
+
+    @Column(name="VST_SECONDARY_COMPLAINT_SYMPTOM3")
+    private String secondaryComplaintSymptom3;
+
+    @Column(name="VST_SECONDARY_COMPLAINT_SYMPTOM4")
+    private String secondaryComplaintSymptom4;
+
+    @Column(name="VST_SECONDARY_COMPLAINT_SYMPTOM5")
+    private String secondaryComplaintSymptom5;
+
+    @Column(name="VST_SECONDARY_COMPLAINT_DIAGNOSIS")
     private String secondaryComplaintDiagnosis;
 
-    @Column(name = "VST_EXAMINATIONS_PRESCRIBED")
+    @Column(name="VST_EXAMINATIONS_PRESCRIBED")
     private String examinationsPrescribed;
 
-    @Column(name = "VST_RADIOLOGY_PRESCRIBED")
-    private String radiologyPrescribed;
-
-    @Column(name = "VST_ADVISORY")
+    @Column(name="VST_ADVISORY")
     private String advisory;
 
-    @Column(name = "VST_COMMENTS")
+    @Column(name="VST_COMMENTS")
     private String comments;
 
-    @Column(name = "VST_NEXT_VISIT_DATE")
+    @Column(name="VST_NEXT_VISIT_DATE")
     private Date nextVisitDate;
 
-    @Column(name = "VST_MEDICATION_1")
+    @Column(name="VST_MEDICATION_1")
     private String medication1;
 
-    @Column(name = "VST_MEDICATION_2")
+    @Column(name="VST_MEDICATION_2")
     private String medication2;
 
-    @Column(name = "VST_MEDICATION_3")
+    @Column(name="VST_MEDICATION_3")
     private String medication3;
 
-    @Column(name = "VST_MEDICATION_4")
+    @Column(name="VST_MEDICATION_4")
     private String medication4;
 
-    @Column(name = "VST_MEDICATION_5")
+    @Column(name="VST_MEDICATION_5")
     private String medication5;
 
-    @Column(name = "VST_MEDICATION_6")
+    @Column(name="VST_MEDICATION_6")
     private String medication6;
 
     @Transient
@@ -182,7 +206,7 @@ public class Visit {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "VST_PAT_EXAM")
+    @JoinColumn(name="VST_PAT_EXAM")
     Examinations examination;
 
     @Transient
@@ -246,7 +270,7 @@ public class Visit {
             return false;
         }
 
-        Visit visit = (Visit) obj;
+        Visit visit = (Visit)obj;
         return (visitID == visit.getVisitID());
     }
 
@@ -299,243 +323,147 @@ public class Visit {
     }
 
     public String getMed1Name() {
-        try {
-            String res = this.medication1.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication1.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed1Time() {
-        try {
-            String res = this.medication1.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed1Time(){
+        String res = this.medication1.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed1Duration() {
-        try {
-            String res = this.medication1.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication1.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed1Caution() {
-        try {
-            String res = this.medication1.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed1Caution(){
+        String res = this.medication1.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed2Name() {
-        try {
-            String res = this.medication2.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication2.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed2Time() {
-        try {
-            String res = this.medication2.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed2Time(){
+        String res = this.medication2.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed2Duration() {
-        try {
-            String res = this.medication2.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication2.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed2Caution() {
-        try {
-            String res = this.medication2.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed2Caution(){
+        String res = this.medication2.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed3Name() {
-        try {
-            String res = this.medication3.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication3.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed3Time() {
-        try {
-            String res = this.medication3.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed3Time(){
+        String res = this.medication3.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed3Duration() {
-        try {
-            String res = this.medication3.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication3.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed3Caution() {
-        try {
-            String res = this.medication3.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed3Caution(){
+        String res = this.medication3.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed4Name() {
-        try {
-            String res = this.medication4.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication4.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed4Time() {
-        try {
-            String res = this.medication4.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed4Time(){
+        String res = this.medication4.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed4Duration() {
-        try {
-            String res = this.medication4.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication4.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed4Caution() {
-        try {
-            String res = this.medication4.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed4Caution(){
+        String res = this.medication4.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed5Name() {
-        try {
-            String res = this.medication5.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication5.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed5Time() {
-        try {
-            String res = this.medication5.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed5Time(){
+        String res = this.medication5.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed5Duration() {
-        try {
-            String res = this.medication5.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication5.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed5Caution() {
-        try {
-            String res = this.medication5.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed5Caution(){
+        String res = this.medication5.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed6Name() {
-        try {
-            String res = this.medication6.split(";")[0];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication6.split(";")[0];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed6Time() {
-        try {
-            String res = this.medication6.split(";")[1];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed6Time(){
+        String res = this.medication6.split(";")[1];
+        if (res == null) res = "";
+        return res;
     }
 
     public String getMed6Duration() {
-        try {
-            String res = this.medication6.split(";")[2];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+        String res = this.medication6.split(";")[2];
+        if (res == null) res = "";
+        return res;
     }
 
-    public String getMed6Caution() {
-        try {
-            String res = this.medication6.split(";")[3];
-            if (res == null) res = "";
-            return res;
-        } catch (Exception e) {
-            return "";
-        }
+    public String getMed6Caution(){
+        String res = this.medication6.split(";")[3];
+        if (res == null) res = "";
+        return res;
     }
 
     public void defineMed() {

@@ -31,7 +31,7 @@ public class XLSXService {
 
         Row neededRow = null;
 
-        for (Row row : sheet2) {
+        for (Row row : sheet1) {
             for (Cell cell : row) {
                 if (cell.getCellType() == CellType.STRING) {
                     if (cell.getRichStringCellValue().getString().trim().equals(symptom)) {
@@ -57,7 +57,7 @@ public class XLSXService {
             return "No " + infoType;
         } else {
             CellReference cellReference = new CellReference(h.getAddress());
-            Row descriptionRow = sheet1.getRow(cellReference.getRow());
+            Row descriptionRow = sheet2.getRow(cellReference.getRow());
             Cell descriptionCell;
 
             switch (loc) {
@@ -100,7 +100,7 @@ public class XLSXService {
         Sheet sheet1 = wb.getSheetAt(0);
         Sheet sheet2 = wb.getSheetAt(1);
 
-        for (Row row : sheet2) {
+        for (Row row : sheet1) {
             DiseaseModel diseaseModel = new DiseaseModel();
 
             try {
@@ -117,7 +117,7 @@ public class XLSXService {
                     diseaseModel.setDescription("No description");
                 } else {
                     CellReference cellReference = new CellReference(h.getAddress());
-                    Row descriptionRow = sheet1.getRow(cellReference.getRow());
+                    Row descriptionRow = sheet2.getRow(cellReference.getRow());
                     Cell descriptionCell;
 
                     switch (loc) {
@@ -158,50 +158,29 @@ public class XLSXService {
         List<String> result = new ArrayList<>();
 
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("medication_list.xlsx").getFile());
+        File file = new File(classLoader.getResource("cipla_draft.xlsx").getFile());
 
         FileInputStream fis = new FileInputStream(file);
 
         XSSFWorkbook wb = new XSSFWorkbook(fis);
-        Sheet sheet1 = wb.getSheetAt(0);
-        Sheet sheet2 = wb.getSheetAt(1);
-        Sheet sheet3 = wb.getSheetAt(2);
-        Sheet sheet4 = wb.getSheetAt(3);
-        Sheet sheet5 = wb.getSheetAt(4);
+        Sheet sheet = wb.getSheetAt(0);
 
-        for (Row row : sheet1) {
-            result.add(row.getCell(0).getStringCellValue());
-        }
-        for (Row row : sheet2) {
-            result.add(row.getCell(0).getStringCellValue());
-        }
-        for (Row row : sheet3) {
-            result.add(row.getCell(0).getStringCellValue());
-        }
-        for (Row row : sheet4) {
-            result.add(row.getCell(0).getStringCellValue());
-        }
-        for (Row row : sheet5) {
+        for (Row row : sheet) {
             result.add(row.getCell(0).getStringCellValue());
         }
 
         return result;
     }
 
-    public List<String> getMedications(String diagnosis) throws IOException {
-        List<String> result = new ArrayList<>();
+    public List<String> getMedications(String diagnosis) throws IOException { List<String> result = new ArrayList<>();
 
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("medication_list.xlsx").getFile());
+        File file = new File(classLoader.getResource("cipla_draft.xlsx").getFile());
 
         FileInputStream fis = new FileInputStream(file);
 
         XSSFWorkbook wb = new XSSFWorkbook(fis);
-        Sheet sheet1 = wb.getSheetAt(0);
-        Sheet sheet2 = wb.getSheetAt(1);
-        Sheet sheet3 = wb.getSheetAt(2);
-        Sheet sheet4 = wb.getSheetAt(3);
-        Sheet sheet5 = wb.getSheetAt(4);
+        Sheet sheet = wb.getSheetAt(0);
 
         Pattern pattern = Pattern.compile("\\s");
         Matcher matcher = pattern.matcher(diagnosis);
@@ -212,18 +191,38 @@ public class XLSXService {
             String first = splitArray[0];
             String second = splitArray[1];
 
-            result = findMedicationsWithType(result, first, second, sheet1);
-            result = findMedicationsWithType(result, first, second, sheet2);
-            result = findMedicationsWithType(result, first, second, sheet3);
-            result = findMedicationsWithType(result, first, second, sheet4);
-            result = findMedicationsWithType(result, first, second, sheet5);
+            List<Row> foundRows = new ArrayList<>();
+
+            for (Row row : sheet) {
+                for (Cell cell : row) {
+                    if (cell.getCellType() == CellType.STRING) {
+                        if (cell.getStringCellValue().toLowerCase().contains(first.toLowerCase())) {
+                            foundRows.add(row);
+                        }
+                    }
+                }
+            }
+
+            for (Row row : foundRows) {
+                for (Cell cell : row) {
+                    if (cell.getCellType() == CellType.STRING) {
+                        if (cell.getStringCellValue().toLowerCase().contains(second.toLowerCase())) {
+                            result.add(row.getCell(0).getStringCellValue());
+                        }
+                    }
+                }
+            }
 
         } else {
-            result = findMedications(result, diagnosis, sheet1);
-            result = findMedications(result, diagnosis, sheet2);
-            result = findMedications(result, diagnosis, sheet3);
-            result = findMedications(result, diagnosis, sheet4);
-            result = findMedications(result, diagnosis, sheet5);
+            for (Row row : sheet) {
+                for (Cell cell : row) {
+                    if (cell.getCellType() == CellType.STRING) {
+                        if (cell.getStringCellValue().toLowerCase().contains(diagnosis.toLowerCase())) {
+                            result.add(row.getCell(0).getStringCellValue());
+                        }
+                    }
+                }
+            }
         }
 
         return result;
@@ -234,64 +233,16 @@ public class XLSXService {
         List<String> result = new ArrayList<>();
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(classLoader.getResource("medication_list.xlsx").getFile());
+            File file = new File(classLoader.getResource("cipla_draft.xlsx").getFile());
 
             FileInputStream fis = new FileInputStream(file);
 
             XSSFWorkbook wb = new XSSFWorkbook(fis);
-            Sheet sheet1 = wb.getSheetAt(0);
-            Sheet sheet2 = wb.getSheetAt(1);
-            Sheet sheet3 = wb.getSheetAt(2);
-            Sheet sheet4 = wb.getSheetAt(3);
-            Sheet sheet5 = wb.getSheetAt(4);
-            Boolean found = false;
+            Sheet sheet = wb.getSheetAt(0);
 
-            for (Row row : sheet1) {
+            for (Row row : sheet) {
                 if (row.getCell(0).getStringCellValue().contains(medication)) {
-                    result.add(row.getCell(2).getStringCellValue());
-                    found = true;
-                    break;
-                }
-            }
-
-
-            if (!found) {
-                for (Row row : sheet2) {
-                    if (row.getCell(0).getStringCellValue().contains(medication)) {
-                        result.add(row.getCell(2).getStringCellValue());
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!found) {
-                for (Row row : sheet3) {
-                    if (row.getCell(0).getStringCellValue().contains(medication)) {
-                        result.add(row.getCell(2).getStringCellValue());
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!found) {
-                for (Row row : sheet4) {
-                    if (row.getCell(0).getStringCellValue().contains(medication)) {
-                        result.add(row.getCell(2).getStringCellValue());
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!found) {
-                for (Row row : sheet5) {
-                    if (row.getCell(0).getStringCellValue().contains(medication)) {
-                        result.add(row.getCell(2).getStringCellValue());
-                        found = true;
-                        break;
-                    }
+                    result.add(row.getCell(4).getStringCellValue());
                 }
             }
 
@@ -300,82 +251,6 @@ public class XLSXService {
             return result;
         }
 
-    }
-
-    public List<String> findMedicationsWithType(List<String> resultList, String first, String second, Sheet sheet) {
-        List<Row> foundRows = new ArrayList<>();
-
-        for (Row row : sheet) {
-            for (Cell cell : row) {
-                if (cell.getCellType() == CellType.STRING) {
-                    if (cell.getStringCellValue().toLowerCase().contains(first.toLowerCase())) {
-                        foundRows.add(row);
-                    }
-                }
-            }
-        }
-
-        for (Row row : foundRows) {
-            for (Cell cell : row) {
-                if (cell.getCellType() == CellType.STRING) {
-                    if (cell.getStringCellValue().toLowerCase().contains(second.toLowerCase())) {
-                        resultList.add(row.getCell(0).getStringCellValue());
-                    }
-                }
-            }
-        }
-
-        return resultList;
-    }
-
-    public List<String> findMedications(List<String> resultList, String diagnosis, Sheet sheet) {
-        for (Row row : sheet) {
-            for (Cell cell : row) {
-                if (cell.getCellType() == CellType.STRING) {
-                    if (cell.getStringCellValue().toLowerCase().contains(diagnosis.toLowerCase())) {
-                        resultList.add(row.getCell(0).getStringCellValue());
-                    }
-                }
-            }
-        }
-
-        return resultList;
-    }
-
-    public List<String> getRadiologyList() throws IOException {
-        List<String> result = new ArrayList<>();
-
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("examinations.xlsx").getFile());
-
-        FileInputStream fis = new FileInputStream(file);
-
-        XSSFWorkbook wb = new XSSFWorkbook(fis);
-        Sheet sheet = wb.getSheetAt(1);
-
-        for (Row row : sheet) {
-            result.add(row.getCell(1).getStringCellValue());
-        }
-
-        return result;
-    }
-
-    public List<String> getPathologyList() throws IOException {
-        List<String> result = new ArrayList<>();
-
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("examinations.xlsx").getFile());
-
-        FileInputStream fis = new FileInputStream(file);
-
-        XSSFWorkbook wb = new XSSFWorkbook(fis);
-        Sheet sheet = wb.getSheetAt(0);
-
-        for (Row row : sheet) {
-            result.add(row.getCell(1).getStringCellValue());
-        }
-
-        return result;
     }
 
 }

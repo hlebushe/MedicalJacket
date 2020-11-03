@@ -7,7 +7,6 @@ import org.isf.models.ExaminationsModel;
 import org.isf.models.PreviousVisitModel;
 import org.isf.repository.UserRepository;
 import org.isf.service.*;
-import org.isf.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.io.InputStreamResource;
@@ -21,15 +20,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.rowset.serial.SerialBlob;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
@@ -75,15 +77,12 @@ public class PatientController {
     @Autowired
     protected MailService mailService;
 
-    @Autowired
-    protected NursingStationDataService nursingStationDataService;
-
     @GetMapping(value = "/list")
     public ModelAndView getPatients(Model model) throws IOException, ParseException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserName(auth.getName());
 
-        List<Patient> patients = patientService.findAllByMachineId(user.getDeviceDetails());
+        List<Patient> patients = patientService.findAll();
 
         for (Patient p : patients) {
             try {
@@ -93,9 +92,9 @@ public class PatientController {
 
                 if (examinationsModel.getScore() > 6) {
                     p.setPddScore("red");
-                } else if (examinationsModel.getScore() > 4) {
+                } else if (examinationsModel.getScore() > 4){
                     p.setPddScore("orange");
-                } else if (examinationsModel.getScore() > 3) {
+                } else if (examinationsModel.getScore() > 3){
                     p.setPddScore("yellow");
                 } else {
                     p.setPddScore("white");
@@ -109,9 +108,7 @@ public class PatientController {
                 if (lastVisit == null) {
                     p.setDateOfLastVisit("No visits");
                 } else {
-                    String visitDate = lastVisit.getDate().toString().substring(0, 10);
-                    String formattedDate = DateUtil.format(visitDate);
-                    p.setDateOfLastVisit(formattedDate);
+                    p.setDateOfLastVisit(lastVisit.getDate().toString().substring(0,10));
                 }
             } catch (Exception e) {
                 p.setDateOfLastVisit("No visits");
@@ -145,13 +142,13 @@ public class PatientController {
 
         Patient patientNew = patientService.savePatient(patient);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() + "/patient/view/" + patientNew.getCode()));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/view/" + patientNew.getCode()));
     }
 
     @GetMapping("/delete/{id}")
     public ModelAndView deleteUser(@PathVariable("id") String code, Model model) {
         patientService.deleteByCode(UUID.fromString(code));
-        return new ModelAndView(new RedirectView(mContext.getContextPath() + "/patient/list"));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
     }
 
     @GetMapping("/edit/{id}")
@@ -175,9 +172,9 @@ public class PatientController {
             examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
             if (examinationsModel.getScore() > 6) {
                 patient.setPddScore("red");
-            } else if (examinationsModel.getScore() > 4) {
+            } else if (examinationsModel.getScore() > 4){
                 patient.setPddScore("orange");
-            } else if (examinationsModel.getScore() > 3) {
+            } else if (examinationsModel.getScore() > 3){
                 patient.setPddScore("yellow");
             } else {
                 patient.setPddScore("white");
@@ -213,7 +210,7 @@ public class PatientController {
 
         patientService.updatePatient(patient);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() + "/patient/list"));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
     }
 
     @GetMapping("/userPic/{id}")
@@ -237,15 +234,12 @@ public class PatientController {
             try {
                 Examinations examinations = examinationService.getLastExaminationByPatient(patient);
                 ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
-                String date = examinationsModel.getDate();
-                String formattedDate = DateUtil.format(date);
-                examinationsModel.setDate(formattedDate);
                 examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
                 if (examinationsModel.getScore() > 6) {
                     patient.setPddScore("red");
-                } else if (examinationsModel.getScore() > 4) {
+                } else if (examinationsModel.getScore() > 4){
                     patient.setPddScore("orange");
-                } else if (examinationsModel.getScore() > 3) {
+                } else if (examinationsModel.getScore() > 3){
                     patient.setPddScore("yellow");
                 } else {
                     patient.setPddScore("white");
@@ -257,7 +251,7 @@ public class PatientController {
             mv.addObject("patient", patient);
             mv.addObject("visit", new Visit());
 
-            String yearOfBirth = patient.getBirthDate().toString().substring(0, 4);
+            String yearOfBirth = patient.getBirthDate().toString().substring(0,4);
             mv.addObject("yearOfBirth", yearOfBirth);
 
             List<Visit> visits = visitService.findAllByPatient(patient);
@@ -265,9 +259,6 @@ public class PatientController {
 
             for (Visit visit : visits) {
                 PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
-                String date = previousVisit.getVisitDate();
-                String formattedDate = DateUtil.format(date);
-                previousVisit.setVisitDate(formattedDate);
                 previousVisits.add(previousVisit);
             }
 
@@ -285,10 +276,6 @@ public class PatientController {
             mv.addObject("diseases", diseasesList);
             List<String> meds = xlsxService.getFullMedicationList();
             mv.addObject("medications", meds);
-            List<String> pathologyList = xlsxService.getPathologyList();
-            mv.addObject("pathologies", pathologyList);
-            List<String> radiologyList = xlsxService.getRadiologyList();
-            mv.addObject("radiologies", radiologyList);
             Examinations examination = examinationService.getLastExaminationByPatient(patient);
             ExaminationsModel examinationsModel = new ExaminationsModel(examination);
             examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
@@ -297,7 +284,7 @@ public class PatientController {
             mv.setViewName("visit_add");
             return mv;
         } catch (Exception e) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userRepository.findByUserName(auth.getName());
 
             List<Patient> patients = new ArrayList<Patient>();
@@ -310,9 +297,9 @@ public class PatientController {
                     examinationsModel = examinationService.setExaminationColors(examinationsModel, p.getAge());
                     if (examinationsModel.getScore() > 6) {
                         p.setPddScore("red");
-                    } else if (examinationsModel.getScore() > 4) {
+                    } else if (examinationsModel.getScore() > 4){
                         p.setPddScore("orange");
-                    } else if (examinationsModel.getScore() > 3) {
+                    } else if (examinationsModel.getScore() > 3){
                         p.setPddScore("yellow");
                     } else {
                         p.setPddScore("white");
@@ -336,19 +323,6 @@ public class PatientController {
         Patient patient = patientService.findPatientByCode(UUID.fromString(code));
         Examinations lastExamination = examinationService.getLastExaminationByPatient(patient);
 
-        List<Visit> visits = visitService.findAllByPatient(patient);
-        List<PreviousVisitModel> previousVisits = new ArrayList<>();
-        Examinations examinations = examinationService.getLastExaminationByPatient(patient);
-
-        for (Visit visit : visits) {
-            PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
-            previousVisits.add(previousVisit);
-        }
-
-        if (previousVisits.isEmpty()) {
-            previousVisits = null;
-        }
-
         newVisit.setPatient(patient);
         newVisit.setExamination(lastExamination);
 
@@ -359,85 +333,17 @@ public class PatientController {
 
         visitService.saveVisit(newVisit);
 
-        NursingStationData nursingStationData = new NursingStationData();
-        nursingStationData.setDate(date);
-        nursingStationData.setPatient(patient);
-        nursingStationData.setDevId(1);
-        nursingStationData.setBloodPressureDia(examinations.getBloodPressureMax());
-        nursingStationData.setBloodPressureSys(examinations.getBloodPressureMin());
-        nursingStationData.setHeartRate(examinations.getHeartRate());
-        nursingStationData.setOxygenSaturation(examinations.getO2Saturation());
-        nursingStationData.setOxygenFlowRate(examinations.getO2FlowRate());
-        nursingStationData.setTemperature(examinations.getTemperature());
-        nursingStationData.setBloodGlucose(examinations.getBloodGlucoseLevel());
-
-        List<String> meds = new ArrayList<>();
-        List<String> tasksList = new ArrayList<>();
-
-        meds.add(newVisit.getMedication1());
-        meds.add(newVisit.getMedication2());
-        meds.add(newVisit.getMedication3());
-        meds.add(newVisit.getMedication4());
-        meds.add(newVisit.getMedication5());
-        meds.add(newVisit.getMedication6());
-
-        for (String s : meds) {
-            if (!s.isEmpty()) {
-                String[] split = s.split(";");
-                try {
-                    if (split[1].contains(",")) {
-                        String[] timeSplit = split[1].split(",");
-                        List<String> timesList = Arrays.asList(timeSplit);
-
-                        for (String time : timesList) {
-                            tasksList.add(split[0] + "-" + time);
-                        }
-
-                    } else {
-                        tasksList.add(split[0] + "-" + split[1]);
-                    }
-                } catch (Exception es) {
-                    continue;
-                }
-            }
-        }
-
-        String futureTasks = String.join(";", tasksList);
-
-        nursingStationData.setFutureTasks(futureTasks);
-
-        if (previousVisits == null) {
-            nursingStationDataService.save(nursingStationData);
-        } else {
-            nursingStationDataService.update(nursingStationData);
-        }
-
         ModelAndView mv = new ModelAndView();
 
         try {
-            visits = visitService.findAllByPatient(patient);
-            previousVisits = new ArrayList<>();
-            examinations = examinationService.getLastExaminationByPatient(patient);
-
-            for (Visit visit : visits) {
-                PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
-                String dateNF = previousVisit.getVisitDate();
-                String formattedDate = DateUtil.format(dateNF);
-                previousVisit.setVisitDate(formattedDate);
-                previousVisits.add(previousVisit);
-            }
-
-            if (previousVisits.isEmpty()) {
-                previousVisits = null;
-            }
-
+            Examinations examinations = examinationService.getLastExaminationByPatient(patient);
             ExaminationsModel examinationsModel = new ExaminationsModel(examinations);
             examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
             if (examinationsModel.getScore() > 6) {
                 patient.setPddScore("red");
-            } else if (examinationsModel.getScore() > 4) {
+            } else if (examinationsModel.getScore() > 4){
                 patient.setPddScore("orange");
-            } else if (examinationsModel.getScore() > 3) {
+            } else if (examinationsModel.getScore() > 3){
                 patient.setPddScore("yellow");
             } else {
                 patient.setPddScore("white");
@@ -449,8 +355,20 @@ public class PatientController {
         mv.addObject("patient", patient);
         mv.addObject("visit", new Visit());
 
-        String yearOfBirth = patient.getBirthDate().toString().substring(0, 4);
+        String yearOfBirth = patient.getBirthDate().toString().substring(0,4);
         mv.addObject("yearOfBirth", yearOfBirth);
+
+        List<Visit> visits = visitService.findAllByPatient(patient);
+        List<PreviousVisitModel> previousVisits = new ArrayList<>();
+
+        for (Visit visit : visits) {
+            PreviousVisitModel previousVisit = new PreviousVisitModel(visit);
+            previousVisits.add(previousVisit);
+        }
+
+        if (previousVisits.isEmpty()) {
+            previousVisits = null;
+        }
 
         Locale locale = LocaleContextHolder.getLocale();
         String loc = locale.toString();
@@ -460,12 +378,8 @@ public class PatientController {
         mv.addObject("symptoms", symptomsList);
         java.util.List<DiseaseModel> diseasesList = xlsxService.getDiseasesList(loc);
         mv.addObject("diseases", diseasesList);
-        List<String> medications = xlsxService.getFullMedicationList();
-        mv.addObject("medications", medications);
-        List<String> pathologyList = xlsxService.getPathologyList();
-        mv.addObject("pathologies", pathologyList);
-        List<String> radiologyList = xlsxService.getRadiologyList();
-        mv.addObject("radiologies", radiologyList);
+        List<String> meds = xlsxService.getFullMedicationList();
+        mv.addObject("medications", meds);
         Examinations examination = examinationService.getLastExaminationByPatient(patient);
         ExaminationsModel examinationsModel = new ExaminationsModel(examination);
         examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
@@ -488,9 +402,6 @@ public class PatientController {
             for (Examinations exam : examinations) {
                 ExaminationsModel examinationsModel = new ExaminationsModel(exam);
                 examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
-                String date = examinationsModel.getDate();
-                String formattedDate = DateUtil.format(date);
-                examinationsModel.setDate(formattedDate);
                 examinationsModels.add(examinationsModel);
             }
 
@@ -507,51 +418,12 @@ public class PatientController {
             mv.addObject("pathology", new Pathology());
             mv.addObject("pathologies", pathologies);
             mv.addObject("examinations", examinationsModels);
-            mv.addObject("openOnPathology", false);
             mv.setViewName("pdd_list");
             return mv;
         } catch (Exception e) {
-            return new ModelAndView(new RedirectView(mContext.getContextPath() + "/patient/list"));
+            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
         }
     }
-
-    @GetMapping("/pathology/{id}")
-    public ModelAndView getPathology(@PathVariable("id") String code, Model model) throws IOException, ParseException {
-
-        try {
-            Patient patient = patientService.findPatientByCode(UUID.fromString(code));
-            ModelAndView mv = new ModelAndView();
-            mv.addObject("patient", patient);
-            List<Examinations> examinations = examinationService.getExaminations(patient);
-            List<ExaminationsModel> examinationsModels = new ArrayList<>();
-
-            for (Examinations exam : examinations) {
-                ExaminationsModel examinationsModel = new ExaminationsModel(exam);
-                examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge());
-                examinationsModels.add(examinationsModel);
-            }
-
-            if (examinationsModels.isEmpty()) {
-                examinationsModels = null;
-            }
-
-            List<Pathology> pathologies = pathologyService.getPathologies(patient);
-
-            if (pathologies.isEmpty()) {
-                pathologies = null;
-            }
-
-            mv.addObject("pathology", new Pathology());
-            mv.addObject("pathologies", pathologies);
-            mv.addObject("examinations", examinationsModels);
-            mv.addObject("openOnPathology", true);
-            mv.setViewName("pdd_list");
-            return mv;
-        } catch (Exception e) {
-            return new ModelAndView(new RedirectView(mContext.getContextPath() + "/patient/list"));
-        }
-    }
-
 
     @GetMapping("/pdd/add/{id}")
     public ModelAndView getAddPdd(@PathVariable("id") String code, Model model) throws IOException, ParseException {
@@ -565,7 +437,7 @@ public class PatientController {
             mv.setViewName("pdd_add");
             return mv;
         } catch (Exception e) {
-            return new ModelAndView(new RedirectView(mContext.getContextPath() + "/patient/list"));
+            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
         }
     }
 
@@ -579,7 +451,7 @@ public class PatientController {
         pathology.setDate(date);
 
         pathologyService.savePathology(pathology);
-        return new ModelAndView(new RedirectView(mContext.getContextPath() + "/patient/pdd/" + code));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/pdd/" + code));
     }
 
 
@@ -594,7 +466,7 @@ public class PatientController {
 
         examinationService.saveExaminations(examinations);
 
-        return new ModelAndView(new RedirectView(mContext.getContextPath() + "/patient/pdd/" + code));
+        return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/pdd/" + code));
     }
 
     @GetMapping("/examinations/{id}")
@@ -606,11 +478,11 @@ public class PatientController {
             Patient patient = patientService.findPatientByCode(UUID.fromString(code));
             ModelAndView mv = new ModelAndView();
             mv.addObject("patient", patient);
-            mv.addObject("userName", "Welcome " + user.getUserName() + "!");
+            mv.addObject("userName", "Welcome " + user.getUserName() +"!");
             mv.setViewName("examinations");
             return mv;
         } catch (Exception e) {
-            return new ModelAndView(new RedirectView(mContext.getContextPath() + "/patient/list"));
+            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/patient/list"));
         }
     }
 
@@ -639,7 +511,7 @@ public class PatientController {
 
     @RequestMapping("/visit/get_visit_report/{id}")
     public String downloadVisitReport(@PathVariable("id") String id, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserName(auth.getName());
 
         Visit visit = visitService.getVisitById(UUID.fromString(id));

@@ -1,6 +1,5 @@
 package org.isf.repository;
 
-import org.isf.dao.DeviceDetails;
 import org.isf.dao.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,8 +15,6 @@ public interface UserRepository extends JpaRepository<User, String> {
     List<User> findAllByOrderByUserNameAsc();
 
     User findByUserName(String userName);
-
-    List<User> findAllByDeviceDetails(DeviceDetails deviceDetails);
 
     @Query(value = "SELECT * FROM user WHERE US_UG_ID_A = :groupId ORDER BY US_ID_A", nativeQuery= true)
     List<User> findAllWhereUserGroupNameByOrderUserNameAsc(@Param("groupId") String groupId);

@@ -1,7 +1,6 @@
 package org.isf.repository;
 
 
-import org.isf.dao.DeviceDetails;
 import org.isf.dao.Patient;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,10 +29,6 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
     List<Patient> findAllWhereId(@Param("id") Integer id);
 
     Patient findByCode(UUID code);
-
-    List<Patient> findAllByDeviceDetails(DeviceDetails deviceDetails);
-
-    List<Patient> findByTaxCode(String texCode);
 
 
 }

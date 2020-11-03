@@ -18,6 +18,7 @@ public class PreviousVisitModel {
     private String type;
     private String mainComplaintSymptoms;
     private String mainComplaintDiagnosis;
+    private String secondComplaintSymptoms;
     private String secondComplaintDiagnosis;
     private String treatment;
 
@@ -36,7 +37,10 @@ public class PreviousVisitModel {
             this.type = "Clinic";
         }
 
-        String mainCompSympt = visit.getMainComplaintSymptom();
+        String mainCompSympt =
+                Stream.of(visit.getMainComplaintSymptom1(), visit.getMainComplaintSymptom2(), visit.getMainComplaintSymptom3(), visit.getMainComplaintSymptom4(), visit.getMainComplaintSymptom5())
+                        .filter(s -> s != null && !s.isEmpty())
+                        .collect(Collectors.joining(", "));
 
         this.mainComplaintSymptoms = mainCompSympt;
 
@@ -46,6 +50,13 @@ public class PreviousVisitModel {
                         .collect(Collectors.joining(", "));
 
         this.mainComplaintDiagnosis = mainCompDia;
+
+        String secCompSympt =
+                Stream.of(visit.getSecondaryComplaintSymptom1(), visit.getSecondaryComplaintSymptom2(), visit.getSecondaryComplaintSymptom3(), visit.getSecondaryComplaintSymptom4(), visit.getSecondaryComplaintSymptom5())
+                        .filter(s -> s != null && !s.isEmpty())
+                        .collect(Collectors.joining(", "));
+
+        this.secondComplaintSymptoms = secCompSympt;
 
         this.secondComplaintDiagnosis = visit.getSecondaryComplaintDiagnosis();
 
