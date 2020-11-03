@@ -52,16 +52,12 @@ public class PDFService {
     protected UserService userService;
 
     public File createDocumentFromEntry(Visit visit, User doctor) {
-
-        String hospitalName = deviceDetailsService.findAll().get(0).getHospitalName();
-
         try {
             PDDocument document = new PDDocument();
             PDPage page = new PDPage();
             document.addPage(page);
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
-            PDRectangle mediabox = page.getMediaBox();
             float heightCounter = 574;
 
             addHeader(contentStream, visit, page);
