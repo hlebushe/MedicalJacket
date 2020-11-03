@@ -81,6 +81,7 @@ public class UserController {
     public ModelAndView getAddUser(Model model) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("user", new User());
+        mv.addObject("usergrouplist", this.userGroupRepository.findAll());
         mv.setViewName("user_add");
         return mv;
     }
@@ -99,8 +100,8 @@ public class UserController {
             user.setPhoto(filesService.getBlobData(photo));
             user.setAge();
             user.setName();
-            UserGroup userGroup = userGroupRepository.findByCode("admin");
-            user.setUserGroupName(userGroup);
+            UserGroup userGroup = userGroupRepository.findByCode(user.getRole());
+            user.setUserGroupName(this.userGroupRepository.findByCode(user.getRole()));
             user.setUserName(user.getEmail());
             DeviceDetails deviceDetails = deviceDetailsService.findAll().get(0);
             user.setDeviceDetails(deviceDetails);

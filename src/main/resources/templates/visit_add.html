@@ -3,6 +3,7 @@
 <head>
     <title>MedJacket</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
     <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
@@ -309,9 +310,9 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_symptom} + ' 1'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom1}" id="mainComplaintSymptom1">
-                        <datalist id="symptoms">
+                        <datalist id="symptoms1">
                                 <option th:each="symtom : ${symptoms}"
-                                        th:value="${symtom.toString()}"
+                                        th:value="${symtom.toString()} == 'empty one'? '': ${symtom.toString()}"
                                         th:utext="${symtom.toString()}">
                                 </option>
                         </datalist>
@@ -321,9 +322,9 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_symptom} + ' 2'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom2}" id="mainComplaintSymptom2">
-                        <datalist id="symptoms">
+                        <datalist id="symptoms2">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
+                                    th:value="${symtom.toString()} == 'empty one'? '': ${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
                         </datalist>
@@ -333,9 +334,10 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_symptom} + ' 3'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom3}" id="mainComplaintSymptom3">
-                        <datalist id="symptoms">
+                        <datalist id="symptoms3">
+
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
+                                    th:value="${symtom.toString()} == 'empty one'? '': ${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
                         </datalist>
@@ -345,9 +347,9 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_symptom} + ' 4'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom4}" id="mainComplaintSymptom4">
-                        <datalist id="symptoms">
+                        <datalist id="symptoms4">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
+                                    th:value="${symtom.toString()} == 'empty one'? '': ${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
                         </datalist>
@@ -357,9 +359,9 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_symptom} + ' 5'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{mainComplaintSymptom5}" id="mainComplaintSymptom5">
-                        <datalist id="symptoms">
+                        <datalist id="symptoms5">
                             <option th:each="symtom : ${symptoms}"
-                                    th:value="${symtom.toString()}"
+                                    th:value="${symtom.toString()} == 'empty one'? '': ${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
                             </option>
                         </datalist>
@@ -368,10 +370,12 @@
                         <button type="button" class="btn btn-secondary" onclick="addMainSymptom()" th:text="#{common.add}"></button>
                     </div>
                     <div class="form-group input-group">
-                        <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_diagnosis} + ' 1'"></span>
+                        <div class="input-group-prepend input-group-prepend2 ">
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" title="The primary diagnosis is often confused with the principal diagnosis. In the inpatient setting, the primary diagnosis is the most serious and/or resource-intensive during the hospitalization or the inpatient encounter. Typically, the primary diagnosis and the principal diagnosis are the same diagnosis, but this is not necessarily always so." th:text="#{visit.main_diagnosis}" ></span>
+
                         </div>
                         <select style="height: 62px;" class="form-control tooltip-select" th:field="*{mainComplaintDiagnosis1}" id="mainComplaintDiagnosis1">
+                            <option value="">empty one</option>
                             <option th:each="disease : ${diseases}"
                                     th:value="${disease.name}"
                                     th:utext="${disease.name}"
@@ -381,9 +385,10 @@
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_diagnosis} + ' 2'"></span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_diagnosis2} " title="Principal diagnosis is defined as the condition, after study, which occasioned the admission to the hospital, according to the ICD-10-CM Official Guidelines for Coding and Reporting. We must remember that the principal diagnosis is not necessarily what brought the patient to the emergency room, but rather, what occasioned the admission."></span>
                         </div>
                         <select style="height: 62px;" class="form-control tooltip-select" th:field="*{mainComplaintDiagnosis2}" id="mainComplaintDiagnosis2">
+                            <option value="">empty one</option>
                             <option th:each="disease : ${diseases}"
                                     th:value="${disease.name}"
                                     th:utext="${disease.name}"
@@ -393,9 +398,10 @@
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_diagnosis} + ' 3'"></span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.main_diagnosis4}"></span>
                         </div>
                         <select style="height: 62px;" class="form-control tooltip-select" th:field="*{mainComplaintDiagnosis3}" id="mainComplaintDiagnosis3">
+                            <option value="">empty one</option>
                             <option th:each="disease : ${diseases}"
                                     th:value="${disease.name}"
                                     th:utext="${disease.name}"
@@ -410,7 +416,8 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_symptom} + ' 1'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom1}" id="secondaryComplaintSymptom1">
-                        <datalist id="symptoms">
+                        <datalist id="symptoms11">
+                            <option value="">empty one</option>
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
@@ -422,7 +429,8 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_symptom} + ' 2'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom2}" id="secondaryComplaintSymptom2">
-                        <datalist id="symptoms">
+                        <datalist id="symptoms12">
+                            <option value="">empty one</option>
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
@@ -434,7 +442,8 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_symptom} + ' 3'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom3}" id="secondaryComplaintSymptom3">
-                        <datalist id="symptoms">
+                        <datalist id="symptoms14">
+                            <option value="">empty one</option>
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
@@ -446,7 +455,8 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_symptom} + ' 4'"></span>
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom4}" id="secondaryComplaintSymptom4">
-                        <datalist id="symptoms">
+                        <datalist id="symptoms15">
+                            <option value="">empty one</option>
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
@@ -459,6 +469,7 @@
                         </div>
                         <input style="height: 62px;" list="symptoms" class="form-control" th:field="*{secondaryComplaintSymptom5}" id="secondaryComplaintSymptom5">
                         <datalist id="symptoms">
+                            <option value="">empty one</option>
                             <option th:each="symtom : ${symptoms}"
                                     th:value="${symtom.toString()}"
                                     th:utext="${symtom.toString()}">
@@ -470,10 +481,13 @@
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
-                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_diagnosis}"></span>
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{visit.secondary_diagnosis}" title="secondary diagnosis or “other diagnosis” as = conditions that coexist at the time of admission, or develop subsequently, and that affect the patient care during the current episode. I often describe these diagnoses as the patient’s “baggage,” or the diagnoses they bring along with them that must be considered when treating the principal diagnosis.
+
+For example, our patient admitted with the principal diagnosis of osteoarthritis with the planned total knee replacement also has a history of Type 2 diabetes, chronic obstructive pulmonary disease, and coronary artery disease. These diagnoses were present prior to admission, but were not the reason for admission. They would be coded as secondary diagnoses because they will require treatment and monitoring during the patient stay."></span>
                         </div>
                         <input style="height: 62px;" list="diseases" class="form-control" th:field="*{secondaryComplaintDiagnosis}" id="secondaryComplaintDiagnosis">
                         <datalist id="diseases">
+                            <option value="">empty one</option>
                             <option th:each="disease : ${diseases}"
                                     th:value="${disease.name}"
                                     th:utext="${disease.name}">

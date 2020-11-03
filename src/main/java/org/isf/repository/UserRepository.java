@@ -1,5 +1,6 @@
 package org.isf.repository;
 
+import com.sun.org.apache.xpath.internal.objects.XBoolean;
 import org.isf.dao.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,4 +29,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Transactional
     @Query(value = "UPDATE user SET US_PASSWD = :password WHERE US_ID_A = :id", nativeQuery= true)
     int updatePassword(@Param("password") String password, @Param("id") String id);
+
+    User findByAadhaarNumber(String aadhaarNumber);
+    boolean existsByAadhaarNumber(String aadhaarNumber);
 }

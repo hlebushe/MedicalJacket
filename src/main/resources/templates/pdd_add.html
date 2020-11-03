@@ -59,7 +59,7 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" th:text="#{pdd.o2_saturation}"></span>
                         </div>
-                        <input type="number" min="60" max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{o2Saturation}" class="form-control" id="o2Saturation" required="true" step="1">
+                        <input type="number" min="50" max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{o2Saturation}" class="form-control" id="o2Saturation" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">
@@ -71,13 +71,13 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" th:text="#{pdd.weight}"></span>
                         </div>
-                        <input type="number" th:field="*{weight}" class="form-control" id="weight" required="true" step=".01">
+                        <input type="number" th:field="*{weight}" class="form-control" id="weight" required="true" step=".01" min="0">
                     </div>
                     <div class="form-group input-group  required" style="padding-bottom: 20px;">
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" th:text="#{pdd.height}"></span>
                         </div>
-                        <input type="number" th:field="*{height}" class="form-control" id="height" required="true" step=".01">
+                        <input type="number" th:field="*{height}" class="form-control" id="height" required="true" step=".01" min="0">
                     </div>
                     <div class="form-group input-group">
                         <div class="input-group-prepend input-group-prepend2">
@@ -117,7 +117,7 @@
                         <div class="input-group-prepend input-group-prepend2">
                             <span class="input-group-text" th:text="#{pdd.heart_rate}"></span>
                         </div>
-                        <input type="number" min="30" max="180" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{heartRate}" class="form-control" id="heartRate" required="true" step="1">
+                        <input type="number" min="20" max="180" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{heartRate}" class="form-control" id="heartRate" required="true" step="1">
                     </div>
                     <div class="form-group input-group  required">
                         <div class="input-group-prepend input-group-prepend2">

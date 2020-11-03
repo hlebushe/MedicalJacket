@@ -28,6 +28,9 @@ public class UserGroup
     @Transient
     private volatile int hashCode = 0;
 
+    public UserGroup(int hashCode) {
+        this.hashCode = hashCode;
+    }
 
     public UserGroup(String code, String desc){
         this.code=code;
