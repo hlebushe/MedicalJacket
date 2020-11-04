@@ -1,10 +1,12 @@
 package org.isf.controller.web;
 
 import org.isf.dao.*;
+import org.isf.enums.CentreType;
 import org.isf.models.ExaminationsModel;
 import org.isf.repository.UserGroupRepository;
 import org.isf.repository.UserRepository;
 import org.isf.service.DeviceDetailsService;
+import org.isf.service.DifferentCentreService;
 import org.isf.service.FilesService;
 import org.isf.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.Null;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -34,22 +37,19 @@ import java.util.List;
 public class UserController {
 
     @Autowired
+    protected ServletContext mContext;
+    @Autowired
     UserService userService;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     FilesService filesService;
-
     @Autowired
     UserGroupRepository userGroupRepository;
-
     @Autowired
     DeviceDetailsService deviceDetailsService;
-
     @Autowired
-    protected ServletContext mContext;
+    private DifferentCentreService differentCentreService;
 
     @GetMapping(value = "/list")
     public ModelAndView getUsers(Model model) throws IOException, ParseException {
@@ -72,9 +72,30 @@ public class UserController {
 
         User user = userRepository.findByUserName(userName);
         response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-        response.getOutputStream().write(user.getPhoto().getBytes(1, (int) user.getPhoto().length()));
-
+        try {
+            response.getOutputStream().write(user.getPhoto().getBytes(1, (int) user.getPhoto().length()));
+        }catch (Exception ne){
+            System.out.println("Photo should be required");
+        }
         response.getOutputStream().close();
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/centers")
+    public List<DifferentCentre> getCenterList(@RequestParam("usergroupname") String usergroupname) {
+        List<DifferentCentre> centers = new ArrayList<>();
+
+        if(usergroupname.equalsIgnoreCase("doctor")){
+            centers = this.differentCentreService.findAllByCentreType(CentreType.MEDICAL);
+        } if(usergroupname.equalsIgnoreCase("pathologist")){
+            centers = this.differentCentreService.findAllByCentreType(CentreType.PATHOLOGY);
+        } if(usergroupname.equalsIgnoreCase("radiologist")){
+            centers = this.differentCentreService.findAllByCentreType(CentreType.RADIOLOGY);
+        } if(usergroupname.equalsIgnoreCase("nurse")){
+            centers = this.differentCentreService.findAllByCentreType(CentreType.NURSING);
+        }
+        System.out.println("Size is: "+centers.size());
+        return centers;
     }
 
     @GetMapping(value = "/add")
@@ -82,6 +103,7 @@ public class UserController {
         ModelAndView mv = new ModelAndView();
         mv.addObject("user", new User());
         mv.addObject("usergrouplist", this.userGroupRepository.findAll());
+
         mv.setViewName("user_add");
         return mv;
     }
@@ -108,7 +130,7 @@ public class UserController {
 
             User userNew = userService.saveUser(user);
 
-            return new ModelAndView(new RedirectView(mContext.getContextPath() +"/users/list"));
+            return new ModelAndView(new RedirectView(mContext.getContextPath() + "/users/list"));
         }
     }
 

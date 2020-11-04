@@ -23,8 +23,8 @@ public class ExaminationService {
     @Autowired
     private ExaminationsRepository examinationRepository;
 
-@Autowired
-private PatientService patientService;
+    @Autowired
+    private PatientService patientService;
 
     private String level5 = "level5";
 
@@ -99,6 +99,7 @@ private PatientService patientService;
 
         return examinationRepository.getByPatientAndDay(patient, start, finish).get(0);
     }
+
     public int getMonth(Date birthday) {
         Instant instant = birthday.toInstant();
         ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
@@ -107,15 +108,29 @@ private PatientService patientService;
         int month = period.getMonths();
         return month;
     }
-/// This method has changed to due test purpose, ignore it, if need past version, look at bellow of this method as comment
-    public ExaminationsModel setExaminationColors(ExaminationsModel examination, int age,Date birthdate) throws IOException, ParseException {
+
+    public int getAge(Date birthday) {
+        Instant instant = birthday.toInstant();
+        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+        LocalDate givenDate = zone.toLocalDate();
+        Period period = Period.between(givenDate, LocalDate.now());
+        int age = period.getYears();
+        return age;
+    }
+
+    /// This method has changed to due test purpose, ignore it, if need past version, look at bellow of this method as comment
+    public ExaminationsModel setExaminationColors(ExaminationsModel examination, Date birthdate) throws IOException, ParseException {
 
         Properties prop = null;
-
+        int age = 0;
         int score = 0;
         int month = 0;
-        month = getMonth(birthdate);
-
+        try{
+            age = getAge(birthdate);
+            month = getMonth(birthdate);
+        }catch (Exception e){
+            System.out.println("Patient birth day can not be empty");
+        }
 
         if (age > 18) {
             if (examination.getTemperature() > 41) {
@@ -211,7 +226,7 @@ private PatientService patientService;
                 score += 1;
             } else if (examination.getRespiratoryRate() >= 5) {
                 score += 2;
-            }else if (examination.getRespiratoryRate() < 5) {
+            } else if (examination.getRespiratoryRate() < 5) {
                 score += 3;
             }
 
@@ -270,7 +285,7 @@ private PatientService patientService;
                 score += 0;
             } else if (examination.getRespiratoryRate() >= 15) {
                 score += 2;
-            }else if (examination.getRespiratoryRate() < 15) {
+            } else if (examination.getRespiratoryRate() < 15) {
                 score += 3;
             }
 
@@ -329,7 +344,7 @@ private PatientService patientService;
                 score += 0;
             } else if (examination.getRespiratoryRate() >= 15) {
                 score += 2;
-            }else if (examination.getRespiratoryRate() < 15) {
+            } else if (examination.getRespiratoryRate() < 15) {
                 score += 3;
             }
 
@@ -390,7 +405,7 @@ private PatientService patientService;
                 score += 1;
             } else if (examination.getRespiratoryRate() >= 15) {
                 score += 2;
-            }else if (examination.getRespiratoryRate() < 15) {
+            } else if (examination.getRespiratoryRate() < 15) {
                 score += 3;
             }
 
@@ -418,31 +433,31 @@ private PatientService patientService;
                 score += 3;
             }
 
-            if (examination.getBloodPressureMax() > 130){
+            if (examination.getBloodPressureMax() > 130) {
                 score += 3;
-            }else if (examination.getBloodPressureMax() >= 100) {
+            } else if (examination.getBloodPressureMax() >= 100) {
                 score += 2;
-            }else if (examination.getBloodPressureMax() >= 70) {
+            } else if (examination.getBloodPressureMax() >= 70) {
                 score += 0;
-            }else if (examination.getBloodPressureMax() >= 60) {
+            } else if (examination.getBloodPressureMax() >= 60) {
                 score += 2;
             } else if (examination.getBloodPressureMax() < 60) {
                 score += 3;
             }
-        } else if (month > 0){
+        } else if (month > 0) {
             if (examination.getTemperature() >= 39 && examination.getTemperature() <= 40) {
                 score += 3;
             } else if (examination.getTemperature() >= 37.5) {
                 score += 2;
             } else if (examination.getTemperature() >= 37) {
-                score +=1;
+                score += 1;
             } else if (examination.getTemperature() >= 35.5) {
                 score += 0;
             } else if (examination.getTemperature() >= 35) {
                 score += 1;
-            }else if (examination.getTemperature() >= 33.5) {
+            } else if (examination.getTemperature() >= 33.5) {
                 score += 2;
-            }else if (examination.getTemperature() < 33.5) {
+            } else if (examination.getTemperature() < 33.5) {
                 score += 3;
             }
 
@@ -459,7 +474,7 @@ private PatientService patientService;
                 score += 1;
             } else if (examination.getRespiratoryRate() >= 20) {
                 score += 2;
-            }else if (examination.getRespiratoryRate() < 20) {
+            } else if (examination.getRespiratoryRate() < 20) {
                 score += 3;
             }
 
@@ -487,24 +502,24 @@ private PatientService patientService;
                 score += 3;
             }
 
-            if (examination.getBloodPressureMax() > 120){
+            if (examination.getBloodPressureMax() > 120) {
                 score += 3;
-            }else if (examination.getBloodPressureMax() >= 100) {
+            } else if (examination.getBloodPressureMax() >= 100) {
                 score += 2;
-            }else if (examination.getBloodPressureMax() >= 60) {
+            } else if (examination.getBloodPressureMax() >= 60) {
                 score += 0;
-            }else if (examination.getBloodPressureMax() >= 50) {
+            } else if (examination.getBloodPressureMax() >= 50) {
                 score += 2;
             } else if (examination.getBloodPressureMax() < 50) {
                 score += 3;
             }
-            if (examination.getBloodGlucoseLevel() > 10){
+            if (examination.getBloodGlucoseLevel() > 10) {
                 score += 3;
-            }else if (examination.getBloodGlucoseLevel() >= 2.6) {
+            } else if (examination.getBloodGlucoseLevel() >= 2.6) {
                 score += 2;
-            }else if (examination.getBloodGlucoseLevel() >= 1.7) {
+            } else if (examination.getBloodGlucoseLevel() >= 1.7) {
                 score += 0;
-            }else if (examination.getBloodGlucoseLevel() < 1.7) {
+            } else if (examination.getBloodGlucoseLevel() < 1.7) {
                 score += 3;
             }
         }
@@ -528,39 +543,39 @@ private PatientService patientService;
         } else if (examination.getRespiratoryRate() <= Integer.parseInt(prop.getProperty("respiratoryRateLevel5Max")) &&
                 examination.getRespiratoryRate() >= Integer.parseInt(prop.getProperty("respiratoryRateLevel5Min"))) {
             examination.setRespiratoryRateColor(level5);
-           // score = score + 5;
+            // score = score + 5;
         } else if (examination.getRespiratoryRate() <= Integer.parseInt(prop.getProperty("respiratoryRateLevel5Max2")) &&
                 examination.getRespiratoryRate() >= Integer.parseInt(prop.getProperty("respiratoryRateLevel5Min2"))) {
             examination.setRespiratoryRateColor(level5);
-           // score = score + 5;
+            // score = score + 5;
         } else if (examination.getRespiratoryRate() <= Integer.parseInt(prop.getProperty("respiratoryRateLevel4Max")) &&
                 examination.getRespiratoryRate() >= Integer.parseInt(prop.getProperty("respiratoryRateLevel4Min"))) {
             examination.setRespiratoryRateColor(level4);
-           // score = score + 4;
+            // score = score + 4;
         } else if (examination.getRespiratoryRate() <= Integer.parseInt(prop.getProperty("respiratoryRateLevel3Max")) &&
                 examination.getRespiratoryRate() >= Integer.parseInt(prop.getProperty("respiratoryRateLevel3Min"))) {
             examination.setRespiratoryRateColor(level3);
-           // score = score + 3;
+            // score = score + 3;
         } else if (examination.getRespiratoryRate() <= Integer.parseInt(prop.getProperty("respiratoryRateLevel3Max2")) &&
                 examination.getRespiratoryRate() >= Integer.parseInt(prop.getProperty("respiratoryRateLevel3Min2"))) {
             examination.setRespiratoryRateColor(level3);
-           // score = score + 3;
+            // score = score + 3;
         } else if (examination.getRespiratoryRate() <= Integer.parseInt(prop.getProperty("respiratoryRateLevel2Max2")) &&
                 examination.getRespiratoryRate() >= Integer.parseInt(prop.getProperty("respiratoryRateLevel2Min2"))) {
             examination.setRespiratoryRateColor(level2);
-           // score = score + 2;
+            // score = score + 2;
         } else if (examination.getRespiratoryRate() <= Integer.parseInt(prop.getProperty("respiratoryRateLevel2Max")) &&
                 examination.getRespiratoryRate() >= Integer.parseInt(prop.getProperty("respiratoryRateLevel2Min"))) {
             examination.setRespiratoryRateColor(level2);
-           // score = score + 2;
+            // score = score + 2;
         } else if (examination.getRespiratoryRate() <= Integer.parseInt(prop.getProperty("respiratoryRateLevel1Max")) &&
                 examination.getRespiratoryRate() >= Integer.parseInt(prop.getProperty("respiratoryRateLevel1Min"))) {
             examination.setRespiratoryRateColor(level1);
-           // score = score + 1;
+            // score = score + 1;
         } else if (examination.getRespiratoryRate() <= Integer.parseInt(prop.getProperty("respiratoryRateLevel1Max2")) &&
                 examination.getRespiratoryRate() >= Integer.parseInt(prop.getProperty("respiratoryRateLevel1Min2"))) {
             examination.setRespiratoryRateColor(level1);
-          //  score = score + 1;
+            //  score = score + 1;
         } else {
             examination.setRespiratoryRateColor(level0);
         }
@@ -570,7 +585,7 @@ private PatientService patientService;
         } else if (examination.getO2Saturation() <= Integer.parseInt(prop.getProperty("o2SaturationLevel5Max")) &&
                 examination.getO2Saturation() >= Integer.parseInt(prop.getProperty("o2SaturationLevel5Min"))) {
             examination.setO2SaturationColor(level5);
-           // score = score + 5;
+            // score = score + 5;
         } else if (examination.getO2Saturation() <= Integer.parseInt(prop.getProperty("o2SaturationLevel4Max")) &&
                 examination.getO2Saturation() >= Integer.parseInt(prop.getProperty("o2SaturationLevel4Min"))) {
             examination.setO2SaturationColor(level4);
@@ -614,19 +629,19 @@ private PatientService patientService;
         } else if (examination.getBloodPressureMin() <= Integer.parseInt(prop.getProperty("bloodPressureMinLevel5Max")) &&
                 examination.getBloodPressureMin() >= Integer.parseInt(prop.getProperty("bloodPressureMinLevel5Min"))) {
             examination.setBloodPressureMinColor(level5);
-           // score = score + 5;
+            // score = score + 5;
         } else if (examination.getBloodPressureMin() <= Integer.parseInt(prop.getProperty("bloodPressureMinLevel3Max")) &&
                 examination.getBloodPressureMin() >= Integer.parseInt(prop.getProperty("bloodPressureMinLevel3Min"))) {
             examination.setBloodPressureMinColor(level3);
-          //  score = score + 3;
+            //  score = score + 3;
         } else if (examination.getBloodPressureMin() <= Integer.parseInt(prop.getProperty("bloodPressureMinLevel2Max")) &&
                 examination.getBloodPressureMin() >= Integer.parseInt(prop.getProperty("bloodPressureMinLevel2Min"))) {
             examination.setBloodPressureMinColor(level2);
-          //  score = score + 2;
+            //  score = score + 2;
         } else if (examination.getBloodPressureMin() <= Integer.parseInt(prop.getProperty("bloodPressureMinLevel1Max")) &&
                 examination.getBloodPressureMin() >= Integer.parseInt(prop.getProperty("bloodPressureMinLevel1Min"))) {
             examination.setBloodPressureMinColor(level1);
-           // score = score + 1;
+            // score = score + 1;
         } else {
             examination.setBloodPressureMinColor(level0);
         }
@@ -636,11 +651,11 @@ private PatientService patientService;
         } else if (examination.getBloodPressureMax() <= Integer.parseInt(prop.getProperty("bloodPressureMaxLevel5Max")) &&
                 examination.getBloodPressureMax() >= Integer.parseInt(prop.getProperty("bloodPressureMaxLevel5Min"))) {
             examination.setBloodPressureMaxColor(level5);
-           //score = score + 5;
+            //score = score + 5;
         } else if (examination.getBloodPressureMax() <= Integer.parseInt(prop.getProperty("bloodPressureMaxLevel3Max")) &&
                 examination.getBloodPressureMax() >= Integer.parseInt(prop.getProperty("bloodPressureMaxLevel3Min"))) {
             examination.setBloodPressureMaxColor(level3);
-           // score = score + 3;
+            // score = score + 3;
         } else if (examination.getBloodPressureMax() <= Integer.parseInt(prop.getProperty("bloodPressureMaxLevel2Max")) &&
                 examination.getBloodPressureMax() >= Integer.parseInt(prop.getProperty("bloodPressureMaxLevel2Min"))) {
             examination.setBloodPressureMaxColor(level2);
@@ -648,7 +663,7 @@ private PatientService patientService;
         } else if (examination.getBloodPressureMax() <= Integer.parseInt(prop.getProperty("bloodPressureMaxLevel1Max")) &&
                 examination.getBloodPressureMax() >= Integer.parseInt(prop.getProperty("bloodPressureMaxLevel1Min"))) {
             examination.setBloodPressureMaxColor(level1);
-           // score = score + 1;
+            // score = score + 1;
         } else {
             examination.setBloodPressureMaxColor(level0);
         }
@@ -658,15 +673,15 @@ private PatientService patientService;
         } else if (examination.getHeartRate() <= Integer.parseInt(prop.getProperty("heartRateLevel5Max")) &&
                 examination.getHeartRate() >= Integer.parseInt(prop.getProperty("heartRateLevel5Min"))) {
             examination.setHeartRateColor(level5);
-           // score = score + 5;
+            // score = score + 5;
         } else if (examination.getHeartRate() <= Integer.parseInt(prop.getProperty("heartRateLevel5Max2")) &&
                 examination.getHeartRate() >= Integer.parseInt(prop.getProperty("heartRateLevel5Min2"))) {
             examination.setHeartRateColor(level5);
-           // score = score + 5;
+            // score = score + 5;
         } else if (examination.getHeartRate() <= Integer.parseInt(prop.getProperty("heartRateLevel4Max")) &&
                 examination.getHeartRate() >= Integer.parseInt(prop.getProperty("heartRateLevel4Min"))) {
             examination.setHeartRateColor(level4);
-           // score = score + 4;
+            // score = score + 4;
         } else if (examination.getHeartRate() <= Integer.parseInt(prop.getProperty("heartRateLevel3Max")) &&
                 examination.getHeartRate() >= Integer.parseInt(prop.getProperty("heartRateLevel3Min"))) {
             examination.setHeartRateColor(level3);
@@ -674,11 +689,11 @@ private PatientService patientService;
         } else if (examination.getHeartRate() <= Integer.parseInt(prop.getProperty("heartRateLevel3Max2")) &&
                 examination.getHeartRate() >= Integer.parseInt(prop.getProperty("heartRateLevel3Min2"))) {
             examination.setHeartRateColor(level3);
-           // score = score + 3;
+            // score = score + 3;
         } else if (examination.getHeartRate() <= Integer.parseInt(prop.getProperty("heartRateLevel2Max")) &&
                 examination.getHeartRate() >= Integer.parseInt(prop.getProperty("heartRateLevel2Min"))) {
             examination.setHeartRateColor(level2);
-           // score = score + 2;
+            // score = score + 2;
         } else if (examination.getHeartRate() <= Integer.parseInt(prop.getProperty("heartRateLevel2Max2")) &&
                 examination.getHeartRate() >= Integer.parseInt(prop.getProperty("heartRateLevel2Min2"))) {
             examination.setHeartRateColor(level2);
@@ -690,7 +705,7 @@ private PatientService patientService;
         } else if (examination.getHeartRate() <= Integer.parseInt(prop.getProperty("heartRateLevel1Max2")) &&
                 examination.getHeartRate() >= Integer.parseInt(prop.getProperty("heartRateLevel1Min2"))) {
             examination.setHeartRateColor(level1);
-           // score = score + 1;
+            // score = score + 1;
         } else {
             examination.setHeartRateColor(level0);
         }
@@ -700,19 +715,19 @@ private PatientService patientService;
         } else if (examination.getTemperature() <= Double.parseDouble(prop.getProperty("temperatureLevel3Max")) &&
                 examination.getTemperature() >= Double.parseDouble(prop.getProperty("temperatureLevel3Min"))) {
             examination.setTemperatureColor(level3);
-           // score = score + 3;
+            // score = score + 3;
         } else if (examination.getTemperature() <= Double.parseDouble(prop.getProperty("temperatureLevel3Max2")) &&
                 examination.getTemperature() >= Double.parseDouble(prop.getProperty("temperatureLevel3Min2"))) {
             examination.setTemperatureColor(level3);
-          //  score = score + 3;
+            //  score = score + 3;
         } else if (examination.getTemperature() <= Double.parseDouble(prop.getProperty("temperatureLevel2Max")) &&
                 examination.getTemperature() >= Double.parseDouble(prop.getProperty("temperatureLevel2Min"))) {
             examination.setTemperatureColor(level2);
-           // score = score + 2;
+            // score = score + 2;
         } else if (examination.getTemperature() <= Double.parseDouble(prop.getProperty("temperatureLevel2Max2")) &&
                 examination.getTemperature() >= Double.parseDouble(prop.getProperty("temperatureLevel2Min2"))) {
             examination.setTemperatureColor(level2);
-           // score = score + 2;
+            // score = score + 2;
         } else if (examination.getTemperature() <= Double.parseDouble(prop.getProperty("temperatureLevel1Max")) &&
                 examination.getTemperature() >= Double.parseDouble(prop.getProperty("temperatureLevel1Min"))) {
             examination.setTemperatureColor(level1);
@@ -726,17 +741,17 @@ private PatientService patientService;
         } else if (examination.getBloodGlucoseLevel() <= Double.parseDouble(prop.getProperty("bloodGlucoseLevel5Max2")) ||
                 examination.getBloodGlucoseLevel() >= Double.parseDouble(prop.getProperty("bloodGlucoseLevel5Min"))) {
             examination.setBloodGlucoseLevelColor(level5);
-           // score = score + 5;
+            // score = score + 5;
         } else if (examination.getBloodGlucoseLevel() <= Double.parseDouble(prop.getProperty("bloodGlucoseLevel3Max2")) &&
                 examination.getBloodGlucoseLevel() >= Double.parseDouble(prop.getProperty("bloodGlucoseLevel3Min2"))) {
             examination.setBloodGlucoseLevelColor(level3);
-           // score = score + 3;
+            // score = score + 3;
         } else if (examination.getBloodGlucoseLevel() == Double.parseDouble(prop.getProperty("bloodGlucoseLevel3"))) {
             examination.setBloodGlucoseLevelColor(level3);
-           // score = score + 3;
+            // score = score + 3;
         } else if (examination.getBloodGlucoseLevel() == Double.parseDouble(prop.getProperty("bloodGlucoseLevel2"))) {
             examination.setBloodGlucoseLevelColor(level2);
-           // score = score + 2;
+            // score = score + 2;
         } else if (examination.getBloodGlucoseLevel() <= Double.parseDouble(prop.getProperty("bloodGlucoseLevel1Max")) &&
                 examination.getBloodGlucoseLevel() >= Double.parseDouble(prop.getProperty("bloodGlucoseLevel1Min"))) {
             examination.setBloodGlucoseLevelColor(level1);
@@ -753,15 +768,15 @@ private PatientService patientService;
         } else if (examination.getBodyMassIndex() <= Double.parseDouble(prop.getProperty("bodyMassLevel3Max")) &&
                 examination.getBodyMassIndex() >= Double.parseDouble(prop.getProperty("bodyMassLevel3Min"))) {
             examination.setBodyMassIndexColor(level3);
-           // score = score + 3;
+            // score = score + 3;
         } else if (examination.getBodyMassIndex() <= Double.parseDouble(prop.getProperty("bodyMassLevel2Max")) &&
                 examination.getBodyMassIndex() >= Double.parseDouble(prop.getProperty("bodyMassLevel2Min"))) {
             examination.setBodyMassIndexColor(level2);
-           // score = score + 2;
+            // score = score + 2;
         } else if (examination.getBodyMassIndex() <= Double.parseDouble(prop.getProperty("bodyMassLevel1Max")) &&
                 examination.getBodyMassIndex() >= Double.parseDouble(prop.getProperty("bodyMassLevel1Min"))) {
             examination.setBodyMassIndexColor(level1);
-           // score = score + 1;
+            // score = score + 1;
         } else {
             examination.setBodyMassIndexColor(level0);
         }
@@ -789,7 +804,7 @@ private PatientService patientService;
             //score = score + 1;
         } else if (examination.getTaste() == "no sense") {
             examination.setTasteColor(level2);
-           //score = score + 2;
+            //score = score + 2;
         } else {
             examination.setTasteColor(level0);
         }
@@ -800,13 +815,13 @@ private PatientService patientService;
             examination.setConsciousnessColor(level0);
         } else if (examination.getConsciousness() == "voice") {
             examination.setConsciousnessColor(level1);
-           // score = score + 1;
+            // score = score + 1;
         } else if (examination.getConsciousness() == "pain") {
             examination.setConsciousnessColor(level2);
             score = score + 2;
         } else if (examination.getConsciousness() == "unresp") {
             examination.setConsciousnessColor(level3);
-           // score = score + 2;
+            // score = score + 2;
         } else {
             examination.setConsciousnessColor(level0);
         }
@@ -1084,7 +1099,7 @@ private PatientService patientService;
                 examination.getBodyMassIndex() >= Double.parseDouble(prop.getProperty("bodyMassLevel2Min"))) {
             examination.setBodyMassIndexColor(level2);
             score = score + 2;
-        }  else if (examination.getBodyMassIndex() <= Double.parseDouble(prop.getProperty("bodyMassLevel1Max")) &&
+        } else if (examination.getBodyMassIndex() <= Double.parseDouble(prop.getProperty("bodyMassLevel1Max")) &&
                 examination.getBodyMassIndex() >= Double.parseDouble(prop.getProperty("bodyMassLevel1Min"))) {
             examination.setBodyMassIndexColor(level1);
             score = score + 1;
@@ -1155,6 +1170,7 @@ private PatientService patientService;
 
         return examination;
     }
+
     public Properties readPropertiesFile(String fileName) throws IOException {
         Properties prop = null;
         ClassLoader classLoader = getClass().getClassLoader();

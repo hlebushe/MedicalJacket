@@ -401,7 +401,7 @@ public class PatientController {
 
             for (Examinations exam : examinations) {
                 ExaminationsModel examinationsModel = new ExaminationsModel(exam);
-                examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getAge(),patient.getBirthDate());
+                examinationsModel = examinationService.setExaminationColors(examinationsModel,patient.getBirthDate());
                 examinationsModels.add(examinationsModel);
             }
 
