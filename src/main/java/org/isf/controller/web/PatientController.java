@@ -142,8 +142,9 @@ public class PatientController {
     public ModelAndView addPatient(@RequestParam("photo") MultipartFile photo, @RequestParam("existingMedication") MultipartFile existingMedication, @Valid Patient patient, BindingResult result, Model model) throws IOException, SQLException {
         patient.setBlobPhoto(filesService.getBlobData(photo));
         patient.setExistingMedication(filesService.getBlobData(existingMedication));
-        DeviceDetails deviceDetails = deviceDetailsService.findAll().get(0);
-        patient.setDeviceDetails(deviceDetails);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUserName(auth.getName());
+        patient.setDeviceDetails(user.getDeviceDetails());
         patient.setAge();
 
         Patient patientNew = patientService.savePatient(patient);

@@ -58,7 +58,7 @@ public class NursingStationController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserName(auth.getName());
 
-        List<Patient> patients = nursingStationDataService.getPatientsWithLastMeasurements();
+        List<Patient> patients = nursingStationDataService.getPatientsWithLastMeasurementsByMachineId(user.getDeviceDetails().getMachineID());
         List<NursingStationData> patientMeasurements = new ArrayList<>();
 
         for (Patient patient : patients) {
@@ -139,7 +139,9 @@ public class NursingStationController {
 
     @GetMapping("/get_measurements")
     public ModelAndView updateData(Model model) throws IOException, ParseException {
-        List<Patient> patients = nursingStationDataService.getPatientsWithLastMeasurements();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUserName(auth.getName());
+        List<Patient> patients = nursingStationDataService.getPatientsWithLastMeasurementsByMachineId(user.getDeviceDetails().getMachineID());
         List<NursingStationData> patientMeasurements = new ArrayList<>();
 
         for (Patient patient : patients) {

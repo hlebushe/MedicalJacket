@@ -53,28 +53,27 @@ public class DefaultController {
 
 	@GetMapping(value = "/login")
 	public ModelAndView login() throws IOException {
-		if (deviceDetailsService.findAll().isEmpty()) {
-			ModelAndView mv = new ModelAndView();
-			DeviceDetails deviceDetails = new DeviceDetails();
-			deviceDetails.setMachineID(getMacAddress());
-			mv.addObject("device", deviceDetails);
-			mv.setViewName("register");
-			return mv;
-		} else {
+//		if (deviceDetailsService.findAll().isEmpty()) {
+//			ModelAndView mv = new ModelAndView();
+//			DeviceDetails deviceDetails = new DeviceDetails();
+//			deviceDetails.setMachineID(getMacAddress());
+//			mv.addObject("device", deviceDetails);
+//			mv.setViewName("register");
+//			return mv;
+//		} else {
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.setViewName("login");
 			return modelAndView;
-		}
+//		}
 	}
 
 	@GetMapping(value = "/home")
 	public ModelAndView home() throws IOException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userRepository.findByUserName(auth.getName());
-		DeviceDetails deviceDetails = deviceDetailsService.findAll().get(0);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("userName", "Welcome " + user.getUserName() +"!");
-		mv.addObject("hospitalName", deviceDetails.getHospitalName());
+		mv.addObject("hospitalName", user.getDeviceDetails().getHospitalName());
 		mv.setViewName("home");
 		return mv;
 	}
@@ -96,18 +95,18 @@ public class DefaultController {
 
 	@GetMapping(value = "/register")
 	public ModelAndView register() throws IOException {
-		if (deviceDetailsService.findAll().isEmpty()) {
+//		if (deviceDetailsService.findAll().isEmpty()) {
 			ModelAndView mv = new ModelAndView();
 			DeviceDetails deviceDetails = new DeviceDetails();
 			deviceDetails.setMachineID(getMacAddress());
 			mv.addObject("device", deviceDetails);
 			mv.setViewName("register");
 			return mv;
-		} else {
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("login");
-			return modelAndView;
-		}
+//		} else {
+//			ModelAndView modelAndView = new ModelAndView();
+//			modelAndView.setViewName("login");
+//			return modelAndView;
+//		}
 	}
 
 	@PostMapping("/register")

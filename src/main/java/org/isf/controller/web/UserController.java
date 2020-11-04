@@ -57,7 +57,7 @@ public class UserController {
         User user = userRepository.findByUserName(auth.getName());
 
         List<User> users = new ArrayList<User>();
-        users = userRepository.findAll();
+        users = userRepository.findAllByDeviceDetails(user.getDeviceDetails());
 
         ModelAndView mv = new ModelAndView();
         mv.addObject("userName", "Welcome " + user.getUserName());
@@ -97,14 +97,16 @@ public class UserController {
             mv.setViewName("user_add");
             return mv;
         } else {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User ses_usr = userRepository.findByUserName(auth.getName());
+
             user.setPhoto(filesService.getBlobData(photo));
             user.setAge();
             user.setName();
             UserGroup userGroup = userGroupRepository.findByCode(user.getRole());
             user.setUserGroupName(this.userGroupRepository.findByCode(user.getRole()));
             user.setUserName(user.getEmail());
-            DeviceDetails deviceDetails = deviceDetailsService.findAll().get(0);
-            user.setDeviceDetails(deviceDetails);
+            user.setDeviceDetails(ses_usr.getDeviceDetails());
 
             User userNew = userService.saveUser(user);
 

@@ -20,4 +20,7 @@ public interface NursingStationDataRepository extends JpaRepository<NursingStati
     NursingStationData getLastByPatient(Patient patient);
 
     Optional<NursingStationData> findById(UUID id);
+
+    @Query(value = "SELECT DISTINCT PM_PAT_ID FROM medjacketdb.nursing_station_data INNER JOIN medjacketdb.patient where PAT_MACHINE_ID = :machineId", nativeQuery = true)
+    List<byte[]> getPatientsWithLastMeasurementsByMachineId(String machineId);
 }

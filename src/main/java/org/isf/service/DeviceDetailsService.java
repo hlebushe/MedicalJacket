@@ -26,5 +26,7 @@ public class DeviceDetailsService {
         return deviceDetailsRepository.findAll();
     }
 
+    public DeviceDetails getByMachineId(String machineId) { return deviceDetailsRepository.findByMachineID(machineId); }
+
 
 }

@@ -8,4 +8,6 @@ import java.util.UUID;
 
 @Repository
 public interface DeviceDetailsRepository extends JpaRepository<DeviceDetails, UUID> {
+
+    DeviceDetails findByMachineID(String machineId);
 }

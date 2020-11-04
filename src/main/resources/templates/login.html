@@ -28,7 +28,7 @@
             <img th:src="@{/images/logo_cropped.png}" style="width: 70%;margin-left: 15%;" alt="">
         </div>
         <div class="col">
-            <form th:action="@{/login}" method="POST" class="form-signin">
+            <form th:action="@{/login}" method="POST" class="form-signin" style="text-align: center">
                 <h3 class="form-signin-heading" style="width: 100%;">User Login</h3>
                 <br/>
                 <input type="text" id="username" name="username" placeholder="Email" class="login-input form-control"/> <br/>
@@ -36,7 +36,8 @@
                 <div th:if="${param.error}">
                     <p style="font-size: 20px; color: #FF1C19;">User name or password invalid, please verify</p>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block login-button" name="Submit" value="Login" type="Submit" th:text="Login"></button>
+                <button class="btn btn-lg btn-primary btn-block login-button" name="Submit" value="Login" type="Submit" th:text="Login" style="margin-bottom: 10px;"></button>
+                <a style="text-decoration: underline!important; cursor: pointer;" th:href="@{/register}">Register your Hospital</a>
             </form>
         </div>
     </div>

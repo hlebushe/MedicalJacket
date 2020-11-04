@@ -39,6 +39,22 @@ public class NursingStationDataService {
         return patients;
     }
 
+
+    public List<Patient> getPatientsWithLastMeasurementsByMachineId (String machineId) {
+
+        List<UUID> patIDs = getGuidFromByteArray(nursingStationDataRepository.getPatientsWithLastMeasurementsByMachineId(machineId));
+
+        List<Patient> patients = new ArrayList<>();
+
+        for (UUID id : patIDs) {
+            Patient p = patientRepository.findByCode(id);
+            patients.add(p);
+        }
+
+        return patients;
+    }
+
+
     public NursingStationData getLastByPatient(Patient patient) {
         NursingStationData measurements = nursingStationDataRepository.getLastByPatient(patient);
         return measurements;

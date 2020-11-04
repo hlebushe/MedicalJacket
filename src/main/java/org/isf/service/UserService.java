@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -78,9 +79,10 @@ public class UserService {
         userFromDB.setProviderNumber(user.getProviderNumber());
         userFromDB.setBiometric(user.getBiometric());
         userFromDB.setRole(user.getRole());
-        userFromDB.setDeviceDetails(user.getDeviceDetails());
 
         userRepository.save(userFromDB);
         return true;
     }
+
+    public List<User> getAllByDeviceDetails(DeviceDetails deviceDetails) { return userRepository.findAllByDeviceDetails(deviceDetails); }
 }
