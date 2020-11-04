@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>MedJacket</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/plugins/sortable.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/css/fileinput.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
+    <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-light header-custom">
+    <div class="header-left">
+        <span style="float: left;font-size: 24px;font-weight: bold;">PDD Adding Form</span><span style="font-size: 24px;margin-left: 10px;" th:text="*{patient.firstName + ' ' + patient.secondName}"></span>
+    </div>
+    <div class="header-right">
+        <div class="header-logo">
+            <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
+        </div>
+        <div class="header-headings">
+            <h1 style="font-weight: bold">MEDJACKET</h1>
+            <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
+        </div>
+    </div>
+</nav>
+<div th:replace="fragments/header :: header"></div>
+<div class="container text-center" style="margin-top: 3%;">
+        <form action="#" th:action="@{/patient/pdd/add/{id}(id=${patient.code})}" th:object="${examinations}" method="post">
+        <div class="form-group" style="display: flex;">
+            <button type="submit" id="btn-sub">
+                <p class="action-label" style="margin-top: 45.5px;" th:text="#{common.save}"></p>
+            </button>
+            <a th:href="@{/patient/list}" style="margin-left: 2%;">
+                <img class="action-icon" alt="" th:src="@{/images/discard.png}">
+                <p class="action-label" th:text="#{common.discard}"></p>
+            </a>
+        </div>
+        <div style="width: 100%;">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" th:text="#{pdd.respiratory_rate}"></span>
+                        </div>
+                        <input type="number" min="1" max="70" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{respiratoryRate}" class="form-control" id="respiratoryRate" required="true" step="1">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" th:text="#{pdd.o2_saturation}"></span>
+                        </div>
+                        <input type="number" min="50" max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{o2Saturation}" class="form-control" id="o2Saturation" required="true" step="1">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" th:text="#{pdd.o2_flow_rate}"></span>
+                        </div>
+                        <input type="number" min="0" max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{o2FlowRate}" class="form-control" id="o2FlowRate" required="true" step="1">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" th:text="#{pdd.weight}"></span>
+                        </div>
+                        <input type="number" th:field="*{weight}" class="form-control" id="weight" required="true" step=".01" min="0">
+                    </div>
+                    <div class="form-group input-group  required" style="padding-bottom: 20px;">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" th:text="#{pdd.height}"></span>
+                        </div>
+                        <input type="number" th:field="*{height}" class="form-control" id="height" required="true" step=".01" min="0">
+                    </div>
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{pdd.smell}"></span>
+                        </div>
+                        <select class="form-control" th:field="*{smell}"  style="height: 62px;">
+                            <option th:value="'normal'" th:text="'normal'"></option>
+                            <option th:value="'week'" th:text="'week'"></option>
+                            <option th:value="'no sense'" th:text="'no sense'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{pdd.taste}"></span>
+                        </div>
+                        <select class="form-control" th:field="*{taste}"  style="height: 62px;">
+                            <option th:value="'normal'" th:text="'normal'"></option>
+                            <option th:value="'week'" th:text="'week'"></option>
+                            <option th:value="'no sense'" th:text="'no sense'"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" th:text="#{pdd.blood_pressure_sys}"></span>
+                        </div>
+                        <input type="number" min="40" max="250" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{bloodPressureMax}" class="form-control" id="bloodPressureMax" required="true" step="1">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" th:text="#{pdd.blood_pressure_dia}"></span>
+                        </div>
+                        <input type="number" min="40" max="250" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{bloodPressureMin}" class="form-control" id="bloodPressureMin" required="true" step="1">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" th:text="#{pdd.heart_rate}"></span>
+                        </div>
+                        <input type="number" min="20" max="180" onkeypress='return event.charCode >= 48 && event.charCode <= 57' th:field="*{heartRate}" class="form-control" id="heartRate" required="true" step="1">
+                    </div>
+                    <div class="form-group input-group  required">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" th:text="#{pdd.temperature}"></span>
+                        </div>
+                        <input type="number" min="28" max="44" th:field="*{temperature}" class="form-control" id="temperature" required="true" step=".01">
+                    </div>
+                    <div class="form-group input-group required" style="padding-bottom: 20px;">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" th:text="#{pdd.blood_glucose_levels}"></span>
+                        </div>
+                        <input type="number" min="0" max="50" th:field="*{bloodGlucoseLevel}" class="form-control" id="bloodGlucoseLevel" required="true" step=".01">
+                    </div>
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" style="white-space: unset; text-align: left;" th:text="#{pdd.consciousness}"></span>
+                        </div>
+                        <select class="form-control" th:field="*{consciousness}" style="height: 62px;">
+                            <option th:value="#{pdd.consciousness_alert}" th:text="#{pdd.consciousness_alert}"></option>
+                            <option th:value="#{pdd.consciousness_voice}" th:text="#{pdd.consciousness_voice}"></option>
+                            <option th:value="#{pdd.consciousness_pain}" th:text="#{pdd.consciousness_pain}"></option>
+                            <option th:value="#{pdd.consciousness_unresp}" th:text="#{pdd.consciousness_unresp}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+            <div th:replace="fragments/language_selector :: language_selector"></div>
+    </form>
+</div>
+</body>
+</html>

@@ -126,6 +126,7 @@ public class UserController {
     public ModelAndView editUser(@RequestParam("photo") MultipartFile photo, @PathVariable("userName") String userName, @Valid User user, BindingResult result, Model model) throws IOException, SQLException {
         User userFromDB = userRepository.findByUserName(userName);
         user.setEmail(userName);
+        user.setDeviceDetails(userFromDB.getDeviceDetails());
 
         if (!photo.isEmpty()) {
             user.setPhoto(filesService.getBlobData(photo));

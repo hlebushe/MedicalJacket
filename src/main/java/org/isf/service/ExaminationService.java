@@ -23,6 +23,9 @@ public class ExaminationService {
     @Autowired
     private ExaminationsRepository examinationRepository;
 
+@Autowired
+private PatientService patientService;
+
     private String level5 = "level5";
 
     private String level4 = "level4";
@@ -96,13 +99,23 @@ public class ExaminationService {
 
         return examinationRepository.getByPatientAndDay(patient, start, finish).get(0);
     }
-
+    public int getMonth(Date birthday) {
+        Instant instant = birthday.toInstant();
+        ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+        LocalDate givenDate = zone.toLocalDate();
+        Period period = Period.between(givenDate, LocalDate.now());
+        int month = period.getMonths();
+        return month;
+    }
 /// This method has changed to due test purpose, ignore it, if need past version, look at bellow of this method as comment
-    public ExaminationsModel setExaminationColors(ExaminationsModel examination, int age) throws IOException, ParseException {
+    public ExaminationsModel setExaminationColors(ExaminationsModel examination, int age,Date birthdate) throws IOException, ParseException {
 
         Properties prop = null;
 
         int score = 0;
+        int month = 0;
+        month = getMonth(birthdate);
+
 
         if (age > 18) {
             if (examination.getTemperature() > 41) {
@@ -351,10 +364,149 @@ public class ExaminationService {
             } else {
                 score += 0;
             }
-        } else if (age >= 0.25) {
-            prop = readPropertiesFile("examination_1_4.properties");
-        } else {
-            prop = readPropertiesFile("examination_new_born.properties");
+        } else if (month >= 4) {
+            if (examination.getTemperature() > 41) {
+                score += 3;
+            } else if (examination.getTemperature() >= 38.5) {
+                score += 2;
+            } else if (examination.getTemperature() >= 35.5) {
+                score += 0;
+            } else if (examination.getTemperature() >= 34.5) {
+                score += 2;
+            } else if (examination.getTemperature() < 34.49) {
+                score += 3;
+            }
+
+
+            if (examination.getRespiratoryRate() > 65 && examination.getRespiratoryRate() <= 80) {
+                score += 3;
+            } else if (examination.getRespiratoryRate() >= 55) {
+                score += 2;
+            } else if (examination.getRespiratoryRate() >= 45) {
+                score += 1;
+            } else if (examination.getRespiratoryRate() >= 30) {
+                score += 0;
+            } else if (examination.getRespiratoryRate() >= 25) {
+                score += 1;
+            } else if (examination.getRespiratoryRate() >= 15) {
+                score += 2;
+            }else if (examination.getRespiratoryRate() < 15) {
+                score += 3;
+            }
+
+            if (examination.getO2Saturation() >= 95 && examination.getO2Saturation() <= 100) {
+                score += 0;
+            } else if (examination.getO2Saturation() >= 90) {
+                score += 2;
+            } else if (examination.getO2Saturation() >= 70) {
+                score += 3;
+            }
+
+            if (examination.getHeartRate() >= 180 && examination.getHeartRate() <= 220) {
+                score += 3;
+            } else if (examination.getHeartRate() >= 170) {
+                score += 2;
+            } else if (examination.getHeartRate() >= 160) {
+                score += 1;
+            } else if (examination.getHeartRate() >= 100) {
+                score += 0;
+            } else if (examination.getHeartRate() >= 90) {
+                score += 1;
+            } else if (examination.getHeartRate() >= 80) {
+                score += 2;
+            } else if (examination.getHeartRate() > 50) {
+                score += 3;
+            }
+
+            if (examination.getBloodPressureMax() > 130){
+                score += 3;
+            }else if (examination.getBloodPressureMax() >= 100) {
+                score += 2;
+            }else if (examination.getBloodPressureMax() >= 70) {
+                score += 0;
+            }else if (examination.getBloodPressureMax() >= 60) {
+                score += 2;
+            } else if (examination.getBloodPressureMax() < 60) {
+                score += 3;
+            }
+        } else if (month > 0){
+            if (examination.getTemperature() >= 39 && examination.getTemperature() <= 40) {
+                score += 3;
+            } else if (examination.getTemperature() >= 37.5) {
+                score += 2;
+            } else if (examination.getTemperature() >= 37) {
+                score +=1;
+            } else if (examination.getTemperature() >= 35.5) {
+                score += 0;
+            } else if (examination.getTemperature() >= 35) {
+                score += 1;
+            }else if (examination.getTemperature() >= 33.5) {
+                score += 2;
+            }else if (examination.getTemperature() < 33.5) {
+                score += 3;
+            }
+
+
+            if (examination.getRespiratoryRate() >= 75 && examination.getRespiratoryRate() <= 90) {
+                score += 3;
+            } else if (examination.getRespiratoryRate() >= 70) {
+                score += 2;
+            } else if (examination.getRespiratoryRate() >= 55) {
+                score += 1;
+            } else if (examination.getRespiratoryRate() >= 30) {
+                score += 0;
+            } else if (examination.getRespiratoryRate() >= 25) {
+                score += 1;
+            } else if (examination.getRespiratoryRate() >= 20) {
+                score += 2;
+            }else if (examination.getRespiratoryRate() < 20) {
+                score += 3;
+            }
+
+            if (examination.getO2Saturation() >= 95 && examination.getO2Saturation() <= 100) {
+                score += 0;
+            } else if (examination.getO2Saturation() >= 90) {
+                score += 2;
+            } else if (examination.getO2Saturation() >= 70) {
+                score += 3;
+            }
+
+            if (examination.getHeartRate() >= 190 && examination.getHeartRate() <= 220) {
+                score += 3;
+            } else if (examination.getHeartRate() >= 170) {
+                score += 2;
+            } else if (examination.getHeartRate() >= 160) {
+                score += 1;
+            } else if (examination.getHeartRate() >= 110) {
+                score += 0;
+            } else if (examination.getHeartRate() >= 100) {
+                score += 1;
+            } else if (examination.getHeartRate() >= 80) {
+                score += 2;
+            } else if (examination.getHeartRate() >= 50) {
+                score += 3;
+            }
+
+            if (examination.getBloodPressureMax() > 120){
+                score += 3;
+            }else if (examination.getBloodPressureMax() >= 100) {
+                score += 2;
+            }else if (examination.getBloodPressureMax() >= 60) {
+                score += 0;
+            }else if (examination.getBloodPressureMax() >= 50) {
+                score += 2;
+            } else if (examination.getBloodPressureMax() < 50) {
+                score += 3;
+            }
+            if (examination.getBloodGlucoseLevel() > 10){
+                score += 3;
+            }else if (examination.getBloodGlucoseLevel() >= 2.6) {
+                score += 2;
+            }else if (examination.getBloodGlucoseLevel() >= 1.7) {
+                score += 0;
+            }else if (examination.getBloodGlucoseLevel() < 1.7) {
+                score += 3;
+            }
         }
 
         if (age > 18) {
@@ -678,7 +830,7 @@ public class ExaminationService {
         return examination;
     }
 
-    /*
+
     public ExaminationsModel setExaminationColors(ExaminationsModel examination, int age) throws IOException, ParseException {
 
         Properties prop = null;
@@ -1002,7 +1154,7 @@ public class ExaminationService {
         examination.setScore(score);
 
         return examination;
-    }*/
+    }
     public Properties readPropertiesFile(String fileName) throws IOException {
         Properties prop = null;
         ClassLoader classLoader = getClass().getClassLoader();
