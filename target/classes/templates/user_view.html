@@ -1,0 +1,444 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>MedJacket</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+    <script src="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/js/plugins/sortable.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://assets-gritmatch-public.s3.amazonaws.com/bootstrap-fileinput-v5.0.6/bootstrap-fileinput-master/css/fileinput.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
+    <script th:src="@{/js/jquery.date-dropdowns.js}"></script>
+    <style>
+        .day {
+            padding: 8px;
+        }
+
+        .year {
+            padding: 8px;
+        }
+
+        .previousOperationInput {
+            height: 62px;
+        }
+
+        .kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
+            margin: 0;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+            text-align: center;
+        }
+        .kv-avatar {
+            display: inline-block;
+        }
+        .kv-avatar .file-input {
+            display: table-cell;
+            width: 213px;
+        }
+        .kv-reqd {
+            color: red;
+            font-family: monospace;
+            font-weight: normal;
+        }
+
+        .file-footer-caption {
+            margin-bottom: 0px !important;
+        }
+
+        .file-drop-zone .file-preview-thumbnails{
+            display: inline-block;
+        }
+
+        .krajee-default .file-actions{
+            padding-top: 30px; /* Move delete/vew buttons down to accomodate progress messages */
+        }
+
+        .kv-fileinput-error ul {
+            margin: 0 0 0 1rem;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-light header-custom">
+    <div class="header-left">
+        <span style="float: left;font-size: 24px;font-weight: bold;">View User Form</span>
+    </div>
+    <div class="header-right">
+        <div class="header-logo">
+            <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
+        </div>
+        <div class="header-headings">
+            <h1 style="font-weight: bold">MEDJACKET</h1>
+            <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
+        </div>
+    </div>
+</nav>
+<div th:replace="fragments/header :: header"></div>
+<form id="form_user" th:object="${user}" method="get">
+    <div class="container text-center" style="margin-top: 3%;">
+        <div class="form-group" style="display: flex;">
+            <a th:href="@{/users/list}" style="margin-left: 2%;">
+                <img class="action-icon" alt="" th:src="@{/images/discard.png}">
+                <p class="action-label" th:text="#{common.discard}"></p>
+            </a>
+        </div>
+        <span id="validator" class="validator" style="color: red;width: 100%;font-size: 12px;">Please fill all mandatory fields</span>
+        <ul class="nav nav-tabs" style="margin-right: -15px; margin-left: -15px;">
+            <li class="nav-item active">
+                <a class="nav-link active" href="#1" data-toggle="tab" th:text="#{patient.general_details}"></a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="1">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <div style="margin-bottom: 3%; background-color: #ffffff; width: 100%; float: left; height: 147px;">
+                                <img id="userPic" th:src="@{/users/userPic/{userName}(userName=${user.userName})}" alt="your image" style="max-width: 100%; max-height: 100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text" th:text="#{patient.name}"></span>
+                            </div>
+                            <input type="text" onkeydown="return alphaOnly(event);" th:field="*{firstName}" class="form-control" id="name" required="true">
+                            <span id="validator_first_name" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Name</span>
+                        </div>
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text" th:text="#{patient.surname}"></span>
+                            </div>
+                            <input type="text" onkeydown="return alphaOnly(event);" th:field="*{secondName}" class="form-control" id="surname" required="true">
+                            <span id="validator_second_name" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Name</span>
+                        </div>
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text" th:text="#{patient.email}"></span>
+                            </div>
+                            <input type="text" th:field="*{email}" class="form-control" id="email">
+                            <span id="email_validator" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Invalid email address</span>
+                            <span id="validator_email" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill email</span>
+                        </div>
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1 radioLabel">
+                                <span class="input-group-text" th:text="#{patient.sex}"></span>
+                            </div>
+                            <div class="form-control radioDiv">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="male" name="male" class="custom-control-input" value="M" th:field="*{sex}" required="true">
+                                    <label class="custom-control-label" for="male" th:text="#{patient.male}"></label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="female" name="female" class="custom-control-input" value="F" th:field="*{sex}" required="true">
+                                    <label class="custom-control-label" for="female" th:text="#{patient.female}"></label>
+                                </div>
+                            </div>
+                            <span id="validator_sex" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please choose sex</span>
+                        </div>
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1" style="width: 38%;">
+                                <span class="input-group-text">Description</span>
+                            </div>
+                            <input list="descs" class="form-control" th:field="*{desc}" id="desc" required>
+                            <datalist id="descs">
+                                <option th:value="''" th:text="''"></option>
+                                <option th:value="'Self Employed'" th:text="'Self Employed'"></option>
+                                <option th:value="'Employed'" th:text="'Employed'"></option>
+                            </datalist>
+                            <span id="validator_desc" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Description</span>
+                        </div>
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text">Role</span>
+                            </div>
+                            <input list="roles" class="form-control" th:field="*{role}" id="role" required>
+                            <datalist id="roles">
+                                <option th:value="''" th:text="''"></option>
+                                <option th:value="'Doctor'" th:text="'Doctor'"></option>
+                                <option th:value="'Care Provider'" th:text="'Care Provider'"></option>
+                            </datalist>
+                            <span id="validator_role" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Role</span>
+                        </div>
+                        <div class="form-group required" style="margin-bottom: 4.4rem;" id="dob_div">
+                            <div class="input-group-prepend input-group-prepend1" style="float: left">
+                                <span class="input-group-text" th:text="#{patient.dob}"></span>
+                            </div>
+                            <input class="form-control" type="hidden" th:field="*{dateOfBirth}" onchange="showAge(this.value)" required="true" name="birthDate" id="birthDate" />
+                            <span id="dob_validator" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill D.O.B.</span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text">Education</span>
+                            </div>
+                            <input type="text" th:field="*{education}" class="form-control" id="education">
+                        </div>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend input-group-prepend1" style="width: 38%;">
+                                <span class="input-group-text" th:text="#{patient.telephone}"></span>
+                            </div>
+                            <input type="text" onkeydown="return numericAndPlusOnly(event);" th:field="*{telephone}" minlength="2" maxlength="12" pattern="([0-9]{12})" class="form-control" id="telephone" title="from 2 till 12 characters">
+                        </div>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text" th:text="#{patient.address}"></span>
+                            </div>
+                            <input type="text" th:field="*{address}" class="form-control" id="address">
+                        </div>
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text" th:text="#{patient.city}"></span>
+                            </div>
+                            <input type="text" onkeydown="return alphaOnly(event);" th:field="*{city}" class="form-control" id="city" required="true">
+                            <span id="validator_city" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill City</span>
+                        </div>
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text" th:text="#{patient.aadhaar_id}"></span>
+                            </div>
+                            <input type="text" onkeydown="return numericOnly(event);" th:field="*{aadhaarNumber}" minlength="12" maxlength="12" pattern="([0-9]{12})" class="form-control" id="aadhaarNumber" required="true" title="12 characters">
+                            <span id="validator_aadhaar" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Aadhaar ID</span>
+                            <span id="validator_aadhaar2" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Should have 12 characters</span>
+                        </div>
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend3">
+                                <span class="input-group-text" style="white-space: unset; text-align: left;">Provider Number</span>
+                            </div>
+                            <input style="height: 62px;" type="text" onkeydown="return numericOnly(event);" th:field="*{providerNumber}" class="form-control" id="providerNumber">
+                        </div>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend input-group-prepend3">
+                                <span class="input-group-text" style="white-space: unset; text-align: left;">Preferred Pathologies</span>
+                            </div>
+                            <input style="height: 62px;" type="text" th:field="*{preferredPathology}" class="form-control" id="preferredPathology">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragments/language_selector :: language_selector"></div>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#locales").change(function () {
+            var selectedOption = $('#locales').val();
+            if (selectedOption != ''){
+                window.location.replace('international?lang=' + selectedOption);
+            }
+        });
+    });
+</script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+
+    var birthDate = [[${user.dateOfBirth}]].substring(0,10);
+    /*]]>*/
+
+    $(function () {
+        $("#birthDate").dateDropdowns({
+            submitFormat: "dd/mm/yyyy",
+            // submitFieldName: 'birthDate',
+            defaultDate: birthDate
+        });
+
+        $(".day").addClass("form-control");
+        $(".month").addClass("form-control");
+        $(".year").addClass("form-control");
+
+        $(".day").css("width", "20%");
+        $(".month").css("width", "30%");
+        $(".year").css("width", "20%");
+
+        $(".day").css("float", "left");
+        $(".month").css("float", "left");
+        $(".year").css("float", "left");
+
+        $("#form_user input").prop("disabled", true);
+    });
+
+</script>
+<script>
+    function submitForm() {
+        var emailReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+        if($("#birthDate").val().length === 0) {
+            $("#dob_validator").css('color', 'red');
+            $("#validator").show();
+            $("#dob_div").css("margin-bottom", "0");
+        } else if (!$("#male").is(':checked') && !$("#female").is(':checked')) {
+            $("#validator_sex").css('color', 'red');
+            $("#validator").show();
+        } else if($("#name").val().length === 0) {
+            $("#validator_first_name").css('color', 'red');
+            $("#validator").show();
+        }  else if($("#surname").val().length === 0) {
+            $("#validator_second_name").css('color', 'red');
+            $("#validator").show();
+        } else if($("#aadhaarNumber").val().length === 0) {
+            $("#validator_aadhaar").css('color', 'red');
+            $("#validator").show();
+        } else if($("#aadhaarNumber").val().length != 12) {
+            $("#validator_aadhaar2").css('color', 'red');
+            $("#validator").show();
+        } else if($("#city").val().length === 0) {
+            $("#validator_city").css('color', 'red');
+            $("#validator").show();
+        } else if($("#email").val().length === 0) {
+            $("#validator_email").css('color', 'red');
+            $("#validator").show();
+        } else if($("#role").val().length === 0) {
+            $("#validator_role").css('color', 'red');
+            $("#validator").show();
+        } else if($("#desc").val().length === 0) {
+            $("#validator_desc").css('color', 'red');
+            $("#validator").show();
+        } else if (emailReg.test($("#email").val()) == false) {
+            $("#email_validator").show();
+            $("#validator").show();
+        } else {
+            $("#form_user").submit();
+        }
+    }
+
+    $(function () {
+        $("#validator").hide();
+    });
+
+    $('#email').on('input', function() {
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+        if (reg.test($(this).val()) == false)
+        {
+            $("#email_validator").css('color', 'red');
+        } else {
+            $("#email_validator").css('color', '#ffffff');
+        }
+
+    });
+
+</script>
+<script>
+
+    function alphaOnly(event) {
+        var key = event.keyCode;
+        return ((key >= 65 && key <= 90) || key == 8 || key == 32);
+    };
+
+    function alphaNumericOnly(event) {
+        var key = event.keyCode;
+        var shift = event.shiftKey;
+        return ((key >= 65 && key <= 90) || key == 8 || key == 32 || (key >= 48 && key <= 57 && !shift) || (key >= 96 && key <= 105 && !shift));
+    };
+
+    function numericOnly(event) {
+        var key = event.keyCode;
+        var shift = event.shiftKey;
+        return (key == 8 || (key >= 48 && key <= 57 && !shift) || (key >= 96 && key <= 105 && !shift));
+    };
+
+    function numericAndPlusOnly(event) {
+        var key = event.keyCode;
+        var shift = event.shiftKey;
+        return (key == 8 || key == 32 || (key >= 48 && key <= 57 && !shift) || (key >= 96 && key <= 105 && !shift) || (key == 187 && shift));
+    };
+
+    function showAge(birthday) {
+        var age = getAge(birthday);
+        document.getElementById("age").value=age;
+    }
+
+    function getAge(dateString) {
+        var now = new Date();
+        var today = new Date(now.getYear(),now.getMonth(),now.getDate());
+
+        var yearNow = now.getYear();
+        var monthNow = now.getMonth();
+        var dateNow = now.getDate();
+
+        var dob = new Date(dateString.substring(6,10),
+            dateString.substring(3,5)-1,
+            dateString.substring(0,2)
+
+        );
+
+        var yearDob = dob.getYear();
+        var monthDob = dob.getMonth();
+        var dateDob = dob.getDate();
+        var age = {};
+        var ageString = "";
+        var yearString = "";
+        var monthString = "";
+        var dayString = "";
+
+
+        yearAge = yearNow - yearDob;
+
+        if (monthNow >= monthDob)
+            var monthAge = monthNow - monthDob;
+        else {
+            yearAge--;
+            var monthAge = 12 + monthNow -monthDob;
+        }
+
+        if (dateNow >= dateDob)
+            var dateAge = dateNow - dateDob;
+        else {
+            monthAge--;
+            var dateAge = 31 + dateNow - dateDob;
+
+            if (monthAge < 0) {
+                monthAge = 11;
+                yearAge--;
+            }
+        }
+
+        age = {
+            years: yearAge,
+            months: monthAge,
+            days: dateAge
+        };
+
+        if ( age.years > 1 ) yearString = " years";
+        else yearString = " year";
+        if ( age.months> 1 ) monthString = " months";
+        else monthString = " month";
+        if ( age.days > 1 ) dayString = " days";
+        else dayString = " day";
+
+
+        if ( (age.years > 0) && (age.months > 0) && (age.days > 0) )
+            ageString = age.years + yearString + ", " + age.months + monthString + ", and " + age.days + dayString;
+        else if ( (age.years == 0) && (age.months == 0) && (age.days > 0) )
+            ageString = age.days + dayString;
+        else if ( (age.years > 0) && (age.months == 0) && (age.days == 0) )
+            ageString = age.years + yearString;
+        else if ( (age.years > 0) && (age.months > 0) && (age.days == 0) )
+            ageString = age.years + yearString + " and " + age.months + monthString;
+        else if ( (age.years == 0) && (age.months > 0) && (age.days > 0) )
+            ageString = age.months + monthString + " and " + age.days + dayString;
+        else if ( (age.years > 0) && (age.months == 0) && (age.days > 0) )
+            ageString = age.years + yearString + " and " + age.days + dayString;
+        else if ( (age.years == 0) && (age.months > 0) && (age.days == 0) )
+            ageString = age.months + monthString;
+        else ageString = "Could not calculate age!";
+
+        return ageString;
+    }
+</script>
+</body>
+</html>

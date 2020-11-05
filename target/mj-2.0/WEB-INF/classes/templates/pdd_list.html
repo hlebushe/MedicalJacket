@@ -1,0 +1,313 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <title>MedJacket</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
+
+    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .table-cust thead th {
+            border-top: 1px dotted #aeacab!important;
+            border-bottom: 1px dotted #aeacab!important;
+            border-left: 1px dotted #aeacab;
+            border-right: 1px dotted #aeacab;
+            background-color: #5f5b91;
+            color: #ffffff;
+            font-weight: 300;
+        }
+
+        .table-cust td {
+            border-left: 1px dotted #aeacab;
+            border-right: 1px dotted #aeacab;
+            border-top: 1px dotted #aeacab;
+            border-bottom: 1px dotted #aeacab;
+            color: #ffffff;
+            background-color: #000000;
+        }
+
+        .white_td {
+            color: #000000!important;
+            background-color: #ffffff!important;
+        }
+
+        #search {
+            width: 40%;
+            font-size: 22px;
+            float: left;
+            margin-bottom: 2%;
+            margin-top: 2%;
+            margin-left: 10%;
+        }
+
+        .action-label {
+            color: #000000;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .modal-lg {
+            max-width: 80% !important;
+        }
+
+        .level5 {
+            background-color: #9000ff!important;
+        }
+
+        .level4 {
+            background-color: #ff2e2e!important;
+        }
+
+        .level3 {
+            background-color: #f7844a!important;
+        }
+
+        .level2 {
+            background-color: #ebad63!important;
+        }
+
+        .level1 {
+            background-color: #c4c700!important;
+        }
+
+        .level0 {
+            background-color: #ffffff!important;
+            color: #000000!important;
+        }
+
+        #lang_sel {
+            top: 100%;
+        }
+
+        .patient_td {
+            border: 1px dotted #aeacab;
+            vertical-align: middle;
+            border-top: 1px dotted #aeacab;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-light header-custom">
+    <div class="header-left">
+        <span style="float: left;font-size: 24px;font-weight: bold;">PDD Form</span><span style="font-size: 24px;margin-left: 10px;" th:text="*{patient.firstName + ' ' + patient.secondName}"></span>
+    </div>
+    <div class="header-right">
+        <div class="header-logo">
+            <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
+        </div>
+        <div class="header-headings">
+            <h1 style="font-weight: bold">MEDJACKET</h1>
+            <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
+        </div>
+    </div>
+</nav>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container text-center" style="margin-top: 3%;">
+    <div class="form-group" style="display: flex;">
+        <a th:href="@{/patient/list}" style="margin-left: 2%;">
+            <img class="action-icon" alt="" th:src="@{/images/discard.png}">
+            <p class="action-label" th:text="#{common.discard}"></p>
+        </a>
+        <a th:href="@{/patient/pdd/add/{id}(id=${patient.code})}" style="margin-left: 2%;">
+            <img class="action-icon" alt="" th:src="@{/images/add.png}">
+            <p class="action-label">Add PDD</p>
+        </a>
+            <div th:if="${#lists.isEmpty(examinations)}"  style="margin-left: auto;">
+                <button type="button" id="btn-att" data-toggle="modal" data-target="#modal">
+                    <p class="action-label" style="margin-top: 45.5px;" th:text="#{pdd.add_pathology}"></p>
+                </button>
+                <a th:href="@{/patient/visit/add/{id}(id=${patient.code})}" style="pointer-events: none; opacity: 0.4;">
+                    <img class="action-icon" alt="" th:src="@{/images/patient.png}">
+                    <p class="action-label">Add Visit</p>
+                </a>
+                <p style="color: red;" th:text="#{common.visit_instructions}"></p>
+            </div>
+            <div th:if="!${#lists.isEmpty(examinations)}" style="margin-left: auto;">
+                <button type="button" id="btn-att" data-toggle="modal" data-target="#modal">
+                    <p class="action-label" style="margin-top: 45.5px;" th:text="#{pdd.add_pathology}"></p>
+                </button>
+                <a th:href="@{/patient/visit/add/{id}(id=${patient.code})}">
+                    <img class="action-icon" alt="" th:src="@{/images/patient.png}">
+                    <p class="action-label" th:text="#{common.visit}"></p>
+                </a>
+            </div>
+    </div>
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <form id="myForm" th:action="@{/patient/pdd/add_report/{id}(id=${patient.code})}" th:object="${pathology}" method="post" enctype="multipart/form-data" style="width: 100%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle" th:text="#{pdd.add_pathology}"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group input-group" style="width: 100%;">
+                            <div class="input-group-prepend input-group-prepend2" style="width: 24%;">
+                                <span class="input-group-text" th:text="#{pdd.pathology_report}"></span>
+                            </div>
+                            <div class="form-control">
+                                <input th:field="*{pathologyData}" type="file" id="pathologyData" accept="application/pdf"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{common.close}"></button>
+                        <button type="submit" class="btn btn-primary" th:text="#{common.save_changes}"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <div style="margin-bottom: 3%; background-color: #ffffff; width: 20%; float: left; height: 147px;">
+            <img id="userPic" th:src="@{/patient/userPic/{id}(id=${patient.code})}" alt="your image" style="max-width: 100%; max-height: 100%;"/>
+        </div>
+        <table class="table" style="margin-top: 15px; width: 79%; margin-left: 1%;">
+            <tbody>
+            <tr>
+                <td class="patient_td" th:text="*{patient.firstName + ' ' + patient.secondName}"></td>
+                <td class="patient_td" th:text="*{patient.age + ' Y'}"></td>
+                <div th:switch="${patient.sex}">
+                    <td class="patient_td" th:case="'M'" th:text="#{patient.male}"></td>
+                    <td class="patient_td" th:case="'F'" th:text="#{patient.female}"></td>
+                </div>
+                <td class="patient_td" th:text="*{patient.maritalStatus}"></td>
+                <td class="patient_td" th:text="*{patient.city}"></td>
+                <td class="patient_td" th:text="*{'Aadhaar number:' + patient.taxCode}"></td>
+                <td class="patient_td" th:text="*{'Allergies: ' + patient.allergies}"></td>
+            </tr>
+            <tr>
+                <td class="patient_td" th:text="*{'Blood Type: ' + patient.bloodType}"></td>
+                <div th:switch="${patient.hasInsurance}">
+                    <td class="patient_td" th:case="'Y'" th:text="#{visit.has_insurance}"></td>
+                    <td class="patient_td" th:case="'N'" th:text="#{visit.no_insurance}"></td>
+                    <td class="patient_td" th:case="*" th:text="#{visit.no_insurance_information}"></td>
+                </div>
+                <td class="patient_td" th:text="*{patient.insuranceCompany + ' ' + patient.insuranceNumber}"></td>
+                <div th:switch="${patient.smoker}">
+                    <td class="patient_td"th:case="'Y'" th:text="#{visit.smoker}"></td>
+                    <td class="patient_td" th:case="'N'" th:text="#{visit.not_smoker}"></td>
+                    <td class="patient_td" th:case="*" th:text="#{visit.no_smoker_infomation}"></td>
+                </div>
+                <div th:switch="${patient.alcohol}">
+                    <td class="patient_td" th:case="'Y'" th:text="#{visit.alcoholic}"></td>
+                    <td class="patient_td" th:case="'N'" th:text="#{visit.not_alcoholic}"></td>
+                    <td class="patient_td" th:case="*" th:text="#{visit.no_alcohol_infomation}"></td>
+                </div>
+                <div th:switch="${patient.healthCards}">
+                    <td class="patient_td" th:case="'Y'" th:text="#{visit.health_card_available}"></td>
+                    <td class="patient_td" th:case="'N'" th:text="#{visit.health_card_not_available}"></td>
+                    <td class="patient_td" th:case="*" th:text="#{visit.no_health_card_information}"></td>
+                </div>
+                <td class="patient_td" th:text="*{patient.healthCardType + ' ' + patient.healthCardNumber}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <ul class="nav nav-tabs" style="margin-right: -15px; margin-left: -15px; width: 100%;">
+        <li class="nav-item nav-item50 active">
+            <a class="nav-link active" href="#1" data-toggle="tab" th:text="#{pdd.general_examination}"></a>
+        </li>
+        <li class="nav-item nav-item50">
+            <a class="nav-link" href="#2" data-toggle="tab" th:text="#{pdd.pathology_report}"></a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="1">
+            <div class="form-group" style="position: absolute; left: 10%; right: 10%; width: 80%;">
+                <div th:switch="*{examinations}">
+                    <h4 th:case="null" style="margin-top: 10px;">No examinations</h4>
+                    <div th:case="*">
+                        <table class="table table-cust">
+                            <thead>
+                            <tr>
+                                <th scope="col" th:text="#{common.date}"></th>
+                                <th scope="col" th:text="#{pdd.body_mass_index}"></th>
+                                <th scope="col" th:text="#{pdd.blood_pressure_sys}"></th>
+                                <th scope="col" th:text="#{pdd.blood_pressure_dia}"></th>
+                                <th scope="col" th:text="#{pdd.heart_rate}"></th>
+                                <th scope="col" th:text="#{pdd.temperature}"></th>
+                                <th scope="col" th:text="#{pdd.o2_saturation}"></th>
+                                <th scope="col" th:text="#{pdd.o2_flow_rate}"></th>
+                                <th scope="col" th:text="#{pdd.respiratory_rate}"></th>
+                                <th scope="col" th:text="#{pdd.blood_glucose_levels}"></th>
+                                <th scope="col" th:text="#{pdd.consciousness}"></th>
+                                <th scope="col" th:text="#{pdd.taste}"></th>
+                                <th scope="col" th:text="#{pdd.smell}"></th>
+                                <th scope="col" th:text="#{pdd.total_score}"></th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-body">
+                            <tr th:each="examination : *{examinations}">
+                                <td style="white-space: nowrap;" class="level0" th:text="*{examination.date}"></td>
+                                <td th:class="*{examination.bodyMassIndexColor}" th:text="*{examination.bodyMassIndex}"></td>
+                                <td th:class="*{examination.bloodPressureMaxColor}" th:text="*{examination.bloodPressureMax}"></td>
+                                <td th:class="*{examination.bloodPressureMinColor}" th:text="*{examination.bloodPressureMin}"></td>
+                                <td th:class="*{examination.heartRateColor}" th:text="*{examination.heartRate}"></td>
+                                <td th:class="*{examination.temperatureColor}" th:text="*{examination.temperature}"></td>
+                                <td th:class="*{examination.o2SaturationColor}" th:text="*{examination.o2Saturation}"></td>
+                                <td th:class="*{examination.o2FlowRateColor}" th:text="*{examination.o2FlowRate}"></td>
+                                <td th:class="*{examination.respiratoryRateColor}" th:text="*{examination.respiratoryRate}"></td>
+                                <td th:class="*{examination.bloodGlucoseLevelColor}" th:text="*{examination.bloodGlucoseLevel}"></td>
+                                <td th:class="*{examination.consciousnessColor}" th:text="*{examination.consciousness}"></td>
+                                <td th:class="*{examination.tasteColor}" th:text="*{examination.taste}"></td>
+                                <td th:class="*{examination.smellColor}" th:text="*{examination.smell}"></td>
+                                <td th:class="*{examination.scoreColor}" th:text="*{examination.score}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div th:replace="fragments/language_selector :: language_selector"></div>
+            </div>
+        </div>
+        <div class="tab-pane" id="2">
+            <div class="form-group">
+                <div th:switch="*{pathologies}">
+                    <h4 th:case="null" style="margin-top: 10px;">No reports</h4>
+                    <div th:case="*">
+                        <table class="table table-cust" style="margin-top: 3%;">
+                            <thead>
+                            <tr>
+                                <th scope="col" th:text="#{pdd.report_id}"></th>
+                                <th scope="col" th:text="#{pdd.report_date}"></th>
+                                <th scope="col" th:text="#{common.action}"></th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-body">
+                            <tr th:each="pathology : *{pathologies}">
+                                <td class="white_td" th:text="*{pathology.id}"></td>
+                                <td class="white_td" th:text="*{pathology.date}"></td>
+                                <td class="white_td">
+                                    <a th:href="@{/patient/pdd/get_report/{id}(id=${pathology.id})}">
+                                        <img class="action-icon" alt="" th:src="@{/images/download.png}" style="width: 25px; height: 25px; display: block; margin-left: auto; margin-right: auto;">
+                                        <p class="action-label" style="color: #000000; font-size: 13px; text-align: center;">Download</p>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div th:replace="fragments/language_selector :: language_selector"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+</script>
+</body>
+</html>
