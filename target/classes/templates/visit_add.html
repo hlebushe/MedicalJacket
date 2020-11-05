@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/logo_transparent.png}" />
     <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -181,6 +182,11 @@
             width: 100%;
         }
 
+        .modal-hr {
+            width: 100%;
+            background-color: #000000;
+        }
+
     </style>
 </head>
 <body>
@@ -302,6 +308,12 @@
                                 <label class="custom-control-label" for="clinic"
                                        th:text="#{visit.visit_to_clinic}"></label>
                             </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="tele" name="tele" class="custom-control-input" value="T"
+                                       th:field="*{type}" required="true">
+                                <label class="custom-control-label" for="tele"
+                                       th:text="#{visit.tele_visit}"></label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -326,8 +338,16 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body" id="symptomsModalText" style="white-space: pre-line;">
-                                            Loading...
+                                        <div class="modal-body" style="white-space: pre-line;">
+                                            <div class="form-group" id="symptomsModalText1">
+                                                Loading...
+                                            </div>
+                                            <hr class="modal-hr">
+                                            <div class="form-group" id="symptomsModalText2">
+                                            </div>
+                                            <hr class="modal-hr">
+                                            <div class="form-group" id="symptomsModalText3">
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
@@ -357,9 +377,17 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body" id="descriptionModalText"
+                                        <div class="modal-body"
                                              style="white-space: pre-line;">
-                                            Loading...
+                                            <div class="form-group" id="descriptionModalText1">
+                                                Loading...
+                                            </div>
+                                            <hr class="modal-hr">
+                                            <div class="form-group" id="descriptionModalText2">
+                                            </div>
+                                            <hr class="modal-hr">
+                                            <div class="form-group" id="descriptionModalText3">
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
@@ -388,8 +416,16 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body" id="managementModalText" style="white-space: pre-line;">
-                                            Loading...
+                                        <div class="modal-body" style="white-space: pre-line;">
+                                            <div class="form-group" id="managementModalText1">
+                                                Loading...
+                                            </div>
+                                            <hr class="modal-hr">
+                                            <div class="form-group" id="managementModalText2">
+                                            </div>
+                                            <hr class="modal-hr">
+                                            <div class="form-group" id="managementModalText3">
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
@@ -1160,10 +1196,13 @@
                             infoType: "Description"
                         },
                         success: function (response) {
-                            $('#symptomsModalText').text(response);
+                            var data = response;
+                            $('#symptomsModalText1').text(data[0]);
+                            $('#symptomsModalText2').text(data[1]);
+                            $('#symptomsModalText3').text(data[2]);
                         },
                         error: function (xhr) {
-                            $('#symptomsModalText').text("No symptoms information");
+                            $('#symptomsModalText1').text("No symptoms information");
                         }
                     });
                 }
@@ -1192,10 +1231,13 @@
                             infoType: "Diagnosis"
                         },
                         success: function (response) {
-                            $('#descriptionModalText').text(response);
+                            var data = response;
+                            $('#descriptionModalText1').text(data[0]);
+                            $('#descriptionModalText2').text(data[1]);
+                            $('#descriptionModalText3').text(data[2]);
                         },
                         error: function (xhr) {
-                            $('#descriptionModalText').text("No description");
+                            $('#descriptionModalText1').text("No description");
                         }
                     });
                 }
@@ -1223,10 +1265,13 @@
                             infoType: "Management"
                         },
                         success: function (response) {
-                            $('#managementModalText').text(response);
+                            var data = response;
+                            $('#managementModalText1').text(data[0]);
+                            $('#managementModalText2').text(data[1]);
+                            $('#managementModalText3').text(data[2]);
                         },
                         error: function (xhr) {
-                            $('#managementModalText').text("No management information");
+                            $('#managementModalText1').text("No management information");
                         }
                     });
                 }

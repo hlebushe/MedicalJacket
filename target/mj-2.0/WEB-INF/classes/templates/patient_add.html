@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/logo_transparent.png}" />
     <script th:src="@{/webjars/jquery/3.5.0/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
@@ -107,6 +108,10 @@
             <a th:href="@{/patient/list}" style="margin-left: 2%;">
                 <img class="action-icon" alt="" th:src="@{/images/discard.png}">
                 <p class="action-label" th:text="#{common.discard}"></p>
+            </a>
+            <a href="#" style="margin-left: auto;">
+                <img class="action-icon" alt="" th:src="@{/images/call.png}">
+                <p class="action-label">Call</p>
             </a>
         </div>
         <span id="validator" class="validator" style="color: red;width: 100%;font-size: 12px;">Please fill all mandatory fields</span>

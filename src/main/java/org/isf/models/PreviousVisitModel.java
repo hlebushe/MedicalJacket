@@ -32,6 +32,8 @@ public class PreviousVisitModel {
 
         if (visit.getType() == 'H') {
             this.type = "Home";
+        } else if (visit.getType() == 'T') {
+            this.type = "Tele Consult";
         } else {
             this.type = "Clinic";
         }

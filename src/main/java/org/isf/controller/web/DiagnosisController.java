@@ -29,22 +29,28 @@ public class DiagnosisController {
     JSONService jsonService;
 
     @RequestMapping(value = "/get_symptoms_info", method = RequestMethod.GET)
-    public @ResponseBody String getSymptomsInfo(@RequestParam String diagnosis1, @RequestParam String diagnosis2, @RequestParam String diagnosis3, @RequestParam String infoType, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String res = "";
+    public @ResponseBody List<String> getSymptomsInfo(@RequestParam String diagnosis1, @RequestParam String diagnosis2, @RequestParam String diagnosis3, @RequestParam String infoType, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<String> res = new ArrayList<>();
 
         Locale locale = LocaleContextHolder.getLocale();
         String loc = locale.toString();
 
         if (!diagnosis1.isEmpty()) {
-            res = res.concat(diagnosis1 + ": " + xlsxService.getSymptomInfo(diagnosis1, infoType, loc) + System.lineSeparator() + System.lineSeparator());
+            res.add(diagnosis1 + ": " + xlsxService.getSymptomInfo(diagnosis1, infoType, loc) + System.lineSeparator() + System.lineSeparator());
+        } else {
+            res.add("");
         }
 
         if (!diagnosis2.isEmpty()) {
-            res = res.concat(diagnosis2 + ": " + xlsxService.getSymptomInfo(diagnosis2, infoType, loc) + System.lineSeparator() + System.lineSeparator());
+            res.add(diagnosis2 + ": " + xlsxService.getSymptomInfo(diagnosis2, infoType, loc) + System.lineSeparator() + System.lineSeparator());
+        } else {
+            res.add("");
         }
 
         if (!diagnosis3.isEmpty()) {
-            res = res.concat(diagnosis3 + ": " + xlsxService.getSymptomInfo(diagnosis3, infoType, loc) + System.lineSeparator() + System.lineSeparator());
+            res.add(diagnosis3 + ": " + xlsxService.getSymptomInfo(diagnosis3, infoType, loc) + System.lineSeparator() + System.lineSeparator());
+        } else {
+            res.add("");
         }
 
         return res;
