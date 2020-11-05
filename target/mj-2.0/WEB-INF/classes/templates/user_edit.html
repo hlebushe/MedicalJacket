@@ -73,6 +73,32 @@
             max-height: 100%;
         }
     </style>
+    <script>
+        function showCenters(role) {
+            var dropdown = document.getElementById('center');
+            dropdown.length = 0;
+            var defaultOption = document.createElement('option');
+            defaultOption.text = 'Select A Center';
+            dropdown.add(defaultOption);
+            dropdown.selectedIndex = 0;
+            var xhttp;
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = JSON.parse(this.responseText);
+                    var option;
+                    for (var i = 0; i < data.length; i++) {
+                        option = document.createElement('option');
+                        option.text = data[i].name;
+                        option.value = data[i].id;
+                        dropdown.add(option);
+                    }
+                }
+            };
+            xhttp.open("GET", "/users/centers?usergroupname=" + role, true);
+            xhttp.send();
+        }
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-light header-custom">
@@ -118,6 +144,15 @@
                     <div class="col">
                         <div class="form-group input-group required">
                             <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text">Role</span>
+                            </div>
+                            <select th:field="*{role}" required class="form-control"  th:onchange="showCenters(this.value)">
+                                <option th:each="ug : ${usergrouplist}" th:value="${ug.code}" th:text="${ug.code}"></option>
+                            </select>
+                            <span id="validator_role" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Role</span>
+                        </div>
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text" th:text="#{patient.name}"></span>
                             </div>
                             <input type="text" onkeydown="return alphaOnly(event);" th:field="*{firstName}" class="form-control" id="name" required="true">
@@ -158,16 +193,7 @@
                             </datalist>
                             <span id="validator_desc" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Description</span>
                         </div>
-                        <div class="form-group input-group required">
-                            <div class="input-group-prepend input-group-prepend1">
-                                <span class="input-group-text">Role</span>
-                            </div>
-                            <!--                            <input list="roles" class="form-control" th:field="*{role}" id="role" required>-->
-                            <select th:field="*{role}" required class="form-control">
-                                <option th:each="ug : ${usergrouplist}" th:value="${ug.code}" th:text="${ug.code}"></option>
-                            </select>
-                            <span id="validator_role" class="validator" style="color: #ffffff;width: 100%;font-size: 12px;">Please fill Role</span>
-                        </div>
+
                         <div class="form-group required" style="margin-bottom: 4.4rem;" id="dob_div">
                             <div class="input-group-prepend input-group-prepend1" style="float: left">
                                 <span class="input-group-text" th:text="#{patient.dob}"></span>
@@ -177,6 +203,13 @@
                         </div>
                     </div>
                     <div class="col">
+                        <div class="form-group input-group required">
+                            <div class="input-group-prepend input-group-prepend1">
+                                <span class="input-group-text">Center</span>
+                            </div>
+                            <select th:field="*{differentCentre}" class="form-control" id="center" required>
+                            </select>
+                        </div>
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend1">
                                 <span class="input-group-text">Education</span>

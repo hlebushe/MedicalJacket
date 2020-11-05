@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.isf.util.DateUtil;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -449,5 +450,9 @@ public class Visit {
         defineMed4();
         defineMed5();
         defineMed6();
+    }
+
+    public String getFormattedDate() {
+        return DateUtil.formatDate(date);
     }
 }

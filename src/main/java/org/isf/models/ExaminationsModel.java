@@ -3,14 +3,12 @@ package org.isf.models;
 import org.isf.dao.Examinations;
 import org.isf.dao.NursingStationData;
 import org.isf.dao.Visit;
+import org.isf.util.DateUtil;
 import org.isf.util.TasksListComparator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ExaminationsModel {
 
@@ -103,7 +101,8 @@ public class ExaminationsModel {
         this.smell = examination.getSmell();
         this.taste = examination.getTaste();
         this.consciousness = examination.getConsciousness();
-        this.date = examination.getDate().toString().substring(0, examination.getDate().toString().length() - 10);
+        String formatted = DateUtil.formatDate(examination.getDate());
+        this.date = formatted.substring(0, examination.getDate().toString().length() - 10);
         if (examination.getHeight() == null) {
             this.bodyMassIndex = null;
         } else {
@@ -472,4 +471,5 @@ public class ExaminationsModel {
     public void setDripFlow(Boolean dripFlow) {
         this.dripFlow = dripFlow;
     }
+
 }

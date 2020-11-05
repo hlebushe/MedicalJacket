@@ -1,13 +1,14 @@
 package org.isf.serviceimpl;
 
 import org.isf.dao.DifferentCentre;
+import org.isf.enums.CentreType;
 import org.isf.repository.DifferentCentreRepository;
 import org.isf.service.DifferentCentreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.UUID;
+import java.util.List;
 
 @Service
 public class DifferentCentreServiceImpl implements DifferentCentreService {
@@ -49,5 +50,10 @@ public class DifferentCentreServiceImpl implements DifferentCentreService {
     @Override
     public boolean existsByEmail(String email) {
         return this.repository.existsByEmail(email);
+    }
+
+    @Override
+    public List<DifferentCentre> findAllByCentreType(CentreType centerType) {
+        return this.repository.findAllByCentreType(centerType);
     }
 }

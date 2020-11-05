@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.isf.dao.Patient;
 import org.isf.dao.Visit;
+import org.isf.util.DateUtil;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -74,6 +75,10 @@ public class Examinations {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "examination")
     List<Visit> visits;
+
+    public String getFormattedDate() {
+        return DateUtil.formatDate(date);
+    }
 
 
 }
