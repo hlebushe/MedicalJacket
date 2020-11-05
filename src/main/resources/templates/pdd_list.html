@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <title>MedJacket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
@@ -94,6 +96,16 @@
             border-top: 1px dotted #aeacab;
         }
 
+        .popup-file{
+            flex-direction: column;
+        }
+
+        @media (min-width: 576px) {
+            .popup-file{
+                flex-direction: row;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -154,7 +166,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group input-group" style="width: 100%;">
+                        <div class="form-group input-group popup-file" style="width: 100%;min-width: 150px">
                             <div class="input-group-prepend input-group-prepend2" style="width: 24%;">
                                 <span class="input-group-text" th:text="#{pdd.pathology_report}"></span>
                             </div>
@@ -171,9 +183,9 @@
             </form>
         </div>
     </div>
-    <div>
+    <div class="table-wrap">
         <div style="margin-bottom: 3%; background-color: #ffffff; width: 20%; float: left; height: 147px;">
-            <img id="userPic" th:src="@{/patient/userPic/{id}(id=${patient.code})}" alt="your image" style="max-width: 100%; max-height: 100%;"/>
+            <img id="userPic" th:src="@{/patient/userPic/{id}(id=${patient.code})}" alt="your image" style="height: 100%;"/>
         </div>
         <table class="table" style="margin-top: 15px; width: 79%; margin-left: 1%;">
             <tbody>
@@ -217,9 +229,9 @@
             </tbody>
         </table>
     </div>
-    <ul class="nav nav-tabs" style="margin-right: -15px; margin-left: -15px; width: 100%;">
-        <li class="nav-item nav-item50 active">
-            <a class="nav-link active" href="#1" data-toggle="tab" th:text="#{pdd.general_examination}"></a>
+    <ul class="nav nav-tabs" style="width: 100%;">
+        <li class="nav-item nav-item50" id="ul1">
+            <a class="nav-link active" href="#1" data-toggle="tab" th:text="#{pdd.general_examination}" id="a1"></a>
         </li>
         <li class="nav-item nav-item50">
             <a class="nav-link" href="#2" data-toggle="tab" th:text="#{pdd.pathology_report}"></a>
@@ -230,8 +242,8 @@
             <div class="form-group" style="position: absolute; left: 10%; right: 10%; width: 80%;">
                 <div th:switch="*{examinations}">
                     <h4 th:case="null" style="margin-top: 10px;">No examinations</h4>
-                    <div th:case="*">
-                        <table class="table table-cust">
+                    <div style="overflow-x: scroll" th:case="*">
+                        <table style="margin-top: 3%;" class="table table-cust">
                             <thead>
                             <tr>
                                 <th scope="col" th:text="#{common.date}"></th>
@@ -278,7 +290,7 @@
             <div class="form-group">
                 <div th:switch="*{pathologies}">
                     <h4 th:case="null" style="margin-top: 10px;">No reports</h4>
-                    <div th:case="*">
+                    <div class="table-wrap" th:case="*">
                         <table class="table table-cust" style="margin-top: 3%;">
                             <thead>
                             <tr>

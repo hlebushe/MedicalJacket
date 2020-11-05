@@ -45,3 +45,24 @@ input[type="password"] {
     height: 50px!important;
     background-color: #eeeeee!important;
 }
+
+.login-image{
+    width: 50%;
+    margin: 0 auto;
+    display: block
+}
+
+@media (min-width: 576px) {
+
+}
+
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 992px) {
+    .login-image{
+        width: 70%;
+        margin-left: 15%;
+    }
+}

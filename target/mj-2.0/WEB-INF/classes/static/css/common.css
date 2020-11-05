@@ -103,6 +103,11 @@ a {
      border-top-left-radius: 5px;
  }
 
+.header-navbar .nav-item {
+    width: 100%;
+}
+
+
 .nav-item.active {
     width: 25%;
     color: #ffffff;
@@ -131,6 +136,7 @@ a {
 }
 
 .nav-link.active {
+    border: none;
     color: #ffffff!important;
     background-color: #625e96!important;
     border-bottom-left-radius: 20px;
@@ -321,3 +327,97 @@ body {
     font-size: 13px;
 }
 
+.header-headings>h1{
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.table-wrap{
+    overflow-x: scroll;
+    width: 100%;
+}
+
+.search-wrap{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.search-wrap>input{
+    width: 100%!important;
+    margin-top: 0!important;
+    margin-left: 0!important;font-size: 12px!important;
+}
+
+.search-wrap>a{
+    width: 100%;
+}
+
+.tab-nav{
+    padding: 1em;
+}
+
+.tab-nav .nav-item{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.patient-edit-file{
+    width: 100%;
+    flex-direction: column;
+}
+
+.patient-edit-file .input-group-text{
+    width: 160px;
+}
+
+.dark_table_block *{
+    font-size: 1em!important;
+}
+
+@media (min-width: 576px) {
+    .header-headings>h1{
+        font-size: 2.5em;
+    }
+
+    .search-wrap{
+        display: flex;
+        flex-direction: row;
+        padding: 1rem;
+        justify-content: space-between;
+    }
+
+    .search-wrap>input{
+        width: 45%!important;
+        margin-top: 2%!important;
+        margin-left: 10%!important;
+        font-size: 22px!important;
+    }
+
+    .search-wrap>a{
+        width: 220px;
+        margin-right: 5%;
+    }
+
+    .tab-nav{
+        padding: 0;
+    }
+
+    .tab-nav .nav-item{
+        width: 25%;
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    .patient-edit-file{
+        width: 66%;
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 992px) {
+    .table-wrap{
+        overflow-x: inherit;
+    }
+}

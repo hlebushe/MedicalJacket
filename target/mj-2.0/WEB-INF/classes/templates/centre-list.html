@@ -84,7 +84,7 @@
 <div class="form-group">
     <div th:switch="${list}">
         <h2 th:case="null">No Centres</h2>
-        <div th:case="*">
+        <div class="table-wrap" th:case="*">
             <table class="table">
                 <thead>
                 <tr>
@@ -94,6 +94,7 @@
                     <th scope="col">Address</th>
                     <th scope="col">Registraion Date</th>
                     <th scope="col">Centre Type</th>
+                    <th style="min-width: 330px" scope="col" th:text="#{common.action}"></th>
                 </tr>
                 </thead>
                 <tbody id="table-body">

@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <title>MedJacket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker.min.css}"/>
@@ -182,12 +184,12 @@
 <div class="form-group">
     <div th:switch="${measurements}" id="measurements" style="margin-top: 3%;">
         <h2 th:case="null" th:text="#{patient.no_patients}"></h2>
-        <div th:case="*">
+        <div class="table-wrap" th:case="*">
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col" th:text="#{patient.patient_details}"></th>
-                    <th scope="col" th:text="#{patient.patient_statistics}"></th>
+                    <th style="min-width: 310px" scope="col" th:text="#{patient.patient_statistics}"></th>
                     <th scope="col">Tasks Due</th>
                     <th scope="col">External Results</th>
                     <th scope="col">Action Control</th>
@@ -208,7 +210,7 @@
                         </div>
                     </td>
                     <td>
-                        <div class="div_tr" style="max-width: 500px">
+                        <div class="div_tr dark_table_block" style="max-width: 500px">
                             <div class="heart_rate_monitor">
                                 <div class="grid">
                                     <div style="width: 100%; position: relative">
@@ -258,25 +260,25 @@
                     <td>
                         <div class="div_tr">
                             <div class="row" style="margin-top: 0;">
-                                <div class="col">
-                                    <button th:class="*{measurement.id}" onclick="confirmTask(this)" style="background: #ffffff;border: none;">
+                                <div class="col-12 col-xl-3">
+                                    <button th:class="*{measurement.id}" onclick="confirmTask(this)" style="background: #ffffff;border: none;width: 100%">
                                         <img class="action-icon" alt="" th:src="@{/images/task_confirm.png}">
                                         <p class="action-label">Task Confirm</p>
                                     </button>
                                 </div>
-                                <div class="col">
-                                    <button th:class="*{measurement.id}" onclick="undoTask(this)" style="background: #ffffff;border: none;">
+                                <div class="col-12 col-xl-3">
+                                    <button th:class="*{measurement.id}" onclick="undoTask(this)" style="background: #ffffff;border: none;width: 100%">
                                         <img class="action-icon" alt="" th:src="@{/images/discard.png}">
                                         <p class="action-label">Undo Task</p>
                                     </button>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-xl-3">
                                     <a href="#">
                                         <img class="action-icon" alt="" th:src="@{/images/video_call.png}">
                                         <p class="action-label">Live Cam</p>
                                     </a>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-xl-3">
                                     <a href="#">
                                         <img class="action-icon" alt="" th:src="@{/images/call.png}">
                                         <p class="action-label">Call</p>
@@ -296,31 +298,31 @@
     var url = /*[[ @{/nursing_station/get_measurements} ]]*/
 
         function updateData() {
-        $.get(url, function(fragment) {
-            $("#measurements").replaceWith(fragment);
-        });
-    }
+            $.get(url, function(fragment) {
+                $("#measurements").replaceWith(fragment);
+            });
+        }
 
     setInterval(updateData, 1000)
 </script>
 <script th:inline="javascript">
     var urlTask = /*[[ @{/nursing_station/confirm_task} ]]*/
 
-    function confirmTask(task) {
-        var nursingStationDataId = $(task).attr('class');
+        function confirmTask(task) {
+            var nursingStationDataId = $(task).attr('class');
 
-        $.ajax({
-            url: urlTask,
-            type: "get", //send it through get method
-            data: {
-                id: nursingStationDataId
-            },
-            success: function (response) {
-            },
-            error: function (xhr) {
-            }
-        });
-    }
+            $.ajax({
+                url: urlTask,
+                type: "get", //send it through get method
+                data: {
+                    id: nursingStationDataId
+                },
+                success: function (response) {
+                },
+                error: function (xhr) {
+                }
+            });
+        }
 </script>
 <script th:inline="javascript">
     var urlTaskUndo = /*[[ @{/nursing_station/undo_task} ]]*/

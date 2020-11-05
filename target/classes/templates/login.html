@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>MedJacket</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -17,17 +19,17 @@
             <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
         </div>
         <div class="header-headings">
-            <h1 style="font-weight: bold">MEDJACKET</h1>
+            <h1>MEDJACKET</h1>
             <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
         </div>
     </div>
 </nav>
 <div class="container" style="margin-top: 10%;">
     <div class="row">
-        <div class="col">
-            <img th:src="@{/images/logo_cropped.png}" style="width: 70%;margin-left: 15%;" alt="">
+        <div class="col-sm-12 col-lg-6">
+            <img class="login-image" th:src="@{/images/logo_cropped.png}" alt="logo">
         </div>
-        <div class="col">
+        <div class="col-sm-12 col-lg-6">
             <form th:action="@{/login}" method="POST" class="form-signin" style="text-align: center">
                 <h3 class="form-signin-heading" style="width: 100%;">User Login</h3>
                 <br/>
