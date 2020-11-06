@@ -25,6 +25,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class DefaultController {
@@ -98,7 +99,14 @@ public class DefaultController {
 //		if (deviceDetailsService.findAll().isEmpty()) {
 			ModelAndView mv = new ModelAndView();
 			DeviceDetails deviceDetails = new DeviceDetails();
-			deviceDetails.setMachineID(getMacAddress());
+
+			String macAddress = getMacAddress();
+
+			if (macAddress.equals("")) {
+				macAddress = UUID.randomUUID().toString();
+			}
+			deviceDetails.setMachineID(macAddress);
+
 			mv.addObject("device", deviceDetails);
 			mv.setViewName("register");
 			return mv;

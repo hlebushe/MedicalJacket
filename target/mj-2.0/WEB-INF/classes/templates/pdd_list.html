@@ -199,7 +199,7 @@
                 </div>
                 <td class="patient_td" th:text="*{patient.maritalStatus}"></td>
                 <td class="patient_td" th:text="*{patient.city}"></td>
-                <td class="patient_td" th:text="*{'Aadhaar number:' + patient.taxCode}"></td>
+                <td class="patient_td" th:text="*{'Aadhaar number:' + patient.aadhaarId}"></td>
                 <td class="patient_td" th:text="*{'Allergies: ' + patient.allergies}"></td>
             </tr>
             <tr>
@@ -245,7 +245,7 @@
         <div class="tab-pane active" id="1">
             <div class="form-group" style="position: absolute; left: 10%; right: 10%; width: 80%;">
                 <div th:switch="*{examinations}">
-                    <h4 th:case="null" style="margin-top: 10px;">No examinations</h4>
+                    <h5 th:case="null" style="margin-top: 10px;">No examinations</h5>
                     <div style="overflow-x: scroll" th:case="*">
                         <table style="margin-top: 3%;" class="table table-cust">
                             <thead>
@@ -293,8 +293,9 @@
         <div class="tab-pane" id="2">
             <div class="form-group">
                 <div th:switch="*{pathologies}">
-                    <h4 th:case="null" style="margin-top: 10px;">No reports</h4>
+                    <h5 th:case="null" style="margin-top: 10px;">No local pathology reports</h5>
                     <div class="table-wrap" th:case="*">
+                        <h5>Local Pathology Reports</h5>
                         <table class="table table-cust" style="margin-top: 3%;">
                             <thead>
                             <tr>
@@ -318,11 +319,76 @@
                         </table>
                     </div>
                 </div>
+            </div>
+            <div class="form-group">
+                <div th:switch="*{pathologiesDicom}">
+                    <h5 th:case="null" style="margin-top: 10px;">No DICOM pathology reports</h5>
+                    <div class="table-wrap" th:case="*">
+                        <h5>DICOM Pathology Reports</h5>
+                        <table class="table table-cust" style="margin-top: 3%;">
+                            <thead>
+                            <tr>
+                                <th scope="col" th:text="#{pdd.report_id}"></th>
+                                <th scope="col" th:text="#{pdd.report_date}"></th>
+                                <th scope="col" th:text="#{common.action}"></th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-body">
+                            <tr th:each="pathologyDicom : *{pathologiesDicom}">
+                                <td class="white_td" th:text="*{pathologyDicom.studyName}"></td>
+                                <td class="white_td" th:text="*{pathologyDicom.studyDate}"></td>
+                                <td class="white_td">
+                                    <a th:href="*{pathologyDicom.studyReport}" target="_blank">
+                                        <img class="action-icon" alt="" th:src="@{/images/download.png}" style="width: 25px; height: 25px; display: block; margin-left: auto; margin-right: auto;">
+                                        <p class="action-label" style="color: #000000; font-size: 13px; text-align: center;">Download</p>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <div th:replace="fragments/language_selector :: language_selector"></div>
             </div>
         </div>
         <div class="tab-pane" id="3">
             <div class="form-group">
+                <div th:switch="*{radiologies}">
+                    <h5 th:case="null" style="margin-top: 10px;">No radiology reports</h5>
+                    <div class="table-wrap" th:case="*">
+                        <table class="table table-cust" style="margin-top: 3%;">
+                            <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-body">
+                            <tr th:each="radiology : *{radiologies}">
+                                <td class="white_td" th:text="*{radiology.studyName}"></td>
+                                <td class="white_td" th:text="*{radiology.studyDate}"></td>
+                                <td class="white_td">
+                                    <div class="row" style="margin-top: 0;">
+                                        <div class="col">
+                                            <a th:href="*{radiology.studyReport}" target="_blank">
+                                                <img class="action-icon" alt="" th:src="@{/images/download.png}" style="width: 25px; height: 25px; display: block; margin-left: auto; margin-right: auto;">
+                                                <p class="action-label" style="color: #000000; font-size: 13px; text-align: center;">Download</p>
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <a th:href="*{radiology.studyLink}" target="_blank">
+                                                <img class="action-icon" alt="" th:src="@{/images/view.png}" style="width: 25px; height: 25px; display: block; margin-left: auto; margin-right: auto;">
+                                                <p class="action-label" style="color: #000000; font-size: 13px; text-align: center;">View</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <div th:replace="fragments/language_selector :: language_selector"></div>
             </div>
         </div>

@@ -81,6 +81,9 @@ public class PatientController {
     @Autowired
     protected NursingStationDataService nursingStationDataService;
 
+    @Autowired
+    protected JSONService jsonService;
+
     @GetMapping(value = "/list")
     public ModelAndView getPatients(Model model) throws IOException, ParseException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -139,9 +142,8 @@ public class PatientController {
     }
 
     @PostMapping("/add")
-    public ModelAndView addPatient(@RequestParam("photo") MultipartFile photo, @RequestParam("existingMedication") MultipartFile existingMedication, @Valid Patient patient, BindingResult result, Model model) throws IOException, SQLException {
+    public ModelAndView addPatient(@RequestParam("photo") MultipartFile photo, @Valid Patient patient, BindingResult result, Model model) throws IOException, SQLException {
         patient.setBlobPhoto(filesService.getBlobData(photo));
-        patient.setExistingMedication(filesService.getBlobData(existingMedication));
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserName(auth.getName());
         patient.setDeviceDetails(user.getDeviceDetails());
@@ -196,19 +198,13 @@ public class PatientController {
     }
 
     @PostMapping("/edit")
-    public ModelAndView editUser(@RequestParam("photo") MultipartFile photo, @RequestParam("existingMedication") MultipartFile existingMedication, @Valid Patient patient, BindingResult result, Model model) throws IOException, SQLException {
+    public ModelAndView editUser(@RequestParam("photo") MultipartFile photo, @Valid Patient patient, BindingResult result, Model model) throws IOException, SQLException {
         Patient patientFromDB = patientService.findPatientByCode(patient.getCode());
 
         if (!photo.isEmpty()) {
             patient.setBlobPhoto(filesService.getBlobData(photo));
         } else {
             patient.setBlobPhoto(patientFromDB.getBlobPhoto());
-        }
-
-        if (!existingMedication.isEmpty()) {
-            patient.setExistingMedication(filesService.getBlobData(existingMedication));
-        } else {
-            patient.setExistingMedication(patientFromDB.getExistingMedication());
         }
 
         if (patient.getBirthDate() == null) {
@@ -339,6 +335,14 @@ public class PatientController {
     public ModelAndView postAddVisit(@PathVariable("id") String code, @Valid Visit newVisit, BindingResult result, Model model) throws Exception {
         Patient patient = patientService.findPatientByCode(UUID.fromString(code));
         Examinations lastExamination = examinationService.getLastExaminationByPatient(patient);
+
+        if (newVisit.getRadiologyPrescribed() == null) {
+            newVisit.setRadiologyPrescribed("");
+        }
+
+        if (newVisit.getExaminationsPrescribed() == null) {
+            newVisit.setExaminationsPrescribed("");
+        }
 
         List<Visit> visits = visitService.findAllByPatient(patient);
         List<PreviousVisitModel> previousVisits = new ArrayList<>();
@@ -504,6 +508,19 @@ public class PatientController {
             if (pathologies.isEmpty()) {
                 pathologies = null;
             }
+
+            List<JSONService.RadiologyReport> radiology = jsonService.getRadiologyByAadhaarId(patient.getAadhaarId());
+            if (radiology.isEmpty()) {
+                radiology = null;
+            }
+
+            List<JSONService.PathologyReport> pathologyDicom = jsonService.getPathologyByAadhaarId(patient.getAadhaarId());
+            if (pathologyDicom.isEmpty()) {
+                pathologyDicom = null;
+            }
+
+            mv.addObject("radiologies", radiology);
+            mv.addObject("pathologiesDicom", pathologyDicom);
 
             mv.addObject("pathology", new Pathology());
             mv.addObject("pathologies", pathologies);

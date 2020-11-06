@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -63,10 +62,6 @@ public class Patient implements Serializable {
     private int age;
 
     @NotNull
-    @Column(name="PAT_AGETYPE")
-    private String agetype;
-
-    @NotNull
     @Column(name="PAT_SEX")
     private char sex;
 
@@ -99,21 +94,18 @@ public class Patient implements Serializable {
     @Column(name="PAT_NOTE")
     private String note;
 
-    @NotNull
     @Column(name="PAT_MOTH_NAME")
     private String mother_name; // mother's name
 
     @Column(name="PAT_MOTH")
     private Character mother; // D=dead, A=alive
 
-    @NotNull
     @Column(name="PAT_FATH_NAME")
     private String father_name; // father's name
 
     @Column(name="PAT_FATH")
     private Character father; // D=dead, A=alive
 
-    @NotNull
     @Column(name="PAT_BTYPE")
     private String bloodType; // (0-/+, A-/+ , B-/+, AB-/+)
 
@@ -123,8 +115,8 @@ public class Patient implements Serializable {
     @Column(name="PAT_PTOGE")
     private Character parentTogether;
 
-    @Column(name="PAT_TAXCODE")
-    private String taxCode;
+    @Column(name="PAT_AADHAAR_ID")
+    private String aadhaarId;
 
     @Column(name="PAT_MAR_STAT")
     private String maritalStatus;
@@ -166,7 +158,7 @@ public class Patient implements Serializable {
     private String natureOfMedicalCondition;
 
     @Column(name="PAT_EXISTING_MEDICATION")
-    private Blob existingMedication;
+    private String existingMedication;
 
     @Column(name="PAT_PREVIOUS_OPERATIONS")
     private Character previousOperations;
@@ -273,7 +265,6 @@ public class Patient implements Serializable {
         this.name = this.firstName + " " + this.secondName;
         this.birthDate = null;
         this.age = 0;
-        this.agetype = "";
         this.sex = ' ';
         this.address = "";
         this.city = "";
@@ -282,7 +273,7 @@ public class Patient implements Serializable {
         this.mother_name = "";
         this.father_name = "";
         this.bloodType = "";
-        this.taxCode = "";
+        this.aadhaarId = "";
         this.height = 0;
         this.weight = 0;
         this.maritalStatus = "";
@@ -290,7 +281,7 @@ public class Patient implements Serializable {
     }
 
 
-    public Patient(String firstName, String secondName, Date birthDate, int age, String agetype, char sex,
+    public Patient(String firstName, String secondName, Date birthDate, int age, char sex,
                    String address, String city, String nextKin, String telephone,
                    String mother_name, char mother, String father_name, char father,
                    String bloodType, char economicStatut, char parentTogether, String personalCode,
@@ -300,7 +291,6 @@ public class Patient implements Serializable {
         this.name = this.firstName + " " + this.secondName;
         this.birthDate = birthDate;
         this.age = age;
-        this.agetype = agetype;
         this.sex = sex;
         this.address = address;
         this.city = city;
@@ -313,17 +303,17 @@ public class Patient implements Serializable {
         this.hasInsurance = economicStatut;
         this.bloodType = bloodType;
         this.parentTogether = parentTogether;
-        this.taxCode = personalCode;
+        this.aadhaarId = personalCode;
         this.height = 0;
         this.weight = 0;
         this.maritalStatus = maritalStatus;
         this.profession = profession;
     }
 
-    public Patient(UUID code, String firstName, String secondName, String name, Date birthDate, int age, String agetype, char sex,
+    public Patient(UUID code, String firstName, String secondName, String name, Date birthDate, int age, char sex,
                    String address, String city, String nextKin, String telephone, String note,
                    String mother_name, char mother, String father_name, char father,
-                   String bloodType, char economicStatut, char parentTogether, String taxCode,
+                   String bloodType, char economicStatut, char parentTogether, String aadhaarId,
                    float height, float weight, Blob photo, Image photoImage, String maritalStatus, String profession) { //Changed EduLev with bloodType
         this.code = code;
         this.firstName = firstName;
@@ -331,7 +321,6 @@ public class Patient implements Serializable {
         this.name = name;
         this.birthDate = birthDate;
         this.age = age;
-        this.agetype = agetype;
         this.sex = sex;
         this.address = address;
         this.city = city;
@@ -345,7 +334,7 @@ public class Patient implements Serializable {
         this.hasInsurance = economicStatut;
         this.bloodType = bloodType;
         this.parentTogether = parentTogether;
-        this.taxCode = taxCode;
+        this.aadhaarId = aadhaarId;
         this.height = height;
         this.weight = weight;
         this.photo = photo;
@@ -452,12 +441,12 @@ public class Patient implements Serializable {
         this.photoImage = image;
     }
 
-    public String getTaxCode() {
-        return taxCode;
+    public String getAadhaarId() {
+        return aadhaarId;
     }
 
-    public void setTaxCode(String taxCode) {
-        this.taxCode = taxCode;
+    public void setAadhaarId(String aadhaarId) {
+        this.aadhaarId = aadhaarId;
     }
 
     public float getHeight() {
@@ -528,7 +517,7 @@ public class Patient implements Serializable {
         if (getAddress() != null) sbName.append(getAddress().toLowerCase()).append(" ");
         if (getTelephone() != null) sbName.append(getTelephone()).append(" ");
         if (getNote() != null) sbName.append(getNote().toLowerCase()).append(" ");
-        if (getTaxCode() != null) sbName.append(getTaxCode().toLowerCase()).append(" ");
+        if (getAadhaarId() != null) sbName.append(getAadhaarId().toLowerCase()).append(" ");
         return sbName.toString();
     }
 
@@ -556,9 +545,9 @@ public class Patient implements Serializable {
             infoBfr.append(note);
             i++;
         }
-        if (taxCode != null && !taxCode.equals("")) {
+        if (aadhaarId != null && !aadhaarId.equals("")) {
             infoBfr.append(i > 0 ? " - " : "");
-            infoBfr.append(taxCode);
+            infoBfr.append(aadhaarId);
             i++;
         }
         return infoBfr.toString();

@@ -256,7 +256,7 @@
                 </div>
                 <td class="patient_td" th:text="*{patient.maritalStatus}"></td>
                 <td class="patient_td" th:text="*{patient.city}"></td>
-                <td class="patient_td" th:text="*{'Aadhaar number:' + patient.taxCode}"></td>
+                <td class="patient_td" th:text="*{'Aadhaar number:' + patient.aadhaarId}"></td>
                 <td class="patient_td" th:text="*{'Allergies: ' + patient.allergies}"></td>
             </tr>
             <tr>
@@ -705,45 +705,45 @@
                             <span class="input-group-text" style="white-space: unset; text-align: left; height: 62px;">Medication 5 Notes</span>
                         </div>
                     </div>
-                    <div class="row med med6">
-                        <div class="form-group input-group med med6 col-12 col-md-6 col-lg-3">
-                            <div class="input-group-prepend input-group-prepend2">
+                </div>
+                <div class="row med med6">
+                    <div class="form-group input-group med med6 col-12 col-md-6 col-lg-3">
+                        <div class="input-group-prepend input-group-prepend2">
                                 <span class="input-group-text"
                                       style="white-space: unset; text-align: left; height: 62px;">Medication 6</span>
-                            </div>
-                            <input style="height: 62px;" class="form-control medication_input" th:field="*{med6}"
-                                   id="med6">
                         </div>
-                        <div class="form-group input-group med med6 col-12 col-md-6 col-lg-3">
-                            <div class="input-group-prepend input-group-prepend2">
-                                <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 6 Time</span>
-                            </div>
-                            <input style="height: 62px;" class="form-control" th:field="*{med6_time}" id="med6_time">
-                            <span class="caption">* please write time of use. If more then one: describe using coma (like 12:00, 18:30)</span>
+                        <input style="height: 62px;" class="form-control medication_input" th:field="*{med6}"
+                               id="med6">
+                    </div>
+                    <div class="form-group input-group med med6 col-12 col-md-6 col-lg-3">
+                        <div class="input-group-prepend input-group-prepend2">
+                            <span class="input-group-text" style="white-space: unset; text-align: left;">Medication 6 Time</span>
                         </div>
-                        <div class="form-group input-group med med6 col-12 col-md-6 col-lg-3">
-                            <div class="input-group-prepend input-group-prepend2">
+                        <input style="height: 62px;" class="form-control" th:field="*{med6_time}" id="med6_time">
+                        <span class="caption">* please write time of use. If more then one: describe using coma (like 12:00, 18:30)</span>
+                    </div>
+                    <div class="form-group input-group med med6 col-12 col-md-6 col-lg-3">
+                        <div class="input-group-prepend input-group-prepend2">
                                 <span class="input-group-text"
                                       style="white-space: unset; text-align: left; height: 62px;">Medication 6 Duration</span>
-                            </div>
-                            <input style="height: 62px;" class="form-control" th:field="*{med6_duration}"
-                                   id="med6_duration">
                         </div>
-                        <div class="form-group input-group med med6 medication_combination_div col-12 col-md-6 col-lg-3">
-                            <div class="input-group-prepend input-group-prepend2 ">
+                        <input style="height: 62px;" class="form-control" th:field="*{med6_duration}"
+                               id="med6_duration">
+                    </div>
+                    <div class="form-group input-group med med6 medication_combination_div col-12 col-md-6 col-lg-3">
+                        <div class="input-group-prepend input-group-prepend2 ">
                                 <span class="input-group-text"
                                       style="white-space: unset; text-align: left; height: 62px;">Medication 6 Notes</span>
-                            </div>
-                            <input style="height: 62px;" class="form-control medication_combination"
-                                   th:field="*{med6_caution}" id="med6_caution">
                         </div>
+                        <input style="height: 62px;" class="form-control medication_combination"
+                               th:field="*{med6_caution}" id="med6_caution">
                     </div>
-                    <div class="form-group">
-                        <div class="form-group input-group medButton">
-                            <button type="button" class="btn btn-secondary" onclick="addMedication()"
-                                    style="width: 35%;margin-left: 32.5%;">Add Medication
-                            </button>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group input-group medButton">
+                        <button type="button" class="btn btn-secondary" onclick="addMedication()"
+                                style="width: 35%;margin-left: 32.5%;">Add Medication
+                        </button>
                     </div>
                 </div>
             </form>
@@ -772,7 +772,7 @@
                                 <td th:text="*{previosVisit.mainComplaintDiagnosis}"></td>
                                 <td th:text="*{previosVisit.treatment}"></td>
                                 <td>
-                                    <a th:href="@{/patient/visit/get_visit_report/{id}(id=${previosVisit.visitID})}" target="_blank">>
+                                    <a th:href="@{/patient/visit/get_visit_report/{id}(id=${previosVisit.visitID})}" target="_blank">
                                         <img class="action-icon" alt="" th:src="@{/images/download.png}"
                                              style="width: 25px; height: 25px; display: block; margin-left: auto; margin-right: auto;">
                                         <p class="action-label"

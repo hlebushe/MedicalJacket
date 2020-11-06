@@ -58,7 +58,7 @@ public class PatientService {
         patientFromDB.setParentTogether(patient.getParentTogether());
         patientFromDB.setBloodType(patient.getBloodType());
         patientFromDB.setBlobPhoto(patient.getBlobPhoto());
-        patientFromDB.setTaxCode(patient.getTaxCode());
+        patientFromDB.setAadhaarId(patient.getAadhaarId());
         patientFromDB.setProfession(patient.getProfession());
         patientFromDB.setMaritalStatus(patient.getMaritalStatus());
         patientFromDB.setArea(patient.getArea());
@@ -93,7 +93,7 @@ public class PatientService {
     }
 
     public Patient getByAadharId(String aadharId) {
-        return repository.findByTaxCode(aadharId).get(0);
+        return repository.findByAadhaarId(aadharId).get(0);
     }
 
 

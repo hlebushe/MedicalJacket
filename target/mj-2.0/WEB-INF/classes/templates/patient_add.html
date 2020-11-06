@@ -385,7 +385,7 @@
                                 <span class="input-group-text" th:text="#{patient.aadhaar_id}"></span>
                             </div>
                             <input type="text" name="adharcard" onkeydown="return numericOnly(event);"
-                                   th:field="*{taxCode}" minlength="12" maxlength="12" pattern="([0-9]{12})"
+                                   th:field="*{aadhaarId}" minlength="12" maxlength="12" pattern="([0-9]{12})"
                                    class="form-control" id="aadhaarNumber" required="true" title="12 characters">
                             <span id="validator_aadhaar" class="validator"
                                   style="color: red;width: 100%;font-size: 12px;">Please fill Aadhaar ID</span>
@@ -761,7 +761,7 @@
                         <div class="form-group input-group">
                             <div class="input-group-prepend input-group-prepend2">
                                 <span class="input-group-text" style="white-space: unset; text-align: left;"
-                                      th:text="#{patient.previous_operations}"></span>
+                                      th:text="#{patient.previous_medical_conditions}"></span>
                             </div>
                             <input type="text" th:field="*{previousMedicalConditions}" class="form-control"
                                    id="previousMedicalConditions" style="height: 62px;">
@@ -856,14 +856,13 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6 col-lg-4">
-                    </div>
-                </div>
-                <div class="form-group input-group patient-edit-file" style="width: 66%;">
-                    <div class="input-group-prepend input-group-prepend2" style="width: 24%;">
-                        <span class="input-group-text" th:text="#{patient.existing_medication}"></span>
-                    </div>
-                    <div class="form-control">
-                        <input th:field="*{existingMedication}" type="file" id="existingMedication"/>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend input-group-prepend2" style="white-space: unset; text-align: left;">
+                                <span class="input-group-text" th:text="#{patient.existing_medication}"></span>
+                            </div>
+                            <input type="text" th:field="*{existingMedication}" class="form-control"
+                                   id="existingMedication" style="height: 62px;">
+                        </div>
                     </div>
                 </div>
             </div>

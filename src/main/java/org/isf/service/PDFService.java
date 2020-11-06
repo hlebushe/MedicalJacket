@@ -8,7 +8,6 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
@@ -32,7 +31,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -170,7 +168,7 @@ public class PDFService {
             contentStream.newLine();
             contentStream.showText("Address: " + visit.getPatient().getAddress() + ", " + visit.getPatient().getCity());
             contentStream.newLine();
-            contentStream.showText("Aadhaar ID: " + visit.getPatient().getTaxCode());
+            contentStream.showText("Aadhaar ID: " + visit.getPatient().getAadhaarId());
 
             String qr = createQRCodeForDocument(visit, doctor);
             PDImageXObject QRImage = PDImageXObject.createFromFile(qr, document);
@@ -238,8 +236,8 @@ public class PDFService {
             }
             contentStream.newLine();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+
         }
 
         return heightCounter;
@@ -379,8 +377,7 @@ public class PDFService {
 
             contentStream.endText();
             tableDrawer.draw();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
         return parallelCounter;
     }
@@ -435,8 +432,7 @@ public class PDFService {
             }
             contentStream.newLine();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
 
         return heightCounter;
@@ -457,8 +453,7 @@ public class PDFService {
             }
             contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
             contentStream.showText("Note: Check your contact details & Aadhaar details. If any change or variance please advise.");
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
 
     }

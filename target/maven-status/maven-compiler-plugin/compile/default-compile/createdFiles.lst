@@ -14,11 +14,13 @@ org/isf/repository/VisitRepository.class
 org/isf/dao/MeasurementTypes.class
 org/isf/controller/web/UserController.class
 org/isf/dao/Visit.class
+org/isf/service/JSONService$PathologyReport.class
 org/isf/models/DiseaseModel.class
 org/isf/dao/DifferentCentre.class
 org/isf/service/PDFService.class
 org/isf/service/FilesService.class
 org/isf/config/WebSecurityConfiguration.class
+org/isf/service/JSONService$RadiologyReport.class
 org/isf/dao/MeasurementsData.class
 org/isf/dao/NursingStationData.class
 org/isf/controller/web/DifferentCentreController.class

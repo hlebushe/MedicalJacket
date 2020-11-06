@@ -3,18 +3,20 @@ package org.isf.service;
 import io.micrometer.core.instrument.util.IOUtils;
 import lombok.Data;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
 public class JSONService {
+
+    final String DICOM_RADIOLOGY_URL = "http://167.172.133.7:8777/patients/";
 
     public List<List<String>>getDiagnosis(String symptoms) throws FileNotFoundException {
         List<List<String>> resultsList = new ArrayList<>();
@@ -109,7 +111,7 @@ public class JSONService {
             diagnosis.setSymptoms(new ArrayList<>());
             JSONArray arr = obj.getJSONArray(key);
 
-            for (int i = 0; i < arr.length()-1; i++) {
+            for (int i = 0; i < arr.length(); i++) {
                 diagnosis.addSymptom(arr.get(i).toString());
             }
 
@@ -119,6 +121,71 @@ public class JSONService {
 
         return diagnosisList;
     }
+
+    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+        InputStream is = new URL(url).openStream();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONObject json = new JSONObject(jsonText);
+            return json;
+        } finally {
+            is.close();
+        }
+    }
+
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
+    }
+
+    public List<RadiologyReport> getRadiologyByAadhaarId(String aadhaarId) {
+        List<RadiologyReport> result = new ArrayList<>();
+
+        try {
+            JSONObject jsonObject = readJsonFromUrl(DICOM_RADIOLOGY_URL + aadhaarId);
+            JSONArray arr = jsonObject.getJSONArray("radiology_studies");
+            for (int i = 0; i < arr.length(); i++) {
+                RadiologyReport report = new RadiologyReport();
+                JSONObject study = arr.getJSONObject(i);
+                report.setStudyName(study.getString("studydesc"));
+                report.setStudyDate(study.getString("studydate"));
+                report.setStudyLink(study.getString("studylink"));
+                report.setStudyReport(study.getJSONArray("reportlinks").getJSONObject(0).getString("report"));
+                result.add(report);
+            }
+        } catch (IOException e) {
+            return result;
+        }
+
+        return result;
+    }
+
+    public List<PathologyReport> getPathologyByAadhaarId(String aadhaarId) {
+        List<PathologyReport> result = new ArrayList<>();
+
+        try {
+            JSONObject jsonObject = readJsonFromUrl(DICOM_RADIOLOGY_URL + aadhaarId);
+            JSONArray arr = jsonObject.getJSONArray("pathology_studies");
+            for (int i = 0; i < arr.length(); i++) {
+                PathologyReport report = new PathologyReport();
+                JSONObject study = arr.getJSONObject(i);
+                report.setStudyName(study.getString("studydesc"));
+                report.setStudyDate(study.getString("studydate"));
+                report.setStudyReport(study.getJSONArray("reportlinks").getJSONObject(0).getString("report"));
+                result.add(report);
+            }
+        } catch (IOException e) {
+            return result;
+        }
+
+        return result;
+    }
+
 
     @Data
     public class Diagnosis {
@@ -136,5 +203,20 @@ public class JSONService {
         public double possibility;
         public List<String> confirmedSymptoms;
         public List<String> nonConfirmedSymptoms;
+    }
+
+    @Data
+    public class RadiologyReport {
+        public String studyName;
+        public String studyDate;
+        public String studyLink;
+        public String studyReport;
+    }
+
+    @Data
+    public class PathologyReport {
+        public String studyName;
+        public String studyDate;
+        public String studyReport;
     }
 }
