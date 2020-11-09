@@ -509,18 +509,8 @@ public class PatientController {
                 pathologies = null;
             }
 
-            List<JSONService.RadiologyReport> radiology = jsonService.getRadiologyByAadhaarId(patient.getAadhaarId());
-            if (radiology.isEmpty()) {
-                radiology = null;
-            }
-
-            List<JSONService.PathologyReport> pathologyDicom = jsonService.getPathologyByAadhaarId(patient.getAadhaarId());
-            if (pathologyDicom.isEmpty()) {
-                pathologyDicom = null;
-            }
-
-            mv.addObject("radiologies", radiology);
-            mv.addObject("pathologiesDicom", pathologyDicom);
+            mv.addObject("radiologies", null);
+            mv.addObject("pathologiesDicom", null);
 
             mv.addObject("pathology", new Pathology());
             mv.addObject("pathologies", pathologies);

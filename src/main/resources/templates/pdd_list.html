@@ -321,8 +321,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <div th:switch="*{pathologiesDicom}">
-                    <h5 th:case="null" style="margin-top: 10px;">No DICOM pathology reports</h5>
+                <div th:switch="*{pathologiesDicom}" id="pathologiesDicom">
+                    <h5 th:case="null" style="margin-top: 10px;">DICOM pathology reports are loading...</h5>
                     <div class="table-wrap" th:case="*">
                         <h5>DICOM Pathology Reports</h5>
                         <table class="table table-cust" style="margin-top: 3%;">
@@ -353,8 +353,8 @@
         </div>
         <div class="tab-pane" id="3">
             <div class="form-group">
-                <div th:switch="*{radiologies}">
-                    <h5 th:case="null" style="margin-top: 10px;">No radiology reports</h5>
+                <div th:switch="*{radiologies}" id="radiologies">
+                    <h5 th:case="null" style="margin-top: 10px;">DICOM radiology reports are loading...</h5>
                     <div class="table-wrap" th:case="*">
                         <table class="table table-cust" style="margin-top: 3%;">
                             <thead>
@@ -394,7 +394,53 @@
         </div>
     </div>
 </div>
-<script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var patient_id = [[${patient.code}]];
+    /*]]>*/
+
+    var pathologyUrl = /*[[ @{/dicom/pathology/} ]]*/
+
+    var finalPathologyUrl = pathologyUrl + patient_id;
+
+    function getPathology() {
+        $.get(finalPathologyUrl, function (fragment) {
+            if (fragment.includes("h5")) {
+                $("#pathologiesDicom").empty();
+                $("#pathologiesDicom").append($("<h5>No Pathology reports</h5>"));
+            } else {
+                $("#pathologiesDicom").replaceWith(fragment);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        getPathology();
+    });
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var patient_id = [[${patient.code}]];
+    /*]]>*/
+
+    var radiologyUrl = /*[[ @{/dicom/radiology/} ]]*/
+
+    var finalRadiologyUrl = radiologyUrl + patient_id;
+
+    function getRadiology() {
+        $.get(finalRadiologyUrl, function (fragment) {
+            if (fragment.includes("h5")) {
+                $("#radiologies").empty();
+                $("#radiologies").append($("<h5>No Radiology reports</h5>"));
+            } else {
+                $("#radiologies").replaceWith(fragment);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        getRadiology();
+    });
 </script>
 </body>
 </html>

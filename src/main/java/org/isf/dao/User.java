@@ -95,10 +95,6 @@ public class User implements Serializable {
     @Transient
     private volatile int hashCode = 0;
 
-    @ManyToOne
-    @JoinColumn(name = "center_id")
-    private DifferentCentre differentCentre;
-
     @NotNull
     @ManyToOne
     @JoinColumn(name = "US_MACHINE_ID", referencedColumnName = "MachineID")
