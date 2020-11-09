@@ -31,7 +31,7 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
     Patient findByCode(UUID code);
 
-    List<Patient> findAllByDeviceDetails(DeviceDetails deviceDetails);
+    List<Patient> findAllByDeviceDetailsId(UUID deviceDetailsId);
 
     List<Patient> findByAadhaarId(String aadhaarId);
 

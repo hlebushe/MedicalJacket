@@ -6,6 +6,9 @@ import org.isf.dao.Patient;
 import org.isf.models.MeasurementModel;
 import org.isf.repository.ExaminationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -39,11 +42,11 @@ public class ExaminationService {
     private String level0 = "level0";
 
     public Examinations getLastExaminationByPatient(Patient patient) {
-        return examinationRepository.getByPatientAndOrderByDate(patient).get(0);
+        return examinationRepository.getTopByPatientOrderByDate(patient);
     }
 
     public List<Examinations> getExaminations(Patient patient) {
-        return examinationRepository.getByPatientAndOrderByDate(patient);
+        return examinationRepository.getByPatientOrderByDateDesc(patient);
     }
 
     public void saveToExamination(MeasurementModel data, Patient patient, Date date) {
@@ -1173,18 +1176,9 @@ public class ExaminationService {
 
     public Properties readPropertiesFile(String fileName) throws IOException {
         Properties prop = null;
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(fileName).getFile());
-        try {
-            prop = new Properties();
-            prop.load(new FileReader(file));
-        } catch (FileNotFoundException fnfe) {
-            fnfe.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
 
-        return prop;
+        Resource resource = new ClassPathResource("/" + fileName);
+        return PropertiesLoaderUtils.loadProperties(resource);
     }
 
     public Examinations saveExaminations(Examinations examinations) {

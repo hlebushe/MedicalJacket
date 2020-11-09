@@ -8,6 +8,8 @@ import org.isf.models.ExaminationsModel;
 import org.isf.models.TaskModel;
 import org.isf.service.JSONService;
 import org.isf.service.PatientService;
+import org.isf.service.response.PathologyReport;
+import org.isf.service.response.RadiologyReport;
 import org.isf.util.TasksListComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -41,7 +43,7 @@ public class DicomApiController {
 
         Patient patient = patientService.findPatientByCode(UUID.fromString(code));
         ModelAndView mv= new ModelAndView("pdd_list :: #pathologiesDicom");
-        List<JSONService.PathologyReport> pathologyDicom = jsonService.getPathologyByAadhaarId(patient.getAadhaarId());
+        List<PathologyReport> pathologyDicom = jsonService.getPathologyByAadhaarId(patient.getAadhaarId());
         if (pathologyDicom.isEmpty()) {
             pathologyDicom = null;
         }
@@ -55,7 +57,7 @@ public class DicomApiController {
 
         Patient patient = patientService.findPatientByCode(UUID.fromString(code));
         ModelAndView mv= new ModelAndView("pdd_list :: #radiologies");
-        List<JSONService.RadiologyReport> radiology = jsonService.getRadiologyByAadhaarId(patient.getAadhaarId());
+        List<RadiologyReport> radiology = jsonService.getRadiologyByAadhaarId(patient.getAadhaarId());
         if (radiology.isEmpty()) {
             radiology = null;
         }

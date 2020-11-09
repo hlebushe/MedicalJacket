@@ -7,6 +7,11 @@ import org.isf.models.ExaminationsModel;
 import org.isf.models.PreviousVisitModel;
 import org.isf.repository.UserRepository;
 import org.isf.service.*;
+import org.isf.service.model.PathologyReportResponse;
+import org.isf.service.model.PatientInfoResponse;
+import org.isf.service.model.RadiologyReportResponse;
+import org.isf.service.response.PathologyReport;
+import org.isf.service.response.RadiologyReport;
 import org.isf.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -14,6 +19,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,21 +27,19 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.rowset.serial.SerialBlob;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequestMapping(value = "/patient")
 
@@ -85,11 +89,12 @@ public class PatientController {
     protected JSONService jsonService;
 
     @GetMapping(value = "/list")
+    @Transactional(readOnly = true)
     public ModelAndView getPatients(Model model) throws IOException, ParseException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserName(auth.getName());
 
-        List<Patient> patients = patientService.findAllByMachineId(user.getDeviceDetails());
+        List<Patient> patients = patientService.findAllByMachineId(user.getDeviceDetails().getId());
 
         for (Patient p : patients) {
             try {
@@ -226,7 +231,6 @@ public class PatientController {
 
         response.getOutputStream().close();
     }
-
 
     @GetMapping("/visit/add/{id}")
     public ModelAndView getAddVisit(@PathVariable("id") String code, Model model) throws IOException, ParseException {
@@ -457,7 +461,7 @@ public class PatientController {
         mv.addObject("patient", patient);
         mv.addObject("visit", new Visit());
 
-        String yearOfBirth = patient.getBirthDate().toString().substring(0,4);
+        String yearOfBirth = patient.getBirthDate().toString().substring(0, 4);
         mv.addObject("yearOfBirth", yearOfBirth);
 
         Locale locale = LocaleContextHolder.getLocale();
@@ -486,7 +490,7 @@ public class PatientController {
     @GetMapping("/pdd/{id}")
     public ModelAndView getPdd(@PathVariable("id") String code, Model model) throws IOException, ParseException {
 
-        try {
+
             Patient patient = patientService.findPatientByCode(UUID.fromString(code));
             ModelAndView mv = new ModelAndView();
             mv.addObject("patient", patient);
@@ -495,7 +499,7 @@ public class PatientController {
 
             for (Examinations exam : examinations) {
                 ExaminationsModel examinationsModel = new ExaminationsModel(exam);
-                examinationsModel = examinationService.setExaminationColors(examinationsModel,patient.getBirthDate());
+                examinationsModel = examinationService.setExaminationColors(examinationsModel, patient.getBirthDate());
                 examinationsModels.add(examinationsModel);
             }
 
@@ -509,8 +513,17 @@ public class PatientController {
                 pathologies = null;
             }
 
-            mv.addObject("radiologies", null);
-            mv.addObject("pathologiesDicom", null);
+            PatientInfoResponse patientInfo = jsonService.getPatientInfo(patient.getAadhaarId());
+
+            final List<RadiologyReport> radiologyReports = patientInfo.getRadiologyStudies().stream()
+                    .map(RadiologyReportResponse::toRadiologyReport)
+                    .collect(Collectors.toList());
+            final List<PathologyReport> pathologyReports = patientInfo.getPathologyStudies().stream()
+                    .map(PathologyReportResponse::toPathologyReport)
+                    .collect(Collectors.toList());
+
+            mv.addObject("radiologies", radiologyReports);
+            mv.addObject("pathologiesDicom", pathologyReports);
 
             mv.addObject("pathology", new Pathology());
             mv.addObject("pathologies", pathologies);
@@ -518,9 +531,6 @@ public class PatientController {
             mv.addObject("openOnPathology", false);
             mv.setViewName("pdd_list");
             return mv;
-        } catch (Exception e) {
-            return new ModelAndView(new RedirectView(mContext.getContextPath() + "/patient/list"));
-        }
     }
 
     @GetMapping("/pathology/{id}")

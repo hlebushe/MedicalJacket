@@ -18,6 +18,8 @@ public interface VisitRepository extends JpaRepository<Visit, UUID> {
     @Query(value = "SELECT * FROM visits WHERE VST_PAT_ID = :patient ORDER BY VST_PAT_ID, VST_DATE", nativeQuery=true)
     List<Visit> findAllWherePatientByOrderPatientAndDateAsc(@Param("patient") UUID patient);
 
+    Visit findTopByPatientOrderByDateDesc(Patient patient);
+
     Visit findByVisitID(UUID id);
 
 }

@@ -1,7 +1,15 @@
 package org.isf.service;
 
 import io.micrometer.core.instrument.util.IOUtils;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.isf.service.model.PathologyReportResponse;
+import org.isf.service.model.PatientInfoResponse;
+import org.isf.service.model.RadiologyReportResponse;
+import org.isf.service.response.Diagnosis;
+import org.isf.service.response.PathologyReport;
+import org.isf.service.response.RadiologyReport;
+import org.isf.service.response.ResultsList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,13 +20,16 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class JSONService {
 
-    final String DICOM_RADIOLOGY_URL = "http://167.172.133.7:8777/patients/";
+    private final DicomClient dicomClient;
 
-    public List<List<String>>getDiagnosis(String symptoms) throws FileNotFoundException {
+    public List<List<String>> getDiagnosis(String symptoms) throws FileNotFoundException {
         List<List<String>> resultsList = new ArrayList<>();
 
         String[] array = symptoms.split(",");
@@ -62,7 +73,7 @@ public class JSONService {
             }
 
             res.setDiagnosisName(cont.getName());
-            res.setPossibility((double)contains/(double)numberOfSymptoms);
+            res.setPossibility((double) contains / (double) numberOfSymptoms);
             res.setConfirmedSymptoms(confirmedSymptoms);
             res.setNonConfirmedSymptoms(nonConfirmedSymptoms);
 
@@ -144,79 +155,27 @@ public class JSONService {
     }
 
     public List<RadiologyReport> getRadiologyByAadhaarId(String aadhaarId) {
-        List<RadiologyReport> result = new ArrayList<>();
-
-        try {
-            JSONObject jsonObject = readJsonFromUrl(DICOM_RADIOLOGY_URL + aadhaarId);
-            JSONArray arr = jsonObject.getJSONArray("radiology_studies");
-            for (int i = 0; i < arr.length(); i++) {
-                RadiologyReport report = new RadiologyReport();
-                JSONObject study = arr.getJSONObject(i);
-                report.setStudyName(study.getString("studydesc"));
-                report.setStudyDate(study.getString("studydate"));
-                report.setStudyLink(study.getString("studylink"));
-                report.setStudyReport(study.getJSONArray("reportlinks").getJSONObject(0).getString("report"));
-                result.add(report);
-            }
-        } catch (IOException e) {
-            return result;
-        }
-
-        return result;
+        return getPatientInfo(aadhaarId).getRadiologyStudies()
+                .stream()
+                .map(RadiologyReportResponse::toRadiologyReport)
+                .collect(Collectors.toList());
     }
 
     public List<PathologyReport> getPathologyByAadhaarId(String aadhaarId) {
-        List<PathologyReport> result = new ArrayList<>();
+        return getPatientInfo(aadhaarId).getPathologyStudies()
+                .stream()
+                .map(PathologyReportResponse::toPathologyReport)
+                .collect(Collectors.toList());
+    }
 
+    public PatientInfoResponse getPatientInfo(String aadhaarId) {
+        final String requestId = Optional.ofNullable(aadhaarId).orElse("");
         try {
-            JSONObject jsonObject = readJsonFromUrl(DICOM_RADIOLOGY_URL + aadhaarId);
-            JSONArray arr = jsonObject.getJSONArray("pathology_studies");
-            for (int i = 0; i < arr.length(); i++) {
-                PathologyReport report = new PathologyReport();
-                JSONObject study = arr.getJSONObject(i);
-                report.setStudyName(study.getString("studydesc"));
-                report.setStudyDate(study.getString("studydate"));
-                report.setStudyReport(study.getJSONArray("reportlinks").getJSONObject(0).getString("report"));
-                result.add(report);
-            }
+            return Optional.ofNullable(dicomClient.getPatient(requestId).execute().body())
+                    .orElse(new PatientInfoResponse());
         } catch (IOException e) {
-            return result;
+            log.error("Dicom request failed with excepton", e);
+            return new PatientInfoResponse();
         }
-
-        return result;
-    }
-
-
-    @Data
-    public class Diagnosis {
-        public String name;
-        public List<String> symptoms;
-
-        public void addSymptom(String symptom) {
-            symptoms.add(symptom);
-        }
-    }
-
-    @Data
-    public class ResultsList {
-        public String diagnosisName;
-        public double possibility;
-        public List<String> confirmedSymptoms;
-        public List<String> nonConfirmedSymptoms;
-    }
-
-    @Data
-    public class RadiologyReport {
-        public String studyName;
-        public String studyDate;
-        public String studyLink;
-        public String studyReport;
-    }
-
-    @Data
-    public class PathologyReport {
-        public String studyName;
-        public String studyDate;
-        public String studyReport;
     }
 }
