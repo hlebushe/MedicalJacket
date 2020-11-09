@@ -27,7 +27,7 @@ public class PatientService {
         repository.deleteByCode(code);
     }
 
-    public List<Patient> findAllByMachineId(DeviceDetails deviceDetails) { return repository.findAllByDeviceDetails(deviceDetails); }
+    public List<Patient> findAllByMachineId(UUID deviceDetailsId) { return repository.findAllByDeviceDetailsId(deviceDetailsId); }
 
     public Patient findPatientByCode(UUID code) {
         return repository.findByCode(code);

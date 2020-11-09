@@ -14,8 +14,9 @@ public interface ExaminationsRepository extends JpaRepository<Examinations, UUID
 
 //    List<Examinations> getAllByPatient(Patient patient);
 
-    @Query(value = "SELECT * FROM examinations WHERE EXAMINATION_PAT_ID = :patient ORDER BY EXAMINATION_PAT_ID, EXAMINATIONS_DATE DESC", nativeQuery= true)
-    List<Examinations> getByPatientAndOrderByDate(Patient patient);
+    List<Examinations> getByPatientOrderByDateDesc(Patient patient);
+
+    Examinations getTopByPatientOrderByDate(Patient patient);
 
     @Query(value = "SELECT * FROM examinations WHERE EXAMINATION_PAT_ID = :patient AND EXAMINATIONS_DATE >= :start AND EXAMINATIONS_DATE < :finish ORDER BY EXAMINATION_PAT_ID, EXAMINATIONS_DATE DESC", nativeQuery= true)
     List<Examinations> getByPatientAndDay(Patient patient, String start, String finish);
