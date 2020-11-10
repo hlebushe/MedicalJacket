@@ -9,6 +9,6 @@ import retrofit2.http.Path;
 @Component
 public interface DicomClient {
 
-    @GET("/patients/{aadhaarId}")
+    @GET("patients/{aadhaarId}")
     Call<PatientInfoResponse> getPatient(@Path("aadhaarId") String aadhaarId);
 }
