@@ -1,6 +1,6 @@
 package org.isf.repository;
 
-import com.sun.org.apache.xpath.internal.objects.XBoolean;
+
 import org.isf.dao.UserGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
