@@ -1,12 +1,13 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <title>MedJacket</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-glyphicons.min.css}"/>
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/logo_transparent.png}" />
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/logo_transparent.png}"/>
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.4.1/css/bootstrap.min.css"/>
     <style>
         .form-control {
@@ -32,39 +33,39 @@
         }
 
 
-        .header-left{
+        .header-left {
             width: 100%;
         }
 
-        .header-left-wrap{
+        .header-left-wrap {
             height: 120px;
             width: 100%;
             display: flex;
             justify-content: space-between;
         }
 
-        .header-title{
+        .header-title {
             float: left;
         }
 
-        .header-title>span{
+        .header-title > span {
             float: left;
             font-size: 24px;
             font-weight: bold;
         }
 
-        .header-title>a{
+        .header-title > a {
             float: left;
             clear: both;
             color: #ffffff;
         }
 
-        .header-weather-wrap{
+        .header-weather-wrap {
             float: left;
             margin-left: 0;
         }
 
-        .header-hospital-name{
+        .header-hospital-name {
             display: block;
             margin: 0 auto 30px;
             height: 40px;
@@ -72,81 +73,82 @@
             text-align: center;
         }
 
-        .header-hospital-name>span{
+        .header-hospital-name > span {
             font-size: 28px;
             font-weight: bold;
         }
 
-        .header-notification{
-            float:left;
+        .header-notification {
+            float: left;
             margin-left: 15px;
         }
 
-        .link-label{
+        .link-label {
             margin-bottom: 45px;
         }
 
-        .form-control{
+        .form-control {
             height: auto !important;
         }
 
 
-
         @media (min-width: 576px) {
-            .header-headings>h1{
+            .header-headings > h1 {
                 font-size: 2.5em;
             }
-            .link-label{
+
+            .link-label {
                 margin-bottom: 0;
             }
-            .form-control{
+
+            .form-control {
                 height: calc(1.5em + .75rem + 2px) !important;
             }
         }
 
         @media (min-width: 768px) {
-            .navbar{
+            .navbar {
                 align-items: start !important;
             }
 
-            .header-left{
+            .header-left {
                 width: auto;
             }
 
-            .header-weather-wrap{
+            .header-weather-wrap {
                 float: left;
                 margin-left: 100px;
             }
         }
 
         @media (min-width: 992px) {
-            .navbar{
+            .navbar {
                 align-items: center !important;
             }
 
-            .header-title{
+            .header-title {
                 float: left;
             }
 
-            .header-weather-wrap{
+            .header-weather-wrap {
                 float: left;
                 margin-left: 100px;
             }
 
-            .header-title>span{
+            .header-title > span {
                 float: left;
                 font-size: 24px;
                 font-weight: bold;
             }
 
-            .header-title>a{
+            .header-title > a {
                 float: left;
                 clear: both;
                 color: #ffffff;
             }
 
 
-            .header-hospital-name{
+            .header-hospital-name {
                 float: left;
                 position: absolute;
                 left: 40%;
@@ -156,18 +158,18 @@
                 width: auto;
             }
 
-            .header-hospital-name>span{
+            .header-hospital-name > span {
                 float: left;
                 font-size: 28px;
                 font-weight: bold;
             }
 
-            .header-notification{
-                float:left;
+            .header-notification {
+                float: left;
                 margin-left: 15px;
             }
 
-            .header-headings>h1{
+            .header-headings > h1 {
                 font-weight: bold;
                 font-size: 2em;
             }
@@ -215,7 +217,7 @@
 </nav>
 <div class="container text-center">
     <div class="form-control" style="margin-top: 2%;">
-        <h4 th:text="${userName}" style="float: left";></h4>
+        <h4 th:text="${userName}" style="float: left" ;></h4>
     </div>
     <div class="form-control" style="display: inline;">
         <div class="row">
@@ -247,7 +249,6 @@
 <script src="webjars/jquery/3.5.0/jquery.min.js"></script>
 <script src="webjars/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
 
 
 <script th:src="@{/js/weather.js}"></script>

@@ -55,21 +55,8 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-light header-custom">
-    <div class="header-left">
-        <span style="float: left;font-size: 24px;font-weight: bold;">Users Dashboard</span>
-    </div>
-    <div class="header-right">
-        <div class="header-logo">
-            <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
-        </div>
-        <div class="header-headings">
-            <h1 style="font-weight: bold">MEDJACKET</h1>
-            <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
-        </div>
-    </div>
-</nav>
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: header(pageName='Users Dashboard')"></div>
+<div th:replace="fragments/menu :: menu"></div>
 <div class="form-group search-wrap">
     <input class="form-control" id="search" type="text" placeholder="Type to search for the existing patient’s record ...">
     <a class="btn btn-secondary add-button button-action" th:href="@{/users/add}" role="button" style="width: 220px;margin-right: 5%;">Enroll a new User

@@ -15,6 +15,19 @@ h3 {
     margin-top: 3%;
 }
 
+.header-hospital-name {
+    display: block;
+    margin: 0 auto 30px;
+    height: 40px;
+    width: 100%;
+    text-align: center;
+}
+
+.header-hospital-name > span {
+    font-size: 28px;
+    font-weight: bold;
+}
+
 .form-group.required .input-group-prepend .input-group-text:after {
     content:"*";
     color:red;
@@ -419,5 +432,21 @@ body {
 @media (min-width: 992px) {
     .table-wrap{
         overflow-x: inherit;
+    }
+
+    .header-hospital-name {
+        float: left;
+        position: absolute;
+        left: 40%;
+        right: 40%;
+        z-index: 15;
+        top: 15px;
+        width: auto;
+    }
+
+    .header-hospital-name > span {
+        float: left;
+        font-size: 28px;
+        font-weight: bold;
     }
 }

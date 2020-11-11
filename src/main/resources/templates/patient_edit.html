@@ -70,21 +70,8 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-light header-custom">
-    <div class="header-left">
-        <span style="float: left;font-size: 24px;font-weight: bold;">Edit Patient Form</span>
-    </div>
-    <div class="header-right">
-        <div class="header-logo">
-            <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
-        </div>
-        <div class="header-headings">
-            <h1 style="font-weight: bold">MEDJACKET</h1>
-            <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
-        </div>
-    </div>
-</nav>
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: header(pageName='Edit Patient Form')"></div>
+<div th:replace="fragments/menu :: menu"></div>
 <form id="form_patient" th:action="@{/patient/edit}" th:object="${patient}" method="post" enctype="multipart/form-data">
     <input id="code" th:field="*{code}" type="hidden"/>
     <div class="container text-center" style="margin-top: 3%;">
@@ -94,7 +81,7 @@
             </button>
             <a th:href="@{/patient/list}" style="margin-left: 2%;">
                 <img class="action-icon" alt="" th:src="@{/images/discard.png}">
-                <p class="action-label" th:text="#{common.discard}"></p>
+                <p class="action-label" th:text="#{common.close}"></p>
             </a>
         </div>
         <ul class="tab-nav nav nav-tabs" style="margin-right: -15px; margin-left: -15px;">

@@ -1,21 +1,22 @@
-<div th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml" style="text-align: center;">
-    <nav class="header-navbar navbar navbar-expand-sm bg-light ">
-        <ul class="navbar-nav" style="width: 100%">
-            <li class="nav-item nav-item-straight">
-                <a class="nav-link" th:href="@{/home}">Home</a>
-            </li>
-            <li class="nav-item nav-item-straight">
-                <a class="nav-link" th:href="@{/patient/list}" th:text="#{common.patient}"></a>
-            </li>
-            <li class="nav-item nav-item-straight">
-                <a class="nav-link" th:href="@{/nursing_station/list}" th:text="#{common.nursing_station}"></a>
-            </li>
-            <li class="nav-item nav-item-straight">
-                <a class="nav-link" th:href="@{/users/list}">Users</a>
-            </li>
-            <li class="nav-item nav-item-straight">
-                <a class="nav-link" th:href="@{/logout}">Sign Out</a>
-            </li>
-        </ul>
+<div th:fragment="header (pageName)" th:with="details=${details} ?: ''" xmlns:th="http://www.w3.org/1999/xhtml"
+     style="text-align: center;">
+    <nav class="navbar navbar-light header-custom">
+        <div class="header-left">
+            <span style="float: left;font-size: 24px;font-weight: bold;" th:text="${pageName}"> </span>
+            <span style="font-size: 24px;margin-left: 10px;"
+                  th:text="${details}"></span>
+        </div>
+        <div class="header-hospital-name">
+            <span th:text="${hospitalName}">')"></span>
+        </div>
+        <div class="header-right">
+            <div class="header-logo">
+                <img th:src="@{/images/logo_cropped.png}" style="width: 100px; height: 83px;" alt="">
+            </div>
+            <div class="header-headings">
+                <h1 style="font-weight: bold">MEDJACKET</h1>
+                <h6 style="margin-left: 3px; float: right;">Health is my right</h6>
+            </div>
+        </div>
     </nav>
 </div>
